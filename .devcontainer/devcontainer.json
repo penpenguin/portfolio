@@ -1,0 +1,18 @@
+// See https://containers.dev/implementors/json_reference/ for configuration reference
+{
+	"name": "work-history",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+  "remoteUser": "node",
+	"customizations": {
+    "vscode": {
+      "extensions": [
+        "mhutchie.git-graph",
+				"donjayamanne.githistory",
+				"astro-build.astro-vscode",
+				"ms-ceintl.vscode-language-pack-ja"
+      ]
+		}
+	}
+}
