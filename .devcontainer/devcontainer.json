@@ -4,15 +4,15 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-  "remoteUser": "node",
+	"remoteUser": "node",
 	"customizations": {
-    "vscode": {
-      "extensions": [
-        "mhutchie.git-graph",
+		"vscode": {
+			"extensions": [
+				"mhutchie.git-graph",
 				"donjayamanne.githistory",
 				"astro-build.astro-vscode",
 				"ms-ceintl.vscode-language-pack-ja"
-      ]
+			]
 		}
 	}
 }
