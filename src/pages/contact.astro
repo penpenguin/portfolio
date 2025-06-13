@@ -1,0 +1,213 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact - Portfolio">
+  <section class="contact-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Contact</h1>
+        <p>
+          新しいプロジェクトやご相談がございましたら、
+          お気軽にご連絡ください。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-content">
+    <div class="container">
+      <div class="contact-info-section">
+          <div class="contact-info glass">
+            <h2>お気軽にご連絡ください</h2>
+            <p>
+              新しいプロジェクトや創造的な取り組みについて、
+              いつでもお気軽にご相談ください。
+            </p>
+            
+            <div class="contact-methods">
+              <div class="contact-method">
+                <div class="method-icon">📧</div>
+                <div class="method-info">
+                  <h3>Email</h3>
+                  <a href={`mailto:${import.meta.env.PUBLIC_EMAIL || 'hello@example.com'}`} class="btn btn-glass">{import.meta.env.PUBLIC_EMAIL || 'hello@example.com'}</a>
+                </div>
+              </div>
+              
+              <div class="contact-method">
+                <div class="method-icon">🐙</div>
+                <div class="method-info">
+                  <h3>GitHub</h3>
+                  <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">
+                    コードを見る
+                  </a>
+                </div>
+              </div>
+              
+              <div class="contact-method">
+                <div class="method-icon">❌</div>
+                <div class="method-info">
+                  <h3>X</h3>
+                  <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">
+                    フォローする
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="availability glass">
+            <h3>稼働状況</h3>
+            <div class="status">
+              <div class="status-indicator available"></div>
+              <span>新規プロジェクト対応可能</span>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-hero {
+    padding: var(--space-2xl) 0;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: var(--font-size-5xl);
+    margin-bottom: var(--space-md);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-content p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-content {
+    padding: var(--space-2xl) 0;
+  }
+
+  .contact-info-section {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .contact-info,
+  .availability {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+  }
+
+  .contact-info h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-3xl);
+  }
+
+  .contact-info p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xl);
+    line-height: 1.6;
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .method-icon {
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+  }
+
+  .method-info h3 {
+    color: var(--text-primary);
+    margin: 0 0 var(--space-xs) 0;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+  }
+
+  .method-info .btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-xs);
+    display: inline-block;
+  }
+
+  .availability {
+    margin-top: var(--space-lg);
+  }
+
+  .availability h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-xl);
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .status-indicator.available {
+    background: #27ca3f;
+  }
+
+  .status span {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .availability p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: var(--font-size-4xl);
+    }
+
+    .contact-info,
+    .availability {
+      padding: var(--space-lg);
+    }
+
+    .contact-method {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--space-sm);
+    }
+  }
+</style>
+

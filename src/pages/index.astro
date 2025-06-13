@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Portfolio - Systems Engineer">
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text animate-fadeInUp">
+          <h1>Hello, I'm a Systems Engineer</h1>
+          <p class="hero-description">
+            メーカーの社内システム構築支援を中心に、Web技術からバックエンド、インフラまで幅広く対応。
+            10年以上の経験を活かし、要件定義から運用まで一貫したシステム開発をサポートします。
+          </p>
+          <div class="hero-buttons">
+            <a href="/projects" class="btn btn-primary">プロジェクト実績</a>
+            <a href="/contact" class="btn btn-glass">お問い合わせ</a>
+          </div>
+        </div>
+        <div class="hero-visual animate-fadeIn">
+          <div class="floating-card card-glass">
+            <div class="code-snippet">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+              <pre>
+                <code>
+{`const engineer = {
+  name: "Systems Engineer",
+  skills: ["Java", "TypeScript", "React", "Azure"],
+  experience: "8+ years",
+  speciality: "Enterprise Systems"
+};`}
+                </code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">専門分野</h2>
+      <div class="grid grid-3">
+        <div class="card card-glass animate-fadeInUp">
+          <div class="feature-icon">🏢</div>
+          <h3>社内システム開発</h3>
+          <p>
+            メーカーの業務システム構築支援を中心に、要件定義から運用まで一貫したサポートを提供します。
+          </p>
+        </div>
+        <div class="card card-glass animate-fadeInUp">
+          <div class="feature-icon">🌐</div>
+          <h3>フルスタック開発</h3>
+          <p>
+            フロントエンド（React/TypeScript）からバックエンド（Java/Node.js）、インフラ（Azure）まで対応。
+          </p>
+        </div>
+        <div class="card card-glass animate-fadeInUp">
+          <div class="feature-icon">⚙️</div>
+          <h3>CI/CD・自動化</h3>
+          <p>
+            GitLab
+            CI/CDを活用したテスト自動化、デプロイ自動化によって開発効率を向上させます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero {
+    padding: var(--space-2xl) var(--space-xl);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .hero-text h1 {
+    font-size: var(--font-size-5xl);
+    margin-bottom: var(--space-md);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-description {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xl);
+    color: var(--text-secondary);
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .floating-card {
+    padding: var(--space-lg);
+    border-radius: var(--radius-xl);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .code-snippet {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .code-dots {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .code-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-accent);
+    opacity: 0.6;
+  }
+
+  .code-dots span:nth-child(1) {
+    background: #ff5f56;
+  }
+  .code-dots span:nth-child(2) {
+    background: #ffbd2e;
+  }
+  .code-dots span:nth-child(3) {
+    background: #27ca3f;
+  }
+
+  .features {
+    padding: var(--space-2xl) 0;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    font-size: var(--font-size-4xl);
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+    text-align: center;
+  }
+
+  .features .card h3 {
+    text-align: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .features .card p {
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-text h1 {
+      font-size: var(--font-size-4xl);
+    }
+
+    .hero-buttons {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+  }
+</style>

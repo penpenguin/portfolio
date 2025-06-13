@@ -1,0 +1,316 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About - Portfolio">
+  <section class="about-hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>About Me</h1>
+          <p class="hero-description">
+            メーカーの社内システム構築支援の経験が豊富なシステムエンジニアです。
+            Web技術を中心に、バックエンドやDB、インフラ、運用まで幅広く対応しています。
+          </p>
+        </div>
+        <div class="hero-image">
+          <div class="image-placeholder glass">
+            <div class="avatar">🐧</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-content">
+    <div class="container">
+      <div class="content-grid">
+        <div class="main-content">
+          <div class="content-section glass">
+            <h2>キャリア概要</h2>
+            <p>
+              2015年からシステムエンジニアとして、主にメーカーの社内システム構築支援に携わってきました。
+              Web技術を中心とした開発経験が豊富で、フロントエンドからバックエンド、インフラまで幅広く対応できます。
+            </p>
+            <p>
+              10年以上の経験を通じて、大規模システムの要件定義から運用まで一貫して関わり、
+              技術的な課題解決だけでなく、チームリーダーとしてプロジェクト推進も経験しています。
+            </p>
+          </div>
+
+          <div class="content-section glass">
+            <h2>最近の取り組み</h2>
+            <p>
+              現在は通信設計情報を統合管理するWebシステムの開発をリードしており、
+              モダンな技術スタックを活用した大規模システム構築に注力しています。
+            </p>
+            <ul>
+              <li>Java 21 + Quarkusを使った高性能なバックエンド開発</li>
+              <li>React + TypeScriptによるモダンなフロントエンド構築</li>
+              <li>Azure環境でのクラウドネイティブなシステム設計</li>
+              <li>ArangoDBを使用したグラフデータベースの活用</li>
+              <li>GitLab CI/CDを活用したDevOpsプラクティスの導入</li>
+              <li>Azure Red Hat OpenShift (ARO)によるコンテナオーケストレーション</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <div class="skills-section glass">
+            <h3>スキル・技術</h3>
+            <div class="skills-grid">
+              <div class="skill-category">
+                <h4>言語</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">Java</span>
+                  <span class="skill-tag">TypeScript</span>
+                  <span class="skill-tag">JavaScript</span>
+                  <span class="skill-tag">C#</span>
+                  <span class="skill-tag">PHP</span>
+                  <span class="skill-tag">Ruby</span>
+                  <span class="skill-tag">SQL</span>
+                  <span class="skill-tag">Python</span>
+                </div>
+              </div>
+              
+              <div class="skill-category">
+                <h4>フレームワーク</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">React</span>
+                  <span class="skill-tag">Quarkus</span>
+                  <span class="skill-tag">Spring</span>
+                  <span class="skill-tag">Ruby on Rails</span>
+                  <span class="skill-tag">Angular</span>
+                  <span class="skill-tag">Nuxt.js</span>
+                  <span class="skill-tag">Node.js</span>
+                  <span class="skill-tag">Vite</span>
+                </div>
+              </div>
+              
+              <div class="skill-category">
+                <h4>インフラ・DB</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">Azure</span>
+                  <span class="skill-tag">Docker</span>
+                  <span class="skill-tag">PostgreSQL</span>
+                  <span class="skill-tag">ArangoDB</span>
+                  <span class="skill-tag">GitLab CI/CD</span>
+                  <span class="skill-tag">ARO</span>
+                  <span class="skill-tag">Kubernetes</span>
+                  <span class="skill-tag">Oracle DB</span>
+                </div>
+              </div>
+              
+              <div class="skill-category">
+                <h4>その他</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">要件定義</span>
+                  <span class="skill-tag">システム設計</span>
+                  <span class="skill-tag">チームリーダー</span>
+                  <span class="skill-tag">プロジェクト管理</span>
+                  <span class="skill-tag">DevOps</span>
+                  <span class="skill-tag">アジャイル開発</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-section glass">
+            <h3>お気軽にご連絡ください</h3>
+            <p>新しい機会や興味深いプロジェクトについて、いつでもお話しできます。</p>
+            <div class="contact-links">
+              <a href="/contact" class="btn btn-primary">お問い合わせ</a>
+              <div class="social-links">
+                <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">GitHub</a>
+                <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">X</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-hero {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .hero-text h1 {
+    font-size: var(--font-size-5xl);
+    margin-bottom: var(--space-md);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .hero-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .image-placeholder {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .avatar {
+    font-size: 4rem;
+  }
+
+  .about-content {
+    padding: var(--space-2xl) 0;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .content-section {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-xl);
+  }
+
+  .content-section h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-3xl);
+  }
+
+  .content-section p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+  }
+
+  .content-section ul {
+    color: var(--text-secondary);
+    padding-left: var(--space-lg);
+  }
+
+  .content-section li {
+    margin-bottom: var(--space-xs);
+    line-height: 1.6;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .skills-section,
+  .contact-section {
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+  }
+
+  .skills-section h3,
+  .contact-section h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-xl);
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .skill-category h4 {
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .skill-tag {
+    background: var(--glass-bg);
+    color: var(--text-accent);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    border: 1px solid var(--glass-border);
+  }
+
+  .contact-section p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .social-links .btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+
+  @media (max-width: 768px) {
+    .hero-content,
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-text {
+      text-align: center;
+    }
+
+    .hero-text h1 {
+      font-size: var(--font-size-4xl);
+    }
+
+    .content-section,
+    .skills-section,
+    .contact-section {
+      padding: var(--space-lg);
+    }
+
+    .sidebar {
+      order: -1;
+    }
+  }
+</style>

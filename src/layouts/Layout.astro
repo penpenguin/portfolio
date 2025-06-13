@@ -1,0 +1,185 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Modern portfolio built with Astro" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-content">
+          <a href="/" class="logo">
+            <span class="logo-text">Portfolio</span>
+          </a>
+          <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/projects" class="nav-link">Projects</a>
+            <a href="/career" class="nav-link">Career</a>
+            <a href="/contact" class="nav-link">Contact</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <main>
+      <slot />
+    </main>
+    
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <span>&copy; 2024 Portfolio. Built with Astro.</span>
+          <div class="social-links">
+            <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+            <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer">
+              X
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: var(--space-md) 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  main {
+    margin-top: 80px;
+    min-height: calc(100vh - 160px);
+  }
+
+  .footer {
+    padding: var(--space-sm) 0;
+    background: var(--glass-subtle);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-secondary);
+  }
+
+  .social-links {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .social-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .social-links a:hover {
+    color: var(--text-accent);
+  }
+
+  @media (max-width: 768px) {
+    .navbar-content {
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .nav-links {
+      gap: var(--space-md);
+    }
+
+    .footer-content {
+      flex-direction: column;
+      gap: var(--space-md);
+      text-align: center;
+    }
+
+    main {
+      margin-top: 120px;
+    }
+  }
+</style>

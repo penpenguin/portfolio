@@ -1,0 +1,24 @@
+{
+  "name": "portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Modern portfolio website built with Astro",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "lint": "prettier --check .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "astro": "^5.9.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.2",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}

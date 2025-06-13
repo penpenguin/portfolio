@@ -1,0 +1,260 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: project,
+  }));
+}
+
+const project = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={`${project.data.title} - Projects`}>
+  <article class="project-detail">
+    <header class="project-header">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="/projects" class="btn btn-glass">← プロジェクト一覧に戻る</a>
+        </div>
+        
+        <div class="project-hero">
+          <div class="project-meta">
+            <h1>{project.data.title}</h1>
+            <p class="project-description">{project.data.description}</p>
+            
+            <div class="project-info">
+              <div class="project-date">
+                Published: {project.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+                {project.data.updatedDate && (
+                  <span class="updated">
+                    • Updated: {project.data.updatedDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
+                )}
+              </div>
+              
+              {project.data.tags && (
+                <div class="project-tags">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              
+              <div class="project-links">
+                {project.data.link && (
+                  <a href={project.data.link} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    ライブデモを見る
+                  </a>
+                )}
+                {project.data.github && (
+                  <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="btn btn-glass">
+                    ソースコードを見る
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+          
+          {project.data.heroImage && (
+            <div class="project-image">
+              <img src={project.data.heroImage} alt={project.data.title} />
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <main class="project-content">
+      <div class="container">
+        <div class="content-wrapper glass">
+          <Content />
+        </div>
+      </div>
+    </main>
+  </article>
+</Layout>
+
+<style>
+  .project-detail {
+    padding-top: var(--space-lg);
+  }
+
+  .breadcrumb {
+    margin-bottom: var(--space-lg);
+  }
+
+  .breadcrumb .btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .project-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .project-meta h1 {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--space-md);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .project-date {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .updated {
+    color: var(--text-accent);
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .tag {
+    background: var(--glass-bg);
+    color: var(--text-accent);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    border: 1px solid var(--glass-border);
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .project-image {
+    position: relative;
+  }
+
+  .project-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .project-content {
+    padding: var(--space-2xl) 0;
+  }
+
+  .content-wrapper {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .content-wrapper :global(h1),
+  .content-wrapper :global(h2),
+  .content-wrapper :global(h3),
+  .content-wrapper :global(h4),
+  .content-wrapper :global(h5),
+  .content-wrapper :global(h6) {
+    color: var(--text-primary);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .content-wrapper :global(h1):first-child,
+  .content-wrapper :global(h2):first-child,
+  .content-wrapper :global(h3):first-child {
+    margin-top: 0;
+  }
+
+  .content-wrapper :global(p) {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.7;
+  }
+
+  .content-wrapper :global(ul),
+  .content-wrapper :global(ol) {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+  }
+
+  .content-wrapper :global(li) {
+    margin-bottom: var(--space-xs);
+  }
+
+  .content-wrapper :global(pre) {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+  }
+
+  .content-wrapper :global(code) {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.9em;
+  }
+
+  .content-wrapper :global(blockquote) {
+    border-left: 4px solid var(--text-accent);
+    padding-left: var(--space-md);
+    margin: var(--space-lg) 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .project-hero {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .project-meta h1 {
+      font-size: var(--font-size-3xl);
+    }
+
+    .project-links {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .content-wrapper {
+      padding: var(--space-lg);
+    }
+  }
+</style>
