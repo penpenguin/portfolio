@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Link from '../components/Link.astro';
 ---
 
 <Layout title="About - Portfolio">
@@ -119,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
             <h3>お気軽にご連絡ください</h3>
             <p>新しい機会や興味深いプロジェクトについて、いつでもお話しできます。</p>
             <div class="contact-links">
-              <a href="/contact" class="btn btn-primary">お問い合わせ</a>
+              <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
               <div class="social-links">
                 <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">GitHub</a>
                 <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">X</a>

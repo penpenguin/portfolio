@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Link from '../components/Link.astro';
 
 export interface Props {
   title: string;
@@ -28,15 +29,15 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
     <nav class="navbar">
       <div class="container">
         <div class="navbar-content">
-          <a href="/" class="logo">
+          <Link href="/" class="logo">
             <span class="logo-text">Portfolio</span>
-          </a>
+          </Link>
           <div class="nav-links">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/about" class="nav-link">About</a>
-            <a href="/projects" class="nav-link">Projects</a>
-            <a href="/career" class="nav-link">Career</a>
-            <a href="/contact" class="nav-link">Contact</a>
+            <Link href="/" class="nav-link">Home</Link>
+            <Link href="/about" class="nav-link">About</Link>
+            <Link href="/projects" class="nav-link">Projects</Link>
+            <Link href="/career" class="nav-link">Career</Link>
+            <Link href="/contact" class="nav-link">Contact</Link>
           </div>
         </div>
       </div>
@@ -51,12 +52,12 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
         <div class="footer-content">
           <span>&copy; 2024 Portfolio. Built with Astro.</span>
           <div class="social-links">
-            <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
+            <Link href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
               GitHub
-            </a>
-            <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer">
+            </Link>
+            <Link href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer">
               X
-            </a>
+            </Link>
           </div>
         </div>
       </div>

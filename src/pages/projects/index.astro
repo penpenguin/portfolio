@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Link from '../../components/Link.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -25,7 +26,7 @@ const projects = await getCollection('projects');
                 <img src={project.data.heroImage} alt={project.data.title} class="project-image" />
               )}
               <div class="project-meta">
-                <h2><a href={`/projects/${project.slug}`}>{project.data.title}</a></h2>
+                <h2><Link href={`/projects/${project.slug}`}>{project.data.title}</Link></h2>
                 <p class="project-date">
                   {project.data.pubDate.toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -58,9 +59,9 @@ const projects = await getCollection('projects');
                     コードを見る
                   </a>
                 )}
-                <a href={`/projects/${project.slug}`} class="btn btn-primary">
+                <Link href={`/projects/${project.slug}`} class="btn btn-primary">
                   詳細を見る
-                </a>
+                </Link>
               </div>
             </div>
           </article>

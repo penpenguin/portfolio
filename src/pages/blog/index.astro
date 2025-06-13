@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Link from '../../components/Link.astro';
 import { getCollection } from 'astro:content';
 
 const blogPosts = await getCollection('blog');
@@ -30,7 +31,7 @@ const sortedPosts = blogPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.p
                   <img src={post.data.heroImage} alt={post.data.title} class="post-image" />
                 )}
                 <div class="post-meta">
-                  <h2><a href={`/blog/${post.slug}`}>{post.data.title}</a></h2>
+                  <h2><Link href={`/blog/${post.slug}`}>{post.data.title}</Link></h2>
                   <p class="post-date">
                     {post.data.pubDate.toLocaleDateString('en-US', {
                       year: 'numeric',
@@ -52,9 +53,9 @@ const sortedPosts = blogPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.p
                   </div>
                 )}
                 
-                <a href={`/blog/${post.slug}`} class="read-more btn btn-glass">
+                <Link href={`/blog/${post.slug}`} class="read-more btn btn-glass">
                   Read More →
-                </a>
+                </Link>
               </div>
             </article>
           ))}
@@ -68,9 +69,9 @@ const sortedPosts = blogPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.p
               現在、皆様に役立つコンテンツを準備しています。
               Web開発に関する記事やチュートリアルなどを順次公開予定です！
             </p>
-            <a href="/contact" class="btn btn-primary">
+            <Link href="/contact" class="btn btn-primary">
               トピックをご提案
-            </a>
+            </Link>
           </div>
         </div>
       )}

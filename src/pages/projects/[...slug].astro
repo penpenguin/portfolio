@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Link from '../../components/Link.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -19,7 +20,7 @@ const { Content } = await project.render();
     <header class="project-header">
       <div class="container">
         <div class="breadcrumb">
-          <a href="/projects" class="btn btn-glass">← プロジェクト一覧に戻る</a>
+          <Link href="/projects" class="btn btn-glass">← プロジェクト一覧に戻る</Link>
         </div>
         
         <div class="project-hero">

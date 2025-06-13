@@ -1,0 +1,14 @@
+---
+import { withBase } from '../utils/withBase';
+
+interface Props {
+  href: string;
+  [key: string]: any;
+}
+
+const { href, ...attrs } = Astro.props;
+const isExternal = href.startsWith('http');
+const url = isExternal ? href : withBase(href);
+---
+
+<a href={url} {...attrs}><slot /></a>

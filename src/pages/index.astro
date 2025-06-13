@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Link from '../components/Link.astro';
 ---
 
 <Layout title="Portfolio - Systems Engineer">
@@ -13,8 +14,8 @@ import Layout from '../layouts/Layout.astro';
             10年以上の経験を活かし、要件定義から運用まで一貫したシステム開発をサポートします。
           </p>
           <div class="hero-buttons">
-            <a href="/projects" class="btn btn-primary">プロジェクト実績</a>
-            <a href="/contact" class="btn btn-glass">お問い合わせ</a>
+            <Link href="/projects" class="btn btn-primary">プロジェクト実績</Link>
+            <Link href="/contact" class="btn btn-glass">お問い合わせ</Link>
           </div>
         </div>
         <div class="hero-visual animate-fadeIn">
@@ -32,7 +33,7 @@ import Layout from '../layouts/Layout.astro';
 {`const engineer = {
   name: "Systems Engineer",
   skills: ["Java", "TypeScript", "React", "Azure"],
-  experience: "8+ years",
+  experience: "10+ years",
   speciality: "Enterprise Systems"
 };`}
                 </code>
