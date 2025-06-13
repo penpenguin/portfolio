@@ -7,8 +7,7 @@ interface Props {
 }
 
 const { href, ...attrs } = Astro.props;
-const isExternal = href.startsWith('http');
-const url = isExternal ? href : withBase(href);
+const url = withBase(href);
 ---
 
 <a href={url} {...attrs}><slot /></a>

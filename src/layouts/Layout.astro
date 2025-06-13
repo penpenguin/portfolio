@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Link from '../components/Link.astro';
+import { ViewTransitions } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -24,6 +25,7 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
       rel="stylesheet"
     />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
   <body>
     <nav class="navbar">
@@ -52,12 +54,12 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
         <div class="footer-content">
           <span>&copy; 2024 Portfolio. Built with Astro.</span>
           <div class="social-links">
-            <Link href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
+            <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
               GitHub
-            </Link>
-            <Link href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer">
+            </a>
+            <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer">
               X
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -181,6 +183,26 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
 
     main {
       margin-top: 120px;
+    }
+  }
+
+  /* 印刷用スタイル */
+  @media print {
+    .navbar,
+    nav,
+    .footer,
+    footer {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+    main {
+      margin-top: 0 !important;
+    }
+
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
     }
   }
 </style>

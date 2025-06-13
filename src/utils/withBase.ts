@@ -1,14 +1,15 @@
 /**
  * Astroのベース設定を考慮してパスを生成する
+ * 外部リンクはそのまま返し、内部リンクのみベースパスを適用
  */
 export function withBase(path: string): string {
-  // 既に外部URLまたはベースパスが含まれている場合はそのまま返す
-  if (path.startsWith('http') || path.startsWith('/portfolio')) {
+  // 外部URLの場合はそのまま返す
+  if (path.startsWith('http') || path.startsWith('mailto:') || path.startsWith('tel:')) {
     return path;
   }
   
-  // 開発環境ではベースパスを追加しない
-  if (import.meta.env.DEV) {
+  // 既にベースパスが含まれている場合はそのまま返す
+  if (path.startsWith('/portfolio')) {
     return path;
   }
   

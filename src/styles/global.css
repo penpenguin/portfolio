@@ -356,3 +356,36 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* View Transitions Animations */
+@view-transition {
+  navigation: auto;
+}
+
+/* 滑らかなスライド遷移 */
+::view-transition-old(root) {
+  animation: slide-out-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-new(root) {
+  animation: slide-in-right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* スライドアニメーション定義 */
+@keyframes slide-out-left {
+  to {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
