@@ -14,10 +14,14 @@ export function withBase(path: string): string {
   }
 
   const astroGlobal = globalThis as { Astro?: { site?: URL } };
-  const rawBase = astroGlobal.Astro?.site?.pathname ?? import.meta.env.BASE_URL ?? '/';
+  const rawBase =
+    astroGlobal.Astro?.site?.pathname ?? import.meta.env.BASE_URL ?? '/';
   const base = normalizeBase(rawBase);
 
-  if (base !== '/' && (path === base || path === base.slice(0, -1) || path.startsWith(base))) {
+  if (
+    base !== '/' &&
+    (path === base || path === base.slice(0, -1) || path.startsWith(base))
+  ) {
     return path;
   }
 

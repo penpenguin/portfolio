@@ -19,53 +19,76 @@ const projects = await getCollection('projects');
   <section class="projects-grid">
     <div class="container">
       <div class="grid grid-2">
-        {projects.map((project) => (
-          <article class="project-card card card-glass">
-            <div class="project-header">
-              {project.data.heroImage && (
-                <img src={project.data.heroImage} alt={project.data.title} class="project-image" />
-              )}
-              <div class="project-meta">
-                <h2><Link href={`/projects/${project.slug}`}>{project.data.title}</Link></h2>
-                <p class="project-date">
-                  {project.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </p>
-              </div>
-            </div>
-            
-            <div class="project-content">
-              <p class="project-description">{project.data.description}</p>
-              
-              {project.data.tags && (
-                <div class="project-tags">
-                  {project.data.tags.map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
+        {
+          projects.map((project) => (
+            <article class="project-card card card-glass">
+              <div class="project-header">
+                {project.data.heroImage && (
+                  <img
+                    src={project.data.heroImage}
+                    alt={project.data.title}
+                    class="project-image"
+                  />
+                )}
+                <div class="project-meta">
+                  <h2>
+                    <Link href={`/projects/${project.slug}`}>
+                      {project.data.title}
+                    </Link>
+                  </h2>
+                  <p class="project-date">
+                    {project.data.pubDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </p>
                 </div>
-              )}
-              
-              <div class="project-links">
-                {project.data.link && (
-                  <a href={project.data.link} target="_blank" rel="noopener noreferrer" class="btn btn-glass">
-                    ライブ版を見る
-                  </a>
-                )}
-                {project.data.github && (
-                  <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="btn btn-glass">
-                    コードを見る
-                  </a>
-                )}
-                <Link href={`/projects/${project.slug}`} class="btn btn-primary">
-                  詳細を見る
-                </Link>
               </div>
-            </div>
-          </article>
-        ))}
+
+              <div class="project-content">
+                <p class="project-description">{project.data.description}</p>
+
+                {project.data.tags && (
+                  <div class="project-tags">
+                    {project.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+
+                <div class="project-links">
+                  {project.data.link && (
+                    <a
+                      href={project.data.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn btn-glass"
+                    >
+                      ライブ版を見る
+                    </a>
+                  )}
+                  {project.data.github && (
+                    <a
+                      href={project.data.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn btn-glass"
+                    >
+                      コードを見る
+                    </a>
+                  )}
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    class="btn btn-primary"
+                  >
+                    詳細を見る
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -184,11 +207,11 @@ const projects = await getCollection('projects');
     .hero-content h1 {
       font-size: var(--font-size-4xl);
     }
-    
+
     .project-links {
       flex-direction: column;
     }
-    
+
     .project-links .btn {
       text-align: center;
     }

@@ -1,9 +1,9 @@
 ---
-title: "作業中の記事"
-description: "この記事は現在作成中です"
+title: '作業中の記事'
+description: 'この記事は現在作成中です'
 pubDate: 2025-01-15
 draft: true
-tags: ["開発", "作業中"]
+tags: ['開発', '作業中']
 ---
 
 ## はじめに

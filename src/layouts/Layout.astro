@@ -8,10 +8,11 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "Modern portfolio built with Astro" } = Astro.props;
+const { title, description = 'Modern portfolio built with Astro' } =
+  Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -44,20 +45,30 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
         </div>
       </div>
     </nav>
-    
+
     <main>
       <slot />
     </main>
-    
+
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <span>&copy; {new Date().getFullYear()} Portfolio. Built with Astro.</span>
+          <span
+            >&copy; {new Date().getFullYear()} Portfolio. Built with Astro.</span
+          >
           <div class="social-links">
-            <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
+            <a
+              href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               GitHub
             </a>
-            <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer">
+            <a
+              href={import.meta.env.PUBLIC_X_URL || 'https://x.com'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               X
             </a>
           </div>
@@ -68,7 +79,6 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
 </html>
 
 <style>
-
   .navbar {
     position: fixed;
     top: 0;

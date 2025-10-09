@@ -51,7 +51,9 @@ import Link from '../components/Link.astro';
               <li>Azure環境でのクラウドネイティブなシステム設計</li>
               <li>ArangoDBを使用したグラフデータベースの活用</li>
               <li>GitLab CI/CDを活用したDevOpsプラクティスの導入</li>
-              <li>Azure Red Hat OpenShift (ARO)によるコンテナオーケストレーション</li>
+              <li>
+                Azure Red Hat OpenShift (ARO)によるコンテナオーケストレーション
+              </li>
             </ul>
           </div>
         </div>
@@ -73,7 +75,7 @@ import Link from '../components/Link.astro';
                   <span class="skill-tag">Python</span>
                 </div>
               </div>
-              
+
               <div class="skill-category">
                 <h4>フレームワーク</h4>
                 <div class="skill-tags">
@@ -87,7 +89,7 @@ import Link from '../components/Link.astro';
                   <span class="skill-tag">Vite</span>
                 </div>
               </div>
-              
+
               <div class="skill-category">
                 <h4>インフラ・DB</h4>
                 <div class="skill-tags">
@@ -101,7 +103,7 @@ import Link from '../components/Link.astro';
                   <span class="skill-tag">Oracle DB</span>
                 </div>
               </div>
-              
+
               <div class="skill-category">
                 <h4>その他</h4>
                 <div class="skill-tags">
@@ -118,12 +120,25 @@ import Link from '../components/Link.astro';
 
           <div class="contact-section glass">
             <h3>お気軽にご連絡ください</h3>
-            <p>新しい機会や興味深いプロジェクトについて、いつでもお話しできます。</p>
+            <p>
+              新しい機会や興味深いプロジェクトについて、いつでもお話しできます。
+            </p>
             <div class="contact-links">
               <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
               <div class="social-links">
-                <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">GitHub</a>
-                <a href={import.meta.env.PUBLIC_X_URL || 'https://x.com'} target="_blank" rel="noopener noreferrer" class="btn btn-glass">X</a>
+                <a
+                  href={import.meta.env.PUBLIC_GITHUB_URL ||
+                    'https://github.com'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-glass">GitHub</a
+                >
+                <a
+                  href={import.meta.env.PUBLIC_X_URL || 'https://x.com'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-glass">X</a
+                >
               </div>
             </div>
           </div>

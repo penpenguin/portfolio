@@ -1,10 +1,10 @@
 ---
-title: "Meaningless - Aquarium Web App"
-description: "リアルなアクアリウム風静的Webアプリケーション。Three.jsとGLSLシェーダーを使用した、ブラウザで動作する癒し系アプリ"
+title: 'Meaningless - Aquarium Web App'
+description: 'リアルなアクアリウム風静的Webアプリケーション。Three.jsとGLSLシェーダーを使用した、ブラウザで動作する癒し系アプリ'
 pubDate: 2024-12-01
-tags: ["TypeScript", "Three.js", "GLSL", "TailwindCSS", "DaisyUI", "Vite"]
-github: "https://github.com/penpenguin/meaningless"
-link: "https://penpenguin.github.io/meaningless/"
+tags: ['TypeScript', 'Three.js', 'GLSL', 'TailwindCSS', 'DaisyUI', 'Vite']
+github: 'https://github.com/penpenguin/meaningless'
+link: 'https://penpenguin.github.io/meaningless/'
 ---
 
 ## 概要
@@ -14,17 +14,20 @@ Meaninglessは、ブラウザ上で動作するリアルなアクアリウムシ
 ## 主な特徴
 
 ### 技術的な実装
+
 - **Boidsアルゴリズム**: 魚の群れの自然な動きを実現
 - **GLSLシェーダー**: 物理的に正確な水面レンダリング
 - **パフォーマンス最適化**: モバイルでも45+ FPSを実現
 - **レスポンシブ対応**: PC/モバイル両対応（PC: 100匹、モバイル: 50匹の魚）
 
 ### ユーザー体験
+
 - **癒し効果**: アクアリウムを眺めることでリラックス効果を提供
 - **アクセシビリティ**: WCAG 2.3.3準拠、モーション削減オプション付き
 - **インタラクティブ**: 魚が画面タップに反応する仕組み
 
 ## 技術スタック
+
 - **フロントエンド**: TypeScript (93.1%)
 - **3Dグラフィックス**: Three.js
 - **シェーダー**: GLSL (5.2%)
