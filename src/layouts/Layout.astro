@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Link from '../components/Link.astro';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -12,7 +12,7 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -25,7 +25,7 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
       rel="stylesheet"
     />
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <nav class="navbar">
@@ -52,7 +52,7 @@ const { title, description = "Modern portfolio built with Astro" } = Astro.props
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <span>&copy; 2024 Portfolio. Built with Astro.</span>
+          <span>&copy; {new Date().getFullYear()} Portfolio. Built with Astro.</span>
           <div class="social-links">
             <a href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'} target="_blank" rel="noopener noreferrer">
               GitHub

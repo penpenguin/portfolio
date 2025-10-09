@@ -8,17 +8,21 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check",
+    "test": "vitest",
+    "check": "tsc && astro check",
     "lint": "prettier --check .",
     "format": "prettier --write ."
   },
   "dependencies": {
-    "astro": "^5.9.2"
+    "astro": "^5.14.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "typescript": "^5.7.2",
+    "@testing-library/dom": "^10.4.1",
+    "jsdom": "^27.0.0",
     "prettier": "^3.4.2",
-    "prettier-plugin-astro": "^0.14.1"
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.4"
   }
 }
