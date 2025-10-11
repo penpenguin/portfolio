@@ -1,9 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
-    <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
-    <style>
-        path { fill: #000; }
-        @media (prefers-color-scheme: dark) {
-            path { fill: #FFF; }
-        }
-    </style>
+<svg
+  id="portfolio-favicon"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 128 128"
+  role="img"
+  aria-labelledby="portfolio-favicon-title"
+>
+  <title id="portfolio-favicon-title">Portfolio favicon</title>
+  <defs>
+    <radialGradient
+      id="portfolio-favicon-bg"
+      cx="50%"
+      cy="45%"
+      r="70%"
+      fx="30%"
+      fy="30%"
+    >
+      <stop offset="0%" stop-color="#F5F7FD" />
+      <stop offset="65%" stop-color="#E0E7FF" />
+      <stop offset="100%" stop-color="#CBD5F5" />
+    </radialGradient>
+    <linearGradient
+      id="portfolio-favicon-core"
+      x1="46"
+      y1="96"
+      x2="92"
+      y2="32"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+    <linearGradient
+      id="portfolio-neon-ribbon"
+      x1="38"
+      y1="110"
+      x2="98"
+      y2="30"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="50%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#22D3EE" />
+    </linearGradient>
+    <filter id="portfolio-neon-glow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="128" height="128" rx="32" fill="url(#portfolio-favicon-bg)" />
+  <ellipse
+    cx="70"
+    cy="54"
+    rx="46"
+    ry="42"
+    fill="url(#portfolio-neon-ribbon)"
+    opacity="0.18"
+  />
+  <g filter="url(#portfolio-neon-glow)">
+    <path
+      d="M94 40c0-6.6-5.4-12-12-12H46a10 10 0 0 0-10 10v52c0 5.5 4.5 10 10 10h24c18.3 0 32-13.4 32-30.6 0-11.6-6.1-20-16-24.1l.6-5.3Z"
+      fill="url(#portfolio-favicon-core)"
+      opacity="0.94"
+    />
+  </g>
+  <path
+    d="M52 44h25c8.2 0 14 6 14 14.4S85.3 72 77 72H60v22H48V52c0-4.4 1.7-8 4-8Z"
+    fill="#E2E8F0"
+    opacity="0.95"
+  />
+  <path
+    d="M40 94c12 8 44 4 52-6"
+    stroke="#FF00F5"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.9"
+    filter="url(#portfolio-neon-glow)"
+  />
+  <circle cx="46" cy="42" r="6" fill="#22D3EE" opacity="0.85" />
+  <circle cx="84" cy="86" r="5" fill="#FF00F5" opacity="0.6" />
 </svg>
