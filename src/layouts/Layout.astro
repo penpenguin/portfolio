@@ -12,6 +12,29 @@ export interface Props {
 const { title, description = 'Modern portfolio built with Astro' } =
   Astro.props;
 const faviconHref = withBase('/favicon.svg');
+
+const normalizePath = (path: string): string => {
+  if (!path || path === '/') {
+    return '/';
+  }
+
+  return path.replace(/\/+$/, '') || '/';
+};
+
+const baseNavItems = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/career', label: 'Career' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = normalizePath(Astro.url.pathname);
+
+const navItems = baseNavItems.map((item) => {
+  const resolvedPath = normalizePath(withBase(item.href));
+  return { ...item, isActive: resolvedPath === currentPath };
+});
 ---
 
 <!doctype html>
@@ -38,11 +61,17 @@ const faviconHref = withBase('/favicon.svg');
             <span class="logo-text">Portfolio</span>
           </Link>
           <div class="nav-links">
-            <Link href="/" class="nav-link">Home</Link>
-            <Link href="/about" class="nav-link">About</Link>
-            <Link href="/projects" class="nav-link">Projects</Link>
-            <Link href="/career" class="nav-link">Career</Link>
-            <Link href="/contact" class="nav-link">Contact</Link>
+            {navItems.map(({ href, label, isActive }) => (
+              <Link
+                href={href}
+                class={`nav-link${isActive ? ' nav-link--active' : ''}`}
+                aria-current={isActive ? 'page' : undefined}
+                aria-disabled={isActive ? 'true' : undefined}
+                tabindex={isActive ? -1 : undefined}
+              >
+                {label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -77,6 +106,39 @@ const faviconHref = withBase('/favicon.svg');
         </div>
       </div>
     </footer>
+    <script is:inline>
+      const normalizePathname = (input) => {
+        if (!input || input === '/') {
+          return '/';
+        }
+
+        return input.replace(/\/+$/, '') || '/';
+      };
+
+      const setActiveNavigation = () => {
+        const currentPath = normalizePathname(window.location.pathname);
+        document.querySelectorAll('.nav-link').forEach((link) => {
+          const linkPath = normalizePathname(link.pathname);
+          const isActive = linkPath === currentPath;
+
+          link.classList.toggle('nav-link--active', isActive);
+
+          if (isActive) {
+            link.setAttribute('aria-current', 'page');
+            link.setAttribute('aria-disabled', 'true');
+            link.setAttribute('tabindex', '-1');
+          } else {
+            link.removeAttribute('aria-current');
+            link.removeAttribute('aria-disabled');
+            link.removeAttribute('tabindex');
+          }
+        });
+      };
+
+      document.addEventListener('astro:page-load', setActiveNavigation);
+      document.addEventListener('astro:after-swap', setActiveNavigation);
+      setActiveNavigation();
+    </script>
   </body>
 </html>
 
@@ -149,6 +211,16 @@ const faviconHref = withBase('/favicon.svg');
   }
 
   .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link--active {
+    color: var(--text-primary);
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .nav-link--active::after {
     width: 100%;
   }
 
