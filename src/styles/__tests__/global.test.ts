@@ -41,4 +41,14 @@ describe('global.css カラーパレット', () => {
     expect(getRuleValue('.card-glass', 'backdrop-filter')).toBe('blur(8px)');
     expect(getRuleValue('.card-glass', '-webkit-backdrop-filter')).toBe('blur(8px)');
   });
+
+  it('スクロールバーのトラックとつまみが明確に区別できる', () => {
+    expect(getVar('--scrollbar-track')).toBe('#e2e8f0');
+    expect(getVar('--scrollbar-thumb')).toBe('rgba(59, 130, 246, 0.55)');
+    expect(getVar('--scrollbar-thumb-hover')).toBe('rgba(37, 99, 235, 0.7)');
+
+    expect(getRuleValue('::-webkit-scrollbar-track', 'background')).toBe('var(--scrollbar-track)');
+    expect(getRuleValue('::-webkit-scrollbar-thumb', 'background')).toBe('var(--scrollbar-thumb)');
+    expect(getRuleValue('::-webkit-scrollbar-thumb:hover', 'background')).toBe('var(--scrollbar-thumb-hover)');
+  });
 });
