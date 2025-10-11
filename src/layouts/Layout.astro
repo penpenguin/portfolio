@@ -81,6 +81,12 @@ const faviconHref = withBase('/favicon.svg');
 </html>
 
 <style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .navbar {
     position: fixed;
     top: 0;
@@ -145,6 +151,7 @@ const faviconHref = withBase('/favicon.svg');
   main {
     margin-top: 80px;
     min-height: calc(100vh - 160px);
+    flex: 1;
   }
 
   .footer {

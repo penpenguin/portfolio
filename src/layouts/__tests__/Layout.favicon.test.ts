@@ -19,4 +19,10 @@ describe('Layout favicon link', () => {
   it('does not hardcode a root-relative favicon path', () => {
     expect(loadLayoutSource()).not.toContain('href="/favicon.svg"');
   });
+
+  it('ensures the footer sticks to the bottom using flex layout', () => {
+    const layout = loadLayoutSource();
+    expect(layout).toMatch(/body\s*{[^}]*display:\s*flex;[^}]*flex-direction:\s*column;/s);
+    expect(layout).toMatch(/main\s*{[^}]*flex:\s*1/);
+  });
 });
