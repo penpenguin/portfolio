@@ -35,4 +35,11 @@ describe('Layout favicon link', () => {
       /<footer[^>]*transition:persist[^>]*transition:animate=['"]none['"]/,
     );
   });
+
+  it('fixes the navbar logo alignment against flex layout issues', () => {
+    const layout = loadLayoutSource();
+    expect(layout).toMatch(/\.logo\s*{[^}]*display:\s*inline-flex/);
+    expect(layout).toMatch(/\.logo\s*{[^}]*flex-shrink:\s*0/);
+    expect(layout).toMatch(/\.logo\s*{[^}]*line-height:\s*1/);
+  });
 });
