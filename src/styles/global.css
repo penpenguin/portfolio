@@ -11,9 +11,9 @@
   --primary-bg: #f5f7fd;
   --secondary-bg: #ffffff;
   --accent-bg: #eef1ff;
-  --glass-bg: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(148, 163, 184, 0.28);
-  --glass-subtle: rgba(255, 255, 255, 0.35);
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(148, 163, 184, 0.24);
+  --glass-subtle: rgba(255, 255, 255, 0.3);
   --timeline-dot-bg: rgba(59, 130, 246, 0.18);
   --timeline-dot-border: rgba(59, 130, 246, 0.5);
   --timeline-dot-active: linear-gradient(
@@ -268,8 +268,8 @@ a:hover {
 
 .card-glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
 }
