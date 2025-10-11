@@ -31,7 +31,7 @@ const faviconHref = withBase('/favicon.svg');
     <ClientRouter />
   </head>
   <body>
-    <nav class="navbar">
+    <nav class="navbar" transition:persist transition:animate="none">
       <div class="container">
         <div class="navbar-content">
           <Link href="/" class="logo">
@@ -52,7 +52,7 @@ const faviconHref = withBase('/favicon.svg');
       <slot />
     </main>
 
-    <footer class="footer">
+    <footer class="footer" transition:persist transition:animate="none">
       <div class="container">
         <div class="footer-content">
           <span

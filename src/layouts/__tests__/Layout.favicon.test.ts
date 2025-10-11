@@ -25,4 +25,14 @@ describe('Layout favicon link', () => {
     expect(layout).toMatch(/body\s*{[^}]*display:\s*flex;[^}]*flex-direction:\s*column;/s);
     expect(layout).toMatch(/main\s*{[^}]*flex:\s*1/);
   });
+
+  it('keeps navbar and footer outside of page transitions', () => {
+    const layout = loadLayoutSource();
+    expect(layout).toMatch(
+      /<nav[^>]*transition:persist[^>]*transition:animate=['"]none['"]/,
+    );
+    expect(layout).toMatch(
+      /<footer[^>]*transition:persist[^>]*transition:animate=['"]none['"]/,
+    );
+  });
 });
