@@ -41,3 +41,17 @@ describe('career timeline glass palette', () => {
     expect(current).toContain('var(--timeline-dot-glow)');
   });
 });
+
+describe('career print view', () => {
+  const heroHeadingMatch = career.match(/<div class="hero-content">([\s\S]*?)<\/div>/);
+  const heroContent = heroHeadingMatch ? heroHeadingMatch[1] : '';
+
+  it('印刷用の見出しが含まれている', () => {
+    expect(heroContent).toMatch(/class="print-only[^"]*">職務経歴書</);
+  });
+
+  it('印刷時に既存の見出しと説明を非表示にするスタイルが定義されている', () => {
+    expect(career).toMatch(/@media print[\s\S]*\.screen-only[\s\S]*display:\s*none/i);
+    expect(career).toMatch(/@media print[\s\S]*\.print-only[\s\S]*display:\s*(block|inline|flex)/i);
+  });
+});

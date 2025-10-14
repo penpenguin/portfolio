@@ -6,10 +6,11 @@ import Layout from '../layouts/Layout.astro';
   <section class="career-hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Career</h1>
-        <p>
+        <h1 class="screen-only">Career</h1>
+        <p class="screen-only">
           プログラマーとして10年以上の経験を積み、様々なプロジェクトに携わってきました。
         </p>
+        <h1 class="print-only print-hero-title">職務経歴書</h1>
       </div>
     </div>
   </section>
@@ -479,6 +480,10 @@ import Layout from '../layouts/Layout.astro';
     margin: 0 auto;
   }
 
+  .print-only {
+    display: none;
+  }
+
   .career-content {
     padding: var(--space-2xl) 0;
   }
@@ -714,6 +719,14 @@ import Layout from '../layouts/Layout.astro';
       background: white !important;
     }
 
+    .screen-only {
+      display: none !important;
+    }
+
+    .print-only {
+      display: block !important;
+    }
+
     /* ナビゲーション・フッターを非表示 */
     .navbar,
     .footer {
@@ -732,6 +745,10 @@ import Layout from '../layouts/Layout.astro';
       background: none !important;
       -webkit-text-fill-color: initial !important;
       margin-bottom: 10pt;
+    }
+
+    .print-hero-title {
+      text-align: center;
     }
 
     .hero-content p {
