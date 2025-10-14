@@ -54,4 +54,8 @@ describe('career print view', () => {
     expect(career).toMatch(/@media print[\s\S]*\.screen-only[\s\S]*display:\s*none/i);
     expect(career).toMatch(/@media print[\s\S]*\.print-only[\s\S]*display:\s*(block|inline|flex)/i);
   });
+
+  it('保有資格セクションがページ途中で分割されないようスタイルが定義されている', () => {
+    expect(career).toMatch(/@media print[\s\S]*\.certifications[\s\S]*page-break-inside:\s*avoid/i);
+  });
 });
