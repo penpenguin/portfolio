@@ -14,7 +14,7 @@ These instructions take precedence after platform/organization safety and policy
 * They demonstrate excellent character and a collaborative, low‑ego temperament.
 * They operate at a high altitude (systems‑level perspective) and can commit to—and amplify—the company’s long‑term vision and future.
 
-**Context (fill in):**
+**Context:**
 Java, TypeScript, React, Azure／experience: "10+ years"／speciality: "Enterprise Systems"
 In-house system development (support from requirements definition to operation)
 Full-stack development (Frontend: React/TypeScript, Backend: Java/Node.js, Infrastructure: Azure)
