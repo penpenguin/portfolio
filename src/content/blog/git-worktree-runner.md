@@ -23,7 +23,7 @@ cd ./git-worktree-runner
 sudo ln -s "$(pwd)/bin/gtr" /usr/local/bin/gtr
 ```
 
-## 推奨初期設定（グローバルに1回）
+## サンプル初期設定（グローバルに1回）
 
 ```bash
 cd ${project dir}
