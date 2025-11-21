@@ -1,44 +1,73 @@
 ---
-title: 'git-worktree-runnerで高速チェックフローを回す'
-description: 'worktreeごとに依存をプリロードして、手元のlint/testを瞬時に回すための運用メモです。'
+title: 'git-worktree-runnerで爆速マルチブランチ開発を回す'
+description: '公式リポジトリの導入手順と、worktreeごとに依存をプリロードしてlint/testを瞬時に回すための実践メモ。'
 pubDate: 2025-10-01
 tags: ['git', 'worktree', 'DX']
 ---
 
-## 背景
+公式リポジトリ: https://github.com/coderabbitai/git-worktree-runner
 
-大きめのリポジトリで複数ブランチを行き来すると、`npm install` やビルドキャッシュの切り替えに時間がかかります。`git worktree` と runner 用の専用ディレクトリを組み合わせると、ブランチごとに隔離された速い検証環境を並列で持てます。
+## なぜ使うのか
 
-## セットアップ手順
+- ブランチを行き来するたびの `npm install` 地獄から解放される。
+- worktreeごとに依存・キャッシュを分離でき、並列作業が安全。
+- フックで作成直後のセットアップ（依存インストールや索引生成など）を自動化できる。
 
-1. 作業用ディレクトリを用意
+## 導入（最小ステップ）
 
-   ```bash
-   mkdir -p .worktrees/runner && cd .worktrees/runner
-   git worktree add -b feature/runner ../.. worktree-runner
-   ```
+```bash
+git clone https://github.com/coderabbitai/git-worktree-runner.git
+cd ./git-worktree-runner
+sudo ln -s "$(pwd)/bin/gtr" /usr/local/bin/gtr
+```
 
-2. 依存を事前インストール
+## 推奨初期設定（グローバルに1回）
 
-   ```bash
-   cd worktree-runner
-   npm ci
-   ```
+```bash
+cd ${project dir}
+gtr config set gtr.editor.default vscode
+gtr config set gtr.ai.default codex
+gtr config set gtr.worktrees.dir .worktrees
+gtr config add gtr.copy.exclude "**/.env"
+gtr config add gtr.hook.postCreate 'cd "$WORKTREE_PATH" && npm ci'
+gtr config add gtr.hook.postCreate 'uvx --from git+https://github.com/oraios/serena serena project index'
+```
 
-3. runner スクリプトで lint/test を実行
+### よく使うコマンド
 
-   ```bash
-   npm run lint && npm test
-   ```
+```bash
+gtr new <branch>       # <branch> 用の worktree を作成
+gtr editor <branch>    # その worktree をエディタで開く
+gtr ai <branch>        # その worktree で AI ツールを起動
+gtr rm <branch>        # worktree を削除（--delete-branch でブランチも削除）
 
-これで元の作業ツリーを汚さずに、並列でチェックを回せます。
+cd "$(git gtr go <branch>)"   # worktree のパスへジャンプ
+gtr list                     # すべての worktree を一覧
+```
 
-## Tips
+### 追加設定の例（必要なら）
 
-- worktreeを削除するときは `git worktree remove worktree-runner` を忘れずに。
-- CIで流用する場合、依存キャッシュをworktree単位で分けるとヒット率が上がります。
-- ブランチを作り直す際は `git worktree prune` で不要エントリを掃除すると安全です。
+```bash
+gtr config set gtr.editor.default cursor
+gtr config set gtr.ai.default claude
 
-## まとめ
+gtr config add gtr.hook.postCreate "npm ci"
+gtr config add gtr.hook.postCreate "npm run build"
+```
 
-git worktree とプリロード済みのrunnerを組み合わせるだけで、手元のフィードバックサイクルを短縮できます。大規模リポジトリほど効果が大きいので試してみてください。
+### 診断・ヘルプ
+
+```bash
+gtr doctor     # 依存や環境のヘルスチェック
+gtr adapter    # 使えるエディタ/AIアダプタ一覧
+gtr help       # ヘルプ
+gtr version    # バージョン
+```
+
+## 運用のコツ
+
+- フックに「依存インストール」「索引生成」を入れておくと、作った瞬間に開発可能状態になる。
+- `.worktrees` をプロジェクト直下に固定すると、相対パスの共有やキャッシュヒット率が安定。
+- 使い終わったら `gtr rm <branch>` で掃除し、`git worktree prune` で孤児を片付けるとクリーンに保てる。
+
+このセットを用意しておくと、新しいブランチでも数秒で lint/test まで走り、手元のフィードバックサイクルが大幅に短縮できます。
