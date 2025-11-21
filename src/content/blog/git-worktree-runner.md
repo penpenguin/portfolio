@@ -1,11 +1,13 @@
 ---
-title: 'git-worktree-runnerで平行開発を快適にする'
-description: 'Agentを使った並行開発向けに、worktreeごとの依存インストールやMCP設定を自動化し、lint/testを瞬時に回すための実践メモ。'
+title: 'git-worktree-runnerで平行開発を回すサンプル'
+description: 'Agentを使った並行開発で、worktreeごとの依存インストールやMCP設定を自動化するサンプル手順集。'
 pubDate: 2025-10-01
 tags: ['git', 'worktree', 'DX']
 ---
 
 公式リポジトリ: https://github.com/coderabbitai/git-worktree-runner
+
+以下は一例です。プロジェクトや好みのAI/エディタ設定に合わせて調整してください。
 
 ## なぜ使うのか
 
