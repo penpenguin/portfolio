@@ -21,6 +21,9 @@ if (!entry || entry.data.draft) {
 const { title, description, pubDate, updatedDate, heroImage, tags } =
   entry.data;
 const { Content } = await entry.render();
+const heroClass = heroImage
+  ? 'article-hero'
+  : 'article-hero article-hero--single';
 ---
 
 <Layout title={`${title} - Blog`} description={description}>
@@ -32,7 +35,7 @@ const { Content } = await entry.render();
           <span class="sr-only"> / {title}</span>
         </p>
 
-        <div class="article-hero">
+        <div class={heroClass}>
           <div class="article-meta">
             <h1>{title}</h1>
             <p class="article-description">{description}</p>
@@ -114,6 +117,12 @@ const { Content } = await entry.render();
     grid-template-columns: 1fr 1fr;
     gap: var(--space-2xl);
     align-items: center;
+  }
+
+  .article-hero--single {
+    grid-template-columns: 1fr;
+    text-align: left;
+    justify-items: start;
   }
 
   .article-meta h1 {
