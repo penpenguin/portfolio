@@ -1,6 +1,6 @@
 ---
-title: 'git-worktree-runnerで爆速マルチブランチ開発を回す'
-description: '公式リポジトリの導入手順と、worktreeごとに依存をプリロードしてlint/testを瞬時に回すための実践メモ。'
+title: 'git-worktree-runnerで平行開発を快適にする'
+description: 'Agentを使った並行開発向けに、worktreeごとの依存インストールやMCP設定を自動化し、lint/testを瞬時に回すための実践メモ。'
 pubDate: 2025-10-01
 tags: ['git', 'worktree', 'DX']
 ---
