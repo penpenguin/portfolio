@@ -10,9 +10,10 @@ const load = (relativePath: string) =>
   readFileSync(resolve(currentDir, relativePath), 'utf-8');
 
 describe('ブログ機能', () => {
-  it('公開用のサンプル記事が存在し、draft指定を持たない', () => {
-    const post = load('../../content/blog/sample-post.md');
+  it('git-worktree-runner 記事が公開状態で存在する', () => {
+    const post = load('../../content/blog/git-worktree-runner.md');
     expect(post).toContain('title:');
+    expect(post).toContain('git-worktree-runner');
     expect(post).not.toContain('draft: true');
   });
 
