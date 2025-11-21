@@ -31,4 +31,9 @@ describe('Layout navigation active state', () => {
     expect(layout).toMatch(/document\.addEventListener\(['"]astro:page-load['"],\s*setActiveNavigation\)/);
     expect(layout).toMatch(/document\.addEventListener\(['"]astro:after-swap['"],\s*setActiveNavigation\)/);
   });
+
+  it('includes Blog navigation that points to /blog', () => {
+    const layout = loadLayoutSource();
+    expect(layout).toMatch(/\{ href: '\/blog', label: 'Blog' \}/);
+  });
 });
