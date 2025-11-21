@@ -1,0 +1,280 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Link from '../../components/Link.astro';
+import { getCollection, getEntryBySlug } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+const entry = slug ? await getEntryBySlug('blog', slug) : null;
+
+if (!entry || entry.data.draft) {
+  throw new Response(null, { status: 404 });
+}
+
+const { title, description, pubDate, updatedDate, heroImage, tags } =
+  entry.data;
+const { Content } = await entry.render();
+---
+
+<Layout title={`${title} - Blog`} description={description}>
+  <article class="blog-article">
+    <header class="article-header">
+      <div class="container">
+        <p class="breadcrumb">
+          <Link href="/blog" class="btn btn-glass">← ブログ一覧に戻る</Link>
+          <span class="sr-only"> / {title}</span>
+        </p>
+
+        <div class="article-hero">
+          <div class="article-meta">
+            <h1>{title}</h1>
+            <p class="article-description">{description}</p>
+
+            <div class="meta">
+              <time datetime={pubDate.toISOString()}>
+                {pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              {updatedDate && (
+                <span class="updated">
+                  Updated{' '}
+                  {updatedDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              )}
+            </div>
+
+            {tags && (
+              <div class="tag-list" aria-label="Tags">
+                {tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {heroImage && (
+            <div class="hero-wrapper">
+              <img src={heroImage} alt={title} loading="lazy" />
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <section class="article-body">
+      <div class="container">
+        <div class="content-wrapper glass">
+          <Content />
+        </div>
+      </div>
+    </section>
+
+    <footer class="article-footer">
+      <div class="container">
+        <Link href="/blog" class="btn btn-glass">← Back to Blog</Link>
+      </div>
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  .blog-article {
+    padding-top: var(--space-lg);
+  }
+
+  .article-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .breadcrumb {
+    margin: 0 0 var(--space-lg) 0;
+  }
+
+  .breadcrumb .btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .article-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .article-meta h1 {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--font-size-4xl);
+    line-height: 1.1;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .article-description {
+    margin: 0 0 var(--space-md) 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+  }
+
+  .meta {
+    display: flex;
+    gap: var(--space-md);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    align-items: center;
+  }
+
+  .updated {
+    background: var(--glass-bg);
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--glass-border);
+  }
+
+  .tag-list {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: var(--glass-bg);
+    color: var(--text-accent);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-size-xs);
+    border: 1px solid var(--glass-border);
+  }
+
+  .hero-wrapper {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .hero-wrapper img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .article-body {
+    padding: 0 0 var(--space-2xl) 0;
+  }
+
+  .content-wrapper {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    line-height: 1.8;
+  }
+
+  .content-wrapper :global(h1),
+  .content-wrapper :global(h2),
+  .content-wrapper :global(h3),
+  .content-wrapper :global(h4),
+  .content-wrapper :global(h5),
+  .content-wrapper :global(h6) {
+    color: var(--text-primary);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .content-wrapper :global(h2):first-child,
+  .content-wrapper :global(h3):first-child {
+    margin-top: 0;
+  }
+
+  .content-wrapper :global(p) {
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-md) 0;
+  }
+
+  .content-wrapper :global(ul),
+  .content-wrapper :global(ol) {
+    padding-left: var(--space-xl);
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-md) 0;
+  }
+
+  .content-wrapper :global(li) {
+    margin-bottom: var(--space-xs);
+  }
+
+  .content-wrapper :global(pre) {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+  }
+
+  .content-wrapper :global(code) {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.95em;
+  }
+
+  .content-wrapper :global(blockquote) {
+    border-left: 4px solid var(--text-accent);
+    padding-left: var(--space-md);
+    margin: var(--space-lg) 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .article-footer {
+    padding-bottom: var(--space-2xl);
+  }
+
+  @media (max-width: 768px) {
+    .article-hero {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .article-meta h1 {
+      font-size: var(--font-size-3xl);
+    }
+
+    .meta {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tag-list {
+      justify-content: center;
+    }
+
+    .hero-wrapper {
+      order: -1;
+    }
+
+    .content-wrapper {
+      padding: var(--space-lg);
+    }
+  }
+</style>
