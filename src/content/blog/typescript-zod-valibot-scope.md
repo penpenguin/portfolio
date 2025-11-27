@@ -7,6 +7,10 @@ tags: ['typescript', 'zod', 'valibot']
 
 ## Type だけじゃダメ？Zod / Valibot が必要になる理由を整理する
 
+:::info
+この記事はAIが書き、人間がレビューしています
+:::
+
 「**普通に `type` で型をつければよくない？**」
 
 TypeScript を触っていると、一度はこう思うはずです。
