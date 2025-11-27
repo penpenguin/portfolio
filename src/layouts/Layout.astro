@@ -55,6 +55,7 @@ const navItems = baseNavItems.map((item) => {
     <ClientRouter />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
     <nav class="navbar" transition:persist transition:animate="none">
       <div class="container">
         <div class="navbar-content">
@@ -78,7 +79,7 @@ const navItems = baseNavItems.map((item) => {
       </div>
     </nav>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
@@ -146,6 +147,29 @@ const navItems = baseNavItems.map((item) => {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    background: var(--text-primary);
+    color: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    z-index: 1100;
+  }
+
+  .skip-link:focus-visible {
+    left: var(--space-md);
+    top: var(--space-md);
+    width: auto;
+    height: auto;
+    outline: 2px solid var(--text-accent);
+    outline-offset: 2px;
   }
 
   .navbar {
