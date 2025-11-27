@@ -19,14 +19,15 @@ describe('ブログ機能', () => {
 
   it('ブログ詳細ページが記事をslugで取得する', () => {
     const detailPage = load('../blog/[slug].astro');
-    expect(detailPage).toContain("getEntryBySlug('blog'");
+    expect(detailPage).toContain("getCollection('blog'");
+    expect(detailPage).toMatch(/posts\.find\(\(post\) => post\.slug === slug\)/);
     expect(detailPage).toContain('Astro.params.slug');
   });
 
-  it('ブログ一覧はdraft記事を除外する', () => {
+  it('ブログ一覧は公開済み記事を降順で取得する', () => {
     const index = load('../blog/index.astro');
-    expect(index).toContain('filter((post)');
-    expect(index).toContain('!post.data.draft');
+    expect(index).toContain('sortPublishedPostsByDate');
+    expect(index).toContain('const sortedPosts = sortPublishedPostsByDate(blogPosts);');
   });
 
   it('ブログ一覧のリード文が日本語で案内されている', () => {

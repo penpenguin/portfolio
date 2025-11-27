@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Link from '../../components/Link.astro';
-import { getCollection, getEntryBySlug } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -12,9 +13,12 @@ export async function getStaticPaths() {
 }
 
 const slug = Astro.params.slug;
-const entry = slug ? await getEntryBySlug('blog', slug) : null;
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const entry = slug
+  ? (posts.find((post) => post.slug === slug) as CollectionEntry<'blog'> | undefined)
+  : undefined;
 
-if (!entry || entry.data.draft) {
+if (!entry) {
   throw new Response(null, { status: 404 });
 }
 
@@ -62,7 +66,7 @@ const heroClass = heroImage
 
             {tags && (
               <div class="tag-list" aria-label="Tags">
-                {tags.map((tag) => (
+                {tags.map((tag: string) => (
                   <span class="tag">{tag}</span>
                 ))}
               </div>
