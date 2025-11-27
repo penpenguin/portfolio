@@ -12,7 +12,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "astro": "^5.14.4"
+    "astro": "^5.14.4",
+    "remark-directive": "^4.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
