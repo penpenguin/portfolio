@@ -202,6 +202,24 @@ a:hover {
   font-family: var(--font-family-base);
 }
 
+.btn:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.social-links a:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* Primary button style */
 .btn-primary {
   background: var(--glass-bg);
