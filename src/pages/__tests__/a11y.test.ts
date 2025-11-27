@@ -11,14 +11,10 @@ const globalStyles = readFileSync(
 );
 
 describe('スキップリンク', () => {
-  it('レイアウトにメインコンテンツへスキップするリンクがある', () => {
-    expect(layout).toMatch(
-      /<a[^>]*class="skip-link"[^>]*href="#main-content"[^>]*>メインコンテンツへスキップ<\/a>/,
-    );
-  });
-
-  it('メイン要素にスキップリンクがフォーカスを移動できる', () => {
-    expect(layout).toMatch(/<main[^>]*id="main-content"[^>]*tabindex="-1"[^>]*>/);
+  it('レイアウトにスキップリンクを持たない', () => {
+    expect(layout).not.toMatch(/class="skip-link"/);
+    expect(layout).not.toMatch(/href="#main-content"/);
+    expect(layout).not.toMatch(/id="main-content"/);
   });
 });
 
