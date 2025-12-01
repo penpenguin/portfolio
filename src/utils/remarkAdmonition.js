@@ -1,9 +1,9 @@
 const DIRECTIVE_CONFIG = {
-  note: { className: 'admonition-note', label: 'note' },
-  tip: { className: 'admonition-tip', label: 'tip' },
-  warning: { className: 'admonition-warning', label: 'warning' },
-  caution: { className: 'admonition-caution', label: 'caution' },
-  important: { className: 'admonition-important', label: 'important' },
+  note: { className: 'admonition-note', label: 'note', labelTitle: 'Note' },
+  tip: { className: 'admonition-tip', label: 'tip', labelTitle: 'Tip' },
+  warning: { className: 'admonition-warning', label: 'warning', labelTitle: 'Warning' },
+  caution: { className: 'admonition-caution', label: 'caution', labelTitle: 'Caution' },
+  important: { className: 'admonition-important', label: 'important', labelTitle: 'Important' },
 };
 
 const GITHUB_LABEL_REGEX = /^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i;
@@ -24,7 +24,7 @@ const applyAdmonition = (node, config) => {
     role: 'note',
     className: [...classList, 'admonition', config.className],
     'aria-label': config.label,
-    'data-label': config.label.toUpperCase(),
+    'data-label': config.labelTitle,
   };
   node.data = data;
 };

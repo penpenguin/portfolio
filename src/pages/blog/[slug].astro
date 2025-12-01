@@ -265,52 +265,69 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(.admonition) {
-    display: block;
-    padding: 12px 16px;
-    border-radius: 6px;
-    border-left: 4px solid var(--glass-border);
-    background: #f6f8fa;
+    --admonition-color: #0969da;
+    --admonition-icon: 'ℹ️';
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 8px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--admonition-color), #ffffff 25%);
+    border-left: 6px solid var(--admonition-color);
+    background: color-mix(in srgb, var(--admonition-color), #0d1117 12%);
     margin: var(--space-lg) 0;
-    color: #24292f;
+    color: #c9d1d9;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
   }
 
   .content-wrapper :global(.admonition)::before {
+    content: var(--admonition-icon);
+    color: var(--admonition-color);
+    font-size: 20px;
+    line-height: 1;
+    align-self: start;
+  }
+
+  .content-wrapper :global(.admonition)::after {
     content: attr(data-label);
-    display: block;
+    color: var(--admonition-color);
     font-weight: 700;
-    font-size: 0.9em;
-    letter-spacing: 0.02em;
-    margin-bottom: 6px;
-    text-transform: uppercase;
+    font-size: 1em;
+    line-height: 1.2;
+    align-self: center;
   }
 
   .content-wrapper :global(.admonition p) {
+    grid-column: 1 / -1;
     margin: 0;
+    color: #c9d1d9;
   }
 
   .content-wrapper :global(.admonition-note) {
-    border-left-color: #0969da;
-    background: #ddf4ff;
+    --admonition-color: #58a6ff;
+    --admonition-icon: 'ℹ️';
   }
 
   .content-wrapper :global(.admonition-tip) {
-    border-left-color: #1a7f37;
-    background: #dafbe1;
+    --admonition-color: #3fb950;
+    --admonition-icon: '💡';
   }
 
   .content-wrapper :global(.admonition-important) {
-    border-left-color: #8250df;
-    background: #f6f0ff;
+    --admonition-color: #a371f7;
+    --admonition-icon: '📌';
   }
 
   .content-wrapper :global(.admonition-warning) {
-    border-left-color: #9a6700;
-    background: #fff8c5;
+    --admonition-color: #d29922;
+    --admonition-icon: '⚠️';
   }
 
   .content-wrapper :global(.admonition-caution) {
-    border-left-color: #cf222e;
-    background: #ffebe9;
+    --admonition-color: #f85149;
+    --admonition-icon: '⛔️';
   }
 
 

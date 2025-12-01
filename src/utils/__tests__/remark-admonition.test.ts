@@ -30,7 +30,7 @@ describe('remarkAdmonition', () => {
     expect(node.data?.hName).toBe('aside');
     expect(node.data?.hProperties?.className).toContain('admonition');
     expect(node.data?.hProperties?.className).toContain('admonition-note');
-    expect(node.data?.hProperties?.['data-label']).toBe('NOTE');
+    expect(node.data?.hProperties?.['data-label']).toBe('Note');
   });
 
   it('[!WARNING] は warning クラスを付与する', () => {
@@ -51,7 +51,7 @@ describe('remarkAdmonition', () => {
 
     const node = runPlugin(tree).children[0];
     expect(node.data?.hProperties?.className).toContain('admonition-warning');
-    expect(node.data?.hProperties?.['data-label']).toBe('WARNING');
+    expect(node.data?.hProperties?.['data-label']).toBe('Warning');
   });
 
   it('[!CAUTION] は caution クラスを付与する', () => {
@@ -72,7 +72,7 @@ describe('remarkAdmonition', () => {
 
     const node = runPlugin(tree).children[0];
     expect(node.data?.hProperties?.className).toContain('admonition-caution');
-    expect(node.data?.hProperties?.['data-label']).toBe('CAUTION');
+    expect(node.data?.hProperties?.['data-label']).toBe('Caution');
   });
 
   it('警告ラベル除去後のテキストを保持する', () => {
@@ -94,7 +94,7 @@ describe('remarkAdmonition', () => {
     const node = runPlugin(tree).children[0];
     expect(node.data?.hName).toBe('aside');
     expect(node.data?.hProperties?.className).toContain('admonition-tip');
-    expect(node.data?.hProperties?.['data-label']).toBe('TIP');
+    expect(node.data?.hProperties?.['data-label']).toBe('Tip');
 
     const paragraph = node.children[0];
     const text = paragraph.children[0];
