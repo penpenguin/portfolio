@@ -1,14 +1,33 @@
 const DIRECTIVE_CONFIG = {
-  note: { icon: '📝', className: 'admonition-note', label: 'note' },
-  info: { icon: 'ℹ️', className: 'admonition-info', label: 'info' },
-  tip: { icon: '💡', className: 'admonition-tip', label: 'tip' },
-  warn: { icon: '⚠️', className: 'admonition-warning', label: 'warning' },
-  warning: { icon: '⚠️', className: 'admonition-warning', label: 'warning' },
-  caution: { icon: '⚠️', className: 'admonition-warning', label: 'warning' },
-  important: { icon: '❗️', className: 'admonition-important', label: 'important' },
+  note: { className: 'admonition-note', label: 'note' },
+  tip: { className: 'admonition-tip', label: 'tip' },
+  warning: { className: 'admonition-warning', label: 'warning' },
+  caution: { className: 'admonition-caution', label: 'caution' },
+  important: { className: 'admonition-important', label: 'important' },
 };
 
-const SUPPORTED = new Set(Object.keys(DIRECTIVE_CONFIG));
+const GITHUB_LABEL_REGEX = /^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i;
+
+const applyAdmonition = (node, config) => {
+  const data = node.data || (node.data = {});
+  const properties = data.hProperties || {};
+  const classSource = properties.className || properties.class;
+  const classList = Array.isArray(classSource)
+    ? classSource
+    : classSource
+      ? [classSource]
+      : [];
+
+  data.hName = 'aside';
+  data.hProperties = {
+    ...properties,
+    role: 'note',
+    className: [...classList, 'admonition', config.className],
+    'aria-label': config.label,
+    'data-label': config.label.toUpperCase(),
+  };
+  node.data = data;
+};
 
 const walk = (node, visitor) => {
   visitor(node);
@@ -20,32 +39,29 @@ const walk = (node, visitor) => {
 export const remarkAdmonition = () => {
   return (tree) => {
     walk(tree, (node) => {
-      const isContainer = node?.type === 'containerDirective';
-      const isLeaf = node?.type === 'leafDirective';
-      if (!(isContainer || isLeaf) || !SUPPORTED.has(node.name)) {
-        return;
+      if (node?.type === 'blockquote') {
+        const firstChild = node.children?.[0];
+        if (firstChild?.type === 'paragraph' && Array.isArray(firstChild.children)) {
+          const firstText = firstChild.children.find(
+            (child) => child.type === 'text' && typeof child.value === 'string',
+          );
+
+          const match = firstText?.value.match(GITHUB_LABEL_REGEX);
+          if (match) {
+            const normalized = match[1].toLowerCase();
+            const config = DIRECTIVE_CONFIG[normalized];
+            if (config) {
+              firstText.value = firstText.value.slice(match[0].length).replace(/^\s*/, '');
+              if (!firstText.value) {
+                firstChild.children = firstChild.children.filter((child) => child !== firstText);
+              }
+
+              applyAdmonition(node, config);
+              return;
+            }
+          }
+        }
       }
-
-      const config = DIRECTIVE_CONFIG[node.name];
-      const data = node.data || (node.data = {});
-      const properties = data.hProperties || {};
-      const classSource = properties.className || properties.class;
-      const classList = Array.isArray(classSource)
-        ? classSource
-        : classSource
-          ? [classSource]
-          : [];
-
-      data.hName = isLeaf ? 'span' : 'aside';
-      data.hProperties = {
-        ...properties,
-        role: 'note',
-        className: [...classList, 'admonition', config.className],
-        'aria-label': config.label,
-        'data-icon': config.icon,
-      };
-      // children are kept as-is; layout handled by CSS
-      node.data = data;
     });
   };
 };
