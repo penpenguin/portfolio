@@ -5,6 +5,9 @@ pubDate: 2025-11-21
 tags: ['google', 'antigravity', 'gemini3', 'agent', 'ide']
 ---
 
+> [!NOTE]
+> この記事はAIが書き、人間がレビューしています
+
 # Google Antigravityとは？Gemini 3時代の「エージェントファーストIDE」をざっくり解説
 
 2025年11月18日、Googleが新しい大規模モデル「Gemini 3」と同時に発表したのが、AIエージェント前提の開発環境**Google Antigravity**です。([Wikipedia][1])

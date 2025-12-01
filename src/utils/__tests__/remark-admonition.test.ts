@@ -9,7 +9,109 @@ const runPlugin = (tree: any) => {
 };
 
 describe('remarkAdmonition', () => {
-  it('noteディレクティブをアクセシブルな注釈コンポーネントに変換する', () => {
+  it('[!NOTE] をアクセシブルな注釈コンポーネントに変換する', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        {
+          type: 'blockquote',
+          children: [
+            {
+              type: 'paragraph',
+              children: [{ type: 'text', value: '[!NOTE] メモ' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    const node = runPlugin(tree).children[0];
+
+    expect(node.data?.hName).toBe('aside');
+    expect(node.data?.hProperties?.className).toContain('admonition');
+    expect(node.data?.hProperties?.className).toContain('admonition-note');
+    expect(node.data?.hProperties?.['data-label']).toBe('Note');
+  });
+
+  it('[!WARNING] は warning クラスを付与する', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        {
+          type: 'blockquote',
+          children: [
+            {
+              type: 'paragraph',
+              children: [{ type: 'text', value: '[!WARNING] 危険' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    const node = runPlugin(tree).children[0];
+    expect(node.data?.hProperties?.className).toContain('admonition-warning');
+    expect(node.data?.hProperties?.['data-label']).toBe('Warning');
+  });
+
+  it('[!CAUTION] は caution クラスを付与する', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        {
+          type: 'blockquote',
+          children: [
+            {
+              type: 'paragraph',
+              children: [{ type: 'text', value: '[!CAUTION] 注意' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    const node = runPlugin(tree).children[0];
+    expect(node.data?.hProperties?.className).toContain('admonition-caution');
+    expect(node.data?.hProperties?.['data-label']).toBe('Caution');
+  });
+
+  it('警告ラベル除去後のテキストを保持する', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        {
+          type: 'blockquote',
+          children: [
+            {
+              type: 'paragraph',
+              children: [{ type: 'text', value: '[!TIP] 一言メモ' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    const node = runPlugin(tree).children[0];
+    expect(node.data?.hName).toBe('aside');
+    expect(node.data?.hProperties?.className).toContain('admonition-tip');
+    expect(node.data?.hProperties?.['data-label']).toBe('Tip');
+
+    const paragraph = node.children[0];
+    const text = paragraph.children[0];
+    expect(text.value).toBe('一言メモ');
+  });
+
+  it('非対応ディレクティブは素通しする', () => {
+    const tree = {
+      type: 'root',
+      children: [{ type: 'containerDirective', name: 'unknown', children: [] }],
+    };
+
+    const node = runPlugin(tree).children[0];
+    expect(node.data).toBeUndefined();
+  });
+
+  it('従来のディレクティブ記法は変換せず素通しする', () => {
     const tree = {
       type: 'root',
       children: [
@@ -21,52 +123,24 @@ describe('remarkAdmonition', () => {
       ],
     };
 
-    const { children } = runPlugin(tree);
-    const node = children[0];
-
-    expect(node.data?.hName).toBe('aside');
-    expect(node.data?.hProperties?.className).toContain('admonition');
-    expect(node.data?.hProperties?.className).toContain('admonition-note');
-    expect(node.data?.hProperties?.['data-icon']).toBe('📝');
+    const node = runPlugin(tree).children[0];
+    expect(node.data).toBeUndefined();
   });
 
-  it('leafディレクティブもspanで処理される', () => {
+  it('[!INFO] は未対応として素通しする', () => {
     const tree = {
       type: 'root',
       children: [
         {
-          type: 'leafDirective',
-          name: 'tip',
-          children: [{ type: 'text', value: '一言メモ' }],
+          type: 'blockquote',
+          children: [
+            {
+              type: 'paragraph',
+              children: [{ type: 'text', value: '[!INFO] 情報' }],
+            },
+          ],
         },
       ],
-    };
-
-    const node = runPlugin(tree).children[0];
-    expect(node.data?.hName).toBe('span');
-    expect(node.data?.hProperties?.className).toContain('admonition-tip');
-    expect(node.data?.hProperties?.['data-icon']).toBe('💡');
-  });
-
-  it('warn / warning / caution は warning にマッピングする', () => {
-    const aliases = ['warn', 'warning', 'caution'];
-
-    aliases.forEach((name) => {
-      const tree = {
-        type: 'root',
-        children: [{ type: 'containerDirective', name, children: [] }],
-      };
-
-      const node = runPlugin(tree).children[0];
-      expect(node.data?.hProperties?.className).toContain('admonition-warning');
-      expect(node.data?.hProperties?.['data-icon']).toBe('⚠️');
-    });
-  });
-
-  it('非対応ディレクティブは素通しする', () => {
-    const tree = {
-      type: 'root',
-      children: [{ type: 'containerDirective', name: 'unknown', children: [] }],
     };
 
     const node = runPlugin(tree).children[0];
