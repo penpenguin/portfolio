@@ -5,6 +5,9 @@ pubDate: 2025-11-21
 tags: ['git', 'worktree', 'agent']
 ---
 
+> [!NOTE]
+> この記事はAIが書き、人間がレビューしています
+
 公式リポジトリ: https://github.com/coderabbitai/git-worktree-runner
 
 ここに書いているのはあくまで一例です。プロジェクトの規模や使っている AI / エディタにあわせて、ほどよく削ったり足したりしてください。

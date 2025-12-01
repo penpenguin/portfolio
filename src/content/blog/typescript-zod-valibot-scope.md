@@ -5,10 +5,10 @@ pubDate: 2025-11-21
 tags: ['typescript', 'zod', 'valibot']
 ---
 
-## Type だけじゃダメ？Zod / Valibot が必要になる理由を整理する
-
 > [!NOTE]
 > この記事はAIが書き、人間がレビューしています
+
+## Type だけじゃダメ？Zod / Valibot が必要になる理由を整理する
 
 「**普通に `type` で型をつければよくない？**」
 
