@@ -14,9 +14,9 @@ const getRuleBody = (selector: string) => {
 describe('career timeline glass palette', () => {
   it('タイムラインマーカーがセンターに配置される', () => {
     const marker = getRuleBody('\\.timeline-marker');
-    expect(marker).toContain('left: 31px;');
+    expect(marker).toContain('left: calc(var(--timeline-line-x) - var(--timeline-dot-size) / 2);');
     expect(marker).toContain('top: 50%;');
-    expect(marker).toContain('transform: translate(-50%, -50%);');
+    expect(marker).toContain('transform: translateY(-50%);');
   });
 
   it('タイムラインドットのベースカラーがガラス調トーンを参照する', () => {

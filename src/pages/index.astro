@@ -115,12 +115,16 @@ import Link from '../components/Link.astro';
     position: relative;
     display: flex;
     justify-content: center;
+    width: 100%;
   }
 
   .floating-card {
     padding: var(--space-lg);
     border-radius: var(--radius-xl);
     animation: float 6s ease-in-out infinite;
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
   }
 
   .code-snippet {
@@ -205,6 +209,20 @@ import Link from '../components/Link.astro';
     .hero-buttons {
       justify-content: center;
       flex-wrap: wrap;
+    }
+
+    .floating-card {
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .hero-visual {
+      justify-content: center;
+    }
+
+    .code-snippet {
+      width: 100%;
     }
   }
 </style>

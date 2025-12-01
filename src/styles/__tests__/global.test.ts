@@ -51,4 +51,9 @@ describe('global.css カラーパレット', () => {
     expect(getRuleValue('::-webkit-scrollbar-thumb', 'background')).toBe('var(--scrollbar-thumb)');
     expect(getRuleValue('::-webkit-scrollbar-thumb:hover', 'background')).toBe('var(--scrollbar-thumb-hover)');
   });
+
+  it('コードブロックがモバイルでもはみ出さずに折り返される', () => {
+    expect(getRuleValue('pre', 'white-space')).toBe('pre-wrap');
+    expect(getRuleValue('pre', 'word-break')).toBe('break-word');
+  });
 });
