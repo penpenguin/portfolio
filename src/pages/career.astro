@@ -489,6 +489,9 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .timeline {
+    --timeline-line-x: 30px;
+    --timeline-dot-size: 20px;
+
     position: relative;
     max-width: 800px;
     margin: 0 auto;
@@ -498,7 +501,7 @@ import Layout from '../layouts/Layout.astro';
     content: '';
     position: absolute;
     top: 0;
-    left: 30px;
+    left: var(--timeline-line-x);
     width: 2px;
     height: 100%;
     background: linear-gradient(
@@ -513,16 +516,18 @@ import Layout from '../layouts/Layout.astro';
   .timeline-item {
     position: relative;
     margin-bottom: var(--space-2xl);
-    padding-left: 80px;
+    padding-left: calc(
+      var(--timeline-line-x) + var(--timeline-dot-size) + var(--space-sm)
+    );
   }
 
   .timeline-marker {
     position: absolute;
-    left: 31px;
+    left: calc(var(--timeline-line-x) - var(--timeline-dot-size) / 2);
     top: 50%;
-    width: 20px;
-    height: 20px;
-    transform: translate(-50%, -50%);
+    width: var(--timeline-dot-size);
+    height: var(--timeline-dot-size);
+    transform: translateY(-50%);
   }
 
   .timeline-dot {
@@ -670,24 +675,13 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
+    .timeline {
+      --timeline-line-x: 18px;
+      --timeline-dot-size: 18px;
+    }
+
     .hero-content h1 {
       font-size: var(--font-size-4xl);
-    }
-
-    .timeline {
-      padding-left: var(--space-md);
-    }
-
-    .timeline::before {
-      left: 10px;
-    }
-
-    .timeline-item {
-      padding-left: 60px;
-    }
-
-    .timeline-marker {
-      left: 11px;
     }
 
     .timeline-content {

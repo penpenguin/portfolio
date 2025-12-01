@@ -393,6 +393,8 @@ pre {
   padding: var(--space-md);
   overflow-x: auto;
   margin: var(--space-md) 0;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 code {
