@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Link from '../../components/Link.astro';
 import { getCollection } from 'astro:content';
+import { formatDate } from '../../utils/formatDate';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -35,22 +36,11 @@ const projectHeroClass = project.data.heroImage
 
             <div class="project-info">
               <div class="project-date">
-                Published: {
-                  project.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                }
+                Published: {formatDate(project.data.pubDate)}
                 {
                   project.data.updatedDate && (
                     <span class="updated">
-                      • Updated:{' '}
-                      {project.data.updatedDate.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                      • Updated: {formatDate(project.data.updatedDate)}
                     </span>
                   )
                 }
