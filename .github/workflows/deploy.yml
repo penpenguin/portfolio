@@ -36,6 +36,10 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    environment: github-pages
+    env:
+      PUBLIC_EMAIL: ${{ vars.PUBLIC_EMAIL }}
+      PUBLIC_GITHUB_URL: ${{ vars.PUBLIC_GITHUB_URL }}
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
