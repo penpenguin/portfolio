@@ -1,0 +1,265 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Link from '../../../../components/Link.astro';
+import { getCollection } from 'astro:content';
+import { sortPublishedPostsByDate } from '../../../../utils/blog';
+import { formatDate } from '../../../../utils/formatDate';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const months = new Set(
+    posts.map((post) => post.id.split('/').slice(0, 2).join('/'))
+  );
+
+  return Array.from(months).map((entry) => {
+    const [year, month] = entry.split('/');
+    return { params: { year, month } };
+  });
+}
+
+const { year, month } = Astro.params;
+const prefix = `${year}/${month}/`;
+const blogPosts = await getCollection('blog');
+const sortedPosts = sortPublishedPostsByDate(blogPosts);
+const posts = sortedPosts.filter((post) => post.id.startsWith(prefix));
+const title = `${year}/${month}`;
+---
+
+<Layout title={`${title} - Blog`}>
+  <section class="blog-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>{title}</h1>
+        <p>月別アーカイブ</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blog-content">
+    <div class="container">
+      <div class="archive-header">
+        <Link href="/blog" class="btn btn-glass">← ブログ一覧に戻る</Link>
+      </div>
+      {
+        posts.length > 0 ? (
+          <div class="posts-grid">
+            {posts.map((post) => (
+              <article class="post-card card card-glass">
+                <div class="post-header">
+                  {post.data.heroImage && (
+                    <img
+                      src={post.data.heroImage}
+                      alt={post.data.title}
+                      class="post-image"
+                    />
+                  )}
+                  <div class="post-meta">
+                    <h2>
+                      <Link href={`/blog/${post.id}`}>{post.data.title}</Link>
+                    </h2>
+                    <p class="post-date">{formatDate(post.data.pubDate)}</p>
+                  </div>
+                </div>
+
+                <div class="post-content">
+                  <p class="post-description">{post.data.description}</p>
+
+                  {post.data.tags && (
+                    <div class="post-tags">
+                      {post.data.tags.map((tag) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  <Link href={`/blog/${post.id}`} class="read-more btn btn-glass">
+                    Read More →
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-state glass">
+            <div class="empty-content">
+              <div class="empty-icon">📝</div>
+              <h2>準備中</h2>
+              <p>この月の投稿はまだありません。</p>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .blog-hero {
+    padding: var(--space-2xl) 0;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: var(--font-size-5xl);
+    margin-bottom: var(--space-md);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-content p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-lg) 0;
+  }
+
+  .blog-content {
+    padding: var(--space-2xl) 0;
+  }
+
+  .archive-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+  }
+
+  .archive-header .btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .post-card {
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-8px);
+  }
+
+  .post-header {
+    position: relative;
+  }
+
+  .post-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .post-meta {
+    padding: var(--space-lg);
+    padding-bottom: var(--space-md);
+  }
+
+  .post-meta h2 {
+    margin: 0 0 var(--space-xs) 0;
+  }
+
+  .post-meta h2 a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .post-meta h2 a:hover {
+    color: var(--text-accent);
+  }
+
+  .post-date {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+  }
+
+  .post-content {
+    padding: 0 var(--space-lg) var(--space-lg);
+  }
+
+  .post-description {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-lg);
+  }
+
+  .tag {
+    background: var(--glass-bg);
+    color: var(--text-accent);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    border: 1px solid var(--glass-border);
+  }
+
+  .read-more {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .empty-state {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .empty-content h2 {
+    color: var(--text-primary);
+    font-size: var(--font-size-3xl);
+    margin: 0;
+  }
+
+  .empty-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 var(--space-lg) 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: var(--font-size-4xl);
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .empty-state {
+      padding: var(--space-lg);
+    }
+  }
+</style>

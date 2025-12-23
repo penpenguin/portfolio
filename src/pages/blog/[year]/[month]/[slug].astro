@@ -1,31 +1,37 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Link from '../../components/Link.astro';
-import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
-import { formatDate } from '../../utils/formatDate';
+import Layout from '../../../../layouts/Layout.astro';
+import Link from '../../../../components/Link.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { formatDate } from '../../../../utils/formatDate';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-  }));
+  return posts.map((post) => {
+    const [year, month, ...rest] = post.id.split('/');
+    const slug = rest.join('/');
+
+    return { params: { year, month, slug } };
+  });
 }
 
+const year = Astro.params.year;
+const month = Astro.params.month;
 const slug = Astro.params.slug;
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const entry = slug
-  ? (posts.find((post) => post.slug === slug) as CollectionEntry<'blog'> | undefined)
-  : undefined;
+
+if (!year || !month || !slug) {
+  throw new Response(null, { status: 404 });
+}
+
+const id = `${year}/${month}/${slug}`;
+const entry = await getEntry('blog', id);
 
 if (!entry) {
   throw new Response(null, { status: 404 });
 }
 
-const { title, description, pubDate, updatedDate, heroImage, tags } =
-  entry.data;
-const { Content } = await entry.render();
+const { title, description, pubDate, updatedDate, heroImage, tags } = entry.data;
+const { Content } = await render(entry);
 const heroClass = heroImage
   ? 'article-hero'
   : 'article-hero article-hero--single';
@@ -330,7 +336,6 @@ const heroClass = heroImage
     --admonition-color: #f85149;
     --admonition-icon-url: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='currentColor' d='M6.343 1.75h3.314a1.75 1.75 0 0 1 1.237.513l2.843 2.843c.329.329.513.776.513 1.237v3.314a1.75 1.75 0 0 1-.513 1.237l-2.843 2.843a1.75 1.75 0 0 1-1.237.513H6.343a1.75 1.75 0 0 1-1.237-.513L2.263 10.9a1.75 1.75 0 0 1-.513-1.237V6.343c0-.461.184-.908.513-1.237l2.843-2.843A1.75 1.75 0 0 1 6.343 1.75Zm3.314-1.5H6.343a3.25 3.25 0 0 0-2.318.96L1.182 5.053A3.25 3.25 0 0 0 .223 7.37v3.314a3.25 3.25 0 0 0 .96 2.318l2.843 2.843a3.25 3.25 0 0 0 2.317.96h3.314a3.25 3.25 0 0 0 2.318-.96l2.843-2.843a3.25 3.25 0 0 0 .96-2.318V7.37a3.25 3.25 0 0 0-.96-2.318L11.975 1.21a3.25 3.25 0 0 0-2.318-.96ZM5.5 6.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0Zm6.5 0a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0Z'/></svg>");
   }
-
 
   .article-footer {
     padding-bottom: var(--space-2xl);
