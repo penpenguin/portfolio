@@ -4,14 +4,14 @@ import type { CollectionEntry } from 'astro:content';
 import { sortPublishedPostsByDate } from '../blog';
 
 const buildPost = (
-  slug: string,
+  id: string,
   pubDate: string,
   draft = false
 ): CollectionEntry<'blog'> =>
   ({
-    slug,
+    id,
     data: {
-      title: slug,
+      title: id,
       description: '',
       pubDate: new Date(pubDate),
       draft,
@@ -28,6 +28,6 @@ describe('sortPublishedPostsByDate', () => {
 
     const sorted = sortPublishedPostsByDate(posts);
 
-    expect(sorted.map((post) => post.slug)).toEqual(['latest', 'first']);
+    expect(sorted.map((post) => post.id)).toEqual(['latest', 'first']);
   });
 });

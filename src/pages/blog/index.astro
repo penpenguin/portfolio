@@ -7,6 +7,15 @@ import { formatDate } from '../../utils/formatDate';
 
 const blogPosts = await getCollection('blog');
 const sortedPosts = sortPublishedPostsByDate(blogPosts);
+const latestMonth = sortedPosts[0]
+  ? sortedPosts[0].id.split('/').slice(0, 2).join('/')
+  : null;
+const latestPosts = latestMonth
+  ? sortedPosts.filter((post) => post.id.startsWith(`${latestMonth}/`))
+  : [];
+const months = Array.from(
+  new Set(sortedPosts.map((post) => post.id.split('/').slice(0, 2).join('/')))
+).sort().reverse();
 ---
 
 <Layout title="Blog - Portfolio">
@@ -25,47 +34,61 @@ const sortedPosts = sortPublishedPostsByDate(blogPosts);
   <section class="blog-content">
     <div class="container">
       {
-        sortedPosts.length > 0 ? (
-          <div class="posts-grid">
-            {sortedPosts.map((post) => (
-              <article class="post-card card card-glass">
-                <div class="post-header">
-                  {post.data.heroImage && (
-                    <img
-                      src={post.data.heroImage}
-                      alt={post.data.title}
-                      class="post-image"
-                    />
-                  )}
-                  <div class="post-meta">
-                    <h2>
-                      <Link href={`/blog/${post.slug}`}>{post.data.title}</Link>
-                    </h2>
-                    <p class="post-date">{formatDate(post.data.pubDate)}</p>
-                  </div>
-                </div>
-
-                <div class="post-content">
-                  <p class="post-description">{post.data.description}</p>
-
-                  {post.data.tags && (
-                    <div class="post-tags">
-                      {post.data.tags.map((tag) => (
-                        <span class="tag">{tag}</span>
-                      ))}
+        latestPosts.length > 0 ? (
+          <>
+            <div class="posts-grid">
+              {latestPosts.map((post) => (
+                <article class="post-card card card-glass">
+                  <div class="post-header">
+                    {post.data.heroImage && (
+                      <img
+                        src={post.data.heroImage}
+                        alt={post.data.title}
+                        class="post-image"
+                      />
+                    )}
+                    <div class="post-meta">
+                      <h2>
+                        <Link href={`/blog/${post.id}`}>{post.data.title}</Link>
+                      </h2>
+                      <p class="post-date">{formatDate(post.data.pubDate)}</p>
                     </div>
-                  )}
+                  </div>
 
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    class="read-more btn btn-glass"
-                  >
-                    Read More →
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
+                  <div class="post-content">
+                    <p class="post-description">{post.data.description}</p>
+
+                    {post.data.tags && (
+                      <div class="post-tags">
+                        {post.data.tags.map((tag) => (
+                          <span class="tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    <Link
+                      href={`/blog/${post.id}`}
+                      class="read-more btn btn-glass"
+                    >
+                      Read More →
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+            {months.length > 0 && (
+              <div class="archive">
+                <h2>月別アーカイブ</h2>
+                <ul class="month-list">
+                  {months.map((month) => (
+                    <li>
+                      <Link href={`/blog/${month}`}>{month}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </>
         ) : (
           <div class="empty-state glass">
             <div class="empty-content">
@@ -197,6 +220,42 @@ const sortedPosts = sortPublishedPostsByDate(blogPosts);
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
+  }
+
+  .archive {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .archive h2 {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--font-size-2xl);
+  }
+
+  .month-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .month-list a {
+    display: inline-flex;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .month-list a:hover {
+    color: var(--text-accent);
+    border-color: var(--text-accent);
   }
 
   .empty-state {
