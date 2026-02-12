@@ -4,6 +4,7 @@ title: 'AVATAR UIって何？「アバターUI」と「AVATAR UI（OSS）」の2
 description: '同じ言葉に見えて、指しているものが違う。UIデザインの「アバター」と、Sito Sikino氏が公開しているデスクトップ向けOSS「AVATAR UI」を分けて整理します。'
 pubDate: 2026-01-14
 tags: ['UI', 'AI', 'オープンソース']
+impression: 'ここが特に実務で効くポイントだと感じました。'
 ---
 
 > [!NOTE]

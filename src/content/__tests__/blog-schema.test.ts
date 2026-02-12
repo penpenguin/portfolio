@@ -13,4 +13,9 @@ describe('blog collection schema', () => {
     const config = loadConfig();
     expect(config).toMatch(/draft:\s*z\.boolean/);
   });
+
+  it('declares optional impression field for per-post note', () => {
+    const config = loadConfig();
+    expect(config).toMatch(/impression:\s*z\.string\(\)\.optional\(\)/);
+  });
 });

@@ -28,7 +28,9 @@ describe('ブログ機能', () => {
   it('ブログ一覧は公開済み記事を降順で取得する', () => {
     const index = load('../blog/index.astro');
     expect(index).toContain('sortPublishedPostsByDate');
-    expect(index).toContain('const sortedPosts = sortPublishedPostsByDate(blogPosts);');
+    expect(index).toContain(
+      'const sortedPosts = sortPublishedPostsByDate(blogPosts);'
+    );
   });
 
   it('ブログ一覧は最新月のみを表示する', () => {
@@ -49,7 +51,9 @@ describe('ブログ機能', () => {
 
   it('ブログ詳細ページはgetStaticPathsでdraftを除外してプリレンダーする', () => {
     const detailPage = load('../blog/[year]/[month]/[slug].astro');
-    expect(detailPage).toMatch(/export\s+(const|async function)\s+getStaticPaths/);
+    expect(detailPage).toMatch(
+      /export\s+(const|async function)\s+getStaticPaths/
+    );
     expect(detailPage).toMatch(/!data\.draft/);
     expect(detailPage).toMatch(/params:\s*\{\s*year,\s*month,\s*slug\s*\}/);
   });
@@ -89,12 +93,76 @@ describe('ブログ機能', () => {
 
   it('ブログ詳細のタグpillが小さめのフォントサイズで表示される', () => {
     const detailPage = load('../blog/[year]/[month]/[slug].astro');
-    expect(detailPage).toMatch(/\.tag\s*\{[^}]*font-size:\s*var\(--font-size-xs\)/);
+    expect(detailPage).toMatch(
+      /\.tag\s*\{[^}]*font-size:\s*var\(--font-size-xs\)/
+    );
   });
 
   it('ブログ詳細の「ブログ一覧に戻る」ボタンがコンパクトなスタイル', () => {
     const detailPage = load('../blog/[year]/[month]/[slug].astro');
     expect(detailPage).toMatch(/\.breadcrumb\s*\.btn\s*\{/);
     expect(detailPage).toMatch(/font-size:\s*var\(--font-size-sm\)/);
+  });
+
+  it('ブログ詳細ページは記事ごとの感想吹き出しを条件付きで表示する', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).toContain('impression');
+    expect(detailPage).toContain('author-impression');
+    expect(detailPage).toMatch(/\{\s*impression\s*&&\s*\(/);
+  });
+
+  it('感想吹き出しはpenpenguinのGitHubプロフィール画像を参照する', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).toContain('https://github.com/penpenguin.png');
+    expect(detailPage).toContain('author-impression__avatar');
+  });
+
+  it('感想吹き出しはしっぽを描画しない', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).not.toMatch(/\.author-impression__content::before\s*\{/);
+    expect(detailPage).not.toMatch(/\.author-impression__content::after\s*\{/);
+  });
+
+  it('吹き出し本体にしっぽ用スタイルを残さない', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).not.toMatch(
+      /\.author-impression__content\s*\{[^}]*clip-path:\s*polygon\(0\s+50%,\s*100%\s+0,\s*100%\s+100%\)/
+    );
+    expect(detailPage).not.toMatch(
+      /\.author-impression__content\s*\{[^}]*border-right:\s*0/
+    );
+  });
+
+  it('感想吹き出しのアイコンは44pxの丸で表示される', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).toMatch(
+      /\.author-impression__avatar\s*\{[^}]*border-radius:\s*999px/
+    );
+    expect(detailPage).toMatch(
+      /\.author-impression__avatar\s*\{[^}]*width:\s*44px/
+    );
+    expect(detailPage).toMatch(
+      /\.author-impression__avatar\s*\{[^}]*height:\s*44px/
+    );
+  });
+
+  it('感想吹き出し本体はcard-glassに近いトークンで表示される', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).toMatch(
+      /\.author-impression__content\s*\{[^}]*background:\s*var\(--glass-bg\)/
+    );
+    expect(detailPage).toMatch(
+      /\.author-impression__content\s*\{[^}]*border:\s*1px\s+solid\s+var\(--glass-border\)/
+    );
+    expect(detailPage).toMatch(
+      /\.author-impression__content\s*\{[^}]*box-shadow:\s*var\(--shadow-glass\)/
+    );
+  });
+
+  it('スマホでも感想のアイコンと吹き出しは横並びを維持する', () => {
+    const detailPage = load('../blog/[year]/[month]/[slug].astro');
+    expect(detailPage).not.toMatch(
+      /@media\s*\(max-width:\s*768px\)[\s\S]*?\.author-impression\s*\{[^}]*grid-template-columns:\s*1fr/
+    );
   });
 });

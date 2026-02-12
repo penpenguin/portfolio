@@ -30,7 +30,15 @@ if (!entry) {
   throw new Response(null, { status: 404 });
 }
 
-const { title, description, pubDate, updatedDate, heroImage, tags } = entry.data;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  tags,
+  impression,
+} = entry.data;
 const { Content } = await render(entry);
 const heroClass = heroImage
   ? 'article-hero'
@@ -52,29 +60,33 @@ const heroClass = heroImage
             <p class="article-description">{description}</p>
 
             <div class="meta">
-              <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
-              {updatedDate && (
-                <span class="updated">
-                  Updated{' '}
-                  {formatDate(updatedDate)}
-                </span>
-              )}
+              <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time
+              >
+              {
+                updatedDate && (
+                  <span class="updated">Updated {formatDate(updatedDate)}</span>
+                )
+              }
             </div>
 
-            {tags && (
-              <div class="tag-list" aria-label="Tags">
-                {tags.map((tag: string) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-            )}
+            {
+              tags && (
+                <div class="tag-list" aria-label="Tags">
+                  {tags.map((tag: string) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )
+            }
           </div>
 
-          {heroImage && (
-            <div class="hero-wrapper">
-              <img src={heroImage} alt={title} loading="lazy" />
-            </div>
-          )}
+          {
+            heroImage && (
+              <div class="hero-wrapper">
+                <img src={heroImage} alt={title} loading="lazy" />
+              </div>
+            )
+          }
         </div>
       </div>
     </header>
@@ -89,6 +101,23 @@ const heroClass = heroImage
 
     <footer class="article-footer">
       <div class="container">
+        {
+          impression && (
+            <aside class="author-impression" aria-label="Author note">
+              <img
+                class="author-impression__avatar"
+                src="https://github.com/penpenguin.png?size=64"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="author-impression__content">
+                <p class="author-impression__label">My note</p>
+                <p class="author-impression__text">{impression}</p>
+              </div>
+            </aside>
+          )
+        }
         <Link href="/blog" class="btn btn-glass">← ブログ一覧に戻る</Link>
       </div>
     </footer>
@@ -116,6 +145,53 @@ const heroClass = heroImage
   .article-footer .btn {
     padding: var(--space-xs) var(--space-md);
     font-size: var(--font-size-sm);
+  }
+
+  .author-impression {
+    margin: 0 0 var(--space-md) 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-sm);
+    align-items: start;
+  }
+
+  .author-impression__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 1px solid rgba(31, 35, 40, 0.2);
+    display: block;
+    margin-top: 6px;
+  }
+
+  .author-impression__content {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .author-impression__label {
+    margin: 0 0 4px 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .author-impression__text {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.65;
   }
 
   .article-hero {
@@ -273,7 +349,11 @@ const heroClass = heroImage
     border-radius: 8px;
     border: 1px solid var(--glass-border);
     border-left: 6px solid var(--admonition-color);
-    background: color-mix(in srgb, var(--glass-bg) 85%, var(--admonition-color) 15%);
+    background: color-mix(
+      in srgb,
+      var(--glass-bg) 85%,
+      var(--admonition-color) 15%
+    );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     margin: var(--space-lg) 0;
@@ -366,6 +446,10 @@ const heroClass = heroImage
 
     .content-wrapper {
       padding: var(--space-lg);
+    }
+
+    .author-impression__avatar {
+      margin: 0 0 2px 0;
     }
   }
 </style>
