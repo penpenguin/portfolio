@@ -4,6 +4,7 @@ title: 'agent-browserとは？AIエージェントに「ブラウザの手足」
 description: 'Vercel Labsが公開しているagent-browserを、snapshotとrefという考え方を軸に、導入から使いどころまで自然体で解説します。'
 pubDate: 2026-01-14
 tags: ['AIエージェント', 'ブラウザ自動化', 'CLI', 'Playwright', 'Vercel']
+impression: 'まだ chrome dev tools mcp でいい様な気がする'
 ---
 
 > [!NOTE]

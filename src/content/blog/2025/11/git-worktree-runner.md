@@ -3,6 +3,7 @@ title: 'git-worktree-runner で並行開発をまわすサンプルメモ'
 description: 'AIエージェントと git worktree を組み合わせて、worktree ごとの依存インストールやインデックス作成を自動化するためのセットアップ例。'
 pubDate: 2025-11-21
 tags: ['git', 'worktree', 'agent']
+impression: '便利ではあるが、issueと連携しにくくprはコミットが必要なのでそれぞれのタスクを微妙に管理しづらいと思った。 '
 ---
 
 > [!NOTE]

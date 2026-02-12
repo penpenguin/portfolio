@@ -4,6 +4,7 @@ title: 'ChatGPT Pulseとは？仕組み・前提・使いどころをコンパ�
 description: 'ChatGPT Pro限定機能「ChatGPT Pulse」を、公式情報ベースでコンパクトに整理。何ができて、どう動き、どこに気をつけて使うべきかをまとめます（2025年12月1日時点）。'
 pubDate: 2025-12-01
 tags: ['ChatGPT', 'ChatGPT Pulse', 'AIツール', 'プロダクティビティ']
+impression: 'まあまあ便利'
 ---
 > [!NOTE]
 > この記事はAIが書き、人間がレビューしています

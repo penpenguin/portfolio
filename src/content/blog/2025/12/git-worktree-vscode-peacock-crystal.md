@@ -3,6 +3,7 @@ title: 'git worktreeで並行開発を回す：VS Code + Peacockとstravu/crysta
 description: 'VS CodeのWorktree機能を軸に、複数ブランチを同時に扱う開発フローを整理。Peacockで事故を防ぐやり方と、stravu/crystalでAIセッションをworktreeに分離して並走させるやり方を、用途別に比較する。'
 pubDate: 2025-12-22
 tags: ['git', 'worktree', 'vscode', 'peacock', 'crystal']
+impression: 'wslgで使用したところ、日本語が豆腐になってしまい使えなかった。'
 ---
 
 > [!NOTE]
