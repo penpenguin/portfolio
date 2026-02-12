@@ -10,7 +10,7 @@ describe('career content entry', () => {
 
     expect(content).toMatch(/timeline:\s*$/m);
     expect(content).toMatch(/title:\s*'通信設計管理システム開発'/);
-    expect(content).toMatch(/period:\s*'2023\.04 - 2025\.05'/);
+    expect(content).toMatch(/period:\s*'2023\.04 - 2025\.06'/);
     expect(content).toMatch(/role:\s*'サブリーダー \/ リードプログラマー'/);
     expect(content).toMatch(/teamSize:\s*'20名'/);
     expect(content).toMatch(/techStack:\s*$/m);
