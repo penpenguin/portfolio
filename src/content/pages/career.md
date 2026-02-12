@@ -1,7 +1,18 @@
 ---
 timeline:
+  - title: 'Azure RAG/FulltextSearch 構築支援'
+    period: '2025.07 - '
+    role: 'SRE'
+    description: '全文検索システム導入支援'
+    teamSize: '8名'
+    responsibilities: 'PoC、要件定義、設計、実装、テスト、運用、インフラ構築'
+    techStack:
+      - 'Azure AI Search'
+      - 'Azure OpenAI'
+      - 'Java'
+      - 'React'
   - title: '通信設計管理システム開発'
-    period: '2023.04 - 2025.05'
+    period: '2023.04 - 2025.06'
     role: 'サブリーダー / リードプログラマー'
     description: '通信設計情報を統合管理するWebシステム新規開発'
     teamSize: '20名'
