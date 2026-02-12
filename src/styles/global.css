@@ -370,11 +370,11 @@ a:hover {
   }
 
   body {
-    padding: 0 var(--space-md);
+    padding: 0 var(--space-xs);
   }
 
   .container {
-    padding: 0 var(--space-md);
+    padding: 0 var(--space-xs);
   }
 
   .grid-2,

@@ -197,6 +197,10 @@ import Link from '../components/Link.astro';
   }
 
   @media (max-width: 768px) {
+    .hero {
+      padding: var(--space-xl) 0;
+    }
+
     .hero-content {
       grid-template-columns: 1fr;
       text-align: center;
@@ -223,6 +227,7 @@ import Link from '../components/Link.astro';
 
     .code-snippet {
       width: 100%;
+      text-align: left;
     }
   }
 </style>

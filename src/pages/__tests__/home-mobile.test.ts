@@ -13,9 +13,11 @@ describe('Home モバイルレイアウト', () => {
   it('ヒーローのコードカード幅が画面に収まる', () => {
     const mobileStyles = getMobileBlock();
     expect(mobileStyles).not.toBe('');
+    expect(mobileStyles).toContain('padding: var(--space-xl) 0');
     expect(mobileStyles).toContain('max-width: 520px');
     expect(mobileStyles).toContain('width: 100%');
     expect(mobileStyles).toContain('.hero-visual');
     expect(mobileStyles).toContain('justify-content: center');
+    expect(mobileStyles).toContain('text-align: left');
   });
 });

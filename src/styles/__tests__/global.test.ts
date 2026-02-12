@@ -19,6 +19,36 @@ const getRuleValue = (selector: string, property: string) => {
   return match ? match[1].trim() : null;
 };
 
+const getMobileRuleValue = (selector: string, property: string) => {
+  const mediaStartPattern = /@media\s*\(max-width:\s*768px\)\s*{/;
+  const startMatch = css.match(mediaStartPattern);
+  if (!startMatch || startMatch.index === undefined) {
+    return null;
+  }
+
+  const startIndex = startMatch.index + startMatch[0].length;
+  let depth = 1;
+  let cursor = startIndex;
+
+  while (cursor < css.length && depth > 0) {
+    const char = css[cursor];
+    if (char === '{') {
+      depth += 1;
+    }
+    if (char === '}') {
+      depth -= 1;
+    }
+    cursor += 1;
+  }
+
+  const mobileBlock = css.slice(startIndex, cursor - 1);
+  const selectorPattern = escapeRegex(selector);
+  const propertyPattern = escapeRegex(property);
+  const pattern = new RegExp(`${selectorPattern}\\s*{[^}]*${propertyPattern}\\s*:\\s*([^;]+);`);
+  const match = mobileBlock.match(pattern);
+  return match ? match[1].trim() : null;
+};
+
 describe('global.css カラーパレット', () => {
   it('ベース背景がホワイトトーンになっている', () => {
     expect(getVar('--primary-bg')).toBe('#f5f7fd');
@@ -55,5 +85,10 @@ describe('global.css カラーパレット', () => {
   it('コードブロックがモバイルでもはみ出さずに折り返される', () => {
     expect(getRuleValue('pre', 'white-space')).toBe('pre-wrap');
     expect(getRuleValue('pre', 'word-break')).toBe('break-word');
+  });
+
+  it('モバイルでは画面外側の余白を詰める', () => {
+    expect(getMobileRuleValue('body', 'padding')).toBe('0 var(--space-xs)');
+    expect(getMobileRuleValue('.container', 'padding')).toBe('0 var(--space-xs)');
   });
 });
