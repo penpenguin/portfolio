@@ -1,5 +1,14 @@
 ---
+import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+const careerEntry = await getEntry('career', 'career');
+
+if (!careerEntry) {
+  throw new Error('Missing career content entry: src/content/pages/career.md');
+}
+
+const { timeline } = careerEntry.data;
 ---
 
 <Layout title="Career - Portfolio">
@@ -18,426 +27,39 @@ import Layout from '../layouts/Layout.astro';
   <section class="career-content">
     <div class="container">
       <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-marker current">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>通信設計管理システム開発</h3>
-              <span class="timeline-period">2023.04 - 2025.05</span>
-              <span class="timeline-role">サブリーダー / リードプログラマー</span>
+        {timeline.map((item, index) => (
+          <div class="timeline-item">
+            <div class:list={['timeline-marker', { current: index === 0 }]}>
+              <div class="timeline-dot"></div>
             </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                通信設計情報を統合管理するWebシステム新規開発
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 20名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 要件定義、設計、実装、テスト、運用、インフラ構築
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Java 21</span>
-                    <span class="tech-tag">Quarkus</span>
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">TypeScript</span>
-                    <span class="tech-tag">MUI</span>
-                    <span class="tech-tag">Azure</span>
-                    <span class="tech-tag">ArangoDB</span>
-                    <span class="tech-tag">Azure Functions</span>
-                    <span class="tech-tag">GitLab</span>
-                    <span class="tech-tag">ARO</span>
+            <div class="timeline-content card-glass">
+              <div class="timeline-header">
+                <h3>{item.title}</h3>
+                <span class="timeline-period">{item.period}</span>
+                <span class="timeline-role">{item.role}</span>
+              </div>
+              <div class="timeline-body">
+                <p class="project-description">{item.description}</p>
+                <div class="project-details">
+                  <div class="detail-item">
+                    <strong>チーム規模:</strong> {item.teamSize}
+                  </div>
+                  <div class="detail-item">
+                    <strong>主な業務:</strong> {item.responsibilities}
+                  </div>
+                  <div class="detail-item">
+                    <strong>技術スタック:</strong>
+                    <div class="tech-tags">
+                      {item.techStack.map((tech) => (
+                        <span class="tech-tag">{tech}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>シミュレーション管理システム 維持・テスト自動化</h3>
-              <span class="timeline-period">2022.09 - 2023.03</span>
-              <span class="timeline-role">リーダー / リードプログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                シミュレーション管理システム CI/CD & テスト自動化
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 3名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> E2Eテスト設計、CI整備、機能追加
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Nuxt.js</span>
-                    <span class="tech-tag">Jest</span>
-                    <span class="tech-tag">Ruby on Rails</span>
-                    <span class="tech-tag">RSpec</span>
-                    <span class="tech-tag">PostgreSQL</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>組み合わせ選択システム開発</h3>
-              <span class="timeline-period">2022.01 - 2022.09</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                製品組合せ最適化Webサービス新規開発
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 6名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 設計、実装、テスト
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">TypeScript</span>
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">Ant Design</span>
-                    <span class="tech-tag">Node.js</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>シミュレーション管理システム機能開発</h3>
-              <span class="timeline-period">2021.06 - 2021.12</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                シミュレーションJob登録連携機能追加
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 2名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 設計、実装、テスト
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Docker</span>
-                    <span class="tech-tag">Nuxt.js</span>
-                    <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">Ruby on Rails</span>
-                    <span class="tech-tag">PostgreSQL</span>
-                    <span class="tech-tag">Apache</span>
-                    <span class="tech-tag">Passenger</span>
-                    <span class="tech-tag">Shibboleth</span>
-                    <span class="tech-tag">OpenAM</span>
-                    <span class="tech-tag">LDAP</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>GPS車両運行監視サービス開発</h3>
-              <span class="timeline-period">2020.04 - 2021.04</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                車両位置をリアルタイムで監視・配車支援
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 10名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 設計、実装、テスト、運用
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">PHP</span>
-                    <span class="tech-tag">Cordova</span>
-                    <span class="tech-tag">Angular</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>帳票業務システム改修</h3>
-              <span class="timeline-period">2021.01 - 2021.03</span>
-              <span class="timeline-role">リーダー / リードプログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">業務帳票 UI/UX 改善</p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 4名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 要件定義、設計、実装、テスト
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Java</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>FaaS 技術調査</h3>
-              <span class="timeline-period">2020.10 - 2020.12</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                セルフホストのFaaSサービスについての検証 PoC 提案
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 2名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 技術調査、報告、PoC 実装
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">OpenFaaS</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>設計支援システム開発</h3>
-              <span class="timeline-period">2017.10 - 2020.09</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                コンテンツ管理・共同編集システム刷新
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 4名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 要件定義、設計、実装、テスト、運用
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Oracle WebLogic</span>
-                    <span class="tech-tag">Oracle WebCenter</span>
-                    <span class="tech-tag">Oracle Database</span>
-                    <span class="tech-tag">Java 8</span>
-                    <span class="tech-tag">Spring</span>
-                    <span class="tech-tag">jQuery</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>解析データ ダッシュボード開発</h3>
-              <span class="timeline-period">2017.07 - 2017.09</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                解析データのビジュアライザー開発
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 4名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 要件定義、設計、実装、テスト、運用
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Oracle APEX</span>
-                    <span class="tech-tag">Oracle Database</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>シミュレーションツール改善</h3>
-              <span class="timeline-period">2017.04 - 2017.06</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                シミュレーション結果のExcel出力 高速化対応
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 3名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 実装、テスト
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">C#</span>
-                    <span class="tech-tag">EPPlus</span>
-                    <span class="tech-tag">Excel COM</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>デプロイツール開発支援</h3>
-              <span class="timeline-period">2016.07 - 2017.03</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">
-                Java アプリ自動配備ツール新規開発
-              </p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 10名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> 設計、実装、テスト
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">AngularJS</span>
-                    <span class="tech-tag">Java</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-          </div>
-          <div class="timeline-content card-glass">
-            <div class="timeline-header">
-              <h3>社内FW近代化支援</h3>
-              <span class="timeline-period">2015.07 - 2016.06</span>
-              <span class="timeline-role">プログラマー</span>
-            </div>
-            <div class="timeline-body">
-              <p class="project-description">IE/OS更新対応 & CI/CD導入支援</p>
-              <div class="project-details">
-                <div class="detail-item">
-                  <strong>チーム規模:</strong> 20名
-                </div>
-                <div class="detail-item">
-                  <strong>主な業務:</strong> CI環境構築、FWリファクタリング、テスト
-                </div>
-                <div class="detail-item">
-                  <strong>技術スタック:</strong>
-                  <div class="tech-tags">
-                    <span class="tech-tag">Java</span>
-                    <span class="tech-tag">SAStruts</span>
-                    <span class="tech-tag">Tomcat</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">jQuery</span>
-                    <span class="tech-tag">Jenkins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
@@ -457,7 +79,6 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 </Layout>
-
 <style>
   .career-hero {
     padding: var(--space-2xl) var(--space-xl);

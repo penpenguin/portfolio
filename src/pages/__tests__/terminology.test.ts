@@ -17,8 +17,8 @@ describe('ページ内の職種表記統一', () => {
     expect(about).not.toContain('エンジニア');
   });
 
-  it('careerページで「プログラマー」表記を使用している', () => {
-    const career = loadPage('../career.astro');
+  it('careerコンテンツで「プログラマー」表記を使用している', () => {
+    const career = loadPage('../../content/pages/career.md');
     expect(career).toContain('プログラマー');
     expect(career).not.toContain('システムプログラマー');
     expect(career).not.toContain('エンジニア');
