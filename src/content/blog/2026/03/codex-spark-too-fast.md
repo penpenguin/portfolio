@@ -2,7 +2,7 @@
 title: 'Codex-Sparkが早すぎて、ちょっと感動した話'
 description: '速いAIはたくさんある。でもCodex-Sparkの速さは、作業のリズムそのものを変える。そんな感想を、事実ベースで整理した。'
 pubDate: 2026-03-06
-impression: '感動した'
+impression: '適当にコミットさせるときにあまりにも早くて感動した'
 tags: ['OpenAI', 'Codex', 'AI開発', '雑感']
 ---
 
