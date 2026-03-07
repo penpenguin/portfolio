@@ -273,13 +273,15 @@ const navItems = baseNavItems.map((item) => {
       text-align: center;
     }
 
-    .footer-content span,
-    .social-links {
-      white-space: nowrap;
-    }
-
     main {
       margin-top: 120px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .footer-content {
+      flex-wrap: wrap;
+      row-gap: var(--space-xs);
     }
   }
 
