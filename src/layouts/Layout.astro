@@ -267,13 +267,21 @@ const navItems = baseNavItems.map((item) => {
     }
 
     .footer-content {
-      flex-direction: column;
-      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: var(--space-sm);
       text-align: center;
     }
 
     main {
       margin-top: 120px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .footer-content {
+      flex-wrap: wrap;
+      row-gap: var(--space-xs);
     }
   }
 
