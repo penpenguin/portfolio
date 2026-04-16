@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest",
-    "check": "tsc && astro check",
+    "check": "astro check && tsc",
     "format": "prettier --write ."
   },
   "dependencies": {
