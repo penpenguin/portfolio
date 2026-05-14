@@ -12,15 +12,16 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "astro": "^5.16.3"
+    "astro": "^6.3.2"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.9",
     "@testing-library/dom": "^10.4.1",
-    "jsdom": "^27.0.0",
-    "prettier": "^3.4.2",
+    "@types/node": "^25.7.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^5.7.2",
-    "vitest": "^3.2.4"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
   }
 }

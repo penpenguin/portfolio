@@ -33,7 +33,7 @@ const projects = await getCollection('projects');
                 )}
                 <div class="project-meta">
                   <h2>
-                    <Link href={`/projects/${project.slug}`}>
+                    <Link href={`/projects/${project.id}`}>
                       {project.data.title}
                     </Link>
                   </h2>
@@ -74,7 +74,7 @@ const projects = await getCollection('projects');
                     </a>
                   )}
                   <Link
-                    href={`/projects/${project.slug}`}
+                    href={`/projects/${project.id}`}
                     class="btn btn-primary"
                   >
                     詳細を見る
