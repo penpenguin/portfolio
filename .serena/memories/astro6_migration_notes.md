@@ -6,4 +6,5 @@
 - Import `z` from `astro/zod`; keep `defineCollection` from `astro:content`.
 - Content Layer entries use `id` instead of legacy `slug`. Render markdown entries with `render(entry)` imported from `astro:content`, not `entry.render()`.
 - Vitest 4 removed `poolOptions`; replace `threads.singleThread: true` with `maxWorkers: 1` and `isolate: false`.
-- TypeScript 6 checks need `@types/node` as a direct dev dependency for tests importing `node:*` modules.
+- TypeScript 6 checks need `@types/node` as a direct dev dependency for tests importing `node:*` modules; keep it on the Node 22 major while CI uses Node 22.
+- The project npm config uses `min-release-age=3` to avoid installing packages published less than three days ago.
