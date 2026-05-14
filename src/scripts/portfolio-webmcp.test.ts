@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   createPortfolioTools,
   isSafePortfolioUrl,
-  registerTool,
+  registerTool as registerToolAdapter,
   type AgentIndex,
 } from './portfolio-webmcp';
 
@@ -54,14 +54,61 @@ const index: AgentIndex = {
 };
 
 beforeEach(() => {
+  vi.restoreAllMocks();
+  delete window.webMCP;
+  delete navigator.webMCP;
+  delete navigator.modelContext;
   delete window.__portfolioTools;
 });
 
 describe('registerTool', () => {
+  it('navigator.modelContextがある場合はexecuteに変換して標準registryへ登録する', async () => {
+    const invoke = vi.fn().mockReturnValue('ok');
+    const registerTool = vi.fn();
+    Object.defineProperty(navigator, 'modelContext', {
+      configurable: true,
+      value: {
+        registerTool,
+      },
+    });
+
+    await registerToolAdapter({
+      name: 'portfolio.test',
+      title: 'Test tool',
+      description: 'Test description',
+      inputSchema: {
+        type: 'object',
+        properties: {},
+      },
+      annotations: {
+        readOnlyHint: true,
+      },
+      invoke,
+    });
+
+    expect(registerTool).toHaveBeenCalledTimes(1);
+    const [tool] = registerTool.mock.calls[0];
+    expect(tool).toMatchObject({
+      name: 'portfolio.test',
+      title: 'Test tool',
+      description: 'Test description',
+      inputSchema: {
+        type: 'object',
+        properties: {},
+      },
+      annotations: {
+        readOnlyHint: true,
+      },
+    });
+    expect(tool.execute({ query: 'PWA' })).toBe('ok');
+    expect(invoke).toHaveBeenCalledWith({ query: 'PWA' });
+    expect(window.__portfolioTools).toBeUndefined();
+  });
+
   it('WebMCPがない場合はwindow.__portfolioToolsにfallback登録する', async () => {
     const invoke = vi.fn();
 
-    await registerTool({ name: 'portfolio.test', invoke });
+    await registerToolAdapter({ name: 'portfolio.test', invoke });
 
     expect(window.__portfolioTools?.['portfolio.test']).toBe(invoke);
   });

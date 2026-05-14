@@ -59,8 +59,16 @@ export interface AgentIndex {
   contact: AgentContact;
 }
 
+export interface ToolAnnotations {
+  readOnlyHint?: boolean;
+  untrustedContentHint?: boolean;
+}
+
 export interface ToolDefinition<TInput = unknown, TOutput = unknown> {
   name: string;
+  title?: string;
   description?: string;
+  inputSchema?: Record<string, unknown>;
+  annotations?: ToolAnnotations;
   invoke: (input: TInput) => TOutput | Promise<TOutput>;
 }

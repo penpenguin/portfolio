@@ -40,6 +40,19 @@ interface WebMCPRegistry {
   registerTool: (tool: ToolDefinition) => void | Promise<void>;
 }
 
+interface ModelContextTool {
+  name: string;
+  title?: string;
+  description?: string;
+  inputSchema?: Record<string, unknown>;
+  annotations?: ToolDefinition['annotations'];
+  execute: (input: unknown, client?: unknown) => unknown | Promise<unknown>;
+}
+
+interface ModelContextRegistry {
+  registerTool: (tool: ModelContextTool) => void | Promise<void>;
+}
+
 declare global {
   interface Window {
     webMCP?: WebMCPRegistry;
@@ -47,6 +60,7 @@ declare global {
   }
 
   interface Navigator {
+    modelContext?: ModelContextRegistry;
     webMCP?: WebMCPRegistry;
   }
 }
@@ -54,6 +68,11 @@ declare global {
 let registrationPromise: Promise<void> | null = null;
 
 export async function registerTool(tool: ToolDefinition): Promise<void> {
+  if (navigator.modelContext?.registerTool) {
+    await navigator.modelContext.registerTool(toModelContextTool(tool));
+    return;
+  }
+
   const webMCP = window.webMCP ?? navigator.webMCP;
 
   if (webMCP?.registerTool) {
@@ -65,13 +84,29 @@ export async function registerTool(tool: ToolDefinition): Promise<void> {
   window.__portfolioTools[tool.name] = tool.invoke;
 }
 
+function toModelContextTool(tool: ToolDefinition): ModelContextTool {
+  return {
+    name: tool.name,
+    title: tool.title,
+    description: tool.description,
+    inputSchema: tool.inputSchema,
+    annotations: tool.annotations,
+    execute: (input: unknown) => tool.invoke(input),
+  };
+}
+
 export function createPortfolioTools(
   index: AgentIndex
 ): ToolDefinition<unknown, unknown>[] {
   return [
     {
       name: 'portfolio.search_content',
+      title: 'Search portfolio content',
       description: 'Search portfolio projects and blog posts.',
+      inputSchema: searchContentInputSchema,
+      annotations: {
+        readOnlyHint: true,
+      },
       invoke: (input: unknown) => {
         const { query, type, limit } = parseSearchContentInput(input);
         const items = [
@@ -84,7 +119,12 @@ export function createPortfolioTools(
     },
     {
       name: 'portfolio.find_projects',
+      title: 'Find portfolio projects',
       description: 'Search portfolio projects.',
+      inputSchema: searchInputSchema,
+      annotations: {
+        readOnlyHint: true,
+      },
       invoke: (input: unknown) => {
         const { query, limit } = parseSearchInput(input);
         return searchAgentItems(index.projects, query, limit);
@@ -92,7 +132,12 @@ export function createPortfolioTools(
     },
     {
       name: 'portfolio.find_blog_posts',
+      title: 'Find portfolio blog posts',
       description: 'Search portfolio blog posts.',
+      inputSchema: searchInputSchema,
+      annotations: {
+        readOnlyHint: true,
+      },
       invoke: (input: unknown) => {
         const { query, limit } = parseSearchInput(input);
         return searchAgentItems(index.blog, query, limit);
@@ -100,7 +145,12 @@ export function createPortfolioTools(
     },
     {
       name: 'portfolio.get_career_summary',
+      title: 'Get career summary',
       description: 'Return the career timeline and a short suggested summary.',
+      inputSchema: emptyInputSchema,
+      annotations: {
+        readOnlyHint: true,
+      },
       invoke: (): CareerSummaryOutput => ({
         career: index.career,
         suggestedSummary:
@@ -109,12 +159,22 @@ export function createPortfolioTools(
     },
     {
       name: 'portfolio.get_contact_routes',
+      title: 'Get contact routes',
       description: 'Return contact page, GitHub, and email routes.',
+      inputSchema: emptyInputSchema,
+      annotations: {
+        readOnlyHint: true,
+      },
       invoke: (): AgentContact => index.contact,
     },
     {
       name: 'portfolio.open_page',
+      title: 'Open portfolio page',
       description: 'Navigate to an internal portfolio page on the same origin.',
+      inputSchema: openPageInputSchema,
+      annotations: {
+        readOnlyHint: false,
+      },
       invoke: (input: unknown): OpenPageOutput => {
         const { url } = parseOpenPageInput(input);
         return openPortfolioPage(url);
@@ -122,6 +182,59 @@ export function createPortfolioTools(
     },
   ];
 }
+
+const emptyInputSchema = {
+  type: 'object',
+  properties: {},
+  additionalProperties: false,
+};
+
+const searchInputSchema = {
+  type: 'object',
+  properties: {
+    query: {
+      type: 'string',
+    },
+    limit: {
+      type: 'number',
+      minimum: 1,
+      maximum: 20,
+    },
+  },
+  required: ['query'],
+  additionalProperties: false,
+};
+
+const searchContentInputSchema = {
+  type: 'object',
+  properties: {
+    query: {
+      type: 'string',
+    },
+    type: {
+      type: 'string',
+      enum: ['all', 'project', 'blog'],
+    },
+    limit: {
+      type: 'number',
+      minimum: 1,
+      maximum: 20,
+    },
+  },
+  required: ['query'],
+  additionalProperties: false,
+};
+
+const openPageInputSchema = {
+  type: 'object',
+  properties: {
+    url: {
+      type: 'string',
+    },
+  },
+  required: ['url'],
+  additionalProperties: false,
+};
 
 export function isSafePortfolioUrl(
   url: string,
