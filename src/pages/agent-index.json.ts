@@ -77,12 +77,12 @@ const toAgentProject = (
   project: CollectionEntry<'projects'>
 ): AgentProject => ({
   type: 'project',
-  id: project.slug,
+  id: project.id,
   title: project.data.title,
   description: project.data.description,
   pubDate: project.data.pubDate.toISOString(),
   tags: project.data.tags ?? [],
-  url: withBase(`/projects/${project.slug}`),
+  url: withBase(`/projects/${project.id}`),
   liveUrl: project.data.link ?? null,
   githubUrl: project.data.github ?? null,
 });

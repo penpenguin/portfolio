@@ -15,21 +15,35 @@ describe('Project detail layout', () => {
   it('falls back to a centered single-column layout when no hero image is provided', () => {
     const source = loadProjectDetailSource();
     expect(source).toMatch(
-      /const projectHeroClass = project\.data\.heroImage\s*\?\s*'project-hero'\s*:\s*'project-hero project-hero--single';/,
+      /const projectHeroClass = project\.data\.heroImage\s*\?\s*'project-hero'\s*:\s*'project-hero project-hero--single';/
     );
     expect(source).toMatch(/<div class=\{projectHeroClass\}>/);
     expect(source).toMatch(
-      /\.project-hero--single\s*\{\s*grid-template-columns:\s*1fr;?/s,
-    );
-    expect(source).toMatch(/\.project-hero--single\s*\{\s*[^}]*text-align:\s*center/);
-    expect(source).toMatch(
-      /\.project-hero--single\s*\{\s*[^}]*justify-items:\s*center/,
+      /\.project-hero--single\s*\{\s*grid-template-columns:\s*1fr;?/s
     );
     expect(source).toMatch(
-      /\.project-hero--single\s+\.project-info\s*\{\s*align-items:\s*center/,
+      /\.project-hero--single\s*\{\s*[^}]*text-align:\s*center/
     );
     expect(source).toMatch(
-      /\.project-hero--single\s+\.project-links\s*\{\s*justify-content:\s*center/,
+      /\.project-hero--single\s*\{\s*[^}]*justify-items:\s*center/
     );
+    expect(source).toMatch(
+      /\.project-hero--single\s+\.project-info\s*\{\s*align-items:\s*center/
+    );
+    expect(source).toMatch(
+      /\.project-hero--single\s+\.project-links\s*\{\s*justify-content:\s*center/
+    );
+  });
+
+  it('renders Astro 6 content layer project entries by id', () => {
+    const source = loadProjectDetailSource();
+
+    expect(source).toContain(
+      "import { getCollection, render } from 'astro:content';"
+    );
+    expect(source).toContain('params: { slug: project.id }');
+    expect(source).toContain('const { Content } = await render(project);');
+    expect(source).not.toContain('project.slug');
+    expect(source).not.toContain('project.render()');
   });
 });

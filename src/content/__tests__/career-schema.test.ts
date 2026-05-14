@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const loadConfig = () =>
-  readFileSync(resolve(currentDir, '../config.ts'), 'utf-8');
+  readFileSync(resolve(currentDir, '../../content.config.ts'), 'utf-8');
 
 describe('career collection schema', () => {
   it('defines career collection with timeline fields', () => {

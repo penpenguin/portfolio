@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const loadConfig = () =>
-  readFileSync(resolve(currentDir, '../config.ts'), 'utf-8');
+  readFileSync(resolve(currentDir, '../../content.config.ts'), 'utf-8');
 
 describe('blog collection schema', () => {
   it('declares draft field so draft filtering works', () => {
