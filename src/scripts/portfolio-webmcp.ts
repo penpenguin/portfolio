@@ -37,7 +37,7 @@ interface CareerSummaryOutput {
 type PortfolioToolsRegistry = Record<string, ToolDefinition['invoke']>;
 
 interface WebMCPRegistry {
-  registerTool: (tool: ToolDefinition) => void | Promise<void>;
+  registerTool: (tool: ModelContextTool) => void | Promise<void>;
 }
 
 interface ModelContextTool {
@@ -76,7 +76,7 @@ export async function registerTool(tool: ToolDefinition): Promise<void> {
   const webMCP = window.webMCP ?? navigator.webMCP;
 
   if (webMCP?.registerTool) {
-    await webMCP.registerTool(tool);
+    await webMCP.registerTool(toModelContextTool(tool));
     return;
   }
 
