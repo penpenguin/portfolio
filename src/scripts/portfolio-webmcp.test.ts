@@ -105,6 +105,30 @@ describe('registerTool', () => {
     expect(window.__portfolioTools).toBeUndefined();
   });
 
+  it('window.webMCPがある場合もexecuteに変換して登録する', async () => {
+    const invoke = vi.fn().mockReturnValue('ok');
+    const registerTool = vi.fn();
+    window.webMCP = {
+      registerTool,
+    };
+
+    await registerToolAdapter({
+      name: 'portfolio.test',
+      description: 'Test description',
+      invoke,
+    });
+
+    expect(registerTool).toHaveBeenCalledTimes(1);
+    const [tool] = registerTool.mock.calls[0];
+    expect(tool).toMatchObject({
+      name: 'portfolio.test',
+      description: 'Test description',
+    });
+    expect(tool.execute({ query: 'PWA' })).toBe('ok');
+    expect(invoke).toHaveBeenCalledWith({ query: 'PWA' });
+    expect(window.__portfolioTools).toBeUndefined();
+  });
+
   it('WebMCPがない場合はwindow.__portfolioToolsにfallback登録する', async () => {
     const invoke = vi.fn();
 
