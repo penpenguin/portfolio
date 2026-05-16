@@ -2,10 +2,33 @@ import { describe, expect, it } from 'vitest';
 
 import { remarkAdmonition } from '../remarkAdmonition.js';
 
-const runPlugin = (tree: any) => {
+type TestNode = {
+  type: string;
+  name?: string;
+  value?: string;
+  data?: {
+    hName?: string;
+    hProperties?: {
+      className?: string[];
+      [key: string]: unknown;
+    };
+  };
+  children?: TestNode[];
+};
+
+const runPlugin = <T extends TestNode>(tree: T): T => {
   const transformer = remarkAdmonition();
   transformer(tree);
   return tree;
+};
+
+const firstTransformedChild = (tree: TestNode): TestNode => {
+  const child = runPlugin(tree).children?.[0];
+  if (!child) {
+    throw new Error('Expected transformed tree to keep the first child');
+  }
+
+  return child;
 };
 
 describe('remarkAdmonition', () => {
@@ -25,7 +48,7 @@ describe('remarkAdmonition', () => {
       ],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
 
     expect(node.data?.hName).toBe('aside');
     expect(node.data?.hProperties?.className).toContain('admonition');
@@ -49,7 +72,7 @@ describe('remarkAdmonition', () => {
       ],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
     expect(node.data?.hProperties?.className).toContain('admonition-warning');
     expect(node.data?.hProperties?.['data-label']).toBe('Warning');
   });
@@ -70,7 +93,7 @@ describe('remarkAdmonition', () => {
       ],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
     expect(node.data?.hProperties?.className).toContain('admonition-caution');
     expect(node.data?.hProperties?.['data-label']).toBe('Caution');
   });
@@ -91,14 +114,12 @@ describe('remarkAdmonition', () => {
       ],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
     expect(node.data?.hName).toBe('aside');
     expect(node.data?.hProperties?.className).toContain('admonition-tip');
     expect(node.data?.hProperties?.['data-label']).toBe('Tip');
 
-    const paragraph = node.children[0];
-    const text = paragraph.children[0];
-    expect(text.value).toBe('一言メモ');
+    expect(node.children?.[0]?.children?.[0]?.value).toBe('一言メモ');
   });
 
   it('非対応ディレクティブは素通しする', () => {
@@ -107,7 +128,7 @@ describe('remarkAdmonition', () => {
       children: [{ type: 'containerDirective', name: 'unknown', children: [] }],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
     expect(node.data).toBeUndefined();
   });
 
@@ -118,12 +139,14 @@ describe('remarkAdmonition', () => {
         {
           type: 'containerDirective',
           name: 'note',
-          children: [{ type: 'paragraph', children: [{ type: 'text', value: 'メモ' }] }],
+          children: [
+            { type: 'paragraph', children: [{ type: 'text', value: 'メモ' }] },
+          ],
         },
       ],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
     expect(node.data).toBeUndefined();
   });
 
@@ -143,7 +166,7 @@ describe('remarkAdmonition', () => {
       ],
     };
 
-    const node = runPlugin(tree).children[0];
+    const node = firstTransformedChild(tree);
     expect(node.data).toBeUndefined();
   });
 });

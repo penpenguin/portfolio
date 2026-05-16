@@ -1,9 +1,9 @@
 ---
 import { withBase } from '../utils/withBase';
+import type { HTMLAttributes } from 'astro/types';
 
-interface Props {
+interface Props extends HTMLAttributes<'a'> {
   href: string;
-  [key: string]: any;
 }
 
 const { href, ...attrs } = Astro.props;
