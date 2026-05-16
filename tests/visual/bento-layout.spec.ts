@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 const pages = [
-  { path: './', heading: "Hello, I'm a Programmer" },
+  { path: './', heading: 'Enterprise systems, shipped end-to-end' },
   { path: 'about/', heading: 'About Me' },
-  { path: 'projects/', heading: 'My Projects' },
+  { path: 'projects/', heading: 'Built Systems' },
   { path: 'blog/', heading: 'Blog' },
   { path: 'career/', heading: 'Career' },
   { path: 'contact/', heading: 'Contact' },
@@ -41,4 +41,25 @@ test.describe('Bento layout', () => {
       expect(layout.firstPanelTop).toBeGreaterThanOrEqual(layout.navBottom - 1);
     });
   }
+
+  test('mobile key bento cards keep readable width', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    for (const path of ['./', 'projects/', 'contact/']) {
+      await page.goto(path);
+      const minCardWidth = await page.evaluate(() => {
+        const cards = Array.from(
+          document.querySelectorAll(
+            '.bento-card, .project-card, .contact-info, .availability'
+          )
+        );
+
+        return Math.min(
+          ...cards.map((card) => card.getBoundingClientRect().width)
+        );
+      });
+
+      expect(minCardWidth).toBeGreaterThanOrEqual(320);
+    }
+  });
 });

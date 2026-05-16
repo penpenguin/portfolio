@@ -5,6 +5,9 @@ import { getCollection } from 'astro:content';
 import { formatDate } from '../../utils/formatDate';
 
 const projects = await getCollection('projects');
+const sortedProjects = [...projects].sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 ---
 
 <Layout title="Projects - Portfolio">
@@ -12,13 +15,20 @@ const projects = await getCollection('projects');
     <div class="container">
       <header class="bento-hero projects-hero card-glass">
         <p class="bento-eyebrow eyebrow">Projects</p>
-        <h1>My Projects</h1>
-        <p>作品集</p>
+        <h1>Built Systems</h1>
+        <p>
+          音楽ツール、Webアプリ、運用支援まで。実装したものを、設計意図と動作する形で残しています。
+        </p>
       </header>
       <div class="bento-grid projects-bento">
         {
-          projects.map((project, index) => (
-            <article class="bento-panel project-card card card-glass">
+          sortedProjects.map((project, index) => (
+            <article
+              class:list={[
+                'bento-panel project-card card card-glass',
+                { 'project-card--featured': index === 0 },
+              ]}
+            >
               <div class="project-header">
                 {project.data.heroImage && (
                   <img
@@ -40,7 +50,7 @@ const projects = await getCollection('projects');
                 </div>
               </div>
 
-              <div class="project-content">
+              <div class="project-content project-summary">
                 <p class="project-description">{project.data.description}</p>
 
                 {project.data.tags && (
@@ -124,6 +134,13 @@ const projects = await getCollection('projects');
     border-radius: var(--radius-xl);
   }
 
+  .project-card--featured {
+    grid-column: span 2;
+    background:
+      linear-gradient(135deg, rgba(236, 254, 255, 0.72), transparent 58%),
+      var(--bento-card-bg);
+  }
+
   .project-card:hover {
     transform: translateY(-2px);
   }
@@ -132,10 +149,19 @@ const projects = await getCollection('projects');
     position: relative;
   }
 
+  .project-card--featured .project-meta {
+    max-width: 760px;
+  }
+
   .project-image {
     width: 100%;
     height: 220px;
     object-fit: cover;
+  }
+
+  .project-card--featured .project-image {
+    height: 320px;
+    min-height: 360px;
   }
 
   .project-meta {
@@ -168,9 +194,21 @@ const projects = await getCollection('projects');
     padding: 0 var(--space-lg) var(--space-lg);
   }
 
+  .project-card--featured .project-content {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
   .project-description {
     color: var(--text-secondary);
     margin-bottom: var(--space-md);
+  }
+
+  .project-card--featured .project-description {
+    max-width: 760px;
+    font-size: var(--font-size-lg);
   }
 
   .project-tags {
@@ -195,8 +233,20 @@ const projects = await getCollection('projects');
   }
 
   @media (max-width: 768px) {
+    .projects-bento {
+      grid-template-columns: 1fr;
+    }
+
+    .project-card--featured {
+      grid-column: span 1;
+    }
+
     .projects-hero h1 {
       font-size: var(--font-size-4xl);
+    }
+
+    .project-card--featured .project-image {
+      min-height: 220px;
     }
 
     .project-links {

@@ -321,10 +321,20 @@ const { timeline } = careerEntry.data;
     .timeline {
       --timeline-line-x: 18px;
       --timeline-dot-size: 18px;
+      --timeline-card-offset: 44px;
     }
 
     .hero-content h1 {
       font-size: var(--font-size-4xl);
+    }
+
+    .timeline-item {
+      padding-left: var(--timeline-card-offset);
+      margin-bottom: var(--space-xl);
+    }
+
+    .timeline-marker {
+      top: 30px;
     }
 
     .timeline-content {

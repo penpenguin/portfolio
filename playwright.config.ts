@@ -7,13 +7,13 @@ export default defineConfig({
     timeout: 5_000,
   },
   use: {
-    baseURL: 'http://127.0.0.1:4323/portfolio/',
+    baseURL: 'http://127.0.0.1:4324/portfolio/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 4323',
-    url: 'http://127.0.0.1:4323/portfolio/',
+    command: 'npm run dev -- --host 127.0.0.1 --port 4324 --strictPort',
+    url: 'http://127.0.0.1:4324/portfolio/',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

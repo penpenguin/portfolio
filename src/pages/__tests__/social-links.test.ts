@@ -52,3 +52,13 @@ describe('Contactページの連絡先アイコン', () => {
     );
   });
 });
+
+describe('ContactページのBentoレイアウト', () => {
+  it('モバイルでは連絡先と稼働状況を1カラムにする', () => {
+    const mobileMatch = contactSource.match(
+      /@media\s*\(max-width:\s*768px\)[\s\S]*?<\/style>/
+    );
+
+    expect(mobileMatch?.[0]).toContain('grid-template-columns: 1fr');
+  });
+});

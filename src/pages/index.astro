@@ -1,6 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Link from '../components/Link.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../utils/formatDate';
+
+const projects = await getCollection('projects');
+const [featuredProject] = [...projects].sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 ---
 
 <Layout title="Portfolio - Programmer">
@@ -10,60 +17,77 @@ import Link from '../components/Link.astro';
         <section
           class="bento-hero bento-panel bento-card bento-card--intro card-glass"
         >
-          <p class="bento-eyebrow eyebrow">Enterprise Systems Programmer</p>
-          <h1>Hello, I'm a Programmer</h1>
-          <p class="lead">
-            メーカーの社内システム構築支援を中心に、Web技術からバックエンド、インフラまで幅広く対応。
-            10年以上の経験を活かし、要件定義から運用まで一貫したシステム開発をサポートします。
-          </p>
-          <div class="action-row">
-            <Link href="/career" class="btn btn-primary">プロジェクト実績</Link>
-            <Link href="/contact" class="btn btn-glass">お問い合わせ</Link>
+          <div class="intro-copy">
+            <p class="bento-eyebrow eyebrow">Enterprise Systems Programmer</p>
+            <h1>Enterprise systems, shipped end-to-end</h1>
+            <p class="lead">
+              社内システムの要件定義、Webアプリケーション実装、クラウド基盤、運用改善まで。
+              長く使われる業務システムを、現場と開発の両側から組み立てます。
+            </p>
           </div>
         </section>
 
         <section class="bento-panel bento-card bento-card--metric card-glass">
           <span class="metric-value">10+</span>
-          <p class="metric-label">years</p>
-          <p>要件定義から運用まで、長期運用される業務システムを支援。</p>
+          <p class="metric-label">years in production systems</p>
+          <p>要件定義から運用改善まで、長期運用される業務システムを支援。</p>
         </section>
 
         <section class="bento-panel bento-card bento-card--stack card-glass">
           <p class="bento-eyebrow eyebrow">Core Stack</p>
-          <div class="pill-list stack-list">
-            <span>Java</span>
-            <span>TypeScript</span>
-            <span>React</span>
-            <span>Azure</span>
-            <span>Quarkus</span>
-            <span>GitLab CI/CD</span>
+          <div class="stack-groups">
+            <div class="stack-group">
+              <h3>Backend</h3>
+              <div class="pill-list stack-list">
+                <span>Java</span>
+                <span>Quarkus</span>
+                <span>Node.js</span>
+              </div>
+            </div>
+            <div class="stack-group">
+              <h3>Frontend</h3>
+              <div class="pill-list stack-list">
+                <span>TypeScript</span>
+                <span>React</span>
+                <span>Astro</span>
+              </div>
+            </div>
+            <div class="stack-group">
+              <h3>Platform</h3>
+              <div class="pill-list stack-list">
+                <span>Azure</span>
+                <span>GitLab CI/CD</span>
+                <span>OpenShift</span>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section class="bento-panel bento-card bento-card--feature card-glass">
-          <span class="bento-eyebrow tile-number">01</span>
-          <h3>社内システム開発</h3>
-          <p>
-            メーカーの業務システム構築支援を中心に、要件定義から運用まで一貫したサポートを提供します。
-          </p>
-        </section>
-
-        <section class="bento-panel bento-card bento-card--feature card-glass">
-          <span class="bento-eyebrow tile-number">02</span>
-          <h3>フルスタック開発</h3>
-          <p>
-            フロントエンド（React/TypeScript）からバックエンド（Java/Node.js）、インフラ（Azure）まで対応。
-          </p>
-        </section>
-
-        <section class="bento-panel bento-card bento-card--feature card-glass">
-          <span class="bento-eyebrow tile-number">03</span>
-          <h3>CI/CD・自動化</h3>
-          <p>
-            GitLab
-            CI/CDを活用したテスト自動化、デプロイ自動化によって開発効率を向上させます。
-          </p>
-        </section>
+        {
+          featuredProject && (
+            <section class="bento-panel bento-card bento-card--project card-glass">
+              <p class="bento-eyebrow eyebrow">Featured Project</p>
+              <div class="project-summary">
+                <span class="project-kicker">
+                  {formatDate(featuredProject.data.pubDate)}
+                </span>
+                <h2>
+                  <Link href={`/projects/${featuredProject.id}`}>
+                    {featuredProject.data.title}
+                  </Link>
+                </h2>
+                <p>{featuredProject.data.description}</p>
+              </div>
+              {featuredProject.data.tags && (
+                <div class="pill-list project-tags">
+                  {featuredProject.data.tags.slice(0, 4).map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              )}
+            </section>
+          )
+        }
 
         <section class="bento-panel bento-card bento-card--wide card-glass">
           <p class="bento-eyebrow eyebrow">Current Focus</p>
@@ -91,12 +115,13 @@ import Link from '../components/Link.astro';
 
   .bento-card--intro {
     grid-column: span 3;
-    min-height: 430px;
+    min-height: 390px;
     background:
       linear-gradient(
         135deg,
         rgba(255, 255, 255, 0.96),
-        rgba(238, 242, 255, 0.9)
+        rgba(238, 242, 255, 0.72) 58%,
+        rgba(236, 254, 255, 0.7)
       ),
       var(--bento-card-bg);
   }
@@ -105,6 +130,19 @@ import Link from '../components/Link.astro';
     grid-column: span 1;
     background: var(--text-primary);
     color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bento-card--metric::after {
+    content: '';
+    position: absolute;
+    right: -32px;
+    bottom: -32px;
+    width: 132px;
+    height: 132px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
   }
 
   .bento-card--metric p {
@@ -112,18 +150,22 @@ import Link from '../components/Link.astro';
   }
 
   .bento-card--stack,
-  .bento-card--wide {
+  .bento-card--project {
     grid-column: span 2;
   }
 
-  .bento-card--feature {
-    grid-column: span 1;
+  .bento-card--wide {
+    grid-column: span 4;
+    min-height: 200px;
+    background:
+      linear-gradient(135deg, rgba(240, 253, 244, 0.75), transparent 64%),
+      var(--bento-card-bg);
   }
 
   .bento-card h1 {
     max-width: 760px;
     margin: var(--space-sm) 0;
-    font-size: clamp(2.5rem, 7vw, 5.75rem);
+    font-size: 5.25rem;
     line-height: 0.95;
     letter-spacing: 0;
   }
@@ -138,8 +180,11 @@ import Link from '../components/Link.astro';
     font-size: var(--font-size-lg);
   }
 
+  .intro-copy {
+    max-width: 820px;
+  }
+
   .eyebrow,
-  .tile-number,
   .metric-label {
     margin: 0;
     color: var(--text-muted);
@@ -148,17 +193,25 @@ import Link from '../components/Link.astro';
     text-transform: uppercase;
   }
 
-  .action-row {
-    display: flex;
-    gap: var(--space-sm);
-    flex-wrap: wrap;
-  }
-
   .metric-value {
     display: block;
-    font-size: clamp(3rem, 8vw, 5rem);
+    font-size: 5rem;
     font-weight: 700;
     line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stack-groups {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .stack-group h3 {
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
   }
 
   .stack-list span {
@@ -167,9 +220,36 @@ import Link from '../components/Link.astro';
     font-weight: 600;
   }
 
-  .tile-number {
-    display: block;
-    margin-bottom: var(--space-xl);
+  .bento-card--project {
+    background:
+      linear-gradient(135deg, rgba(236, 254, 255, 0.78), transparent 62%),
+      var(--bento-card-bg);
+  }
+
+  .project-summary {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .project-summary h2 {
+    margin-bottom: 0;
+    font-size: var(--font-size-3xl);
+  }
+
+  .project-summary h2 a {
+    color: var(--text-primary);
+  }
+
+  .project-kicker {
+    color: var(--text-accent);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+  }
+
+  .project-tags span {
+    color: var(--text-accent);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
   }
 
   .bento-card p {
@@ -188,24 +268,33 @@ import Link from '../components/Link.astro';
   }
 
   @media (max-width: 768px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+    }
+
     .bento-card,
     .bento-card--intro,
     .bento-card--metric,
     .bento-card--stack,
-    .bento-card--feature,
+    .bento-card--project,
     .bento-card--wide {
       grid-column: span 1;
       min-height: auto;
     }
 
     .bento-card h1 {
-      font-size: var(--font-size-5xl);
+      font-size: 3rem;
+      line-height: 1.02;
+    }
+
+    .metric-value {
+      font-size: 4rem;
     }
   }
 
   @media (max-width: 420px) {
     .bento-card h1 {
-      font-size: var(--font-size-4xl);
+      font-size: 2.5rem;
     }
   }
 </style>

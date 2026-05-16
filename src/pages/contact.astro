@@ -9,16 +9,16 @@ import Layout from '../layouts/Layout.astro';
         <p class="bento-eyebrow eyebrow">Contact</p>
         <h1>Contact</h1>
         <p>
-          新しいプロジェクトやご相談がございましたら、 お気軽にご連絡ください。
+          業務システム開発の相談、既存システムの改善、運用を見据えた実装支援についてご連絡ください。
         </p>
       </header>
 
       <div class="bento-grid contact-bento">
         <section class="bento-panel contact-info card-glass">
-          <h2>お気軽にご連絡ください</h2>
+          <h2>業務システム開発の相談</h2>
           <p>
-            新しいプロジェクトや創造的な取り組みについて、
-            いつでもお気軽にご相談ください。
+            要件整理から実装、クラウド基盤、CI/CD、運用改善まで。
+            長く使うシステムの立ち上げや立て直しを支援します。
           </p>
 
           <div class="contact-methods">
@@ -80,6 +80,7 @@ import Layout from '../layouts/Layout.astro';
             <div class="status-indicator available"></div>
             <span>新規プロジェクト対応可能</span>
           </div>
+          <p>小規模な相談から段階的な改善まで対応できます。</p>
         </aside>
       </div>
     </div>
@@ -221,13 +222,16 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
+    .contact-bento {
+      grid-template-columns: 1fr;
+    }
+
     .contact-hero h1 {
       font-size: var(--font-size-4xl);
     }
 
     .contact-method {
-      flex-direction: column;
-      text-align: center;
+      align-items: flex-start;
       gap: var(--space-sm);
     }
   }

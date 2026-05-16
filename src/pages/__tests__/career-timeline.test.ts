@@ -10,7 +10,7 @@ const getRule = (selector: string) => {
 };
 
 const getMobileBlock = () => {
-  const match = page.match(/@media\s*\(max-width:\s*768px\)[\s\S]*?}/);
+  const match = page.match(/@media\s*\(max-width:\s*768px\)[\s\S]*?<\/style>/);
   return match ? match[0] : '';
 };
 
@@ -19,7 +19,11 @@ describe('Career タイムライン', () => {
     const lineRule = getRule('\\.timeline::before');
     const markerRule = getRule('\\.timeline-marker');
     expect(lineRule.includes('left: var(--timeline-line-x)')).toBe(true);
-    expect(markerRule.includes('left: calc(var(--timeline-line-x) - var(--timeline-dot-size) / 2)')).toBe(true);
+    expect(
+      markerRule.includes(
+        'left: calc(var(--timeline-line-x) - var(--timeline-dot-size) / 2)'
+      )
+    ).toBe(true);
     expect(markerRule).toMatch(/transform\s*:\s*translateY\(-50%\)/);
   });
 
@@ -27,5 +31,11 @@ describe('Career タイムライン', () => {
     const mobile = getMobileBlock();
     expect(mobile).toMatch(/--timeline-line-x\s*:\s*\d+px/);
     expect(mobile).toMatch(/--timeline-dot-size\s*:\s*\d+px/);
+  });
+
+  it('モバイルではタイムラインカードの左余白を圧縮する', () => {
+    const mobile = getMobileBlock();
+    expect(mobile).toContain('--timeline-card-offset');
+    expect(mobile).toMatch(/padding-left:\s*var\(--timeline-card-offset\)/);
   });
 });

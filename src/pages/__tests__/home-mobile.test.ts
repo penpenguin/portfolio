@@ -17,6 +17,40 @@ describe('Home モバイルレイアウト', () => {
     expect(page).toContain('class="bento-grid"');
     expect(page).toMatch(/class="[^"]*bento-card[^"]*bento-card--intro[^"]*"/);
     expect(mobileStyles).toContain('.bento-card');
+    expect(mobileStyles).toContain('grid-template-columns: 1fr');
     expect(mobileStyles).toContain('min-height: auto');
+  });
+
+  it('Heroから装飾専用の抽象ビジュアルを削除する', () => {
+    expect(page).not.toContain('systems-visual');
+    expect(page).not.toContain('<strong>Requirements</strong>');
+    expect(page).not.toContain('<strong>Web System</strong>');
+    expect(page).not.toContain('<strong>Operations</strong>');
+  });
+
+  it('Home HeroにCTAボタンを表示しない', () => {
+    expect(page).not.toContain('実績を見る');
+    expect(page).not.toContain('相談する');
+    expect(page).not.toContain('class="action-row"');
+  });
+
+  it('スタックを領域別に分類して表示する', () => {
+    expect(page).toContain('Backend');
+    expect(page).toContain('Frontend');
+    expect(page).toContain('Platform');
+  });
+
+  it('HomeのBentoセルを価値・証拠・技術・実績・焦点に絞る', () => {
+    expect(page).not.toContain('<h3>社内システム開発</h3>');
+    expect(page).not.toContain('<h3>フルスタック開発</h3>');
+    expect(page).not.toContain('<h3>CI/CD・自動化</h3>');
+    expect(page).not.toContain('tile-number');
+    expect(page).toContain(
+      'class="bento-panel bento-card bento-card--project card-glass"'
+    );
+    expect(page).toContain('Featured Project');
+    expect(page).toContain("getCollection('projects')");
+    expect(page).toContain('const [featuredProject] = [...projects].sort');
+    expect(page).toContain('featuredProject');
   });
 });
