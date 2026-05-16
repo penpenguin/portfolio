@@ -17,7 +17,9 @@ describe('Project detail layout', () => {
     expect(source).toMatch(
       /const projectHeroClass = project\.data\.heroImage\s*\?\s*'project-hero'\s*:\s*'project-hero project-hero--single';/
     );
-    expect(source).toMatch(/<div class=\{projectHeroClass\}>/);
+    expect(source).toMatch(
+      /<div class=\{`bento-hero \$\{projectHeroClass\} card-glass`\}>/
+    );
     expect(source).toMatch(
       /\.project-hero--single\s*\{\s*grid-template-columns:\s*1fr;?/s
     );

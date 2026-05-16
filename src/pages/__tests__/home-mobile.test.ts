@@ -10,14 +10,13 @@ const getMobileBlock = () => {
 };
 
 describe('Home モバイルレイアウト', () => {
-  it('ヒーローのコードカード幅が画面に収まる', () => {
+  it('Bentoグリッドが小さい画面では1カラムに収まる', () => {
     const mobileStyles = getMobileBlock();
     expect(mobileStyles).not.toBe('');
-    expect(mobileStyles).toContain('padding: var(--space-xl) 0');
-    expect(mobileStyles).toContain('max-width: 520px');
-    expect(mobileStyles).toContain('width: 100%');
-    expect(mobileStyles).toContain('.hero-visual');
-    expect(mobileStyles).toContain('justify-content: center');
-    expect(mobileStyles).toContain('text-align: left');
+    expect(page).toContain('class="page-shell bento-shell"');
+    expect(page).toContain('class="bento-grid"');
+    expect(page).toMatch(/class="[^"]*bento-card[^"]*bento-card--intro[^"]*"/);
+    expect(mobileStyles).toContain('.bento-card');
+    expect(mobileStyles).toContain('min-height: auto');
   });
 });

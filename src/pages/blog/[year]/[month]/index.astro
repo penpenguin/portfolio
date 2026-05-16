@@ -26,17 +26,13 @@ const title = `${year}/${month}`;
 ---
 
 <Layout title={`${title} - Blog`}>
-  <section class="blog-hero">
+  <section class="page-shell blog-shell">
     <div class="container">
-      <div class="hero-content">
+      <header class="bento-hero blog-hero card-glass">
+        <p class="bento-eyebrow eyebrow">Archive</p>
         <h1>{title}</h1>
         <p>月別アーカイブ</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="blog-content">
-    <div class="container">
+      </header>
       <div class="archive-header">
         <Link href="/blog" class="btn btn-glass">← ブログ一覧に戻る</Link>
       </div>
@@ -44,7 +40,7 @@ const title = `${year}/${month}`;
         posts.length > 0 ? (
           <div class="posts-grid">
             {posts.map((post) => (
-              <article class="post-card card card-glass">
+              <article class="bento-panel post-card card card-glass">
                 <div class="post-header">
                   {post.data.heroImage && (
                     <img
@@ -65,14 +61,17 @@ const title = `${year}/${month}`;
                   <p class="post-description">{post.data.description}</p>
 
                   {post.data.tags && (
-                    <div class="post-tags">
+                    <div class="pill-list post-tags">
                       {post.data.tags.map((tag) => (
                         <span class="tag">{tag}</span>
                       ))}
                     </div>
                   )}
 
-                  <Link href={`/blog/${post.id}`} class="read-more btn btn-glass">
+                  <Link
+                    href={`/blog/${post.id}`}
+                    class="read-more btn btn-glass"
+                  >
                     Read More →
                   </Link>
                 </div>
@@ -80,9 +79,27 @@ const title = `${year}/${month}`;
             ))}
           </div>
         ) : (
-          <div class="empty-state glass">
+          <div class="bento-panel empty-state card-glass">
             <div class="empty-content">
-              <div class="empty-icon">📝</div>
+              <div class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path
+                    d="M7 4.5h7l3 3v12H7v-15Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14 4.5v3h3M9.75 11.5h4.5M9.75 14.5h4.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
               <h2>準備中</h2>
               <p>この月の投稿はまだありません。</p>
             </div>
@@ -95,27 +112,28 @@ const title = `${year}/${month}`;
 
 <style>
   .blog-hero {
-    padding: var(--space-2xl) 0;
-    text-align: center;
-  }
-
-  .hero-content h1 {
-    font-size: var(--font-size-5xl);
+    min-height: 240px;
     margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
-  .hero-content p {
+  .blog-hero h1 {
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0;
+  }
+
+  .blog-hero p {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
     margin: 0 0 var(--space-lg) 0;
   }
 
-  .blog-content {
-    padding: var(--space-2xl) 0;
+  .eyebrow {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .archive-header {
@@ -133,17 +151,17 @@ const title = `${year}/${month}`;
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-xl);
+    gap: var(--space-md);
   }
 
   .post-card {
     padding: 0;
     overflow: hidden;
-    transition: all 0.3s ease;
+    border-radius: var(--radius-xl);
   }
 
   .post-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-2px);
   }
 
   .post-header {
@@ -154,7 +172,6 @@ const title = `${year}/${month}`;
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .post-meta {
@@ -169,7 +186,7 @@ const title = `${year}/${month}`;
   .post-meta h2 a {
     color: var(--text-primary);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
   }
 
   .post-meta h2 a:hover {
@@ -193,20 +210,13 @@ const title = `${year}/${month}`;
   }
 
   .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
     margin-bottom: var(--space-lg);
   }
 
   .tag {
-    background: var(--glass-bg);
     color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 600;
-    border: 1px solid var(--glass-border);
   }
 
   .read-more {
@@ -233,8 +243,14 @@ const title = `${year}/${month}`;
   }
 
   .empty-icon {
-    font-size: 4rem;
     margin-bottom: var(--space-md);
+    color: var(--text-primary);
+  }
+
+  .empty-icon svg {
+    width: 64px;
+    height: 64px;
+    display: block;
   }
 
   .empty-content h2 {
@@ -250,12 +266,8 @@ const title = `${year}/${month}`;
   }
 
   @media (max-width: 768px) {
-    .hero-content h1 {
+    .blog-hero h1 {
       font-size: var(--font-size-4xl);
-    }
-
-    .posts-grid {
-      grid-template-columns: 1fr;
     }
 
     .empty-state {

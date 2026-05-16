@@ -1,7 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const career = readFileSync(new URL('../career.astro', import.meta.url), 'utf-8');
+const career = readFileSync(
+  new URL('../career.astro', import.meta.url),
+  'utf-8'
+);
 
 const getRuleBody = (selector: string) => {
   const styleMatch = career.match(/<style[^>]*>([\s\S]*?)<\/style>/);
@@ -14,7 +17,9 @@ const getRuleBody = (selector: string) => {
 describe('career timeline glass palette', () => {
   it('タイムラインマーカーがセンターに配置される', () => {
     const marker = getRuleBody('\\.timeline-marker');
-    expect(marker).toContain('left: calc(var(--timeline-line-x) - var(--timeline-dot-size) / 2);');
+    expect(marker).toContain(
+      'left: calc(var(--timeline-line-x) - var(--timeline-dot-size) / 2);'
+    );
     expect(marker).toContain('top: 50%;');
     expect(marker).toContain('transform: translateY(-50%);');
   });
@@ -35,7 +40,9 @@ describe('career timeline glass palette', () => {
   });
 
   it('現在ステップのドットがアクセントカラーでハイライトされる', () => {
-    const current = getRuleBody('\\.timeline-marker\\.current\\s+\\.timeline-dot');
+    const current = getRuleBody(
+      '\\.timeline-marker\\.current\\s+\\.timeline-dot'
+    );
     expect(current).toContain('var(--timeline-dot-active)');
     expect(current).toContain('var(--text-accent)');
     expect(current).toContain('var(--timeline-dot-glow)');
@@ -43,7 +50,9 @@ describe('career timeline glass palette', () => {
 });
 
 describe('career print view', () => {
-  const heroHeadingMatch = career.match(/<div class="hero-content">([\s\S]*?)<\/div>/);
+  const heroHeadingMatch = career.match(
+    /<div class="[^"]*hero-content[^"]*">([\s\S]*?)<\/div>/
+  );
   const heroContent = heroHeadingMatch ? heroHeadingMatch[1] : '';
 
   it('印刷用の見出しが含まれている', () => {
@@ -51,11 +60,26 @@ describe('career print view', () => {
   });
 
   it('印刷時に既存の見出しと説明を非表示にするスタイルが定義されている', () => {
-    expect(career).toMatch(/@media print[\s\S]*\.screen-only[\s\S]*display:\s*none/i);
-    expect(career).toMatch(/@media print[\s\S]*\.print-only[\s\S]*display:\s*(block|inline|flex)/i);
+    expect(career).toMatch(
+      /@media print[\s\S]*\.screen-only[\s\S]*display:\s*none/i
+    );
+    expect(career).toMatch(
+      /@media print[\s\S]*\.print-only[\s\S]*display:\s*(block|inline|flex)/i
+    );
   });
 
   it('保有資格セクションがページ途中で分割されないようスタイルが定義されている', () => {
-    expect(career).toMatch(/@media print[\s\S]*\.certifications[\s\S]*page-break-inside:\s*avoid/i);
+    expect(career).toMatch(
+      /@media print[\s\S]*\.certifications[\s\S]*page-break-inside:\s*avoid/i
+    );
+  });
+});
+
+describe('career certifications icon', () => {
+  it('資格タイルはFE略号テキストではなく装飾SVGアイコンを使う', () => {
+    expect(career).not.toMatch(/<div class="cert-icon">FE<\/div>/);
+    expect(career).toMatch(
+      /<div class="cert-icon cert-icon--credential" aria-hidden="true">[\s\S]*<svg/
+    );
   });
 });

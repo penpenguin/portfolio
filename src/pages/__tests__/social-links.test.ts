@@ -3,19 +3,19 @@ import { describe, expect, it } from 'vitest';
 
 const contactSource = readFileSync(
   new URL('../contact.astro', import.meta.url),
-  'utf-8',
+  'utf-8'
 );
 const aboutSource = readFileSync(
   new URL('../about.astro', import.meta.url),
-  'utf-8',
+  'utf-8'
 );
 const layoutSource = readFileSync(
   new URL('../../layouts/Layout.astro', import.meta.url),
-  'utf-8',
+  'utf-8'
 );
 const envExampleSource = readFileSync(
   new URL('../../../.env.example', import.meta.url),
-  'utf-8',
+  'utf-8'
 );
 
 describe('Xリンクの削除', () => {
@@ -37,5 +37,18 @@ describe('Xリンクの削除', () => {
   it('.env.exampleにX関連の設定が含まれない', () => {
     expect(envExampleSource).not.toMatch(/PUBLIC_X_URL/);
     expect(envExampleSource).not.toMatch(/https:\/\/x\.com/);
+  });
+});
+
+describe('Contactページの連絡先アイコン', () => {
+  it('EmailとGitHubの略号テキストではなく装飾SVGアイコンを使う', () => {
+    expect(contactSource).not.toMatch(/<div class="method-icon">EM<\/div>/);
+    expect(contactSource).not.toMatch(/<div class="method-icon">GH<\/div>/);
+    expect(contactSource).toMatch(
+      /<div class="method-icon method-icon--email" aria-hidden="true">[\s\S]*<svg/
+    );
+    expect(contactSource).toMatch(
+      /<div class="method-icon method-icon--github" aria-hidden="true">[\s\S]*<svg/
+    );
   });
 });

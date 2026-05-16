@@ -62,17 +62,19 @@ const navItems = baseNavItems.map((item) => {
             <span class="logo-text">Portfolio</span>
           </Link>
           <div class="nav-links">
-            {navItems.map(({ href, label, isActive }) => (
-              <Link
-                href={href}
-                class={`nav-link${isActive ? ' nav-link--active' : ''}`}
-                aria-current={isActive ? 'page' : undefined}
-                aria-disabled={isActive ? 'true' : undefined}
-                tabindex={isActive ? -1 : undefined}
-              >
-                {label}
-              </Link>
-            ))}
+            {
+              navItems.map(({ href, label, isActive }) => (
+                <Link
+                  href={href}
+                  class={`nav-link${isActive ? ' nav-link--active' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-disabled={isActive ? 'true' : undefined}
+                  tabindex={isActive ? -1 : undefined}
+                >
+                  {label}
+                </Link>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -139,6 +141,8 @@ const navItems = baseNavItems.map((item) => {
 
 <style>
   body {
+    --nav-offset: 96px;
+
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -146,21 +150,26 @@ const navItems = baseNavItems.map((item) => {
 
   .navbar {
     position: fixed;
-    top: 0;
+    top: var(--space-sm);
     left: 0;
     right: 0;
     z-index: 1000;
-    padding: var(--space-md) 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border);
+    padding: 0;
+    pointer-events: none;
   }
 
   .navbar-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: var(--space-xs);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    pointer-events: auto;
   }
 
   .logo {
@@ -168,25 +177,27 @@ const navItems = baseNavItems.map((item) => {
     align-items: center;
     line-height: 1;
     flex-shrink: 0;
-    font-size: var(--font-size-xl);
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-base);
     font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
     text-decoration: none;
   }
 
   .nav-links {
     display: flex;
-    gap: var(--space-lg);
+    gap: var(--space-2xs);
   }
 
   .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
     position: relative;
   }
 
@@ -195,42 +206,24 @@ const navItems = baseNavItems.map((item) => {
   }
 
   .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-primary);
-    transition: width 0.3s ease;
-  }
-
-  .nav-link:hover::after {
-    width: 100%;
+    display: none;
   }
 
   .nav-link--active {
-    color: var(--text-primary);
+    background: var(--text-primary);
+    color: #ffffff;
     cursor: default;
     pointer-events: none;
   }
 
-  .nav-link--active::after {
-    width: 100%;
-  }
-
   main {
-    margin-top: 80px;
+    margin-top: var(--nav-offset);
     min-height: calc(100vh - 160px);
     flex: 1;
   }
 
   .footer {
-    padding: var(--space-sm) 0;
-    background: var(--glass-subtle);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid var(--glass-border);
+    padding: var(--space-lg) 0 var(--space-xl);
   }
 
   .footer-content {
@@ -238,6 +231,9 @@ const navItems = baseNavItems.map((item) => {
     align-items: center;
     justify-content: space-between;
     color: var(--text-secondary);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--glass-border);
+    font-size: var(--font-size-sm);
   }
 
   .social-links {
@@ -248,7 +244,7 @@ const navItems = baseNavItems.map((item) => {
   .social-links a {
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
   }
 
   .social-links a:hover {
@@ -256,17 +252,26 @@ const navItems = baseNavItems.map((item) => {
   }
 
   @media (max-width: 768px) {
+    body {
+      --nav-offset: 132px;
+    }
+
     .navbar-content {
       flex-direction: column;
-      gap: var(--space-md);
+      gap: var(--space-xs);
       align-items: center;
     }
 
     .nav-links {
-      gap: var(--space-md);
+      gap: var(--space-2xs);
       flex-wrap: wrap;
       justify-content: center;
       row-gap: var(--space-sm);
+    }
+
+    .nav-link {
+      padding: var(--space-2xs) var(--space-xs);
+      font-size: var(--font-size-sm);
     }
 
     .footer-content {
@@ -274,10 +279,6 @@ const navItems = baseNavItems.map((item) => {
       flex-wrap: nowrap;
       gap: var(--space-sm);
       text-align: center;
-    }
-
-    main {
-      margin-top: 120px;
     }
   }
 

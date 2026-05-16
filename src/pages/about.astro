@@ -4,163 +4,166 @@ import Link from '../components/Link.astro';
 ---
 
 <Layout title="About - Portfolio">
-  <section class="about-hero">
+  <section class="page-shell about-shell">
     <div class="container">
-      <div class="hero-content">
-        <div class="hero-text">
+      <div class="about-bento">
+        <section class="bento-hero about-card about-card--hero card-glass">
+          <p class="bento-eyebrow eyebrow">About</p>
           <h1>About Me</h1>
           <p class="hero-description">
             メーカーの社内システム構築支援の経験が豊富なプログラマーです。
             Web技術を中心に、バックエンドやDB、インフラ、運用まで幅広く対応しています。
           </p>
-        </div>
-        <div class="hero-image">
-          <div class="image-placeholder glass">
-            <div class="avatar">🐧</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        </section>
 
-  <section class="about-content">
-    <div class="container">
-      <div class="content-grid">
-        <div class="main-content">
-          <div class="content-section glass">
-            <h2>キャリア概要</h2>
-            <p>
-              2015年からプログラマーとして、主にメーカーの社内システム構築支援に携わってきました。
-              Web技術を中心とした開発経験が豊富で、フロントエンドからバックエンド、インフラまで幅広く対応できます。
-            </p>
-            <p>
-              10年以上の経験を通じて、大規模システムの要件定義から運用まで一貫して関わり、
-              技術的な課題解決だけでなく、チームリーダーとしてプロジェクト推進も経験しています。
-            </p>
-          </div>
+        <section class="bento-panel about-card about-card--metric card-glass">
+          <span class="metric-value">2015</span>
+          <p>プログラマーとしてのキャリア開始</p>
+        </section>
 
-          <div class="content-section glass">
-            <h2>最近の取り組み</h2>
-            <p>
-              現在は通信設計情報を統合管理するWebシステムの開発をリードしており、
-              モダンな技術スタックを活用した大規模システム構築に注力しています。
-            </p>
-            <ul>
-              <li>Java 21 + Quarkusを使った高性能なバックエンド開発</li>
-              <li>React + TypeScriptによるモダンなフロントエンド構築</li>
-              <li>Azure環境でのクラウドネイティブなシステム設計</li>
-              <li>ArangoDBを使用したグラフデータベースの活用</li>
-              <li>GitLab CI/CDを活用したDevOpsプラクティスの導入</li>
-              <li>
-                Azure Red Hat OpenShift (ARO)によるコンテナオーケストレーション
-              </li>
-            </ul>
-          </div>
-        </div>
+        <section class="bento-panel about-card about-card--wide card-glass">
+          <h2>キャリア概要</h2>
+          <p>
+            2015年からプログラマーとして、主にメーカーの社内システム構築支援に携わってきました。
+            Web技術を中心とした開発経験が豊富で、フロントエンドからバックエンド、インフラまで幅広く対応できます。
+          </p>
+          <p>
+            10年以上の経験を通じて、大規模システムの要件定義から運用まで一貫して関わり、
+            技術的な課題解決だけでなく、チームリーダーとしてプロジェクト推進も経験しています。
+          </p>
+        </section>
 
-        <div class="sidebar">
-          <div class="skills-section glass">
-            <h3>スキル・技術</h3>
-            <div class="skills-grid">
-              <div class="skill-category">
-                <h4>言語</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">Java</span>
-                  <span class="skill-tag">TypeScript</span>
-                  <span class="skill-tag">JavaScript</span>
-                  <span class="skill-tag">C#</span>
-                  <span class="skill-tag">PHP</span>
-                  <span class="skill-tag">Ruby</span>
-                  <span class="skill-tag">SQL</span>
-                  <span class="skill-tag">Python</span>
-                </div>
+        <section class="bento-panel about-card about-card--wide card-glass">
+          <h2>最近の取り組み</h2>
+          <p>
+            現在は通信設計情報を統合管理するWebシステムの開発をリードしており、
+            モダンな技術スタックを活用した大規模システム構築に注力しています。
+          </p>
+          <ul>
+            <li>Java 21 + Quarkusを使った高性能なバックエンド開発</li>
+            <li>React + TypeScriptによるモダンなフロントエンド構築</li>
+            <li>Azure環境でのクラウドネイティブなシステム設計</li>
+            <li>ArangoDBを使用したグラフデータベースの活用</li>
+            <li>GitLab CI/CDを活用したDevOpsプラクティスの導入</li>
+            <li>
+              Azure Red Hat OpenShift (ARO)によるコンテナオーケストレーション
+            </li>
+          </ul>
+        </section>
+
+        <aside class="bento-panel about-card about-card--skills card-glass">
+          <h3>スキル・技術</h3>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h4>言語</h4>
+              <div class="pill-list skill-tags">
+                <span class="skill-tag">Java</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">C#</span>
+                <span class="skill-tag">PHP</span>
+                <span class="skill-tag">Ruby</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">Python</span>
               </div>
+            </div>
 
-              <div class="skill-category">
-                <h4>フレームワーク</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">React</span>
-                  <span class="skill-tag">Quarkus</span>
-                  <span class="skill-tag">Spring</span>
-                  <span class="skill-tag">Ruby on Rails</span>
-                  <span class="skill-tag">Angular</span>
-                  <span class="skill-tag">Nuxt.js</span>
-                  <span class="skill-tag">Node.js</span>
-                  <span class="skill-tag">Vite</span>
-                </div>
+            <div class="skill-category">
+              <h4>フレームワーク</h4>
+              <div class="pill-list skill-tags">
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Quarkus</span>
+                <span class="skill-tag">Spring</span>
+                <span class="skill-tag">Ruby on Rails</span>
+                <span class="skill-tag">Angular</span>
+                <span class="skill-tag">Nuxt.js</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">Vite</span>
               </div>
+            </div>
 
-              <div class="skill-category">
-                <h4>インフラ・DB</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">Azure</span>
-                  <span class="skill-tag">Docker</span>
-                  <span class="skill-tag">PostgreSQL</span>
-                  <span class="skill-tag">ArangoDB</span>
-                  <span class="skill-tag">GitLab CI/CD</span>
-                  <span class="skill-tag">ARO</span>
-                  <span class="skill-tag">Kubernetes</span>
-                  <span class="skill-tag">Oracle DB</span>
-                </div>
+            <div class="skill-category">
+              <h4>インフラ・DB</h4>
+              <div class="pill-list skill-tags">
+                <span class="skill-tag">Azure</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">PostgreSQL</span>
+                <span class="skill-tag">ArangoDB</span>
+                <span class="skill-tag">GitLab CI/CD</span>
+                <span class="skill-tag">ARO</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">Oracle DB</span>
               </div>
+            </div>
 
-              <div class="skill-category">
-                <h4>その他</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">要件定義</span>
-                  <span class="skill-tag">システム設計</span>
-                  <span class="skill-tag">チームリーダー</span>
-                  <span class="skill-tag">プロジェクト管理</span>
-                  <span class="skill-tag">DevOps</span>
-                  <span class="skill-tag">アジャイル開発</span>
-                </div>
+            <div class="skill-category">
+              <h4>その他</h4>
+              <div class="pill-list skill-tags">
+                <span class="skill-tag">要件定義</span>
+                <span class="skill-tag">システム設計</span>
+                <span class="skill-tag">チームリーダー</span>
+                <span class="skill-tag">プロジェクト管理</span>
+                <span class="skill-tag">DevOps</span>
+                <span class="skill-tag">アジャイル開発</span>
               </div>
             </div>
           </div>
+        </aside>
 
-          <div class="contact-section glass">
-            <h3>お気軽にご連絡ください</h3>
-            <p>
-              新しい機会や興味深いプロジェクトについて、いつでもお話しできます。
-            </p>
-            <div class="contact-links">
-              <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
-              <div class="social-links">
-                <a
-                  href={import.meta.env.PUBLIC_GITHUB_URL ||
-                    'https://github.com'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-glass">GitHub</a
-                >
-              </div>
+        <section class="bento-panel about-card about-card--contact card-glass">
+          <h3>お気軽にご連絡ください</h3>
+          <p>
+            新しい機会や興味深いプロジェクトについて、いつでもお話しできます。
+          </p>
+          <div class="contact-links">
+            <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
+            <div class="social-links">
+              <a
+                href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-glass">GitHub</a
+              >
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .about-hero {
-    padding: var(--space-2xl) var(--space-xl);
-  }
-
-  .hero-content {
+  .about-bento {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-2xl);
-    align-items: center;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-md);
   }
 
-  .hero-text h1 {
-    font-size: var(--font-size-5xl);
-    margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .about-card {
+    border-radius: var(--radius-xl);
+  }
+
+  .about-card--hero {
+    grid-column: span 3;
+    min-height: 320px;
+  }
+
+  .about-card--metric,
+  .about-card--contact {
+    grid-column: span 1;
+  }
+
+  .about-card--wide,
+  .about-card--skills {
+    grid-column: span 2;
+  }
+
+  .about-card h1 {
+    max-width: 760px;
+    margin: var(--space-sm) 0 0;
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0;
   }
 
   .hero-description {
@@ -169,80 +172,46 @@ import Link from '../components/Link.astro';
     line-height: 1.6;
   }
 
-  .hero-image {
-    display: flex;
-    justify-content: center;
+  .eyebrow {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
-  .image-placeholder {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-  }
-
-  .avatar {
-    font-size: 4rem;
-  }
-
-  .about-content {
-    padding: var(--space-2xl) 0;
-  }
-
-  .content-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-2xl);
-  }
-
-  .content-section {
-    padding: var(--space-2xl);
-    border-radius: var(--radius-xl);
+  .metric-value {
+    display: block;
     margin-bottom: var(--space-xl);
+    color: var(--text-primary);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1;
   }
 
-  .content-section h2 {
+  .about-card h2 {
     color: var(--text-primary);
     margin-bottom: var(--space-md);
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-2xl);
   }
 
-  .content-section p {
+  .about-card p {
     color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: var(--space-md);
   }
 
-  .content-section ul {
+  .about-card ul {
     color: var(--text-secondary);
     padding-left: var(--space-lg);
   }
 
-  .content-section li {
+  .about-card li {
     margin-bottom: var(--space-xs);
     line-height: 1.6;
   }
 
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .skills-section,
-  .contact-section {
-    padding: var(--space-lg);
-    border-radius: var(--radius-lg);
-  }
-
-  .skills-section h3,
-  .contact-section h3 {
+  .about-card h3 {
     color: var(--text-primary);
     margin-bottom: var(--space-md);
     font-size: var(--font-size-xl);
@@ -262,24 +231,12 @@ import Link from '../components/Link.astro';
   }
 
   .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
   }
 
   .skill-tag {
-    background: var(--glass-bg);
     color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 600;
-    border: 1px solid var(--glass-border);
-  }
-
-  .contact-section p {
-    color: var(--text-secondary);
-    margin-bottom: var(--space-md);
   }
 
   .contact-links {
@@ -300,27 +257,21 @@ import Link from '../components/Link.astro';
   }
 
   @media (max-width: 768px) {
-    .hero-content,
-    .content-grid {
+    .about-bento {
       grid-template-columns: 1fr;
     }
 
-    .hero-text {
-      text-align: center;
+    .about-card,
+    .about-card--hero,
+    .about-card--metric,
+    .about-card--wide,
+    .about-card--skills,
+    .about-card--contact {
+      grid-column: span 1;
     }
 
-    .hero-text h1 {
+    .about-card h1 {
       font-size: var(--font-size-4xl);
-    }
-
-    .content-section,
-    .skills-section,
-    .contact-section {
-      padding: var(--space-lg);
-    }
-
-    .sidebar {
-      order: -1;
     }
   }
 </style>

@@ -3,21 +3,18 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Contact - Portfolio">
-  <section class="contact-hero">
+  <section class="page-shell contact-shell">
     <div class="container">
-      <div class="hero-content">
+      <header class="bento-hero contact-hero card-glass">
+        <p class="bento-eyebrow eyebrow">Contact</p>
         <h1>Contact</h1>
         <p>
           新しいプロジェクトやご相談がございましたら、 お気軽にご連絡ください。
         </p>
-      </div>
-    </div>
-  </section>
+      </header>
 
-  <section class="contact-content">
-    <div class="container">
-      <div class="contact-info-section">
-        <div class="contact-info glass">
+      <div class="bento-grid contact-bento">
+        <section class="bento-panel contact-info card-glass">
           <h2>お気軽にご連絡ください</h2>
           <p>
             新しいプロジェクトや創造的な取り組みについて、
@@ -26,7 +23,23 @@ import Layout from '../layouts/Layout.astro';
 
           <div class="contact-methods">
             <div class="contact-method">
-              <div class="method-icon">📧</div>
+              <div class="method-icon method-icon--email" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path
+                    d="M5 7.5h14v9H5v-9Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="m5.75 8.25 5.34 4.16a1.48 1.48 0 0 0 1.82 0l5.34-4.16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
               <div class="method-info">
                 <h3>Email</h3>
                 <a
@@ -38,7 +51,13 @@ import Layout from '../layouts/Layout.astro';
             </div>
 
             <div class="contact-method">
-              <div class="method-icon">🐙</div>
+              <div class="method-icon method-icon--github" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path
+                    d="M12 3.75a8.25 8.25 0 0 0-2.61 16.08c.41.08.56-.18.56-.4v-1.42c-2.28.5-2.76-.98-2.76-.98-.37-.95-.91-1.2-.91-1.2-.75-.51.06-.5.06-.5.82.06 1.25.84 1.25.84.74 1.25 1.93.89 2.4.68.08-.53.29-.89.52-1.1-1.82-.2-3.74-.91-3.74-4.05 0-.9.32-1.63.84-2.2-.08-.21-.36-1.05.08-2.18 0 0 .69-.22 2.26.84A7.72 7.72 0 0 1 12 6.43c.7 0 1.39.09 2.05.28 1.57-1.06 2.26-.84 2.26-.84.44 1.13.16 1.97.08 2.18.52.57.84 1.3.84 2.2 0 3.15-1.92 3.84-3.75 4.05.3.25.56.76.56 1.53v2.27c0 .22.15.48.57.4A8.25 8.25 0 0 0 12 3.75Z"
+                    fill="currentColor"></path>
+                </svg>
+              </div>
               <div class="method-info">
                 <h3>GitHub</h3>
                 <a
@@ -53,15 +72,15 @@ import Layout from '../layouts/Layout.astro';
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="availability glass">
+        <aside class="bento-panel availability card-glass">
           <h3>稼働状況</h3>
           <div class="status">
             <div class="status-indicator available"></div>
             <span>新規プロジェクト対応可能</span>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </section>
@@ -69,38 +88,36 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
   .contact-hero {
-    padding: var(--space-2xl) 0;
-    text-align: center;
-  }
-
-  .hero-content h1 {
-    font-size: var(--font-size-5xl);
+    min-height: 260px;
     margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
-  .hero-content p {
+  .contact-hero h1 {
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0;
+  }
+
+  .contact-hero p {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
   }
 
-  .contact-content {
-    padding: var(--space-2xl) 0;
+  .eyebrow {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
-  .contact-info-section {
-    max-width: 800px;
-    margin: 0 auto;
+  .contact-bento {
+    grid-template-columns: 2fr 1fr;
   }
 
   .contact-info,
   .availability {
-    padding: var(--space-2xl);
     border-radius: var(--radius-xl);
   }
 
@@ -129,15 +146,22 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .method-icon {
-    font-size: 1.5rem;
+    flex: 0 0 auto;
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     border-radius: var(--radius-md);
     border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+  }
+
+  .method-icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
   }
 
   .method-info h3 {
@@ -147,15 +171,19 @@ import Layout from '../layouts/Layout.astro';
     font-weight: 600;
   }
 
+  .method-info {
+    min-width: 0;
+  }
+
   .method-info .btn {
     padding: var(--space-xs) var(--space-md);
     font-size: var(--font-size-sm);
     margin-top: var(--space-xs);
     display: inline-block;
-  }
-
-  .availability {
-    margin-top: var(--space-lg);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    line-height: 1.4;
   }
 
   .availability h3 {
@@ -178,7 +206,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .status-indicator.available {
-    background: #27ca3f;
+    background: #16a34a;
   }
 
   .status span {
@@ -193,13 +221,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
-    .hero-content h1 {
+    .contact-hero h1 {
       font-size: var(--font-size-4xl);
-    }
-
-    .contact-info,
-    .availability {
-      padding: var(--space-lg);
     }
 
     .contact-method {

@@ -10,7 +10,7 @@ describe('Career data source', () => {
   });
 
   it('renders timeline by mapping content entries and marks first item as current', () => {
-    expect(page).toMatch(/\{timeline\.map\(\(item,\s*index\)\s*=>/);
+    expect(page).toMatch(/\{\s*timeline\.map\(\(item,\s*index\)\s*=>/);
     expect(page).toMatch(/current:\s*index\s*===\s*0/);
   });
 });

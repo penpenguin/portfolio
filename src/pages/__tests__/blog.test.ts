@@ -49,6 +49,20 @@ describe('ブログ機能', () => {
     expect(index).toContain('ブログや開発に関する記事を公開しています');
   });
 
+  it('空状態は...テキストではなく装飾SVGアイコンを使う', () => {
+    const index = load('../blog/index.astro');
+    const archivePage = load('../blog/[year]/[month]/index.astro');
+
+    expect(index).not.toMatch(/<div class="empty-icon">\.\.\.<\/div>/);
+    expect(archivePage).not.toMatch(/<div class="empty-icon">\.\.\.<\/div>/);
+    expect(index).toMatch(
+      /<div class="empty-icon" aria-hidden="true">[\s\S]*<svg/
+    );
+    expect(archivePage).toMatch(
+      /<div class="empty-icon" aria-hidden="true">[\s\S]*<svg/
+    );
+  });
+
   it('ブログ詳細ページはgetStaticPathsでdraftを除外してプリレンダーする', () => {
     const detailPage = load('../blog/[year]/[month]/[slug].astro');
     expect(detailPage).toMatch(
@@ -67,9 +81,10 @@ describe('ブログ機能', () => {
   it('月別アーカイブの戻るリンクはcontent上部に配置する', () => {
     const archivePage = load('../blog/[year]/[month]/index.astro');
     const heroMatch = archivePage.match(
-      /<section class="blog-hero">([\s\S]*?)<\/section>/
+      /<header class="[^"]*blog-hero[^"]*card-glass[^"]*">([\s\S]*?)<\/header>/
     );
 
+    expect(heroMatch?.[1]).toBeDefined();
     expect(heroMatch?.[1]).not.toContain('href="/blog"');
     expect(archivePage).toContain('archive-header');
     expect(archivePage).toContain('← ブログ一覧に戻る');
@@ -85,10 +100,10 @@ describe('ブログ機能', () => {
     );
   });
 
-  it('ブログ詳細ページはcontainerとglassラッパーで整形されている', () => {
+  it('ブログ詳細ページはcontainerとBentoカードラッパーで整形されている', () => {
     const detailPage = load('../blog/[year]/[month]/[slug].astro');
     expect(detailPage).toContain('class="container"');
-    expect(detailPage).toContain('content-wrapper glass');
+    expect(detailPage).toContain('content-wrapper card-glass');
   });
 
   it('ブログ詳細のタグpillが小さめのフォントサイズで表示される', () => {
@@ -146,16 +161,16 @@ describe('ブログ機能', () => {
     );
   });
 
-  it('感想吹き出し本体はcard-glassに近いトークンで表示される', () => {
+  it('感想吹き出し本体はBentoカードに近いトークンで表示される', () => {
     const detailPage = load('../blog/[year]/[month]/[slug].astro');
     expect(detailPage).toMatch(
-      /\.author-impression__content\s*\{[^}]*background:\s*var\(--glass-bg\)/
+      /\.author-impression__content\s*\{[^}]*background:\s*var\(--bento-card-bg\)/
     );
     expect(detailPage).toMatch(
       /\.author-impression__content\s*\{[^}]*border:\s*1px\s+solid\s+var\(--glass-border\)/
     );
     expect(detailPage).toMatch(
-      /\.author-impression__content\s*\{[^}]*box-shadow:\s*var\(--shadow-glass\)/
+      /\.author-impression__content\s*\{[^}]*box-shadow:\s*var\(--shadow-sm\)/
     );
   });
 

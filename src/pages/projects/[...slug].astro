@@ -29,8 +29,9 @@ const projectHeroClass = project.data.heroImage
           >
         </div>
 
-        <div class={projectHeroClass}>
+        <div class={`bento-hero ${projectHeroClass} card-glass`}>
           <div class="project-meta">
+            <p class="bento-eyebrow eyebrow">Project</p>
             <h1>{project.data.title}</h1>
             <p class="project-description">{project.data.description}</p>
 
@@ -48,7 +49,7 @@ const projectHeroClass = project.data.heroImage
 
               {
                 project.data.tags && (
-                  <div class="project-tags">
+                  <div class="pill-list project-tags">
                     {project.data.tags.map((tag) => (
                       <span class="tag">{tag}</span>
                     ))}
@@ -98,7 +99,7 @@ const projectHeroClass = project.data.heroImage
 
     <main class="project-content">
       <div class="container">
-        <div class="content-wrapper glass">
+        <div class="bento-panel content-wrapper card-glass">
           <Content />
         </div>
       </div>
@@ -108,7 +109,7 @@ const projectHeroClass = project.data.heroImage
 
 <style>
   .project-detail {
-    padding-top: var(--space-lg);
+    padding-top: var(--space-xl);
   }
 
   .breadcrumb {
@@ -148,12 +149,17 @@ const projectHeroClass = project.data.heroImage
   }
 
   .project-meta h1 {
-    font-size: var(--font-size-4xl);
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
     margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: 0;
+  }
+
+  .eyebrow {
+    margin: 0 0 var(--space-sm) 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .project-description {
@@ -178,13 +184,10 @@ const projectHeroClass = project.data.heroImage
   }
 
   .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
   }
 
   .tag {
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     color: var(--text-accent);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
@@ -206,7 +209,8 @@ const projectHeroClass = project.data.heroImage
     width: 100%;
     height: auto;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
   }
 
   .project-content {
@@ -216,8 +220,6 @@ const projectHeroClass = project.data.heroImage
   .content-wrapper {
     padding: var(--space-2xl);
     border-radius: var(--radius-xl);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
 
   .content-wrapper :global(h1),
@@ -255,7 +257,7 @@ const projectHeroClass = project.data.heroImage
   }
 
   .content-wrapper :global(pre) {
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     padding: var(--space-md);

@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest",
+    "test:visual": "playwright test",
     "check": "astro check && tsc",
     "format": "prettier --write ."
   },
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@playwright/test": "^1.60.0",
     "@testing-library/dom": "^10.4.1",
     "@types/node": "^22.19.19",
     "jsdom": "^29.1.1",
