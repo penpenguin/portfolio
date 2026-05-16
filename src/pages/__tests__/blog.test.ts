@@ -49,6 +49,55 @@ describe('ブログ機能', () => {
     expect(index).toContain('ブログや開発に関する記事を公開しています');
   });
 
+  it('ブログ一覧は最新記事とアーカイブをBentoグリッドとして配置する', () => {
+    const index = load('../blog/index.astro');
+    expect(index).toContain('const featuredPost = latestPosts[0];');
+    expect(index).toContain('const secondaryPosts = latestPosts.slice(1);');
+    expect(index).toContain('class="bento-grid blog-bento"');
+    expect(index).toContain('post-card--featured');
+    expect(index).toContain('archive-panel');
+    expect(index).toContain('post-visual--fallback');
+    expect(index).toMatch(
+      /\.blog-bento\s*\{[^}]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)/
+    );
+    expect(index).toMatch(
+      /\.archive-panel\s*\{[^}]*grid-column:\s*9\s*\/\s*span\s*4/s
+    );
+  });
+
+  it('月別アーカイブもBlog一覧と同じBentoカード構成を使う', () => {
+    const archivePage = load('../blog/[year]/[month]/index.astro');
+    expect(archivePage).toContain('const months = Array.from');
+    expect(archivePage).toContain('const featuredPost = posts[0];');
+    expect(archivePage).toContain('const secondaryPosts = posts.slice(1);');
+    expect(archivePage).toContain(
+      'class="bento-grid blog-bento blog-bento--archive"'
+    );
+    expect(archivePage).toContain('post-card--featured');
+    expect(archivePage).toContain('post-visual--fallback');
+    expect(archivePage).toContain('archive-panel');
+    expect(archivePage).toContain('month-link--current');
+    expect(archivePage).toMatch(
+      /\.archive-panel\s*\{[^}]*grid-column:\s*9\s*\/\s*span\s*4/s
+    );
+  });
+
+  it('BlogのBentoカードは長文で縦に伸びすぎないように本文を制限する', () => {
+    const index = load('../blog/index.astro');
+    expect(index).not.toMatch(/\.post-card--featured\s*\{[^}]*grid-row:/);
+    expect(index).toMatch(
+      /\.post-description\s*\{[^}]*-webkit-line-clamp:\s*3/s
+    );
+    expect(index).toMatch(
+      /\.post-card--featured\s+\.post-description\s*\{[^}]*-webkit-line-clamp:\s*4/s
+    );
+    expect(index).toMatch(
+      /\.post-meta\s+h2\s*\{[^}]*font-size:\s*var\(--font-size-xl\)/s
+    );
+    expect(index).toMatch(/\.blog-bento\s*\{[^}]*align-items:\s*start/s);
+    expect(index).not.toMatch(/\.post-card\s*\{[^}]*min-height:\s*100%/);
+  });
+
   it('空状態は...テキストではなく装飾SVGアイコンを使う', () => {
     const index = load('../blog/index.astro');
     const archivePage = load('../blog/[year]/[month]/index.astro');
