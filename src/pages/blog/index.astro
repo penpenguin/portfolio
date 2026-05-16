@@ -100,6 +100,13 @@ const months = Array.from(
                     </li>
                   ))}
                 </ul>
+                <div class="archive-metric" aria-hidden="true">
+                  <span>{months.length}</span>
+                  <span>months</span>
+                </div>
+                <p class="archive-summary">
+                  {months.length} archives / Latest {months[0]}
+                </p>
               </aside>
             )}
             {secondaryPosts.map((post) => (
@@ -380,7 +387,10 @@ const months = Array.from(
 
   .archive-panel {
     grid-column: 9 / span 4;
+    align-self: stretch;
     padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
     border-radius: var(--radius-xl);
     background:
       linear-gradient(135deg, rgba(241, 245, 249, 0.82), transparent 62%),
@@ -418,6 +428,36 @@ const months = Array.from(
   .month-list a:hover {
     color: var(--text-accent);
     border-color: var(--text-accent);
+  }
+
+  .archive-summary {
+    margin: auto 0 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .archive-metric {
+    margin-top: auto;
+    color: var(--text-primary);
+  }
+
+  .archive-metric span:first-child {
+    display: block;
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .archive-metric span:last-child {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .archive-metric + .archive-summary {
+    margin-top: var(--space-xs);
   }
 
   .empty-state {
