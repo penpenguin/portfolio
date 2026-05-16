@@ -57,6 +57,9 @@ describe('ブログ機能', () => {
     expect(index).toContain('post-card--featured');
     expect(index).toContain('archive-panel');
     expect(index).toContain('post-visual--fallback');
+    expect(index.indexOf('archive-panel')).toBeLessThan(
+      index.indexOf('secondaryPosts.map')
+    );
     expect(index).toMatch(
       /\.blog-bento\s*\{[^}]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)/
     );
@@ -77,6 +80,9 @@ describe('ブログ機能', () => {
     expect(archivePage).toContain('post-visual--fallback');
     expect(archivePage).toContain('archive-panel');
     expect(archivePage).toContain('month-link--current');
+    expect(archivePage.indexOf('archive-panel')).toBeLessThan(
+      archivePage.indexOf('secondaryPosts.map')
+    );
     expect(archivePage).toMatch(
       /\.archive-panel\s*\{[^}]*grid-column:\s*9\s*\/\s*span\s*4/s
     );

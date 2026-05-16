@@ -89,6 +89,19 @@ const months = Array.from(
                 </div>
               </article>
             )}
+            {months.length > 0 && (
+              <aside class="bento-panel archive-panel card-glass">
+                <p class="bento-eyebrow eyebrow">Archive</p>
+                <h2>月別アーカイブ</h2>
+                <ul class="month-list">
+                  {months.map((month) => (
+                    <li>
+                      <Link href={`/blog/${month}`}>{month}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            )}
             {secondaryPosts.map((post) => (
               <article class="bento-panel post-card card card-glass">
                 <div class="post-header">
@@ -134,19 +147,6 @@ const months = Array.from(
                 </div>
               </article>
             ))}
-            {months.length > 0 && (
-              <aside class="bento-panel archive-panel card-glass">
-                <p class="bento-eyebrow eyebrow">Archive</p>
-                <h2>月別アーカイブ</h2>
-                <ul class="month-list">
-                  {months.map((month) => (
-                    <li>
-                      <Link href={`/blog/${month}`}>{month}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </aside>
-            )}
           </div>
         ) : (
           <div class="bento-panel empty-state card-glass">
