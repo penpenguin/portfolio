@@ -1,6 +1,7 @@
 # Repository Guidelines
 
 ## Serena Tooling Expectations
+
 - Default to Serena's MCP integrations whenever you need context; it centralizes specs, saved memories, and helper scripts so agents stay in sync.
 - Kick off each session by opening the Serena Instructions Manual (call `mcp__serena__initial_instructions`) and listing resources via `list_mcp_resources` to learn what's already documented before poking around the repo.
 - Use `read_mcp_resource` (or the parameterized templates) instead of ad-hoc browsing when you need docs from `docs/` or historical decisions, and record new findings with `write_memory` so future agents inherit them.
@@ -31,8 +32,8 @@
 ## Testing Guidelines
 
 - Follow Takuto Wada’s TDD loop: write the smallest failing Vitest spec, get it green, then refactor.
-- Add Vitest plus jsdom (`npm install -D vitest jsdom @testing-library/dom`) and place specs as `*.test.ts` alongside the code they cover.
-- Keep fixtures lightweight; extract shared ones to `src/utils/__tests__/fixtures/` only when duplication appears.
+- Add Vitest plus jsdom (`npm install -D vitest jsdom @testing-library/dom`) and place specs under `tests/unit/`, mirroring the source area they cover.
+- Keep fixtures lightweight; extract shared ones to `tests/fixtures/` only when duplication appears.
 - Include `npm run check` inside the red-green cycle to surface schema drift early.
 
 ## Commit & Pull Request Guidelines
