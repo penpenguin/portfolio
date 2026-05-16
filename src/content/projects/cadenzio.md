@@ -2,6 +2,7 @@
 title: 'Cadenzio - Web Loop Player'
 description: 'ローカル音源の任意区間をループ再生し耳コピ練習を効率化できるPWA対応音楽プレイヤー'
 pubDate: 2025-06-15
+heroImage: '/assets/projects/cadenzio.webp'
 tags: ['Astro', 'TypeScript', 'Web Audio API', 'PWA', 'noUiSlider']
 github: 'https://github.com/penpenguin/cadenzio'
 link: 'https://penpenguin.github.io/cadenzio/'

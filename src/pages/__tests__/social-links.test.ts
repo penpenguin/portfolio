@@ -62,3 +62,12 @@ describe('ContactページのBentoレイアウト', () => {
     expect(mobileMatch?.[0]).toContain('grid-template-columns: 1fr');
   });
 });
+
+describe('AboutページのCTAボタン', () => {
+  it('お問い合わせとGitHubを同じボタンサイズで表示する', () => {
+    expect(aboutSource).toMatch(
+      /\.contact-links\s+\.btn\s*\{[^}]*min-width:\s*9rem[^}]*\}/
+    );
+    expect(aboutSource).not.toMatch(/\.social-links\s+\.btn\s*\{/);
+  });
+});

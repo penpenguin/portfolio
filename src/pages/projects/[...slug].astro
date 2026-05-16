@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Link from '../../components/Link.astro';
 import { getCollection, render } from 'astro:content';
 import { formatDate } from '../../utils/formatDate';
+import { withBase } from '../../utils/withBase';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -89,7 +90,10 @@ const projectHeroClass = project.data.heroImage
           {
             project.data.heroImage && (
               <div class="project-image">
-                <img src={project.data.heroImage} alt={project.data.title} />
+                <img
+                  src={withBase(project.data.heroImage)}
+                  alt={project.data.title}
+                />
               </div>
             )
           }

@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -37,5 +37,34 @@ describe('projects content entries', () => {
     expect(config).toMatch(/const\s+projects\s*=\s*defineCollection\(\{/);
     expect(config).toMatch(/base:\s*['"]\.\/src\/content\/projects['"]/);
     expect(config).toMatch(/pattern:\s*['"]\*\*\/\*\.md['"]/);
+  });
+
+  it('公開ページを持つプロジェクトに公開用スクリーンショットをheroImageとして設定する', () => {
+    const projectDir = resolve(currentDir, '../projects');
+    const publicDir = resolve(currentDir, '../../../public');
+    const entries = readdirSync(projectDir).filter((file) =>
+      file.endsWith('.md')
+    );
+
+    expect(entries.length).toBeGreaterThan(0);
+
+    for (const entry of entries) {
+      const content = readFileSync(resolve(projectDir, entry), 'utf-8');
+      const match = content.match(/heroImage:\s*'([^']+)'/);
+
+      if (entry === 'petatas.md') {
+        expect(
+          match,
+          'petatas should use the fallback project visual'
+        ).toBeNull();
+        continue;
+      }
+
+      expect(match, `${entry} should define heroImage`).not.toBeNull();
+      expect(match?.[1]).toMatch(/^\/assets\/projects\/.+\.webp$/);
+      expect(existsSync(resolve(publicDir, match?.[1].slice(1) ?? ''))).toBe(
+        true
+      );
+    }
   });
 });

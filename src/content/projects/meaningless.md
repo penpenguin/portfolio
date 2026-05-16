@@ -2,6 +2,7 @@
 title: 'Meaningless - Aquarium Web App'
 description: 'リアルなアクアリウム風静的Webアプリケーション。Three.jsとGLSLシェーダーを使用した、ブラウザで動作する癒し系アプリ'
 pubDate: 2024-12-01
+heroImage: '/assets/projects/meaningless.webp'
 tags: ['TypeScript', 'Three.js', 'GLSL', 'TailwindCSS', 'DaisyUI', 'Vite']
 github: 'https://github.com/penpenguin/meaningless'
 link: 'https://penpenguin.github.io/meaningless/'

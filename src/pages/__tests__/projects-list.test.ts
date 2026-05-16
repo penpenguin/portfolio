@@ -13,6 +13,12 @@ const getMobileBlock = () => {
 };
 
 describe('Projects list Bento layout', () => {
+  it('project画像はGitHub Pagesのbase pathを考慮して解決する', () => {
+    expect(source).toContain("import { withBase } from '../../utils/withBase'");
+    expect(source).toContain('src={withBase(project.data.heroImage)}');
+    expect(source).toMatch(/\.project-image\s*\{[^}]*object-position:\s*top/);
+  });
+
   it('プロジェクト一覧は公開日の降順で並べ、最新をfeaturedにする', () => {
     expect(source).toContain('const sortedProjects = [...projects].sort');
     expect(source).toMatch(
@@ -27,11 +33,20 @@ describe('Projects list Bento layout', () => {
     );
   });
 
-  it('画像がない場合も装飾パネルではなく情報カードとして表示する', () => {
-    expect(source).not.toContain('project-card__fallback-visual');
-    expect(source).not.toContain('project-card__fallback-node');
+  it('画像がない場合はUI部品を描かない背景アートとして代替ビジュアルを表示する', () => {
+    expect(source).toContain('project-card__fallback-visual');
+    expect(source).toContain('project-card__fallback-art');
+    expect(source).not.toContain('project-card__fallback-mark');
+    expect(source).not.toContain('project-card__fallback-line');
+    expect(source).not.toContain('project-card__fallback-mosaic');
+    expect(source).not.toContain('project-card__fallback-tile');
+    expect(source).not.toContain('project-card__fallback-graph');
+    expect(source).not.toContain('project-card__fallback-bar');
     expect(source).toContain('project-summary');
-    expect(source).toMatch(/project\.data\.heroImage\s*&&/);
+    expect(source).toMatch(/project\.data\.heroImage\s*\?\s*\(/);
+    expect(source).toMatch(
+      /\.project-card__fallback-visual\s*\{[^}]*var\(--bento-muted-bg\)/s
+    );
   });
 
   it('画像なしfeaturedカードに空白を作る固定高を持たせない', () => {

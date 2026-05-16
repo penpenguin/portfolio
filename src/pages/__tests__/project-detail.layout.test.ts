@@ -14,6 +14,8 @@ function loadProjectDetailSource(): string {
 describe('Project detail layout', () => {
   it('falls back to a centered single-column layout when no hero image is provided', () => {
     const source = loadProjectDetailSource();
+    expect(source).toContain("import { withBase } from '../../utils/withBase'");
+    expect(source).toContain('src={withBase(project.data.heroImage)}');
     expect(source).toMatch(
       /const projectHeroClass = project\.data\.heroImage\s*\?\s*'project-hero'\s*:\s*'project-hero project-hero--single';/
     );
