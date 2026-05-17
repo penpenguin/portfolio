@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
   createPortfolioTools,
+  initializePortfolioTools,
   isSafePortfolioUrl,
   registerTool as registerToolAdapter,
   type AgentIndex,
@@ -55,10 +56,33 @@ const index: AgentIndex = {
 
 beforeEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
   delete window.webMCP;
   delete navigator.webMCP;
   delete navigator.modelContext;
   delete window.__portfolioTools;
+});
+
+describe('initializePortfolioTools', () => {
+  it('agent-index.jsonを常に最新取得するfetch設定で読み込む', async () => {
+    const fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => index,
+    });
+    vi.stubGlobal('fetch', fetch);
+
+    await initializePortfolioTools();
+
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('agent-index.json'),
+      expect.objectContaining({
+        cache: 'no-store',
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+    );
+  });
 });
 
 describe('registerTool', () => {
@@ -161,6 +185,35 @@ describe('createPortfolioTools', () => {
     await expect(
       Promise.resolve(getContactRoutes?.invoke({}))
     ).resolves.toEqual(index.contact);
+  });
+
+  it('portfolio.get_career_summaryで最新の経歴を反映した要約を返す', async () => {
+    const latestIndex: AgentIndex = {
+      ...index,
+      career: [
+        {
+          title: 'Azure RAG/FulltextSearch 構築支援',
+          period: '2025.07 - ',
+          role: 'SRE',
+          description: '全文検索システム導入支援',
+          teamSize: '8名',
+          responsibilities: 'PoC、要件定義、設計、実装、テスト、運用、インフラ構築',
+          techStack: ['Azure AI Search', 'Azure OpenAI', 'Java', 'React'],
+        },
+      ],
+    };
+    const tools = createPortfolioTools(latestIndex);
+    const getCareerSummary = tools.find(
+      (tool) => tool.name === 'portfolio.get_career_summary'
+    );
+
+    await expect(
+      Promise.resolve(getCareerSummary?.invoke({}))
+    ).resolves.toMatchObject({
+      career: latestIndex.career,
+      suggestedSummary:
+        '現在はAzure RAG/FulltextSearch 構築支援でSREとして、全文検索システム導入支援を担当しています。10年以上にわたり、メーカーの社内システム開発を中心に要件定義、設計、実装、テスト、運用、インフラ構築まで幅広く担当しています。',
+    });
   });
 });
 

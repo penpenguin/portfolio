@@ -153,8 +153,7 @@ export function createPortfolioTools(
       },
       invoke: (): CareerSummaryOutput => ({
         career: index.career,
-        suggestedSummary:
-          '10年以上にわたり、メーカーの社内システム開発を中心に要件定義、設計、実装、テスト、運用、インフラ構築まで幅広く担当しています。',
+        suggestedSummary: buildCareerSummary(index.career),
       }),
     },
     {
@@ -181,6 +180,18 @@ export function createPortfolioTools(
       },
     },
   ];
+}
+
+function buildCareerSummary(career: AgentIndex['career']): string {
+  const baseSummary =
+    '10年以上にわたり、メーカーの社内システム開発を中心に要件定義、設計、実装、テスト、運用、インフラ構築まで幅広く担当しています。';
+  const [latestCareer] = career;
+
+  if (!latestCareer) {
+    return baseSummary;
+  }
+
+  return `現在は${latestCareer.title}で${latestCareer.role}として、${latestCareer.description}を担当しています。${baseSummary}`;
 }
 
 const emptyInputSchema = {
@@ -287,6 +298,7 @@ export async function initializePortfolioTools(): Promise<void> {
 
 async function fetchAgentIndex(): Promise<AgentIndex> {
   const response = await fetch(withBase('/agent-index.json'), {
+    cache: 'no-store',
     headers: {
       Accept: 'application/json',
     },
