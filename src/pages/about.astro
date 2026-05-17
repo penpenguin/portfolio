@@ -4,288 +4,290 @@ import Link from '../components/Link.astro';
 ---
 
 <Layout title="About - Portfolio">
-  <section class="about-hero">
+  <section class="page-shell about-shell">
     <div class="container">
-      <div class="hero-content">
-        <div class="hero-text">
-          <h1>About Me</h1>
+      <div class="about-bento">
+        <section class="bento-hero about-card about-card--hero card-glass">
+          <p class="bento-eyebrow eyebrow">Enterprise systems programmer</p>
+          <h1>業務システムの設計と実装をつなぐ</h1>
           <p class="hero-description">
-            メーカーの社内システム構築支援の経験が豊富なプログラマーです。
-            Web技術を中心に、バックエンドやDB、インフラ、運用まで幅広く対応しています。
+            メーカーの社内システム構築支援を中心に、要件整理、Webアプリケーション実装、
+            クラウド基盤、運用改善まで一続きで扱うプログラマーです。
           </p>
-        </div>
-        <div class="hero-image">
-          <div class="image-placeholder glass">
-            <div class="avatar">🐧</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        </section>
 
-  <section class="about-content">
-    <div class="container">
-      <div class="content-grid">
-        <div class="main-content">
-          <div class="content-section glass">
-            <h2>キャリア概要</h2>
-            <p>
-              2015年からプログラマーとして、主にメーカーの社内システム構築支援に携わってきました。
-              Web技術を中心とした開発経験が豊富で、フロントエンドからバックエンド、インフラまで幅広く対応できます。
-            </p>
-            <p>
-              10年以上の経験を通じて、大規模システムの要件定義から運用まで一貫して関わり、
-              技術的な課題解決だけでなく、チームリーダーとしてプロジェクト推進も経験しています。
-            </p>
-          </div>
+        <section
+          class="bento-panel about-card about-card--experience card-glass"
+        >
+          <p class="bento-eyebrow eyebrow">Experience</p>
+          <span class="metric-value">10+</span>
+          <p>
+            長期運用される業務システムの開発と改善に継続して関わっています。
+          </p>
+        </section>
 
-          <div class="content-section glass">
-            <h2>最近の取り組み</h2>
-            <p>
-              現在は通信設計情報を統合管理するWebシステムの開発をリードしており、
-              モダンな技術スタックを活用した大規模システム構築に注力しています。
-            </p>
-            <ul>
-              <li>Java 21 + Quarkusを使った高性能なバックエンド開発</li>
-              <li>React + TypeScriptによるモダンなフロントエンド構築</li>
-              <li>Azure環境でのクラウドネイティブなシステム設計</li>
-              <li>ArangoDBを使用したグラフデータベースの活用</li>
-              <li>GitLab CI/CDを活用したDevOpsプラクティスの導入</li>
-              <li>
-                Azure Red Hat OpenShift (ARO)によるコンテナオーケストレーション
-              </li>
-            </ul>
-          </div>
-        </div>
+        <section class="bento-panel about-card about-card--role">
+          <p class="bento-eyebrow eyebrow">Role</p>
+          <span class="metric-value">Bridge</span>
+          <p>
+            設計と実装の橋渡し役として、判断材料づくりと開発推進を支援します。
+          </p>
+        </section>
 
-        <div class="sidebar">
-          <div class="skills-section glass">
-            <h3>スキル・技術</h3>
-            <div class="skills-grid">
-              <div class="skill-category">
-                <h4>言語</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">Java</span>
-                  <span class="skill-tag">TypeScript</span>
-                  <span class="skill-tag">JavaScript</span>
-                  <span class="skill-tag">C#</span>
-                  <span class="skill-tag">PHP</span>
-                  <span class="skill-tag">Ruby</span>
-                  <span class="skill-tag">SQL</span>
-                  <span class="skill-tag">Python</span>
-                </div>
-              </div>
+        <section class="bento-panel about-card about-card--focus card-glass">
+          <p class="bento-eyebrow eyebrow">Current Focus</p>
+          <h2>複雑な業務情報を、扱いやすいWebシステムへ</h2>
+          <p>
+            現在は通信設計情報を統合管理するWebシステムの開発を支援しています。
+            現場の業務知識を、保守しやすい画面・API・データモデルに落とし込みます。
+          </p>
+        </section>
 
-              <div class="skill-category">
-                <h4>フレームワーク</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">React</span>
-                  <span class="skill-tag">Quarkus</span>
-                  <span class="skill-tag">Spring</span>
-                  <span class="skill-tag">Ruby on Rails</span>
-                  <span class="skill-tag">Angular</span>
-                  <span class="skill-tag">Nuxt.js</span>
-                  <span class="skill-tag">Node.js</span>
-                  <span class="skill-tag">Vite</span>
-                </div>
-              </div>
-
-              <div class="skill-category">
-                <h4>インフラ・DB</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">Azure</span>
-                  <span class="skill-tag">Docker</span>
-                  <span class="skill-tag">PostgreSQL</span>
-                  <span class="skill-tag">ArangoDB</span>
-                  <span class="skill-tag">GitLab CI/CD</span>
-                  <span class="skill-tag">ARO</span>
-                  <span class="skill-tag">Kubernetes</span>
-                  <span class="skill-tag">Oracle DB</span>
-                </div>
-              </div>
-
-              <div class="skill-category">
-                <h4>その他</h4>
-                <div class="skill-tags">
-                  <span class="skill-tag">要件定義</span>
-                  <span class="skill-tag">システム設計</span>
-                  <span class="skill-tag">チームリーダー</span>
-                  <span class="skill-tag">プロジェクト管理</span>
-                  <span class="skill-tag">DevOps</span>
-                  <span class="skill-tag">アジャイル開発</span>
-                </div>
-              </div>
+        <section class="bento-panel about-card about-card--stack card-glass">
+          <p class="bento-eyebrow eyebrow">Core Stack</p>
+          <div class="stack-tiles">
+            <div class="stack-tile">
+              <span>Backend</span>
+              <strong>Java / Quarkus / Spring</strong>
+            </div>
+            <div class="stack-tile">
+              <span>Frontend</span>
+              <strong>TypeScript / React / Astro</strong>
+            </div>
+            <div class="stack-tile">
+              <span>Platform</span>
+              <strong>Azure / OpenShift / CI/CD</strong>
             </div>
           </div>
+        </section>
 
-          <div class="contact-section glass">
-            <h3>お気軽にご連絡ください</h3>
-            <p>
-              新しい機会や興味深いプロジェクトについて、いつでもお話しできます。
-            </p>
-            <div class="contact-links">
-              <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
-              <div class="social-links">
-                <a
-                  href={import.meta.env.PUBLIC_GITHUB_URL ||
-                    'https://github.com'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-glass">GitHub</a
-                >
-              </div>
+        <section class="bento-panel about-card about-card--delivery card-glass">
+          <p class="bento-eyebrow eyebrow">Delivery</p>
+          <h2>要件から運用まで、分断しない</h2>
+          <div class="delivery-grid">
+            <div>
+              <span class="tile-index">01</span>
+              <strong>要求を整理する</strong>
+              <p>業務の前提と制約を確認し、実装可能な単位に分解します。</p>
+            </div>
+            <div>
+              <span class="tile-index">02</span>
+              <strong>形にして検証する</strong>
+              <p>画面、API、データ構造を動く形にしながら判断を早めます。</p>
+            </div>
+            <div>
+              <span class="tile-index">03</span>
+              <strong>運用に残す</strong>
+              <p>CI/CD、監視、保守性を含めて長く使える状態へ整えます。</p>
             </div>
           </div>
-        </div>
+        </section>
+
+        <section class="bento-panel about-card about-card--contact card-glass">
+          <p class="bento-eyebrow eyebrow">Contact</p>
+          <h3>System design / implementation相談</h3>
+          <p>業務システムの設計、実装、運用改善について話せます。</p>
+          <div class="contact-links">
+            <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
+            <div class="social-links">
+              <a
+                href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-glass">GitHub</a
+              >
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .about-hero {
-    padding: var(--space-2xl) var(--space-xl);
-  }
-
-  .hero-content {
+  .about-bento {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-2xl);
-    align-items: center;
-  }
-
-  .hero-text h1 {
-    font-size: var(--font-size-5xl);
-    margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-description {
-    font-size: var(--font-size-lg);
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .hero-image {
-    display: flex;
-    justify-content: center;
-  }
-
-  .image-placeholder {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-  }
-
-  .avatar {
-    font-size: 4rem;
-  }
-
-  .about-content {
-    padding: var(--space-2xl) 0;
-  }
-
-  .content-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-2xl);
-  }
-
-  .content-section {
-    padding: var(--space-2xl);
-    border-radius: var(--radius-xl);
-    margin-bottom: var(--space-xl);
-  }
-
-  .content-section h2 {
-    color: var(--text-primary);
-    margin-bottom: var(--space-md);
-    font-size: var(--font-size-3xl);
-  }
-
-  .content-section p {
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: var(--space-md);
-  }
-
-  .content-section ul {
-    color: var(--text-secondary);
-    padding-left: var(--space-lg);
-  }
-
-  .content-section li {
-    margin-bottom: var(--space-xs);
-    line-height: 1.6;
-  }
-
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .skills-section,
-  .contact-section {
-    padding: var(--space-lg);
-    border-radius: var(--radius-lg);
-  }
-
-  .skills-section h3,
-  .contact-section h3 {
-    color: var(--text-primary);
-    margin-bottom: var(--space-md);
-    font-size: var(--font-size-xl);
-  }
-
-  .skills-grid {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: var(--space-md);
   }
 
-  .skill-category h4 {
-    color: var(--text-primary);
-    margin-bottom: var(--space-xs);
-    font-size: var(--font-size-base);
-    font-weight: 600;
-  }
-
-  .skill-tags {
+  .about-card {
+    min-height: 220px;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
   }
 
-  .skill-tag {
-    background: var(--glass-bg);
-    color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
-    font-weight: 600;
-    border: 1px solid var(--glass-border);
+  .about-card--hero {
+    grid-column: span 4;
+    min-height: 390px;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.96),
+        rgba(240, 253, 244, 0.78) 52%,
+        rgba(236, 254, 255, 0.7)
+      ),
+      var(--bento-card-bg);
   }
 
-  .contact-section p {
+  .about-card--experience {
+    grid-column: span 2;
+    background:
+      linear-gradient(135deg, rgba(219, 234, 254, 0.76), transparent 62%),
+      var(--bento-card-bg);
+  }
+
+  .about-card--role {
+    grid-column: span 2;
+    background: var(--text-primary);
+    color: #ffffff;
+    position: relative;
+  }
+
+  .about-card--role::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    bottom: -40px;
+    width: 150px;
+    height: 150px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+  }
+
+  .about-card--role .eyebrow,
+  .about-card--role p {
+    color: rgba(255, 255, 255, 0.74);
+  }
+
+  .about-card--role .metric-value {
+    color: #ffffff;
+    font-size: clamp(3rem, 12vw, 5.4rem);
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-card--focus,
+  .about-card--stack {
+    grid-column: span 2;
+  }
+
+  .about-card--delivery {
+    grid-column: span 4;
+    background:
+      linear-gradient(135deg, rgba(254, 249, 195, 0.58), transparent 58%),
+      var(--bento-card-bg);
+  }
+
+  .about-card--contact {
+    grid-column: span 2;
+  }
+
+  .about-card h1 {
+    max-width: 820px;
+    margin: var(--space-sm) 0;
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    line-height: 0.98;
+    letter-spacing: 0;
+  }
+
+  .about-card h2,
+  .about-card h3 {
+    color: var(--text-primary);
+    margin: 0 0 var(--space-sm);
+  }
+
+  .about-card h2 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .about-card h3 {
+    font-size: var(--font-size-xl);
+  }
+
+  .about-card p {
     color: var(--text-secondary);
-    margin-bottom: var(--space-md);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .hero-description {
+    max-width: 760px;
+    font-size: var(--font-size-lg);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .metric-value {
+    display: block;
+    color: var(--text-primary);
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .stack-tiles,
+  .delivery-grid {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .stack-tile,
+  .delivery-grid > div {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.48);
+    padding: var(--space-sm);
+  }
+
+  .stack-tile span,
+  .tile-index {
+    display: block;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .stack-tile strong,
+  .delivery-grid strong {
+    display: block;
+    margin-top: var(--space-xs);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+  }
+
+  .delivery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .delivery-grid p {
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-sm);
   }
 
   .contact-links {
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .contact-links .btn {
+    align-self: flex-start;
+    width: 10rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .social-links {
@@ -294,33 +296,31 @@ import Link from '../components/Link.astro';
     gap: var(--space-sm);
   }
 
-  .social-links .btn {
-    padding: var(--space-xs) var(--space-md);
-    font-size: var(--font-size-sm);
-  }
-
-  @media (max-width: 768px) {
-    .hero-content,
-    .content-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 900px) {
+    .about-bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .hero-text {
-      text-align: center;
+    .about-card {
+      grid-column: span 2;
     }
 
-    .hero-text h1 {
+    .about-card h1 {
       font-size: var(--font-size-4xl);
     }
 
-    .content-section,
-    .skills-section,
-    .contact-section {
-      padding: var(--space-lg);
+    .delivery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .about-bento {
+      grid-template-columns: 1fr;
     }
 
-    .sidebar {
-      order: -1;
+    .about-card {
+      grid-column: span 1;
     }
   }
 </style>

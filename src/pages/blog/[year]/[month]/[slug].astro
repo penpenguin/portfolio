@@ -54,8 +54,9 @@ const heroClass = heroImage
           <span class="sr-only"> / {title}</span>
         </p>
 
-        <div class={heroClass}>
+        <div class={`bento-hero ${heroClass} card-glass`}>
           <div class="article-meta">
+            <p class="bento-eyebrow eyebrow">Article</p>
             <h1>{title}</h1>
             <p class="article-description">{description}</p>
 
@@ -71,7 +72,7 @@ const heroClass = heroImage
 
             {
               tags && (
-                <div class="tag-list" aria-label="Tags">
+                <div class="pill-list tag-list" aria-label="Tags">
                   {tags.map((tag: string) => (
                     <span class="tag">{tag}</span>
                   ))}
@@ -93,7 +94,7 @@ const heroClass = heroImage
 
     <section class="article-body">
       <div class="container">
-        <div class="content-wrapper glass">
+        <div class="bento-panel content-wrapper card-glass">
           <Content />
         </div>
       </div>
@@ -126,7 +127,7 @@ const heroClass = heroImage
 
 <style>
   .blog-article {
-    padding-top: var(--space-lg);
+    padding-top: var(--space-xl);
   }
 
   .article-header {
@@ -171,11 +172,9 @@ const heroClass = heroImage
     min-width: 0;
     padding: var(--space-md);
     border-radius: var(--radius-md);
-    background: var(--glass-bg);
+    background: var(--bento-card-bg);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-glass);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
   }
 
   .author-impression__label {
@@ -209,12 +208,17 @@ const heroClass = heroImage
 
   .article-meta h1 {
     margin: 0 0 var(--space-md) 0;
-    font-size: var(--font-size-4xl);
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
     line-height: 1.1;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: 0;
+  }
+
+  .eyebrow {
+    margin: 0 0 var(--space-sm) 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .article-description {
@@ -233,20 +237,17 @@ const heroClass = heroImage
   }
 
   .updated {
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     padding: var(--space-2xs) var(--space-xs);
     border-radius: var(--radius-sm);
     border: 1px solid var(--glass-border);
   }
 
   .tag-list {
-    display: flex;
-    gap: var(--space-xs);
-    flex-wrap: wrap;
   }
 
   .tag {
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     color: var(--text-accent);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
@@ -260,9 +261,9 @@ const heroClass = heroImage
   .hero-wrapper {
     border-radius: var(--radius-lg);
     overflow: hidden;
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-lg);
   }
 
   .hero-wrapper img {
@@ -278,8 +279,6 @@ const heroClass = heroImage
   .content-wrapper {
     padding: var(--space-2xl);
     border-radius: var(--radius-xl);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     line-height: 1.8;
   }
 
@@ -316,7 +315,7 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(pre) {
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     padding: var(--space-md);
@@ -351,11 +350,9 @@ const heroClass = heroImage
     border-left: 6px solid var(--admonition-color);
     background: color-mix(
       in srgb,
-      var(--glass-bg) 85%,
-      var(--admonition-color) 15%
+      var(--bento-muted-bg) 88%,
+      var(--admonition-color) 12%
     );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     margin: var(--space-lg) 0;
     color: var(--text-secondary);
     box-shadow:

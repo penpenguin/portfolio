@@ -4,6 +4,7 @@ import Link from '../../components/Link.astro';
 import { getCollection } from 'astro:content';
 import { sortPublishedPostsByDate } from '../../utils/blog';
 import { formatDate } from '../../utils/formatDate';
+import { withBase } from '../../utils/withBase';
 
 const blogPosts = await getCollection('blog');
 const sortedPosts = sortPublishedPostsByDate(blogPosts);
@@ -13,71 +14,84 @@ const latestMonth = sortedPosts[0]
 const latestPosts = latestMonth
   ? sortedPosts.filter((post) => post.id.startsWith(`${latestMonth}/`))
   : [];
+const featuredPost = latestPosts[0];
+const secondaryPosts = latestPosts.slice(1);
 const months = Array.from(
   new Set(sortedPosts.map((post) => post.id.split('/').slice(0, 2).join('/')))
-).sort().reverse();
+)
+  .sort()
+  .reverse();
 ---
 
 <Layout title="Blog - Portfolio">
-  <section class="blog-hero">
+  <section class="page-shell blog-shell">
     <div class="container">
-      <div class="hero-content">
+      <header class="bento-hero blog-hero card-glass">
+        <p class="bento-eyebrow eyebrow">Blog</p>
         <h1>Blog</h1>
         <p>
           ブログや開発に関する記事を公開しています。実装メモや設計の学びを、
           読みやすく短いペースで更新中です。
         </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="blog-content">
-    <div class="container">
+      </header>
       {
         latestPosts.length > 0 ? (
-          <>
-            <div class="posts-grid">
-              {latestPosts.map((post) => (
-                <article class="post-card card card-glass">
-                  <div class="post-header">
-                    {post.data.heroImage && (
-                      <img
-                        src={post.data.heroImage}
-                        alt={post.data.title}
-                        class="post-image"
-                      />
-                    )}
-                    <div class="post-meta">
-                      <h2>
-                        <Link href={`/blog/${post.id}`}>{post.data.title}</Link>
-                      </h2>
-                      <p class="post-date">{formatDate(post.data.pubDate)}</p>
-                    </div>
-                  </div>
-
-                  <div class="post-content">
-                    <p class="post-description">{post.data.description}</p>
-
-                    {post.data.tags && (
-                      <div class="post-tags">
-                        {post.data.tags.map((tag) => (
-                          <span class="tag">{tag}</span>
-                        ))}
-                      </div>
-                    )}
-
-                    <Link
-                      href={`/blog/${post.id}`}
-                      class="read-more btn btn-glass"
+          <div class="bento-grid blog-bento">
+            {featuredPost && (
+              <article class="bento-panel post-card post-card--featured card card-glass">
+                <div class="post-header">
+                  {featuredPost.data.heroImage ? (
+                    <img
+                      src={withBase(featuredPost.data.heroImage)}
+                      alt={featuredPost.data.title}
+                      class="post-visual post-image"
+                    />
+                  ) : (
+                    <div
+                      class="post-visual post-visual--fallback"
+                      aria-hidden="true"
                     >
-                      Read More →
-                    </Link>
+                      <div class="post-visual__art" />
+                    </div>
+                  )}
+                  <div class="post-meta">
+                    <p class="bento-eyebrow post-kind">Latest</p>
+                    <h2>
+                      <Link href={`/blog/${featuredPost.id}`}>
+                        {featuredPost.data.title}
+                      </Link>
+                    </h2>
+                    <p class="post-date">
+                      {formatDate(featuredPost.data.pubDate)}
+                    </p>
                   </div>
-                </article>
-              ))}
-            </div>
+                </div>
+
+                <div class="post-content">
+                  <p class="post-description">
+                    {featuredPost.data.description}
+                  </p>
+
+                  {featuredPost.data.tags && (
+                    <div class="pill-list post-tags">
+                      {featuredPost.data.tags.map((tag) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  <Link
+                    href={`/blog/${featuredPost.id}`}
+                    class="read-more btn btn-glass"
+                  >
+                    記事を読む
+                  </Link>
+                </div>
+              </article>
+            )}
             {months.length > 0 && (
-              <div class="archive">
+              <aside class="bento-panel archive-panel card-glass">
+                <p class="bento-eyebrow eyebrow">Archive</p>
                 <h2>月別アーカイブ</h2>
                 <ul class="month-list">
                   {months.map((month) => (
@@ -86,13 +100,83 @@ const months = Array.from(
                     </li>
                   ))}
                 </ul>
-              </div>
+                <div class="archive-metric" aria-hidden="true">
+                  <span>{months.length}</span>
+                  <span>months</span>
+                </div>
+                <p class="archive-summary">
+                  {months.length} archives / Latest {months[0]}
+                </p>
+              </aside>
             )}
-          </>
+            {secondaryPosts.map((post) => (
+              <article class="bento-panel post-card card card-glass">
+                <div class="post-header">
+                  {post.data.heroImage ? (
+                    <img
+                      src={withBase(post.data.heroImage)}
+                      alt={post.data.title}
+                      class="post-visual post-image"
+                    />
+                  ) : (
+                    <div
+                      class="post-visual post-visual--fallback"
+                      aria-hidden="true"
+                    >
+                      <div class="post-visual__art" />
+                    </div>
+                  )}
+                  <div class="post-meta">
+                    <h2>
+                      <Link href={`/blog/${post.id}`}>{post.data.title}</Link>
+                    </h2>
+                    <p class="post-date">{formatDate(post.data.pubDate)}</p>
+                  </div>
+                </div>
+
+                <div class="post-content">
+                  <p class="post-description">{post.data.description}</p>
+
+                  {post.data.tags && (
+                    <div class="pill-list post-tags">
+                      {post.data.tags.map((tag) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  <Link
+                    href={`/blog/${post.id}`}
+                    class="read-more btn btn-glass"
+                  >
+                    記事を読む
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
         ) : (
-          <div class="empty-state glass">
+          <div class="bento-panel empty-state card-glass">
             <div class="empty-content">
-              <div class="empty-icon">📝</div>
+              <div class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path
+                    d="M7 4.5h7l3 3v12H7v-15Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14 4.5v3h3M9.75 11.5h4.5M9.75 14.5h4.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
               <h2>準備中</h2>
               <p>
                 現在、皆様に役立つコンテンツを準備しています。
@@ -111,55 +195,120 @@ const months = Array.from(
 
 <style>
   .blog-hero {
-    padding: var(--space-2xl) 0;
-    text-align: center;
-  }
-
-  .hero-content h1 {
-    font-size: var(--font-size-5xl);
+    min-height: 280px;
     margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
-  .hero-content p {
+  .blog-hero h1 {
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0;
+  }
+
+  .blog-hero p {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
   }
 
-  .blog-content {
-    padding: var(--space-2xl) 0;
+  .eyebrow {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-xl);
+  .blog-bento {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
   }
 
   .post-card {
+    grid-column: span 4;
     padding: 0;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    transition: all 0.3s ease;
+    border-radius: var(--radius-xl);
+  }
+
+  .post-card--featured {
+    grid-column: span 8;
+    background:
+      linear-gradient(135deg, rgba(236, 254, 255, 0.72), transparent 58%),
+      var(--bento-card-bg);
   }
 
   .post-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-2px);
   }
 
   .post-header {
     position: relative;
   }
 
-  .post-image {
+  .post-visual {
     width: 100%;
-    height: 200px;
+    height: 150px;
+  }
+
+  .post-card--featured .post-visual {
+    height: 260px;
+  }
+
+  .post-image {
     object-fit: cover;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    object-position: top;
+  }
+
+  .post-visual--fallback {
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, rgba(14, 165, 233, 0.14), transparent 44%),
+      linear-gradient(180deg, var(--bento-card-bg), var(--bento-muted-bg));
+  }
+
+  .post-visual--fallback::before {
+    content: '';
+    position: absolute;
+    inset: var(--space-md);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    opacity: 0.54;
+  }
+
+  .post-visual__art {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        circle at 24% 28%,
+        rgba(20, 184, 166, 0.16),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 78% 20%,
+        rgba(129, 140, 248, 0.14),
+        transparent 24%
+      ),
+      linear-gradient(
+        115deg,
+        transparent 0 34%,
+        rgba(255, 255, 255, 0.62) 34% 62%,
+        transparent 62%
+      ),
+      linear-gradient(
+        155deg,
+        rgba(14, 165, 233, 0.12),
+        rgba(20, 184, 166, 0.08)
+      );
+  }
+
+  .post-kind {
+    margin: 0 0 var(--space-xs) 0;
+    color: var(--text-muted);
   }
 
   .post-meta {
@@ -169,12 +318,21 @@ const months = Array.from(
 
   .post-meta h2 {
     margin: 0 0 var(--space-xs) 0;
+    font-size: var(--font-size-xl);
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .post-card--featured .post-meta h2 {
+    font-size: var(--font-size-3xl);
   }
 
   .post-meta h2 a {
     color: var(--text-primary);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
   }
 
   .post-meta h2 a:hover {
@@ -189,32 +347,37 @@ const months = Array.from(
 
   .post-content {
     padding: 0 var(--space-lg) var(--space-lg);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
   }
 
   .post-description {
     color: var(--text-secondary);
     margin-bottom: var(--space-md);
+    display: -webkit-box;
+    overflow: hidden;
     line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .post-card--featured .post-description {
+    -webkit-line-clamp: 4;
   }
 
   .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
     margin-bottom: var(--space-lg);
   }
 
   .tag {
-    background: var(--glass-bg);
     color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 600;
-    border: 1px solid var(--glass-border);
   }
 
   .read-more {
+    margin-top: auto;
     padding: var(--space-xs) var(--space-md);
     font-size: var(--font-size-sm);
     display: inline-flex;
@@ -222,13 +385,19 @@ const months = Array.from(
     gap: var(--space-xs);
   }
 
-  .archive {
-    margin-top: var(--space-2xl);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--glass-border);
+  .archive-panel {
+    grid-column: 9 / span 4;
+    align-self: stretch;
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(135deg, rgba(241, 245, 249, 0.82), transparent 62%),
+      var(--bento-card-bg);
   }
 
-  .archive h2 {
+  .archive-panel h2 {
     margin: 0 0 var(--space-md) 0;
     font-size: var(--font-size-2xl);
   }
@@ -247,15 +416,48 @@ const months = Array.from(
     padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-sm);
     border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease;
   }
 
   .month-list a:hover {
     color: var(--text-accent);
     border-color: var(--text-accent);
+  }
+
+  .archive-summary {
+    margin: auto 0 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .archive-metric {
+    margin-top: auto;
+    color: var(--text-primary);
+  }
+
+  .archive-metric span:first-child {
+    display: block;
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .archive-metric span:last-child {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .archive-metric + .archive-summary {
+    margin-top: var(--space-xs);
   }
 
   .empty-state {
@@ -274,8 +476,14 @@ const months = Array.from(
   }
 
   .empty-icon {
-    font-size: 4rem;
     margin-bottom: var(--space-md);
+    color: var(--text-primary);
+  }
+
+  .empty-icon svg {
+    width: 64px;
+    height: 64px;
+    display: block;
   }
 
   .empty-content h2 {
@@ -291,12 +499,22 @@ const months = Array.from(
   }
 
   @media (max-width: 768px) {
-    .hero-content h1 {
+    .blog-hero h1 {
       font-size: var(--font-size-4xl);
     }
 
-    .posts-grid {
+    .blog-bento {
       grid-template-columns: 1fr;
+    }
+
+    .post-card,
+    .post-card--featured,
+    .archive-panel {
+      grid-column: span 1;
+    }
+
+    .post-card--featured .post-visual {
+      height: 180px;
     }
 
     .empty-state {

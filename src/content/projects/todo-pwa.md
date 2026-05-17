@@ -2,6 +2,7 @@
 title: 'Offline Todo Progressive Web App'
 description: 'モダンなウェブ技術を使用したオフライン対応のタスク管理PWA'
 pubDate: 2024-01-15
+heroImage: '/assets/projects/todo-pwa.webp'
 tags: ['React', 'TypeScript', 'Vite', 'SQLite', 'PWA']
 featured: true
 github: 'https://github.com/penpenguin/todo-pwa'

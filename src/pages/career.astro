@@ -12,9 +12,10 @@ const { timeline } = careerEntry.data;
 ---
 
 <Layout title="Career - Portfolio">
-  <section class="career-hero">
+  <section class="page-shell career-hero">
     <div class="container">
-      <div class="hero-content">
+      <div class="bento-hero hero-content card-glass">
+        <p class="bento-eyebrow eyebrow screen-only">Career</p>
         <h1 class="screen-only">Career</h1>
         <p class="screen-only">
           プログラマーとして10年以上の経験を積み、様々なプロジェクトに携わってきました。
@@ -27,39 +28,41 @@ const { timeline } = careerEntry.data;
   <section class="career-content">
     <div class="container">
       <div class="timeline">
-        {timeline.map((item, index) => (
-          <div class="timeline-item">
-            <div class:list={['timeline-marker', { current: index === 0 }]}>
-              <div class="timeline-dot"></div>
-            </div>
-            <div class="timeline-content card-glass">
-              <div class="timeline-header">
-                <h3>{item.title}</h3>
-                <span class="timeline-period">{item.period}</span>
-                <span class="timeline-role">{item.role}</span>
+        {
+          timeline.map((item, index) => (
+            <div class="timeline-item">
+              <div class:list={['timeline-marker', { current: index === 0 }]}>
+                <div class="timeline-dot" />
               </div>
-              <div class="timeline-body">
-                <p class="project-description">{item.description}</p>
-                <div class="project-details">
-                  <div class="detail-item">
-                    <strong>チーム規模:</strong> {item.teamSize}
-                  </div>
-                  <div class="detail-item">
-                    <strong>主な業務:</strong> {item.responsibilities}
-                  </div>
-                  <div class="detail-item">
-                    <strong>技術スタック:</strong>
-                    <div class="tech-tags">
-                      {item.techStack.map((tech) => (
-                        <span class="tech-tag">{tech}</span>
-                      ))}
+              <div class="bento-panel timeline-content card-glass">
+                <div class="timeline-header">
+                  <h3>{item.title}</h3>
+                  <span class="timeline-period">{item.period}</span>
+                  <span class="timeline-role">{item.role}</span>
+                </div>
+                <div class="timeline-body">
+                  <p class="project-description">{item.description}</p>
+                  <div class="project-details">
+                    <div class="detail-item">
+                      <strong>チーム規模:</strong> {item.teamSize}
+                    </div>
+                    <div class="detail-item">
+                      <strong>主な業務:</strong> {item.responsibilities}
+                    </div>
+                    <div class="detail-item">
+                      <strong>技術スタック:</strong>
+                      <div class="pill-list tech-tags">
+                        {item.techStack.map((tech) => (
+                          <span class="tech-tag">{tech}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </section>
@@ -67,9 +70,31 @@ const { timeline } = careerEntry.data;
   <section class="skills-summary">
     <div class="container">
       <h2>保有資格</h2>
-      <div class="certifications card-glass">
+      <div class="bento-panel certifications card-glass">
         <div class="cert-item">
-          <div class="cert-icon">🏆</div>
+          <div class="cert-icon cert-icon--credential" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path
+                d="M7 4.5h10v11H7v-11Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"></path>
+              <path
+                d="M9.75 8h4.5M9.75 11h3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"></path>
+              <path
+                d="m10 15.5-.75 4 2.75-1.35L14.75 19.5l-.75-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </div>
           <div class="cert-info">
             <h3>基本情報技術者試験</h3>
             <span class="cert-date">2014年取得</span>
@@ -80,25 +105,28 @@ const { timeline } = careerEntry.data;
   </section>
 </Layout>
 <style>
-  .career-hero {
-    padding: var(--space-2xl) var(--space-xl);
-    text-align: center;
+  .hero-content {
+    min-height: 260px;
   }
 
   .hero-content h1 {
-    font-size: var(--font-size-5xl);
+    font-size: clamp(2.75rem, 7vw, 5rem);
     margin-bottom: var(--space-md);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: 0;
   }
 
   .hero-content p {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
+  }
+
+  .eyebrow {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .print-only {
@@ -106,7 +134,7 @@ const { timeline } = careerEntry.data;
   }
 
   .career-content {
-    padding: var(--space-2xl) 0;
+    padding: var(--space-md) 0 var(--space-2xl);
   }
 
   .timeline {
@@ -114,7 +142,7 @@ const { timeline } = careerEntry.data;
     --timeline-dot-size: 20px;
 
     position: relative;
-    max-width: 800px;
+    max-width: 920px;
     margin: 0 auto;
   }
 
@@ -177,10 +205,6 @@ const { timeline } = careerEntry.data;
   }
 
   .timeline-content {
-    padding: var(--space-lg);
-    border-radius: var(--radius-lg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
 
   .timeline-header {
@@ -195,7 +219,7 @@ const { timeline } = careerEntry.data;
 
   .timeline-period {
     display: inline-block;
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     color: var(--text-accent);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
@@ -232,24 +256,17 @@ const { timeline } = careerEntry.data;
   }
 
   .tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
     margin-top: var(--space-xs);
   }
 
   .tech-tag {
-    background: var(--glass-bg);
     color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 600;
-    border: 1px solid var(--glass-border);
   }
 
   .skills-summary {
-    padding: var(--space-2xl) 0;
+    padding: 0 0 var(--space-2xl);
   }
 
   .skills-summary h2 {
@@ -262,8 +279,7 @@ const { timeline } = careerEntry.data;
   .certifications {
     max-width: 600px;
     margin: 0 auto;
-    padding: var(--space-lg);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
   }
 
   .cert-item {
@@ -273,15 +289,21 @@ const { timeline } = careerEntry.data;
   }
 
   .cert-icon {
-    font-size: 2rem;
     width: 60px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--glass-bg);
+    background: var(--bento-muted-bg);
     border-radius: var(--radius-md);
     border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+  }
+
+  .cert-icon svg {
+    width: 28px;
+    height: 28px;
+    display: block;
   }
 
   .cert-info h3 {
@@ -299,10 +321,20 @@ const { timeline } = careerEntry.data;
     .timeline {
       --timeline-line-x: 18px;
       --timeline-dot-size: 18px;
+      --timeline-card-offset: 44px;
     }
 
     .hero-content h1 {
       font-size: var(--font-size-4xl);
+    }
+
+    .timeline-item {
+      padding-left: var(--timeline-card-offset);
+      margin-bottom: var(--space-xl);
+    }
+
+    .timeline-marker {
+      top: 30px;
     }
 
     .timeline-content {

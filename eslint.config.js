@@ -1,0 +1,37 @@
+import js from '@eslint/js';
+import eslintPluginAstro from 'eslint-plugin-astro';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+
+export default [
+  {
+    ignores: [
+      '.astro/**',
+      'dist/**',
+      'node_modules/**',
+      'playwright-report/**',
+      'test-results/**',
+    ],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...eslintPluginAstro.configs['flat/recommended'],
+  {
+    files: ['**/*.{js,mjs,cjs,ts}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['**/*.astro'],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+        extraFileExtensions: ['.astro'],
+      },
+    },
+  },
+];

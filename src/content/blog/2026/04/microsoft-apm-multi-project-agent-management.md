@@ -38,7 +38,7 @@ apm install microsoft/apm-sample-package#v1.0.0
 
 たとえば初期状態の manifest は、次のような最小形から始まります。これは「まず manifest を置く」「あとから依存を追加する」という順番で進められるので、既存の `.github/` や `.claude/` 設定を残したまま試しやすい構成です。([Microsoft GitHub][5])
 
-```yaml:apm.yml
+```yaml title="apm.yml"
 name: my-project
 version: 1.0.0
 
@@ -109,7 +109,7 @@ your-org/apm-standards/
 
 次に、バックエンド、フロントエンド、データ基盤のような単位で team package を持ちます。公式 docs でも、team package が org-wide base を継承し、その上に team-specific な instructions や agents を載せる例が示されています。([Microsoft GitHub][2])
 
-```yaml:apm.yml
+```yaml title="apm.yml"
 name: platform-backend
 version: 1.2.0
 
@@ -124,7 +124,7 @@ dependencies:
 
 最後に、各リポジトリ固有の事情は、その repo の `.apm/` に閉じ込めます。支払いドメイン特有のレビュー観点や、そのサービスだけが使う MCP server、特定の運用手順などはここに置くのが自然です。([Microsoft GitHub][5])
 
-```yaml:apm.yml
+```yaml title="apm.yml"
 name: payments-service
 version: 1.0.0
 
@@ -179,7 +179,7 @@ git commit -m "chore(apm): update backend standards"
 
 最小の GitHub Actions は、たとえば次の形です。
 
-```yaml:.github/workflows/apm-audit.yml
+```yaml title=".github/workflows/apm-audit.yml"
 name: APM Audit
 
 on:
