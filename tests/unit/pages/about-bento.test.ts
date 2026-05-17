@@ -27,12 +27,14 @@ describe('About Bento layout', () => {
 
   it('uses varied bento tiles instead of two long profile sections', () => {
     expect(about).toContain('about-card--hero');
-    expect(about).toContain('about-card--metric-primary');
-    expect(about).toContain('about-card--metric-dark');
+    expect(about).toContain('about-card--experience');
+    expect(about).toContain('about-card--role');
     expect(about).toContain('about-card--focus');
     expect(about).toContain('about-card--stack');
     expect(about).toContain('about-card--delivery');
     expect(about).toContain('about-card--contact');
+    expect(about).not.toContain('about-card--metric-primary');
+    expect(about).not.toContain('about-card--metric-dark');
     expect(about).not.toContain('about-card--wide');
     expect(about).not.toContain('<ul>');
   });
@@ -48,13 +50,19 @@ describe('About Bento layout', () => {
       /\.about-card--hero\s*\{[^}]*grid-column:\s*span\s*4/s
     );
     expect(about).toMatch(
-      /\.about-card--metric-dark\s*\{[^}]*background:\s*var\(--text-primary\)/s
+      /\.about-card--role\s*\{[^}]*background:\s*var\(--text-primary\)/s
     );
     expect(about).toMatch(
-      /\.about-card--metric-dark\s+\.metric-value\s*\{[^}]*font-size:\s*clamp\(3rem,\s*12vw,\s*5\.4rem\)/s
+      /\.about-card--role\s+\.metric-value\s*\{[^}]*font-size:\s*clamp\(3rem,\s*12vw,\s*5\.4rem\)/s
     );
     expect(about).toMatch(
       /@media\s*\(max-width:\s*900px\)[\s\S]*?\.about-bento\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s
+    );
+    expect(about).toMatch(
+      /@media\s*\(max-width:\s*900px\)[\s\S]*?\.about-card\s*\{[^}]*grid-column:\s*span\s*2/s
+    );
+    expect(about).not.toMatch(
+      /@media\s*\(max-width:\s*900px\)[\s\S]*?\.about-card--experience/s
     );
   });
 });

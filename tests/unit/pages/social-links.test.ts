@@ -66,10 +66,10 @@ describe('ContactページのBentoレイアウト', () => {
 describe('AboutページのCTAボタン', () => {
   it('お問い合わせとGitHubを同じボタンサイズで表示する', () => {
     expect(aboutSource).toMatch(
-      /\.contact-links\s+\.btn\s*\{[^}]*min-width:\s*9rem[^}]*\}/
-    );
-    expect(aboutSource).toMatch(
       /\.contact-links\s+\.btn\s*\{[^}]*width:\s*10rem[^}]*\}/
+    );
+    expect(aboutSource).not.toMatch(
+      /\.contact-links\s+\.btn\s*\{[^}]*min-width:/
     );
     expect(aboutSource).not.toMatch(/\.social-links\s+\.btn\s*\{/);
   });

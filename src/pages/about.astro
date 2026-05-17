@@ -17,7 +17,7 @@ import Link from '../components/Link.astro';
         </section>
 
         <section
-          class="bento-panel about-card about-card--metric-primary card-glass"
+          class="bento-panel about-card about-card--experience card-glass"
         >
           <p class="bento-eyebrow eyebrow">Experience</p>
           <span class="metric-value">10+</span>
@@ -26,7 +26,7 @@ import Link from '../components/Link.astro';
           </p>
         </section>
 
-        <section class="bento-panel about-card about-card--metric-dark">
+        <section class="bento-panel about-card about-card--role">
           <p class="bento-eyebrow eyebrow">Role</p>
           <span class="metric-value">Bridge</span>
           <p>
@@ -133,21 +133,21 @@ import Link from '../components/Link.astro';
       var(--bento-card-bg);
   }
 
-  .about-card--metric-primary {
+  .about-card--experience {
     grid-column: span 2;
     background:
       linear-gradient(135deg, rgba(219, 234, 254, 0.76), transparent 62%),
       var(--bento-card-bg);
   }
 
-  .about-card--metric-dark {
+  .about-card--role {
     grid-column: span 2;
     background: var(--text-primary);
     color: #ffffff;
     position: relative;
   }
 
-  .about-card--metric-dark::after {
+  .about-card--role::after {
     content: '';
     position: absolute;
     right: -40px;
@@ -158,12 +158,12 @@ import Link from '../components/Link.astro';
     border-radius: 999px;
   }
 
-  .about-card--metric-dark .eyebrow,
-  .about-card--metric-dark p {
+  .about-card--role .eyebrow,
+  .about-card--role p {
     color: rgba(255, 255, 255, 0.74);
   }
 
-  .about-card--metric-dark .metric-value {
+  .about-card--role .metric-value {
     color: #ffffff;
     font-size: clamp(3rem, 12vw, 5.4rem);
     position: relative;
@@ -286,7 +286,6 @@ import Link from '../components/Link.astro';
   .contact-links .btn {
     align-self: flex-start;
     width: 10rem;
-    min-width: 9rem;
     justify-content: center;
     text-align: center;
   }
@@ -302,14 +301,7 @@ import Link from '../components/Link.astro';
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .about-card,
-    .about-card--hero,
-    .about-card--metric-primary,
-    .about-card--metric-dark,
-    .about-card--focus,
-    .about-card--stack,
-    .about-card--delivery,
-    .about-card--contact {
+    .about-card {
       grid-column: span 2;
     }
 
@@ -327,14 +319,7 @@ import Link from '../components/Link.astro';
       grid-template-columns: 1fr;
     }
 
-    .about-card,
-    .about-card--hero,
-    .about-card--metric-primary,
-    .about-card--metric-dark,
-    .about-card--focus,
-    .about-card--stack,
-    .about-card--delivery,
-    .about-card--contact {
+    .about-card {
       grid-column: span 1;
     }
   }
