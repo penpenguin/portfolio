@@ -58,7 +58,7 @@ MCPは、AIエージェントが外部のデータソース、ツール、ワー
 
 まず、通常のページ内ロジックとして商品検索関数があるとします。
 
-```js:src/products.js
+```js title="src/products.js"
 const products = [
   { id: 'p-001', name: 'USB-C Cable', price: 1200 },
   { id: 'p-002', name: 'Wireless Mouse', price: 3200 },
@@ -83,7 +83,7 @@ function searchProducts({ query, maxPrice }) {
 
 次に、この検索処理をWebMCPツールとして登録します。
 
-```js:src/webmcp.js
+```js title="src/webmcp.js"
 if ('modelContext' in navigator) {
   navigator.modelContext.registerTool({
     name: 'search-products',
@@ -178,7 +178,7 @@ WebMCPの`ModelContextClient`には、ツール実行中にユーザー操作を
 
 以下は、商品をカートに追加するツールの例です。
 
-```js:src/cart-webmcp.js
+```js title="src/cart-webmcp.js"
 if ('modelContext' in navigator) {
   navigator.modelContext.registerTool({
     name: 'add-to-cart',

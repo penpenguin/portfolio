@@ -61,7 +61,7 @@ trees-demo/
 
 次に、ファイルパスの配列を渡してツリーを描画します。ここでは `paths` にファイル一覧を渡し、`initialExpansion: 'open'` で初期表示時にツリーを開いた状態にします。
 
-```tsx:src/App.tsx
+```tsx title="src/App.tsx"
 import { FileTree, useFileTree } from '@pierre/trees/react';
 
 const paths = [
@@ -165,7 +165,7 @@ src/domain/user/
 
 次の例では、選択されたパス一覧を画面下部に表示します。
 
-```tsx:src/App.tsx
+```tsx title="src/App.tsx"
 import {
   FileTree,
   useFileTree,
@@ -230,7 +230,7 @@ export default function App() {
 
 次の例では、`src/App.tsx` を変更済み、`src/components/FileTreeDemo.tsx` を未追跡ファイルとして渡します。
 
-```tsx:src/App.tsx
+```tsx title="src/App.tsx"
 import type { GitStatusEntry } from '@pierre/trees';
 import { FileTree, useFileTree } from '@pierre/trees/react';
 
@@ -278,7 +278,7 @@ Gitステータスは、コードレビュー画面、オンラインIDE、ド�
 
 次の例では、右クリックとボタンの両方でメニューを開けるようにします。
 
-```tsx:src/App.tsx
+```tsx title="src/App.tsx"
 import { FileTree, useFileTree } from '@pierre/trees/react';
 
 const paths = [
@@ -345,7 +345,7 @@ export default function App() {
 
 Reactでは、`useMemo` と組み合わせると扱いやすくなります。
 
-```tsx:src/App.tsx
+```tsx title="src/App.tsx"
 import { useMemo } from 'react';
 import { prepareFileTreeInput } from '@pierre/trees';
 import { FileTree, useFileTree } from '@pierre/trees/react';
