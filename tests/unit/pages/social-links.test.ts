@@ -68,6 +68,9 @@ describe('AboutページのCTAボタン', () => {
     expect(aboutSource).toMatch(
       /\.contact-links\s+\.btn\s*\{[^}]*min-width:\s*9rem[^}]*\}/
     );
+    expect(aboutSource).toMatch(
+      /\.contact-links\s+\.btn\s*\{[^}]*width:\s*10rem[^}]*\}/
+    );
     expect(aboutSource).not.toMatch(/\.social-links\s+\.btn\s*\{/);
   });
 });
