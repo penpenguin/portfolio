@@ -187,6 +187,77 @@ describe('ブログ機能', () => {
     expect(detailPage).toContain('content-wrapper card-glass');
   });
 
+  it('ブログ詳細ページはMarkdownテーブルにBentoスタイルを当てる', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).toMatch(/\.content-wrapper\s+:global\(table\)\s*\{/);
+    expect(detailPage).toMatch(/\.content-wrapper\s+:global\(th\)/);
+    expect(detailPage).toMatch(/\.content-wrapper\s+:global\(td\)/);
+    expect(detailPage).toMatch(/border-spacing:\s*0/);
+  });
+
+  it('ブログ詳細ページのMarkdownテーブルはtable要素の表示種別を維持する', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(table\)\s*\{[^}]*display:\s*block/s
+    );
+    expect(detailPage).toMatch(
+      /\.content-wrapper\s*\{[^}]*overflow-x:\s*auto/s
+    );
+  });
+
+  it('ブログ詳細ページは本文コンテナとタイトルの幅を追加で制限しない', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).not.toMatch(
+      /\.article-body\s+\.container,\s*\.article-footer\s+\.container\s*\{[^}]*max-width:\s*920px/s
+    );
+    expect(detailPage).not.toMatch(/max-width:\s*12em/);
+  });
+
+  it('ブログ詳細ページはインラインコードとpre内コードを別々に整形する', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).toMatch(/\.content-wrapper\s+:global\(p code\)/);
+    expect(detailPage).toMatch(/\.content-wrapper\s+:global\(pre code\)/);
+    expect(detailPage).toMatch(/white-space:\s*pre/);
+  });
+
+  it('ブログ詳細ページのインラインコードは狭い画面で折り返せる', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(p code\),[\s\S]*?white-space:\s*nowrap/
+    );
+    expect(detailPage).toMatch(/overflow-wrap:\s*anywhere/);
+  });
+
+  it('ブログ詳細ページのadmonitionは控えめな単一カラムで表示する', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)\s*\{[^}]*grid-template-columns:\s*1fr/s
+    );
+    expect(detailPage).not.toContain('--admonition-icon-url');
+    expect(detailPage).not.toMatch(/mask:\s*var\(--admonition-icon-url\)/);
+    expect(detailPage).toMatch(
+      /\.content-wrapper\s+:global\(\.admonition p\),\s*\.content-wrapper\s+:global\(\.admonition ul\),\s*\.content-wrapper\s+:global\(\.admonition ol\)\s*\{[^}]*grid-column:\s*1/s
+    );
+  });
+
   it('ブログ詳細のタグpillが小さめのフォントサイズで表示される', () => {
     const detailPage = load(
       '../../../src/pages/blog/[year]/[month]/[slug].astro'
