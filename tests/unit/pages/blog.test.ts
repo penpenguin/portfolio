@@ -193,10 +193,22 @@ describe('ブログ機能', () => {
     );
 
     expect(detailPage).toMatch(/\.content-wrapper\s+:global\(table\)\s*\{/);
-    expect(detailPage).toMatch(/overflow-x:\s*auto/);
     expect(detailPage).toMatch(/\.content-wrapper\s+:global\(th\)/);
     expect(detailPage).toMatch(/\.content-wrapper\s+:global\(td\)/);
     expect(detailPage).toMatch(/border-spacing:\s*0/);
+  });
+
+  it('ブログ詳細ページのMarkdownテーブルはtable要素の表示種別を維持する', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(table\)\s*\{[^}]*display:\s*block/s
+    );
+    expect(detailPage).toMatch(
+      /\.content-wrapper\s*\{[^}]*overflow-x:\s*auto/s
+    );
   });
 
   it('ブログ詳細ページは本文コンテナとタイトルの幅を追加で制限しない', () => {
@@ -218,6 +230,17 @@ describe('ブログ機能', () => {
     expect(detailPage).toMatch(/\.content-wrapper\s+:global\(p code\)/);
     expect(detailPage).toMatch(/\.content-wrapper\s+:global\(pre code\)/);
     expect(detailPage).toMatch(/white-space:\s*pre/);
+  });
+
+  it('ブログ詳細ページのインラインコードは狭い画面で折り返せる', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(p code\),[\s\S]*?white-space:\s*nowrap/
+    );
+    expect(detailPage).toMatch(/overflow-wrap:\s*anywhere/);
   });
 
   it('ブログ詳細ページのadmonitionは控えめな単一カラムで表示する', () => {
