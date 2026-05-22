@@ -40,6 +40,10 @@ describe('Home モバイルレイアウト', () => {
   it('Home上段は元の職能Heroと経験カードを表示する', () => {
     expect(page).toContain('Enterprise Systems Programmer');
     expect(page).toContain('Enterprise systems, shipped end-to-end');
+    expect(page).not.toContain('class="lead"');
+    expect(page).not.toContain(
+      '社内システムの要件定義、Webアプリケーション実装、クラウド基盤、運用改善まで。'
+    );
     expect(page).toContain('10+');
     expect(page).toContain('years in production systems');
     expect(page).toContain(
