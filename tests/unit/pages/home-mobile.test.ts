@@ -94,6 +94,24 @@ describe('Home モバイルレイアウト', () => {
     expect(blogIndex).toBeGreaterThan(overviewIndex);
   });
 
+  it('Fake Kirdyは初期表示で読み込まず遊ぶ時だけiframeを生成する', () => {
+    expect(page).toContain('Browser Oddities');
+    expect(page).toContain('Fake Kirdyを少しだけ遊ぶ');
+    expect(page).toContain('Phaser / Matter.js');
+    expect(page).toContain('bento-card--playground');
+    expect(page).toContain('fake-kirdy.webp');
+    expect(page).toContain('withBase(playground.previewImage)');
+    expect(page).toContain(
+      'data-game-src="https://penpenguin.github.io/fake-kirdy/"'
+    );
+    expect(page).not.toMatch(
+      /<iframe[\s\S]*src="https:\/\/penpenguin\.github\.io\/fake-kirdy\//
+    );
+    expect(page).toMatch(
+      /frame\.setAttribute\(\s*'sandbox',\s*'allow-scripts allow-same-origin allow-pointer-lock'\s*\)/
+    );
+  });
+
   it('HomeのBentoセルを概要導線と元のProjects表示に整理する', () => {
     expect(page).not.toContain('<h3>社内システム開発</h3>');
     expect(page).not.toContain('<h3>フルスタック開発</h3>');

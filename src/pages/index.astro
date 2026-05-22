@@ -4,6 +4,7 @@ import Link from '../components/Link.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../utils/formatDate';
 import { sortPublishedPostsByDate } from '../utils/blog';
+import { withBase } from '../utils/withBase';
 
 const projects = await getCollection('projects');
 const [latestProject] = [...projects].sort(
@@ -30,6 +31,15 @@ const overviewCards = [
     meta: '経歴と担当プロジェクト',
   },
 ];
+
+const playground = {
+  eyebrow: 'Browser Oddities',
+  title: 'Fake Kirdyを少しだけ遊ぶ',
+  description:
+    'Phaser / Matter.jsで作った、ふわっと浮くブラウザゲーム。必要な時だけ読み込みます。',
+  previewImage: '/assets/projects/fake-kirdy.webp',
+  gameUrl: 'https://penpenguin.github.io/fake-kirdy/',
+};
 ---
 
 <Layout
@@ -129,10 +139,90 @@ const overviewCards = [
             </section>
           )
         }
+
+        <section
+          class="bento-panel bento-card bento-card--playground card-glass"
+          data-playground-card
+          data-game-src="https://penpenguin.github.io/fake-kirdy/"
+        >
+          <div class="playground-copy">
+            <p class="bento-eyebrow eyebrow">{playground.eyebrow}</p>
+            <h2>{playground.title}</h2>
+            <p>{playground.description}</p>
+          </div>
+          <div class="playground-preview" data-playground-preview>
+            <img
+              src={withBase(playground.previewImage)}
+              alt="Fake Kirdy gameplay preview"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="playground-actions">
+              <button
+                class="playground-button"
+                type="button"
+                data-playground-toggle
+              >
+                Play
+              </button>
+              <a
+                class="overview-link"
+                href={playground.gameUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                別タブで開く
+              </a>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  const playgroundCard = document.querySelector('[data-playground-card]');
+  const playgroundPreview = playgroundCard?.querySelector(
+    '[data-playground-preview]'
+  );
+  const playgroundToggle = playgroundCard?.querySelector<HTMLButtonElement>(
+    '[data-playground-toggle]'
+  );
+
+  playgroundToggle?.addEventListener('click', () => {
+    const gameSrc = playgroundCard?.getAttribute('data-game-src');
+
+    if (!playgroundPreview || !gameSrc) {
+      return;
+    }
+
+    const existingFrame = playgroundPreview.querySelector('iframe');
+
+    if (existingFrame) {
+      existingFrame.remove();
+      playgroundPreview.classList.remove('is-playing');
+      playgroundToggle.textContent = 'Play';
+      return;
+    }
+
+    const frame = document.createElement('iframe');
+    frame.setAttribute('title', 'Fake Kirdy playable preview');
+    frame.setAttribute('loading', 'lazy');
+    frame.setAttribute(
+      'sandbox',
+      'allow-scripts allow-same-origin allow-pointer-lock'
+    );
+    frame.setAttribute('referrerpolicy', 'no-referrer');
+    frame.setAttribute('allow', 'fullscreen; gamepad');
+    frame.setAttribute('src', gameSrc);
+    playgroundPreview.append(frame);
+    playgroundPreview.classList.add('is-playing');
+    playgroundToggle.textContent = 'Close';
+  });
+</script>
 
 <style>
   .home-overview-grid {
@@ -197,6 +287,14 @@ const overviewCards = [
       var(--bento-card-bg);
   }
 
+  .bento-card--playground {
+    grid-column: span 2;
+    gap: var(--space-lg);
+    background:
+      linear-gradient(135deg, rgba(254, 249, 195, 0.8), transparent 58%),
+      var(--bento-card-bg);
+  }
+
   .bento-card h1,
   .overview-card h1 {
     max-width: 760px;
@@ -229,6 +327,17 @@ const overviewCards = [
 
   .blog-summary h2 {
     margin-bottom: 0;
+    font-size: var(--font-size-3xl);
+  }
+
+  .playground-copy {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .playground-copy h2 {
+    margin-bottom: 0;
+    color: var(--text-primary);
     font-size: var(--font-size-3xl);
   }
 
@@ -303,6 +412,77 @@ const overviewCards = [
     margin-top: var(--space-lg);
   }
 
+  .playground-preview {
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .playground-preview img,
+  .playground-preview iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .playground-preview img {
+    object-fit: cover;
+  }
+
+  .playground-preview iframe {
+    border: 0;
+    inset: 0;
+    position: absolute;
+  }
+
+  .playground-actions {
+    align-items: center;
+    background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.72));
+    bottom: 0;
+    display: flex;
+    gap: var(--space-md);
+    justify-content: space-between;
+    left: 0;
+    padding: var(--space-md);
+    position: absolute;
+    right: 0;
+  }
+
+  .playground-button {
+    background: #ffffff;
+    border: 0;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    padding: 0.65rem 0.95rem;
+  }
+
+  .playground-actions .overview-link {
+    color: #ffffff;
+  }
+
+  .playground-preview.is-playing .playground-actions {
+    background: transparent;
+    justify-content: flex-end;
+    top: 0;
+    bottom: auto;
+    pointer-events: none;
+  }
+
+  .playground-preview.is-playing .playground-button {
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22);
+    pointer-events: auto;
+  }
+
+  .playground-preview.is-playing .overview-link {
+    display: none;
+  }
+
   .overview-card__footer {
     display: flex;
     align-items: center;
@@ -335,7 +515,8 @@ const overviewCards = [
 
     .bento-card--intro,
     .bento-card--project,
-    .bento-card--blog {
+    .bento-card--blog,
+    .bento-card--playground {
       grid-column: span 2;
     }
   }
@@ -350,6 +531,7 @@ const overviewCards = [
     .bento-card--metric,
     .bento-card--project,
     .bento-card--blog,
+    .bento-card--playground,
     .overview-card {
       grid-column: span 1;
       min-height: auto;
