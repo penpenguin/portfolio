@@ -34,6 +34,70 @@ describe('projects content entries', () => {
     expect(content).toMatch(/description:\s*'/);
   });
 
+  it('PDF Redactorのプロジェクトページが存在し公開リンクを含む', () => {
+    const content = readProject('pdf-redactor');
+    expect(content).toMatch(/title:\s*'PDF Redactor/);
+    expect(content).toMatch(
+      /github:\s*'https:\/\/github\.com\/penpenguin\/pdf-redactor'/
+    );
+    expect(content).toMatch(
+      /link:\s*'https:\/\/penpenguin\.github\.io\/pdf-redactor\/'/
+    );
+    expect(content).toMatch(/tags:\s*\[[^\]]*'React'[^\]]*'PDFium'[^\]]*]/);
+  });
+
+  it('Bookmarklet Exporterのプロジェクトページが存在し公開リンクを含む', () => {
+    const content = readProject('bookmarklet-exporter');
+    expect(content).toMatch(/title:\s*'Bookmarklet Exporter/);
+    expect(content).toMatch(
+      /github:\s*'https:\/\/github\.com\/penpenguin\/bookmarklet-exporter'/
+    );
+    expect(content).toMatch(
+      /link:\s*'https:\/\/penpenguin\.github\.io\/bookmarklet-exporter\/'/
+    );
+    expect(content).toMatch(
+      /tags:\s*\[[^\]]*'Astro'[^\]]*'Monaco Editor'[^\]]*]/
+    );
+  });
+
+  it('Card Lighting Demoのプロジェクトページが存在し公開リンクを含む', () => {
+    const content = readProject('card-lighting-demo');
+    expect(content).toMatch(/title:\s*'Card Lighting Demo/);
+    expect(content).toMatch(
+      /github:\s*'https:\/\/github\.com\/penpenguin\/card-lighting-demo'/
+    );
+    expect(content).toMatch(
+      /link:\s*'https:\/\/penpenguin\.github\.io\/card-lighting-demo\/'/
+    );
+    expect(content).toMatch(/tags:\s*\[[^\]]*'Astro'[^\]]*'Tweakpane'[^\]]*]/);
+  });
+
+  it('Fake Kirdyのプロジェクトページが存在し公開リンクを含む', () => {
+    const content = readProject('fake-kirdy');
+    expect(content).toMatch(/title:\s*'Fake Kirdy/);
+    expect(content).toMatch(
+      /github:\s*'https:\/\/github\.com\/penpenguin\/fake-kirdy'/
+    );
+    expect(content).toMatch(
+      /link:\s*'https:\/\/penpenguin\.github\.io\/fake-kirdy\/'/
+    );
+    expect(content).toMatch(
+      /tags:\s*\[[^\]]*'Phaser'[^\]]*'Matter\.js'[^\]]*]/
+    );
+  });
+
+  it('Bonsai Boxのプロジェクトページが存在し公開リンクを含む', () => {
+    const content = readProject('bonsai-box');
+    expect(content).toMatch(/title:\s*'Bonsai Box/);
+    expect(content).toMatch(
+      /github:\s*'https:\/\/github\.com\/penpenguin\/bonsai-box'/
+    );
+    expect(content).toMatch(
+      /link:\s*'https:\/\/penpenguin\.github\.io\/bonsai-box\/'/
+    );
+    expect(content).toMatch(/tags:\s*\[[^\]]*'Three\.js'[^\]]*'Vite'[^\]]*]/);
+  });
+
   it('Astro 6 content loaderでprojects collectionを定義する', () => {
     const config = loadConfig();
 

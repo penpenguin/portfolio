@@ -8,12 +8,18 @@ import Link from '../components/Link.astro';
     <div class="container">
       <div class="about-bento">
         <section class="bento-hero about-card about-card--hero card-glass">
-          <p class="bento-eyebrow eyebrow">Enterprise systems programmer</p>
-          <h1>業務システムの設計と実装をつなぐ</h1>
+          <p class="bento-eyebrow eyebrow">About</p>
+          <h1>現場の要件を、運用に残るWebシステムへ落とし込む</h1>
           <p class="hero-description">
-            メーカーの社内システム構築支援を中心に、要件整理、Webアプリケーション実装、
-            クラウド基盤、運用改善まで一続きで扱うプログラマーです。
+            メーカー系の社内システムを中心に、要件整理、Webアプリケーション実装、クラウド基盤、CI/CD、運用改善まで担当してきました。
+            業務知識が複雑な領域でも、画面・API・データモデル・運用プロセスへ分解し、チームで長く保守できる形に整えます。
           </p>
+          <div class="hero-chips" aria-label="About highlights">
+            <span>10+ years</span>
+            <span>Manufacturing internal systems</span>
+            <span>Java / TypeScript / Azure</span>
+            <span>Requirements → Operation</span>
+          </div>
         </section>
 
         <section
@@ -22,25 +28,26 @@ import Link from '../components/Link.astro';
           <p class="bento-eyebrow eyebrow">Experience</p>
           <span class="metric-value">10+</span>
           <p>
-            長期運用される業務システムの開発と改善に継続して関わっています。
+            長期運用、新規開発、改善、CI/CD整備を横断して、業務システムに継続して関わっています。
           </p>
         </section>
 
         <section class="bento-panel about-card about-card--role">
           <p class="bento-eyebrow eyebrow">Role</p>
-          <span class="metric-value">Bridge</span>
+          <span class="metric-value">Lead Programmer</span>
           <p>
-            設計と実装の橋渡し役として、判断材料づくりと開発推進を支援します。
+            業務要件を画面・API・データモデルへ分解し、実装判断とチーム開発を前に進めます。
           </p>
         </section>
 
         <section class="bento-panel about-card about-card--focus card-glass">
-          <p class="bento-eyebrow eyebrow">Current Focus</p>
-          <h2>複雑な業務情報を、扱いやすいWebシステムへ</h2>
-          <p>
-            現在は通信設計情報を統合管理するWebシステムの開発を支援しています。
-            現場の業務知識を、保守しやすい画面・API・データモデルに落とし込みます。
-          </p>
+          <p class="bento-eyebrow eyebrow">Proof</p>
+          <h2>実績の圧縮表示</h2>
+          <div class="proof-list">
+            <div>通信設計情報を統合管理するWebシステム新規開発</div>
+            <div>Azure AI Search / Azure OpenAI を使った全文検索導入支援</div>
+            <div>シミュレーション管理システムのCI/CD・テスト自動化</div>
+          </div>
         </section>
 
         <section class="bento-panel about-card about-card--stack card-glass">
@@ -85,8 +92,10 @@ import Link from '../components/Link.astro';
 
         <section class="bento-panel about-card about-card--contact card-glass">
           <p class="bento-eyebrow eyebrow">Contact</p>
-          <h3>System design / implementation相談</h3>
-          <p>業務システムの設計、実装、運用改善について話せます。</p>
+          <h3>業務システムの設計・実装・改善相談</h3>
+          <p>
+            新規開発、既存システム改善、CI/CD整備、設計レビューなど、要件整理から実装・運用まで一緒に整理できます。
+          </p>
           <div class="contact-links">
             <Link href="/contact" class="btn btn-primary">お問い合わせ</Link>
             <div class="social-links">
@@ -122,7 +131,7 @@ import Link from '../components/Link.astro';
 
   .about-card--hero {
     grid-column: span 4;
-    min-height: 390px;
+    min-height: 320px;
     background:
       linear-gradient(
         135deg,
@@ -165,7 +174,8 @@ import Link from '../components/Link.astro';
 
   .about-card--role .metric-value {
     color: #ffffff;
-    font-size: clamp(3rem, 12vw, 5.4rem);
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    line-height: 1;
     position: relative;
     z-index: 1;
   }
@@ -219,6 +229,23 @@ import Link from '../components/Link.astro';
     font-size: var(--font-size-lg);
   }
 
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-lg);
+  }
+
+  .hero-chips span {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    color: var(--text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
   .eyebrow {
     margin: 0;
     color: var(--text-muted);
@@ -237,17 +264,26 @@ import Link from '../components/Link.astro';
   }
 
   .stack-tiles,
-  .delivery-grid {
+  .delivery-grid,
+  .proof-list {
     display: grid;
     gap: var(--space-sm);
   }
 
   .stack-tile,
-  .delivery-grid > div {
+  .delivery-grid > div,
+  .proof-list > div {
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.48);
     padding: var(--space-sm);
+  }
+
+  .proof-list > div {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    line-height: 1.5;
   }
 
   .stack-tile span,

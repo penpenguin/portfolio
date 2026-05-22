@@ -3,27 +3,55 @@ import Layout from '../layouts/Layout.astro';
 import Link from '../components/Link.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../utils/formatDate';
+import { sortPublishedPostsByDate } from '../utils/blog';
+import { withBase } from '../utils/withBase';
 
 const projects = await getCollection('projects');
-const [featuredProject] = [...projects].sort(
+const [latestProject] = [...projects].sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
+const blogPosts = await getCollection('blog');
+const [latestPost] = sortPublishedPostsByDate(blogPosts);
+
+const overviewCards = [
+  {
+    eyebrow: 'About',
+    title: 'どんな人か',
+    description:
+      '業務システム開発で扱っている領域、役割、技術スタックをまとめています。',
+    href: '/about',
+    meta: 'プロフィールと得意領域',
+  },
+  {
+    eyebrow: 'Career',
+    title: 'どんな経歴か',
+    description:
+      'これまで関わってきた業務システム開発、担当領域、技術スタックを時系列で確認できます。',
+    href: '/career',
+    meta: '経歴と担当プロジェクト',
+  },
+];
+
+const playground = {
+  eyebrow: 'Browser Oddities',
+  previewImage: '/assets/projects/fake-kirdy.webp',
+  gameUrl: 'https://penpenguin.github.io/fake-kirdy/',
+};
 ---
 
-<Layout title="Portfolio - Programmer">
+<Layout
+  title="Portfolio - Programmer"
+  description="プロフィール、制作物、技術メモ、職務経歴、連絡先をまとめたポートフォリオです。"
+>
   <section class="page-shell bento-shell">
     <div class="container">
-      <div class="bento-grid">
+      <div class="bento-grid home-overview-grid">
         <section
           class="bento-hero bento-panel bento-card bento-card--intro card-glass"
         >
           <div class="intro-copy">
             <p class="bento-eyebrow eyebrow">Enterprise Systems Programmer</p>
             <h1>Enterprise systems, shipped end-to-end</h1>
-            <p class="lead">
-              社内システムの要件定義、Webアプリケーション実装、クラウド基盤、運用改善まで。
-              長く使われる業務システムを、現場と開発の両側から組み立てます。
-            </p>
           </div>
         </section>
 
@@ -33,81 +61,199 @@ const [featuredProject] = [...projects].sort(
           <p>要件定義から運用改善まで、長期運用される業務システムを支援。</p>
         </section>
 
-        <section class="bento-panel bento-card bento-card--stack card-glass">
-          <p class="bento-eyebrow eyebrow">Core Stack</p>
-          <div class="stack-groups">
-            <div class="stack-group">
-              <h3>Backend</h3>
-              <div class="pill-list stack-list">
-                <span>Java</span>
-                <span>Quarkus</span>
-                <span>Node.js</span>
-              </div>
-            </div>
-            <div class="stack-group">
-              <h3>Frontend</h3>
-              <div class="pill-list stack-list">
-                <span>TypeScript</span>
-                <span>React</span>
-                <span>Astro</span>
-              </div>
-            </div>
-            <div class="stack-group">
-              <h3>Platform</h3>
-              <div class="pill-list stack-list">
-                <span>Azure</span>
-                <span>GitLab CI/CD</span>
-                <span>OpenShift</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {
-          featuredProject && (
+          latestProject && (
             <section class="bento-panel bento-card bento-card--project card-glass">
               <p class="bento-eyebrow eyebrow">Featured Project</p>
               <div class="project-summary">
                 <span class="project-kicker">
-                  {formatDate(featuredProject.data.pubDate)}
+                  {formatDate(latestProject.data.pubDate)}
                 </span>
                 <h2>
-                  <Link href={`/projects/${featuredProject.id}`}>
-                    {featuredProject.data.title}
+                  <Link href={`/projects/${latestProject.id}`}>
+                    {latestProject.data.title}
                   </Link>
                 </h2>
-                <p>{featuredProject.data.description}</p>
+                <p>{latestProject.data.description}</p>
               </div>
-              {featuredProject.data.tags && (
+              {latestProject.data.tags && (
                 <div class="pill-list project-tags">
-                  {featuredProject.data.tags.slice(0, 4).map((tag) => (
+                  {latestProject.data.tags.slice(0, 4).map((tag) => (
                     <span>{tag}</span>
                   ))}
                 </div>
               )}
+              <Link href="/projects" class="overview-link project-index-link">
+                Projects一覧を見る
+              </Link>
             </section>
           )
         }
 
-        <section class="bento-panel bento-card bento-card--wide card-glass">
-          <p class="bento-eyebrow eyebrow">Current Focus</p>
-          <h2>業務知識と実装力の間を埋める設計</h2>
-          <p>
-            複雑な業務要件を、保守しやすいWebシステムと運用可能な開発プロセスへ落とし込みます。
+        {
+          overviewCards.map((card) => (
+            <article class="bento-panel overview-card card-glass">
+              <div>
+                <p class="bento-eyebrow eyebrow">{card.eyebrow}</p>
+                <h2>{card.title}</h2>
+                <p>{card.description}</p>
+              </div>
+              <div class="overview-card__footer">
+                <span>{card.meta}</span>
+                <Link href={card.href} class="overview-link">
+                  ページを見る
+                </Link>
+              </div>
+            </article>
+          ))
+        }
+
+        {
+          latestPost && (
+            <section class="bento-panel bento-card bento-card--blog card-glass">
+              <p class="bento-eyebrow eyebrow">Featured Article</p>
+              <div class="blog-summary">
+                <span class="blog-kicker">
+                  {formatDate(latestPost.data.pubDate)}
+                </span>
+                <h2>
+                  <Link href={`/blog/${latestPost.id}`}>
+                    {latestPost.data.title}
+                  </Link>
+                </h2>
+                <p>{latestPost.data.description}</p>
+              </div>
+              {latestPost.data.tags && (
+                <div class="pill-list blog-tags">
+                  {latestPost.data.tags.slice(0, 4).map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              )}
+              <Link href="/blog" class="overview-link project-index-link">
+                Blog一覧を見る
+              </Link>
+            </section>
+          )
+        }
+
+        <section
+          class="bento-panel bento-card bento-card--playground card-glass"
+          data-playground-card
+          data-game-src="https://penpenguin.github.io/fake-kirdy/"
+        >
+          <p class="bento-eyebrow eyebrow playground-eyebrow">
+            {playground.eyebrow}
           </p>
+          <div class="playground-preview" data-playground-preview>
+            <img
+              src={withBase(playground.previewImage)}
+              alt="Fake Kirdy gameplay preview"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="playground-actions">
+              <button
+                class="playground-button"
+                type="button"
+                aria-label="Fake Kirdyを再生"
+                data-playground-toggle
+              >
+                <span class="playground-button__label">Play</span>
+                <svg
+                  class="playground-button__icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+              <a
+                class="overview-link"
+                href={playground.gameUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                別タブで開く
+              </a>
+            </div>
+          </div>
         </section>
       </div>
     </div>
   </section>
 </Layout>
 
+<script>
+  const setupPlayground = () => {
+    document
+      .querySelectorAll<HTMLElement>('[data-playground-card]')
+      .forEach((card) => {
+        const playgroundPreview = card.querySelector<HTMLElement>(
+          '[data-playground-preview]'
+        );
+        const playgroundToggle = card.querySelector<HTMLButtonElement>(
+          '[data-playground-toggle]'
+        );
+
+        if (!playgroundPreview || !playgroundToggle) {
+          return;
+        }
+
+        if (playgroundToggle.dataset.playgroundBound === 'true') {
+          return;
+        }
+
+        playgroundToggle.dataset.playgroundBound = 'true';
+        playgroundToggle.addEventListener('click', () => {
+          const gameSrc = card.getAttribute('data-game-src');
+
+          if (!gameSrc) {
+            return;
+          }
+
+          const existingFrame = playgroundPreview.querySelector('iframe');
+
+          if (existingFrame) {
+            existingFrame.remove();
+            playgroundPreview.classList.remove('is-playing');
+            playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを再生');
+            return;
+          }
+
+          const frame = document.createElement('iframe');
+          frame.className = 'playground-frame';
+          frame.setAttribute('title', 'Fake Kirdy playable preview');
+          frame.setAttribute('loading', 'lazy');
+          frame.setAttribute(
+            'sandbox',
+            'allow-scripts allow-same-origin allow-pointer-lock'
+          );
+          frame.setAttribute('referrerpolicy', 'no-referrer');
+          frame.setAttribute('allow', 'fullscreen; gamepad');
+          frame.setAttribute('src', gameSrc);
+          playgroundPreview.append(frame);
+          playgroundPreview.classList.add('is-playing');
+          playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを閉じる');
+        });
+      });
+  };
+
+  setupPlayground();
+  document.addEventListener('astro:page-load', setupPlayground);
+</script>
+
 <style>
-  .bento-grid {
+  .home-overview-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .bento-card {
-    min-height: 220px;
+  .bento-card,
+  .overview-card {
+    min-height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -149,20 +295,35 @@ const [featuredProject] = [...projects].sort(
     color: rgba(255, 255, 255, 0.78);
   }
 
-  .bento-card--stack,
   .bento-card--project {
     grid-column: span 2;
-  }
-
-  .bento-card--wide {
-    grid-column: span 4;
-    min-height: 200px;
     background:
-      linear-gradient(135deg, rgba(240, 253, 244, 0.75), transparent 64%),
+      linear-gradient(135deg, rgba(236, 254, 255, 0.78), transparent 62%),
       var(--bento-card-bg);
   }
 
-  .bento-card h1 {
+  .bento-card--blog {
+    grid-column: span 2;
+    background:
+      linear-gradient(135deg, rgba(240, 253, 244, 0.78), transparent 62%),
+      var(--bento-card-bg);
+  }
+
+  .bento-card--playground {
+    grid-column: span 2;
+    gap: var(--space-sm);
+    justify-content: center;
+    background:
+      linear-gradient(135deg, rgba(254, 249, 195, 0.8), transparent 58%),
+      var(--bento-card-bg);
+  }
+
+  .playground-eyebrow {
+    flex: 0 0 auto;
+  }
+
+  .bento-card h1,
+  .overview-card h1 {
     max-width: 760px;
     margin: var(--space-sm) 0;
     font-size: 5.25rem;
@@ -170,21 +331,64 @@ const [featuredProject] = [...projects].sort(
     letter-spacing: 0;
   }
 
-  .bento-card h2,
-  .bento-card h3 {
+  .overview-card h2 {
     margin: 0 0 var(--space-sm) 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-3xl);
   }
 
-  .lead {
-    max-width: 720px;
-    font-size: var(--font-size-lg);
+  .project-summary {
+    display: grid;
+    gap: var(--space-sm);
   }
 
-  .intro-copy {
-    max-width: 820px;
+  .blog-summary {
+    display: grid;
+    gap: var(--space-sm);
   }
 
-  .eyebrow,
+  .project-summary h2 {
+    margin-bottom: 0;
+    font-size: var(--font-size-3xl);
+  }
+
+  .blog-summary h2 {
+    margin-bottom: 0;
+    font-size: var(--font-size-3xl);
+  }
+
+  .project-summary h2 a {
+    color: var(--text-primary);
+  }
+
+  .blog-summary h2 a {
+    color: var(--text-primary);
+  }
+
+  .project-kicker {
+    color: var(--text-accent);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+  }
+
+  .blog-kicker {
+    color: var(--text-accent);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+  }
+
+  .project-tags span {
+    color: var(--text-accent);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+  }
+
+  .blog-tags span {
+    color: var(--text-accent);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+  }
+
   .metric-label {
     margin: 0;
     color: var(--text-muted);
@@ -202,98 +406,204 @@ const [featuredProject] = [...projects].sort(
     z-index: 1;
   }
 
-  .stack-groups {
-    display: grid;
-    gap: var(--space-md);
+  .intro-copy {
+    max-width: 820px;
   }
 
-  .stack-group h3 {
-    margin-bottom: var(--space-xs);
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
+  .eyebrow {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
     text-transform: uppercase;
   }
 
-  .stack-list span {
+  .bento-card p,
+  .overview-card p {
+    margin-bottom: 0;
+  }
+
+  .project-index-link {
+    align-self: flex-start;
+    margin-top: var(--space-lg);
+  }
+
+  .playground-preview {
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .playground-preview img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .playground-preview img {
+    object-fit: cover;
+  }
+
+  :global(.playground-frame) {
+    border: 0;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .playground-preview.is-playing img {
+    display: none;
+  }
+
+  .playground-actions {
+    align-items: center;
+    background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.72));
+    bottom: 0;
+    display: flex;
+    gap: var(--space-md);
+    justify-content: space-between;
+    left: 0;
+    padding: var(--space-md);
+    position: absolute;
+    right: 0;
+    z-index: 2;
+  }
+
+  .playground-button {
+    align-items: center;
+    background: #ffffff;
+    border: 0;
+    border-radius: var(--radius-sm);
     color: var(--text-primary);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    justify-content: center;
+    padding: 0.65rem 0.95rem;
+  }
+
+  .playground-button__icon {
+    display: none;
+    height: 1.2rem;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.2;
+    width: 1.2rem;
+  }
+
+  .playground-actions .overview-link {
+    color: #ffffff;
+  }
+
+  .playground-preview.is-playing .playground-actions {
+    background: transparent;
+    bottom: auto;
+    justify-content: flex-end;
+    top: var(--space-xs);
+    right: var(--space-xs);
+    left: auto;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .playground-preview.is-playing .playground-button {
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22);
+    height: 2.5rem;
+    padding: 0;
+    pointer-events: auto;
+    width: 2.5rem;
+  }
+
+  .playground-preview.is-playing .playground-button__label {
+    display: none;
+  }
+
+  .playground-preview.is-playing .playground-button__icon {
+    display: block;
+  }
+
+  .playground-preview.is-playing .overview-link {
+    display: none;
+  }
+
+  .overview-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  .overview-card__footer span {
+    color: var(--text-muted);
     font-size: var(--font-size-sm);
     font-weight: 600;
   }
 
-  .bento-card--project {
-    background:
-      linear-gradient(135deg, rgba(236, 254, 255, 0.78), transparent 62%),
-      var(--bento-card-bg);
-  }
-
-  .project-summary {
-    display: grid;
-    gap: var(--space-sm);
-  }
-
-  .project-summary h2 {
-    margin-bottom: 0;
-    font-size: var(--font-size-3xl);
-  }
-
-  .project-summary h2 a {
-    color: var(--text-primary);
-  }
-
-  .project-kicker {
+  .overview-link {
     color: var(--text-accent);
+    flex: 0 0 auto;
     font-size: var(--font-size-sm);
     font-weight: 700;
   }
 
-  .project-tags span {
-    color: var(--text-accent);
-    font-size: var(--font-size-xs);
-    font-weight: 600;
-  }
-
-  .bento-card p {
-    margin-bottom: 0;
+  .overview-link:hover {
+    color: var(--text-primary);
   }
 
   @media (max-width: 980px) {
-    .bento-grid {
+    .home-overview-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .bento-card--intro,
-    .bento-card--wide {
+    .bento-card--project,
+    .bento-card--blog,
+    .bento-card--playground {
       grid-column: span 2;
     }
   }
 
   @media (max-width: 768px) {
-    .bento-grid {
+    .home-overview-grid {
       grid-template-columns: 1fr;
     }
 
     .bento-card,
     .bento-card--intro,
     .bento-card--metric,
-    .bento-card--stack,
     .bento-card--project,
-    .bento-card--wide {
+    .bento-card--blog,
+    .bento-card--playground,
+    .overview-card {
       grid-column: span 1;
       min-height: auto;
     }
 
-    .bento-card h1 {
+    .bento-card h1,
+    .overview-card h1 {
       font-size: 3rem;
       line-height: 1.02;
     }
 
-    .metric-value {
-      font-size: 4rem;
+    .overview-card__footer {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-sm);
     }
   }
 
   @media (max-width: 420px) {
-    .bento-card h1 {
+    .bento-card h1,
+    .overview-card h1 {
       font-size: 2.5rem;
     }
   }
