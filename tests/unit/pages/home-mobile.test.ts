@@ -55,7 +55,7 @@ describe('Home モバイルレイアウト', () => {
     expect(page).toContain('どんな人か');
     expect(page).toContain('Featured Project');
     expect(page).toContain('Featured Article');
-    expect(page).toContain('職務経歴を確認する');
+    expect(page).toContain('どんな経歴か');
     expect(page).toContain("href: '/about'");
     expect(page).toContain('href="/projects"');
     expect(page).toContain('href="/blog"');
