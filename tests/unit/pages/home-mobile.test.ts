@@ -95,9 +95,10 @@ describe('Home モバイルレイアウト', () => {
   });
 
   it('Fake Kirdyは初期表示で読み込まず遊ぶ時だけiframeを生成する', () => {
-    expect(page).toContain('Browser Oddities');
-    expect(page).toContain('Fake Kirdyを少しだけ遊ぶ');
-    expect(page).toContain('Phaser / Matter.js');
+    expect(page).not.toContain('Browser Oddities');
+    expect(page).not.toContain('Fake Kirdyを少しだけ遊ぶ');
+    expect(page).not.toContain('Phaser / Matter.js');
+    expect(page).not.toContain('playground-copy');
     expect(page).toContain('bento-card--playground');
     expect(page).toContain('fake-kirdy.webp');
     expect(page).toContain('withBase(playground.previewImage)');
@@ -109,6 +110,33 @@ describe('Home モバイルレイアウト', () => {
     );
     expect(page).toMatch(
       /frame\.setAttribute\(\s*'sandbox',\s*'allow-scripts allow-same-origin allow-pointer-lock'\s*\)/
+    );
+    expect(page).toMatch(
+      /\.playground-preview\.is-playing img\s*{[\s\S]*display: none;[\s\S]*}/
+    );
+    expect(page).toContain("frame.className = 'playground-frame'");
+    expect(page).toMatch(
+      /:global\(\.playground-frame\)\s*{[\s\S]*inset: 0;[\s\S]*width: 100%;[\s\S]*height: 100%;[\s\S]*z-index: 1;[\s\S]*}/
+    );
+    expect(page).toMatch(/\.playground-actions\s*{[\s\S]*z-index: 2;[\s\S]*}/);
+    expect(page).toContain('aria-label="Fake Kirdyを再生"');
+    expect(page).toContain('class="playground-button__label"');
+    expect(page).toContain('class="playground-button__icon"');
+    expect(page).toContain(
+      "playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを閉じる')"
+    );
+    expect(page).not.toContain("playgroundToggle.textContent = 'Close'");
+    expect(page).toMatch(
+      /\.playground-preview\.is-playing \.playground-actions\s*{[\s\S]*top: var\(--space-xs\);[\s\S]*right: var\(--space-xs\);[\s\S]*left: auto;[\s\S]*padding: 0;[\s\S]*}/
+    );
+    expect(page).toMatch(
+      /\.playground-preview\.is-playing \.playground-button\s*{[\s\S]*width: 2\.5rem;[\s\S]*}/
+    );
+    expect(page).toMatch(
+      /\.playground-preview\.is-playing \.playground-button\s*{[\s\S]*height: 2\.5rem;[\s\S]*}/
+    );
+    expect(page).toMatch(
+      /\.playground-preview\.is-playing \.playground-button\s*{[\s\S]*border-radius: 999px;[\s\S]*}/
     );
   });
 
