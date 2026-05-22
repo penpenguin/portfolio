@@ -46,11 +46,12 @@ uv tool run ruff --version
 
 プロジェクト直下に `.npmrc` を置きます。
 
-```ini:.npmrc
+```ini title=".npmrc"
 ignore-scripts=true
 save-exact=true
 min-release-age=3
 ```
+※ npm v11.10.0以降のバージョンが必要です
 
 `ignore-scripts=true` は、`package.json` に定義された lifecycle script の実行を抑止します。ただし、`npm run`、`npm test`、`npm start` のように明示的にスクリプト実行を目的とするコマンドは実行されます。`save-exact=true` は、依存関係を追加するときに `^1.2.3` のような範囲指定ではなく、正確なバージョンを `package.json` に保存します。`min-release-age=3` は、公開から指定日数を超えたバージョンだけを解決候補にします。([npmドキュメント][3])
 
@@ -62,7 +63,7 @@ npm install lodash
 
 `save-exact=true` が有効な場合、`package.json` には次のように記録されます。
 
-```json:package.json
+```json title="package.json"
 {
   "dependencies": {
     "lodash": "4.17.21"
@@ -74,7 +75,7 @@ npm install lodash
 
 より厳しくする場合は、Git 依存、URL 依存、ローカル tarball、ローカルディレクトリ依存も制限します。
 
-```ini:.npmrc
+```ini title=".npmrc"
 ignore-scripts=true
 save-exact=true
 min-release-age=3
@@ -84,6 +85,7 @@ allow-remote=root
 allow-file=root
 allow-directory=root
 ```
+※ npm v11.10.0以降のバージョンが必要です
 
 `root` は、プロジェクトの `package.json` に直接定義された依存だけを許可する設定です。`none` にするとさらに厳しくできますが、monorepo や社内パッケージでローカル依存を使っている場合は壊れる可能性があります。まず CI で検出し、必要な例外だけを明示するほうが導入しやすいです。([npmドキュメント][3])
 
