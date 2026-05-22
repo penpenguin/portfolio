@@ -50,7 +50,7 @@ test.describe('Bento layout', () => {
       const minCardWidth = await page.evaluate(() => {
         const cards = Array.from(
           document.querySelectorAll(
-            '.bento-card, .project-card, .contact-info, .availability'
+            '.bento-card, .overview-card, .project-card, .contact-info, .availability'
           )
         );
 
