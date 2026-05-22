@@ -2,7 +2,10 @@ import { expect, test } from '@playwright/test';
 
 const pages = [
   { path: './', heading: 'Enterprise systems, shipped end-to-end' },
-  { path: 'about/', heading: '業務システムの設計と実装をつなぐ' },
+  {
+    path: 'about/',
+    heading: '現場の要件を、運用に残るWebシステムへ落とし込む',
+  },
   { path: 'projects/', heading: 'Built Systems' },
   { path: 'blog/', heading: 'Blog' },
   { path: 'career/', heading: 'Career' },

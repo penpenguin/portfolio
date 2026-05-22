@@ -10,9 +10,16 @@ const loadPage = (relativePath: string) =>
   readFileSync(resolve(currentDir, relativePath), 'utf-8');
 
 describe('ページ内の職種表記統一', () => {
-  it('aboutページで「プログラマー」表記を使用している', () => {
+  it('aboutページは職種名よりできることを前面に出す', () => {
     const about = loadPage('../../../src/pages/about.astro');
-    expect(about).toContain('プログラマー');
+    expect(about).toContain('現場の要件を、運用に残るWebシステムへ落とし込む');
+    expect(about).toContain(
+      'メーカー系の社内システムを中心に、要件整理、Webアプリケーション実装、クラウド基盤、CI/CD、運用改善まで担当してきました。'
+    );
+    expect(about).not.toContain('できること、やってきたこと');
+    expect(about).not.toContain('Business Systems / Web Applications');
+    expect(about).not.toContain('Enterprise systems programmer');
+    expect(about).not.toContain('プログラマーです');
     expect(about).not.toContain('システムプログラマー');
     expect(about).not.toContain('エンジニア');
   });
