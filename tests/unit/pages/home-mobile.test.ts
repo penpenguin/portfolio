@@ -126,6 +126,14 @@ describe('Home モバイルレイアウト', () => {
       "playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを閉じる')"
     );
     expect(page).not.toContain("playgroundToggle.textContent = 'Close'");
+    expect(page).toContain('const setupPlayground = () =>');
+    expect(page).toContain(
+      "document.addEventListener('astro:page-load', setupPlayground)"
+    );
+    expect(page).toContain("playgroundToggle.dataset.playgroundBound = 'true'");
+    expect(page).not.toContain(
+      "const playgroundCard = document.querySelector('[data-playground-card]')"
+    );
     expect(page).toMatch(
       /\.playground-preview\.is-playing \.playground-actions\s*{[\s\S]*top: var\(--space-xs\);[\s\S]*right: var\(--space-xs\);[\s\S]*left: auto;[\s\S]*padding: 0;[\s\S]*}/
     );
