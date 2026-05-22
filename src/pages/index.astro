@@ -33,6 +33,7 @@ const overviewCards = [
 ];
 
 const playground = {
+  eyebrow: 'Browser Oddities',
   previewImage: '/assets/projects/fake-kirdy.webp',
   gameUrl: 'https://penpenguin.github.io/fake-kirdy/',
 };
@@ -141,6 +142,9 @@ const playground = {
           data-playground-card
           data-game-src="https://penpenguin.github.io/fake-kirdy/"
         >
+          <p class="bento-eyebrow eyebrow playground-eyebrow">
+            {playground.eyebrow}
+          </p>
           <div class="playground-preview" data-playground-preview>
             <img
               src={withBase(playground.previewImage)}
@@ -290,10 +294,15 @@ const playground = {
 
   .bento-card--playground {
     grid-column: span 2;
+    gap: var(--space-sm);
     justify-content: center;
     background:
       linear-gradient(135deg, rgba(254, 249, 195, 0.8), transparent 58%),
       var(--bento-card-bg);
+  }
+
+  .playground-eyebrow {
+    flex: 0 0 auto;
   }
 
   .bento-card h1,

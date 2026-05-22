@@ -95,7 +95,7 @@ describe('Home モバイルレイアウト', () => {
   });
 
   it('Fake Kirdyは初期表示で読み込まず遊ぶ時だけiframeを生成する', () => {
-    expect(page).not.toContain('Browser Oddities');
+    expect(page).toContain('Browser Oddities');
     expect(page).not.toContain('Fake Kirdyを少しだけ遊ぶ');
     expect(page).not.toContain('Phaser / Matter.js');
     expect(page).not.toContain('playground-copy');
