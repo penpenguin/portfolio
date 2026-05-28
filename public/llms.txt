@@ -1,0 +1,12 @@
+# Portfolio LLM Guide
+
+This site exposes portfolio information for AI agents through WebMCP when the browser supports it.
+
+## WebMCP tools
+
+- `portfolio.search_content`: Search across projects and blog posts.
+- `portfolio.find_projects`: Search portfolio projects.
+- `portfolio.find_blog_posts`: Search blog posts.
+- `portfolio.get_career_summary`: Return the career timeline and a short summary.
+- `portfolio.get_contact_routes`: Return contact page, GitHub, and email routes.
+- `portfolio.open_page`: Navigate to an internal portfolio page on the same origin.

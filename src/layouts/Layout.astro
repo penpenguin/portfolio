@@ -45,6 +45,16 @@ const navItems = baseNavItems.map((item) => {
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={faviconHref} />
+    <link
+      rel="alternate"
+      type="text/markdown"
+      title="LLM guide"
+      href={withBase('/llms.txt')}
+    />
+    <meta
+      name="ai-agent-capabilities"
+      content="WebMCP; portfolio search; projects; blog; career summary; contact routes"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
