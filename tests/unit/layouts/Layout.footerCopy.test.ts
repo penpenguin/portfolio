@@ -22,6 +22,14 @@ describe('Layout footer copy', () => {
     expect(loadLayoutSource()).not.toContain('Built with Astro');
   });
 
+  it('links to the LLM guide from a WebMCP enabled footer affordance', () => {
+    const layout = loadLayoutSource();
+
+    expect(layout).toContain('WebMCP enabled');
+    expect(layout).toMatch(/href=\{withBase\(['"]\/llms\.txt['"]\)\}/);
+    expect(layout).toContain('WebMCP tools and usage');
+  });
+
   it('balances footer text spacing against the bottom viewport edge', () => {
     const layout = loadLayoutSource();
     expect(layout).toMatch(
