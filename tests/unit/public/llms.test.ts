@@ -21,5 +21,15 @@ describe('llms.txt', () => {
     expect(guide).toContain('portfolio.find_blog_posts');
     expect(guide).toContain('portfolio.get_career_summary');
     expect(guide).toContain('portfolio.get_contact_routes');
+    expect(guide).toContain('portfolio.open_page');
+  });
+
+  it('explains how supported agents can use the WebMCP tools', () => {
+    const guide = loadLlmsGuide();
+
+    expect(guide).toContain('Status');
+    expect(guide).toContain('How to use');
+    expect(guide).toContain('supported browser or agent');
+    expect(guide).toContain('"query": "WebMCP"');
   });
 });

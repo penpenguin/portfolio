@@ -2,6 +2,25 @@
 
 This site exposes portfolio information for AI agents through WebMCP when the browser supports it.
 
+## Status
+
+WebMCP is enabled for this portfolio. The page registers portfolio tools in a supported browser or agent, and falls back to the normal web UI when WebMCP is unavailable.
+
+## How to use
+
+Open the portfolio in a supported browser or agent, discover the `portfolio.*` WebMCP tools, and call the tool that matches the task. For example:
+
+```json
+{
+  "tool": "portfolio.search_content",
+  "input": {
+    "query": "WebMCP",
+    "type": "all",
+    "limit": 5
+  }
+}
+```
+
 ## WebMCP tools
 
 - `portfolio.search_content`: Search across projects and blog posts.
