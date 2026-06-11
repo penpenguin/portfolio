@@ -53,13 +53,13 @@ describe('Home モバイルレイアウト', () => {
 
   it('HomeはContactを除いた主要導線を表示する', () => {
     expect(page).toContain('どんな人か');
-    expect(page).toContain('Featured Project');
-    expect(page).toContain('Featured Article');
     expect(page).toContain('どんな経歴か');
     expect(page).toContain("href: '/about'");
     expect(page).toContain('href="/projects"');
     expect(page).toContain('href="/blog"');
     expect(page).toContain("href: '/career'");
+    expect(page).not.toContain('Featured Project');
+    expect(page).not.toContain('Featured Article');
     expect(page).not.toContain('相談・連絡する');
     expect(page).not.toContain("href: '/contact'");
   });

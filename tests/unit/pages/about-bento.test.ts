@@ -42,7 +42,6 @@ describe('About Bento layout', () => {
   });
 
   it('shows concrete proof and focused contact copy', () => {
-    expect(about).toContain('Proof');
     expect(about).toContain('実績の圧縮表示');
     expect(about).toContain('通信設計情報を統合管理するWebシステム新規開発');
     expect(about).toContain(
@@ -59,6 +58,7 @@ describe('About Bento layout', () => {
     expect(about).not.toContain(
       '業務システムの設計、実装、運用改善について話せます。'
     );
+    expect(about).not.toContain('>Proof<');
   });
 
   it('uses varied bento tiles instead of two long profile sections', () => {

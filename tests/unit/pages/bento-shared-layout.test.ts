@@ -19,7 +19,9 @@ describe('Bento shared layout usage', () => {
 
     expect(source).toContain('page-shell');
     expect(source).toContain('bento-hero');
-    expect(source).toContain('bento-eyebrow');
+    expect(source).toContain('card-glass');
+    expect(source).not.toContain('bento-eyebrow');
+    expect(source).not.toContain('class="eyebrow');
   });
 
   it('home uses the shared bento grid and panels', () => {

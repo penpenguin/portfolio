@@ -56,7 +56,6 @@ const heroClass = heroImage
 
         <div class={`bento-hero ${heroClass} card-glass`}>
           <div class="article-meta">
-            <p class="bento-eyebrow eyebrow">Article</p>
             <h1>{title}</h1>
             <p class="article-description">{description}</p>
 
@@ -211,14 +210,6 @@ const heroClass = heroImage
     font-size: clamp(2.25rem, 6vw, 4.5rem);
     line-height: 1.1;
     letter-spacing: 0;
-  }
-
-  .eyebrow {
-    margin: 0 0 var(--space-sm) 0;
-    color: var(--text-muted);
-    font-size: var(--font-size-xs);
-    font-weight: 700;
-    text-transform: uppercase;
   }
 
   .article-description {

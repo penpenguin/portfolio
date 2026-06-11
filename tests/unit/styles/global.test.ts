@@ -58,23 +58,24 @@ const getMobileRuleValue = (selector: string, property: string) => {
 };
 
 describe('global.css カラーパレット', () => {
-  it('ベース背景がApple風のニュートラルトーンになっている', () => {
-    expect(getVar('--primary-bg')).toBe('#f5f5f7');
+  it('ベース背景がLinear風の精密なニュートラルトーンになっている', () => {
+    expect(getVar('--primary-bg')).toBe('#f7f8fb');
     expect(getVar('--secondary-bg')).toBe('#ffffff');
-    expect(getVar('--accent-bg')).toBe('#eef2ff');
+    expect(getVar('--accent-bg')).toBe('#f3f3ff');
   });
 
-  it('テキストとアクセントカラーがミニマルな高コントラスト基調になっている', () => {
-    expect(getVar('--text-primary')).toBe('#1d1d1f');
-    expect(getVar('--text-secondary')).toBe('#5f6368');
-    expect(getVar('--text-accent')).toBe('#2563eb');
+  it('テキストとアクセントカラーがLinear基調になっている', () => {
+    expect(getVar('--text-primary')).toBe('#111113');
+    expect(getVar('--text-secondary')).toBe('#52545a');
+    expect(getVar('--text-accent')).toBe('#5e6ad2');
   });
 
-  it('Bentoカード用のサーフェスが不透明寄りになっている', () => {
-    expect(getVar('--glass-bg')).toBe('rgba(255, 255, 255, 0.86)');
-    expect(getVar('--glass-border')).toBe('rgba(29, 29, 31, 0.1)');
-    expect(getVar('--glass-subtle')).toBe('rgba(255, 255, 255, 0.68)');
-    expect(getVar('--bento-card-bg')).toBe('rgba(255, 255, 255, 0.9)');
+  it('Bentoカード用のサーフェスがhairline border向けに整理されている', () => {
+    expect(getVar('--glass-bg')).toBe('rgba(255, 255, 255, 0.94)');
+    expect(getVar('--glass-border')).toBe('rgba(9, 9, 11, 0.1)');
+    expect(getVar('--glass-subtle')).toBe('rgba(255, 255, 255, 0.78)');
+    expect(getVar('--bento-card-bg')).toBe('rgba(255, 255, 255, 0.96)');
+    expect(getVar('--bento-muted-bg')).toBe('#f7f8fa');
   });
 
   it('カードの角丸と影がBento向けに控えめになっている', () => {
@@ -83,7 +84,38 @@ describe('global.css カラーパレット', () => {
     expect(getRuleValue('.card-glass', 'background')).toBe(
       'var(--bento-card-bg)'
     );
-    expect(getRuleValue('.card-glass', 'box-shadow')).toBe('var(--shadow-md)');
+    expect(getRuleValue('.card-glass', 'box-shadow')).toBe('var(--shadow-sm)');
+    expect(getRuleValue('.card:hover', 'transform')).toBe('translateY(-1px)');
+  });
+
+  it('CTAはLinear風の控えめなaccent surfaceを使う', () => {
+    expect(getRuleValue('.btn', 'padding')).toBe('0.72rem 1rem');
+    expect(getRuleValue('.btn', 'min-height')).toBe('2.5rem');
+    expect(getRuleValue('.btn', 'font-size')).toBe('var(--font-size-sm)');
+    expect(getRuleValue('.btn-primary', 'background')).toBe(
+      'var(--text-accent)'
+    );
+    expect(getRuleValue('.btn-primary', 'border')).toBe(
+      '1px solid var(--text-accent)'
+    );
+    expect(getRuleValue('.btn-primary:hover', 'background')).toBe('#4f59c7');
+    expect(getRuleValue('.btn-primary:hover', 'transform')).toBe(
+      'translateY(-1px)'
+    );
+    expect(getRuleValue('.btn-primary::before', 'background')).toBeNull();
+  });
+
+  it('Bento surface hover is precise and does not rely on heavy depth', () => {
+    expect(getRuleValue('.card-glass:hover', 'background')).toBe(
+      'var(--secondary-bg)'
+    );
+    expect(getRuleValue('.card-glass:hover', 'border-color')).toBe(
+      'rgba(9, 9, 11, 0.16)'
+    );
+    expect(getRuleValue('.card-glass:hover', 'box-shadow')).toBe(
+      'var(--shadow-md)'
+    );
+    expect(getRuleValue('.bento-eyebrow', 'line-height')).toBeNull();
   });
 
   it('ページ間で共有するBentoレイアウトユーティリティを持つ', () => {
@@ -97,7 +129,6 @@ describe('global.css カラーパレット', () => {
       'var(--radius-xl)'
     );
     expect(getRuleValue('.bento-grid', 'gap')).toBe('var(--space-md)');
-    expect(getRuleValue('.bento-eyebrow', 'text-transform')).toBe('uppercase');
     expect(getRuleValue('.pill-list', 'display')).toBe('flex');
   });
 
@@ -111,9 +142,9 @@ describe('global.css カラーパレット', () => {
   });
 
   it('スクロールバーのトラックとつまみが明確に区別できる', () => {
-    expect(getVar('--scrollbar-track')).toBe('#e5e7eb');
-    expect(getVar('--scrollbar-thumb')).toBe('rgba(95, 99, 104, 0.45)');
-    expect(getVar('--scrollbar-thumb-hover')).toBe('rgba(37, 99, 235, 0.7)');
+    expect(getVar('--scrollbar-track')).toBe('#eceef2');
+    expect(getVar('--scrollbar-thumb')).toBe('rgba(82, 84, 90, 0.38)');
+    expect(getVar('--scrollbar-thumb-hover')).toBe('rgba(94, 106, 210, 0.66)');
 
     expect(getRuleValue('::-webkit-scrollbar-track', 'background')).toBe(
       'var(--scrollbar-track)'

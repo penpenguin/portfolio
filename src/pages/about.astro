@@ -8,7 +8,6 @@ import Link from '../components/Link.astro';
     <div class="container">
       <div class="about-bento">
         <section class="bento-hero about-card about-card--hero card-glass">
-          <p class="bento-eyebrow eyebrow">About</p>
           <h1>現場の要件を、運用に残るWebシステムへ落とし込む</h1>
           <p class="hero-description">
             メーカー系の社内システムを中心に、要件整理、Webアプリケーション実装、クラウド基盤、CI/CD、運用改善まで担当してきました。
@@ -25,23 +24,22 @@ import Link from '../components/Link.astro';
         <section
           class="bento-panel about-card about-card--experience card-glass"
         >
-          <p class="bento-eyebrow eyebrow">Experience</p>
-          <span class="metric-value">10+</span>
+          <h2>
+            <span class="metric-value">10+</span> years in production systems
+          </h2>
           <p>
             長期運用、新規開発、改善、CI/CD整備を横断して、業務システムに継続して関わっています。
           </p>
         </section>
 
         <section class="bento-panel about-card about-card--role">
-          <p class="bento-eyebrow eyebrow">Role</p>
-          <span class="metric-value">Lead Programmer</span>
+          <h2 class="metric-value">Lead Programmer</h2>
           <p>
             業務要件を画面・API・データモデルへ分解し、実装判断とチーム開発を前に進めます。
           </p>
         </section>
 
         <section class="bento-panel about-card about-card--focus card-glass">
-          <p class="bento-eyebrow eyebrow">Proof</p>
           <h2>実績の圧縮表示</h2>
           <div class="proof-list">
             <div>通信設計情報を統合管理するWebシステム新規開発</div>
@@ -51,7 +49,7 @@ import Link from '../components/Link.astro';
         </section>
 
         <section class="bento-panel about-card about-card--stack card-glass">
-          <p class="bento-eyebrow eyebrow">Core Stack</p>
+          <h2>Core Stack</h2>
           <div class="stack-tiles">
             <div class="stack-tile">
               <span>Backend</span>
@@ -69,7 +67,6 @@ import Link from '../components/Link.astro';
         </section>
 
         <section class="bento-panel about-card about-card--delivery card-glass">
-          <p class="bento-eyebrow eyebrow">Delivery</p>
           <h2>要件から運用まで、分断しない</h2>
           <div class="delivery-grid">
             <div>
@@ -91,7 +88,6 @@ import Link from '../components/Link.astro';
         </section>
 
         <section class="bento-panel about-card about-card--contact card-glass">
-          <p class="bento-eyebrow eyebrow">Contact</p>
           <h3>業務システムの設計・実装・改善相談</h3>
           <p>
             新規開発、既存システム改善、CI/CD整備、設計レビューなど、要件整理から実装・運用まで一緒に整理できます。
@@ -132,21 +128,12 @@ import Link from '../components/Link.astro';
   .about-card--hero {
     grid-column: span 4;
     min-height: 320px;
-    background:
-      linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.96),
-        rgba(240, 253, 244, 0.78) 52%,
-        rgba(236, 254, 255, 0.7)
-      ),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .about-card--experience {
     grid-column: span 2;
-    background:
-      linear-gradient(135deg, rgba(219, 234, 254, 0.76), transparent 62%),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .about-card--role {
@@ -167,7 +154,6 @@ import Link from '../components/Link.astro';
     border-radius: 999px;
   }
 
-  .about-card--role .eyebrow,
   .about-card--role p {
     color: rgba(255, 255, 255, 0.74);
   }
@@ -187,9 +173,7 @@ import Link from '../components/Link.astro';
 
   .about-card--delivery {
     grid-column: span 4;
-    background:
-      linear-gradient(135deg, rgba(254, 249, 195, 0.58), transparent 58%),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .about-card--contact {
@@ -244,14 +228,6 @@ import Link from '../components/Link.astro';
     font-size: var(--font-size-xs);
     font-weight: 700;
     padding: var(--space-xs) var(--space-sm);
-  }
-
-  .eyebrow {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: var(--font-size-xs);
-    font-weight: 700;
-    text-transform: uppercase;
   }
 
   .metric-value {

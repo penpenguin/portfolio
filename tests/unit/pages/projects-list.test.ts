@@ -49,6 +49,41 @@ describe('Projects list Bento layout', () => {
     );
   });
 
+  it('featuredカードは派手なグラデーションではなく静かなsurfaceで強調する', () => {
+    expect(source).toMatch(
+      /\.project-card--featured\s*\{[^}]*background:\s*var\(--bento-card-bg\);/s
+    );
+    expect(source).not.toMatch(
+      /\.project-card--featured\s*\{[^}]*linear-gradient/s
+    );
+  });
+
+  it('プロジェクト画像をスクリーンショットとしてhairline frameで見せる', () => {
+    expect(source).toMatch(/\.project-image\s*\{[^}]*display:\s*block/s);
+    expect(source).toMatch(
+      /\.project-image\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
+    );
+    expect(source).toMatch(
+      /\.project-image\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
+    );
+    expect(source).toMatch(
+      /\.project-image\s*\{[^}]*padding:\s*var\(--space-sm\)/s
+    );
+    expect(source).toMatch(/\.project-image\s*\{[^}]*object-fit:\s*contain/s);
+  });
+
+  it('画像なしプロジェクトには変更前の代替ビジュアルを表示する', () => {
+    expect(source).toMatch(
+      /\.project-card__fallback-visual\s*\{[^}]*linear-gradient\(135deg,\s*rgba\(14,\s*165,\s*233,\s*0\.14\),\s*transparent 44%\)/s
+    );
+    expect(source).toMatch(
+      /\.project-card__fallback-art\s*\{[^}]*radial-gradient\(\s*circle at 24% 28%,\s*rgba\(20,\s*184,\s*166,\s*0\.18\)/s
+    );
+    expect(source).toMatch(
+      /\.project-card__fallback-art::before\s*\{[^}]*background:\s*linear-gradient\(90deg,\s*rgba\(15,\s*23,\s*42,\s*0\.07\),\s*transparent 62%\)/s
+    );
+  });
+
   it('画像なしfeaturedカードに空白を作る固定高を持たせない', () => {
     expect(source).not.toMatch(
       /\.project-card--featured\s+\.project-header\s*\{[^}]*min-height:\s*100%/
