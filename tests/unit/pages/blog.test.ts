@@ -118,6 +118,25 @@ describe('ブログ機能', () => {
     expect(index).not.toMatch(/\.post-card\s*\{[^}]*min-height:\s*100%/);
   });
 
+  it('BlogのサムネイルはProjectと同じくカードを埋めるhairline frameで表示する', () => {
+    const index = load('../../../src/pages/blog/index.astro');
+    const archivePage = load(
+      '../../../src/pages/blog/[year]/[month]/index.astro'
+    );
+
+    for (const source of [index, archivePage]) {
+      expect(source).toMatch(/\.post-image\s*\{[^}]*display:\s*block/s);
+      expect(source).toMatch(/\.post-image\s*\{[^}]*object-fit:\s*cover/s);
+      expect(source).toMatch(/\.post-image\s*\{[^}]*object-position:\s*top/s);
+      expect(source).toMatch(
+        /\.post-image\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
+      );
+      expect(source).toMatch(
+        /\.post-image\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
+      );
+    }
+  });
+
   it('空状態は...テキストではなく装飾SVGアイコンを使う', () => {
     const index = load('../../../src/pages/blog/index.astro');
     const archivePage = load(

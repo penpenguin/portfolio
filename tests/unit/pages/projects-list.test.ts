@@ -69,7 +69,7 @@ describe('Projects list Bento layout', () => {
     expect(source).toMatch(
       /\.project-image\s*\{[^}]*padding:\s*var\(--space-sm\)/s
     );
-    expect(source).toMatch(/\.project-image\s*\{[^}]*object-fit:\s*contain/s);
+    expect(source).toMatch(/\.project-image\s*\{[^}]*object-fit:\s*cover/s);
   });
 
   it('画像なしプロジェクトには変更前の代替ビジュアルを表示する', () => {
