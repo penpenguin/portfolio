@@ -32,7 +32,6 @@ const projectHeroClass = project.data.heroImage
 
         <div class={`bento-hero ${projectHeroClass} card-glass`}>
           <div class="project-meta">
-            <p class="bento-eyebrow eyebrow">Project</p>
             <h1>{project.data.title}</h1>
             <p class="project-description">{project.data.description}</p>
 
@@ -158,14 +157,6 @@ const projectHeroClass = project.data.heroImage
     letter-spacing: 0;
   }
 
-  .eyebrow {
-    margin: 0 0 var(--space-sm) 0;
-    color: var(--text-muted);
-    font-size: var(--font-size-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
   .project-description {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
@@ -212,9 +203,10 @@ const projectHeroClass = project.data.heroImage
   .project-image img {
     width: 100%;
     height: auto;
+    background: var(--bento-muted-bg);
     border-radius: var(--radius-lg);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-sm);
   }
 
   .project-content {

@@ -29,6 +29,14 @@
 - Name Astro components with `PascalCase.astro`, utility modules with `camelCase.ts`, and exported helpers with action-oriented verbs.
 - Group imports by origin: Astro core, third-party packages, then local modules.
 
+## Design Direction
+
+- Read `DESIGN.md` before making visual changes.
+- The visual baseline is Linear-inspired precision: quiet product surfaces, hairline borders, restrained typography, subtle hover states, and compact CTAs.
+- Preserve the existing BentoUI grid composition, section structure, and content order; design polish must not reorganize cards, sections, routes, or page hierarchy.
+- Limit UI polish to card padding, border, surface, typography, hover, CTA, and screenshot presentation unless the user explicitly asks for a layout change.
+- Avoid loud gradients, decorative spotlight effects, heavy shadows, and large layout changes.
+
 ## Testing Guidelines
 
 - Follow Takuto Wada’s TDD loop: write the smallest failing Vitest spec, get it green, then refactor.

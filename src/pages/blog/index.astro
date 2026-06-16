@@ -27,11 +27,10 @@ const months = Array.from(
   <section class="page-shell blog-shell">
     <div class="container">
       <header class="bento-hero blog-hero card-glass">
-        <p class="bento-eyebrow eyebrow">Blog</p>
         <h1>Blog</h1>
         <p>
-          ブログや開発に関する記事を公開しています。実装メモや設計の学びを、
-          読みやすく短いペースで更新中です。
+          Development notes, implementation details, and design learnings,
+          updated in short readable entries.
         </p>
       </header>
       {
@@ -55,7 +54,6 @@ const months = Array.from(
                     </div>
                   )}
                   <div class="post-meta">
-                    <p class="bento-eyebrow post-kind">Latest</p>
                     <h2>
                       <Link href={`/blog/${featuredPost.id}`}>
                         {featuredPost.data.title}
@@ -91,7 +89,6 @@ const months = Array.from(
             )}
             {months.length > 0 && (
               <aside class="bento-panel archive-panel card-glass">
-                <p class="bento-eyebrow eyebrow">Archive</p>
                 <h2>月別アーカイブ</h2>
                 <ul class="month-list">
                   {months.map((month) => (
@@ -212,13 +209,6 @@ const months = Array.from(
     margin: 0;
   }
 
-  .eyebrow {
-    color: var(--text-muted);
-    font-size: var(--font-size-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
   .blog-bento {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: start;
@@ -235,13 +225,11 @@ const months = Array.from(
 
   .post-card--featured {
     grid-column: span 8;
-    background:
-      linear-gradient(135deg, rgba(236, 254, 255, 0.72), transparent 58%),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .post-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   .post-header {
@@ -258,6 +246,9 @@ const months = Array.from(
   }
 
   .post-image {
+    display: block;
+    background: var(--bento-muted-bg);
+    border-bottom: 1px solid var(--glass-border);
     object-fit: cover;
     object-position: top;
   }
@@ -304,11 +295,6 @@ const months = Array.from(
         rgba(14, 165, 233, 0.12),
         rgba(20, 184, 166, 0.08)
       );
-  }
-
-  .post-kind {
-    margin: 0 0 var(--space-xs) 0;
-    color: var(--text-muted);
   }
 
   .post-meta {
@@ -392,9 +378,7 @@ const months = Array.from(
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-xl);
-    background:
-      linear-gradient(135deg, rgba(241, 245, 249, 0.82), transparent 62%),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .archive-panel h2 {

@@ -8,14 +8,14 @@
 
 :root {
   /* Color scheme */
-  --primary-bg: #f5f5f7;
+  --primary-bg: #f7f8fb;
   --secondary-bg: #ffffff;
-  --accent-bg: #eef2ff;
-  --glass-bg: rgba(255, 255, 255, 0.86);
-  --glass-border: rgba(29, 29, 31, 0.1);
-  --glass-subtle: rgba(255, 255, 255, 0.68);
-  --bento-card-bg: rgba(255, 255, 255, 0.9);
-  --bento-muted-bg: #f9fafb;
+  --accent-bg: #f3f3ff;
+  --glass-bg: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(9, 9, 11, 0.1);
+  --glass-subtle: rgba(255, 255, 255, 0.78);
+  --bento-card-bg: rgba(255, 255, 255, 0.96);
+  --bento-muted-bg: #f7f8fa;
   --timeline-dot-bg: rgba(59, 130, 246, 0.18);
   --timeline-dot-border: rgba(59, 130, 246, 0.5);
   --timeline-dot-active: linear-gradient(
@@ -24,13 +24,13 @@
     rgba(37, 99, 235, 0.85) 100%
   );
   --timeline-dot-glow: rgba(59, 130, 246, 0.4);
-  --scrollbar-track: #e5e7eb;
-  --scrollbar-thumb: rgba(95, 99, 104, 0.45);
-  --scrollbar-thumb-hover: rgba(37, 99, 235, 0.7);
-  --text-primary: #1d1d1f;
-  --text-secondary: #5f6368;
-  --text-accent: #2563eb;
-  --text-muted: #86868b;
+  --scrollbar-track: #eceef2;
+  --scrollbar-thumb: rgba(82, 84, 90, 0.38);
+  --scrollbar-thumb-hover: rgba(94, 106, 210, 0.66);
+  --text-primary: #111113;
+  --text-secondary: #52545a;
+  --text-accent: #5e6ad2;
+  --text-muted: #7c7f87;
   --gradient-primary: linear-gradient(135deg, #1d1d1f 0%, #3f3f46 100%);
   --gradient-secondary: linear-gradient(135deg, #2563eb 0%, #0f766e 100%);
   --gradient-accent: linear-gradient(135deg, #eef2ff 0%, #ecfeff 100%);
@@ -66,15 +66,14 @@
   --radius-xl: 0.75rem;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(29, 29, 31, 0.04);
+  --shadow-sm: 0 1px 2px rgba(9, 9, 11, 0.04);
   --shadow-md:
-    0 12px 24px -20px rgba(29, 29, 31, 0.24), 0 1px 2px rgba(29, 29, 31, 0.04);
+    0 10px 24px -22px rgba(9, 9, 11, 0.22), 0 1px 2px rgba(9, 9, 11, 0.04);
   --shadow-lg:
-    0 18px 42px -28px rgba(29, 29, 31, 0.28),
-    0 4px 12px -8px rgba(29, 29, 31, 0.12);
+    0 16px 40px -30px rgba(9, 9, 11, 0.24), 0 4px 12px -10px rgba(9, 9, 11, 0.1);
   --shadow-xl:
-    0 28px 64px -36px rgba(29, 29, 31, 0.32),
-    0 8px 24px -18px rgba(29, 29, 31, 0.16);
+    0 24px 60px -40px rgba(9, 9, 11, 0.26),
+    0 8px 24px -20px rgba(9, 9, 11, 0.14);
   --shadow-glass: var(--shadow-md);
 }
 
@@ -82,7 +81,7 @@
 html {
   scroll-behavior: smooth;
   background: var(--primary-bg);
-  background-image: linear-gradient(180deg, #fbfbfd 0%, var(--primary-bg) 42%);
+  background-image: none;
   background-attachment: fixed;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
@@ -129,7 +128,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-family-heading);
-  font-weight: 700;
+  font-weight: 650;
   line-height: 1.2;
   margin-bottom: var(--space-md);
 }
@@ -175,7 +174,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-sm) var(--space-lg);
+  padding: 0.72rem 1rem;
   border-radius: var(--radius-md);
   font-weight: 600;
   text-decoration: none;
@@ -186,8 +185,9 @@ a:hover {
     transform 0.2s ease,
     box-shadow 0.2s ease;
   cursor: pointer;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   line-height: 1;
+  min-height: 2.5rem;
   white-space: nowrap;
   font-family: var(--font-family-base);
 }
@@ -212,37 +212,17 @@ a:hover {
 
 /* Primary button style */
 .btn-primary {
-  background: var(--text-primary);
-  border: 1px solid var(--text-primary);
+  background: var(--text-accent);
+  border: 1px solid var(--text-accent);
   color: #ffffff;
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
 }
 
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(37, 99, 235, 0.18),
-    transparent
-  );
-  transition: left 0.5s;
-}
-
-.btn-primary:hover::before {
-  left: 100%;
-}
-
 .btn-primary:hover {
-  background: #111113;
-  transform: translateY(-2px);
+  background: #4f59c7;
+  transform: translateY(-1px);
   box-shadow: var(--shadow-md);
   color: #ffffff;
 }
@@ -257,8 +237,8 @@ a:hover {
 
 .btn-glass:hover {
   background: var(--secondary-bg);
-  border-color: rgba(29, 29, 31, 0.18);
-  transform: translateY(-2px);
+  border-color: rgba(9, 9, 11, 0.16);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-md);
   color: var(--text-primary);
 }
@@ -274,12 +254,18 @@ a:hover {
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .card-glass {
   background: var(--bento-card-bg);
   border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-glass:hover {
+  background: var(--secondary-bg);
+  border-color: rgba(9, 9, 11, 0.16);
   box-shadow: var(--shadow-md);
 }
 
@@ -307,25 +293,11 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.96),
-      rgba(238, 242, 255, 0.9)
-    ),
-    var(--bento-card-bg);
+  background: var(--bento-card-bg);
 }
 
 .bento-panel {
   padding: var(--space-lg);
-}
-
-.bento-eyebrow {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .pill-list {

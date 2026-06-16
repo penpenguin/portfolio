@@ -53,4 +53,18 @@ describe('Project detail layout', () => {
     expect(source).not.toContain('project.slug');
     expect(source).not.toContain('project.render()');
   });
+
+  it('frames project screenshots with a restrained product-surface treatment', () => {
+    const source = loadProjectDetailSource();
+
+    expect(source).toMatch(
+      /\.project-image\s+img\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
+    );
+    expect(source).toMatch(
+      /\.project-image\s+img\s*\{[^}]*border:\s*1px solid var\(--glass-border\)/s
+    );
+    expect(source).toMatch(
+      /\.project-image\s+img\s*\{[^}]*box-shadow:\s*var\(--shadow-sm\)/s
+    );
+  });
 });

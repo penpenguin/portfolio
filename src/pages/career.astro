@@ -9,18 +9,95 @@ if (!careerEntry) {
 }
 
 const { timeline } = careerEntry.data;
+
+const normalizeTech = (tech: string) => tech.replace(/^Java \d+$/, 'Java');
+
+const timelineTechSet = new Set(
+  timeline.flatMap((item) => item.techStack).map(normalizeTech)
+);
+
+const stackSources = [
+  {
+    label: 'Backend',
+    items: ['Java', 'Quarkus', 'Spring', 'Ruby on Rails', 'Node.js', 'PHP'],
+  },
+  {
+    label: 'Frontend',
+    items: [
+      'TypeScript',
+      'React',
+      'Nuxt.js',
+      'Angular',
+      'jQuery',
+      'MUI',
+      'Ant Design',
+    ],
+  },
+  {
+    label: 'Platform / Data',
+    items: [
+      'Azure',
+      'Azure AI Search',
+      'Azure OpenAI',
+      'Azure Functions',
+      'Docker',
+      'PostgreSQL',
+      'ArangoDB',
+      'GitLab',
+      'Jenkins',
+      'ARO',
+    ],
+  },
+];
+
+const stackGroups = stackSources
+  .map((group) => ({
+    ...group,
+    items: group.items.filter((item) => timelineTechSet.has(item)),
+  }))
+  .filter((group) => group.items.length > 0);
 ---
 
 <Layout title="Career - Portfolio">
   <section class="page-shell career-hero">
     <div class="container">
-      <div class="bento-hero hero-content card-glass">
-        <p class="bento-eyebrow eyebrow screen-only">Career</p>
-        <h1 class="screen-only">Career</h1>
-        <p class="screen-only">
-          プログラマーとして10年以上の経験を積み、様々なプロジェクトに携わってきました。
-        </p>
-        <h1 class="print-only print-hero-title">職務経歴書</h1>
+      <div class="career-overview-grid">
+        <section
+          class="bento-hero career-card career-card--hero hero-content card-glass"
+        >
+          <h1 class="screen-only">Career</h1>
+          <p class="screen-only career-subtitle">A rough career history.</p>
+          <h1 class="print-only print-hero-title">職務経歴書</h1>
+        </section>
+
+        <section
+          class="bento-panel career-card career-card--experience card-glass screen-only"
+        >
+          <span class="experience-label">Production systems</span>
+          <h2 aria-label="10+ years in production systems">
+            <span class="metric-value">10+</span> years in production systems
+          </h2>
+        </section>
+
+        <section
+          class="bento-panel career-card career-card--stack card-glass screen-only"
+        >
+          <h2>Core Stack</h2>
+          <div class="stack-matrix">
+            {
+              stackGroups.map((group) => (
+                <div class="stack-column" aria-label={`${group.label} stack`}>
+                  <span class="stack-label">{group.label}</span>
+                  <div class="stack-list">
+                    {group.items.map((item) => (
+                      <span>{item}</span>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -105,28 +182,125 @@ const { timeline } = careerEntry.data;
   </section>
 </Layout>
 <style>
-  .hero-content {
-    min-height: 260px;
+  .career-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-md);
   }
 
-  .hero-content h1 {
+  .career-card {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .career-card--hero {
+    grid-column: span 4;
+    min-height: 220px;
+    background: var(--bento-card-bg);
+  }
+
+  .career-card--experience {
+    grid-column: span 2;
+    background: var(--bento-card-bg);
+  }
+
+  .career-card--stack {
+    grid-column: span 6;
+    background: var(--bento-card-bg);
+  }
+
+  .hero-content {
+    min-height: 220px;
+  }
+
+  .career-card h1 {
+    max-width: 820px;
     font-size: clamp(2.75rem, 7vw, 5rem);
     margin-bottom: var(--space-md);
     letter-spacing: 0;
   }
 
-  .hero-content p {
+  .career-subtitle {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    margin: 0;
+    opacity: 0.72;
+  }
+
+  .career-card h2 {
+    color: var(--text-primary);
+    margin: 0 0 var(--space-sm);
+    font-size: var(--font-size-2xl);
+  }
+
+  .career-card p {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
-    max-width: 600px;
     margin: 0;
   }
 
-  .eyebrow {
+  .experience-label {
+    color: var(--text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .metric-value {
+    display: block;
+    color: var(--text-primary);
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .stack-matrix {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stack-column {
+    min-width: 0;
+    padding: var(--space-md);
+    border-left: 1px solid rgba(15, 23, 42, 0.08);
+  }
+
+  .stack-column:first-child {
+    border-left: 0;
+  }
+
+  .stack-label {
+    display: block;
     color: var(--text-muted);
     font-size: var(--font-size-xs);
     font-weight: 700;
-    text-transform: uppercase;
+    margin-bottom: var(--space-sm);
+  }
+
+  .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .stack-list span {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    color: var(--text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    padding: var(--space-xs) var(--space-sm);
   }
 
   .print-only {
@@ -315,6 +489,29 @@ const { timeline } = careerEntry.data;
   .cert-date {
     color: var(--text-secondary);
     font-size: var(--font-size-sm);
+  }
+
+  @media (max-width: 900px) {
+    .career-overview-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .career-card {
+      grid-column: span 2;
+    }
+
+    .stack-matrix {
+      grid-template-columns: 1fr;
+    }
+
+    .stack-column {
+      border-left: 0;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .stack-column:first-child {
+      border-top: 0;
+    }
   }
 
   @media (max-width: 768px) {

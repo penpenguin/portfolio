@@ -51,17 +51,33 @@ describe('Home モバイルレイアウト', () => {
     );
   });
 
-  it('HomeはContactを除いた主要導線を表示する', () => {
-    expect(page).toContain('どんな人か');
-    expect(page).toContain('Featured Project');
-    expect(page).toContain('Featured Article');
-    expect(page).toContain('どんな経歴か');
-    expect(page).toContain("href: '/about'");
+  it('HomeはAboutとContactを除いた主要導線を表示する', () => {
+    expect(page).not.toContain('どんな人か');
+    expect(page).toContain('経歴と技術スタック');
+    expect(page).not.toContain("href: '/about'");
+    expect(page).not.toContain('href="/about"');
     expect(page).toContain('href="/projects"');
     expect(page).toContain('href="/blog"');
     expect(page).toContain("href: '/career'");
+    expect(page).toContain(
+      '経験年数、技術スタック、担当領域、プロジェクト履歴を確認できます。'
+    );
+    expect(page).not.toContain('Featured Project');
+    expect(page).not.toContain('Featured Article');
     expect(page).not.toContain('相談・連絡する');
     expect(page).not.toContain("href: '/contact'");
+  });
+
+  it('経歴と技術スタックカードは右側に空きを作らない幅で配置する', () => {
+    expect(page).toContain(
+      'class="bento-panel overview-card overview-card--career card-glass"'
+    );
+    expect(page).toMatch(
+      /\.overview-card--career\s*\{[^}]*grid-column:\s*span\s*2/s
+    );
+    expect(page).toMatch(
+      /@media\s*\(max-width:\s*768px\)[\s\S]*?\.overview-card\s*\{[^}]*grid-column:\s*span\s*1/s
+    );
   });
 
   it('ProjectsとBlogは最新1件のプレビューカードとして表示する', () => {
@@ -94,19 +110,23 @@ describe('Home モバイルレイアウト', () => {
     expect(blogIndex).toBeGreaterThan(overviewIndex);
   });
 
-  it('Fake Kirdyは初期表示で読み込まず遊ぶ時だけiframeを生成する', () => {
-    expect(page).toContain('Browser Oddities');
-    expect(page).not.toContain('Fake Kirdyを少しだけ遊ぶ');
+  it('Meaninglessは初期表示で読み込まず再生時だけiframeを生成する', () => {
+    expect(page).toContain('Meaningless');
+    expect(page).not.toContain('Browser Oddities');
+    expect(page).not.toContain('Fake Kirdy');
     expect(page).not.toContain('Phaser / Matter.js');
     expect(page).not.toContain('playground-copy');
     expect(page).toContain('bento-card--playground');
-    expect(page).toContain('fake-kirdy.webp');
+    expect(page).toContain('meaningless.webp');
+    expect(page).not.toContain('fake-kirdy.webp');
     expect(page).toContain('withBase(playground.previewImage)');
+    expect(page).toContain('data-game-src={playground.gameUrl}');
     expect(page).toContain(
-      'data-game-src="https://penpenguin.github.io/fake-kirdy/"'
+      "gameUrl: 'https://penpenguin.github.io/meaningless/'"
     );
+    expect(page).not.toContain('https://penpenguin.github.io/fake-kirdy/');
     expect(page).not.toMatch(
-      /<iframe[\s\S]*src="https:\/\/penpenguin\.github\.io\/fake-kirdy\//
+      /<iframe[\s\S]*src="https:\/\/penpenguin\.github\.io\/meaningless\//
     );
     expect(page).toMatch(
       /frame\.setAttribute\(\s*'sandbox',\s*'allow-scripts allow-same-origin allow-pointer-lock'\s*\)/
@@ -119,12 +139,14 @@ describe('Home モバイルレイアウト', () => {
       /:global\(\.playground-frame\)\s*{[\s\S]*inset: 0;[\s\S]*width: 100%;[\s\S]*height: 100%;[\s\S]*z-index: 1;[\s\S]*}/
     );
     expect(page).toMatch(/\.playground-actions\s*{[\s\S]*z-index: 2;[\s\S]*}/);
-    expect(page).toContain('aria-label="Fake Kirdyを再生"');
+    expect(page).toContain('aria-label="Meaninglessを再生"');
     expect(page).toContain('class="playground-button__label"');
     expect(page).toContain('class="playground-button__icon"');
-    expect(page).toContain(
-      "playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを閉じる')"
+    expect(page).toMatch(
+      /const closeLabel\s*=\s*playgroundToggle\.dataset\.playgroundCloseLabel\s*\?\?\s*'プレビューを閉じる'/
     );
+    expect(page).toContain('data-playground-close-label="Meaninglessを閉じる"');
+    expect(page).toContain("frame.setAttribute('title', frameTitle)");
     expect(page).not.toContain("playgroundToggle.textContent = 'Close'");
     expect(page).toContain('const setupPlayground = () =>');
     expect(page).toContain(

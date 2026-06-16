@@ -51,9 +51,9 @@ describe('career timeline glass palette', () => {
 
 describe('career print view', () => {
   const heroHeadingMatch = career.match(
-    /<div class="[^"]*hero-content[^"]*">([\s\S]*?)<\/div>/
+    /<(?<tag>div|section)\s+[^>]*class="[^"]*hero-content[^"]*"[^>]*>([\s\S]*?)<\/\k<tag>>/
   );
-  const heroContent = heroHeadingMatch ? heroHeadingMatch[1] : '';
+  const heroContent = heroHeadingMatch ? heroHeadingMatch[2] : '';
 
   it('印刷用の見出しが含まれている', () => {
     expect(heroContent).toMatch(/class="print-only[^"]*">職務経歴書</);

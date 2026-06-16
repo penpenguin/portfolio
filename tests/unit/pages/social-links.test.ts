@@ -5,8 +5,8 @@ const contactSource = readFileSync(
   new URL('../../../src/pages/contact.astro', import.meta.url),
   'utf-8'
 );
-const aboutSource = readFileSync(
-  new URL('../../../src/pages/about.astro', import.meta.url),
+const careerSource = readFileSync(
+  new URL('../../../src/pages/career.astro', import.meta.url),
   'utf-8'
 );
 const layoutSource = readFileSync(
@@ -17,6 +17,7 @@ const envExampleSource = readFileSync(
   new URL('../../../.env.example', import.meta.url),
   'utf-8'
 );
+const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ');
 
 describe('Xリンクの削除', () => {
   it('ContactページにXリンクが含まれない', () => {
@@ -24,9 +25,9 @@ describe('Xリンクの削除', () => {
     expect(contactSource).not.toMatch(/https:\/\/x\.com/);
   });
 
-  it('AboutページにXリンクが含まれない', () => {
-    expect(aboutSource).not.toMatch(/PUBLIC_X_URL/);
-    expect(aboutSource).not.toMatch(/https:\/\/x\.com/);
+  it('CareerページにXリンクが含まれない', () => {
+    expect(careerSource).not.toMatch(/PUBLIC_X_URL/);
+    expect(careerSource).not.toMatch(/https:\/\/x\.com/);
   });
 
   it('LayoutフッターにXリンクが含まれない', () => {
@@ -54,23 +55,20 @@ describe('Contactページの連絡先アイコン', () => {
 });
 
 describe('ContactページのBentoレイアウト', () => {
+  it('Contact heroのリード文は英語で表示する', () => {
+    expect(normalizeWhitespace(contactSource)).toContain(
+      'Get in touch for production web systems, existing system improvements, and implementation support with operations in mind.'
+    );
+    expect(contactSource).not.toContain(
+      '業務システム開発の相談、既存システムの改善、運用を見据えた実装支援についてご連絡ください。'
+    );
+  });
+
   it('モバイルでは連絡先と稼働状況を1カラムにする', () => {
     const mobileMatch = contactSource.match(
       /@media\s*\(max-width:\s*768px\)[\s\S]*?<\/style>/
     );
 
     expect(mobileMatch?.[0]).toContain('grid-template-columns: 1fr');
-  });
-});
-
-describe('AboutページのCTAボタン', () => {
-  it('お問い合わせとGitHubを同じボタンサイズで表示する', () => {
-    expect(aboutSource).toMatch(
-      /\.contact-links\s+\.btn\s*\{[^}]*width:\s*10rem[^}]*\}/
-    );
-    expect(aboutSource).not.toMatch(
-      /\.contact-links\s+\.btn\s*\{[^}]*min-width:/
-    );
-    expect(aboutSource).not.toMatch(/\.social-links\s+\.btn\s*\{/);
   });
 });

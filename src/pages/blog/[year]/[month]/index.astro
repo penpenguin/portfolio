@@ -37,7 +37,6 @@ const title = `${year}/${month}`;
   <section class="page-shell blog-shell">
     <div class="container">
       <header class="bento-hero blog-hero card-glass">
-        <p class="bento-eyebrow eyebrow">Archive</p>
         <h1>{title}</h1>
         <p>月別アーカイブ</p>
       </header>
@@ -65,7 +64,6 @@ const title = `${year}/${month}`;
                     </div>
                   )}
                   <div class="post-meta">
-                    <p class="bento-eyebrow post-kind">Featured</p>
                     <h2>
                       <Link href={`/blog/${featuredPost.id}`}>
                         {featuredPost.data.title}
@@ -101,7 +99,6 @@ const title = `${year}/${month}`;
             )}
             {months.length > 0 && (
               <aside class="bento-panel archive-panel card-glass">
-                <p class="bento-eyebrow eyebrow">Archive</p>
                 <h2>月別アーカイブ</h2>
                 <ul class="month-list">
                   {months.map((entry) => (
@@ -223,14 +220,6 @@ const title = `${year}/${month}`;
     margin: 0 0 var(--space-lg) 0;
   }
 
-  .eyebrow {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: var(--font-size-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
   .archive-header {
     display: flex;
     justify-content: flex-start;
@@ -259,13 +248,11 @@ const title = `${year}/${month}`;
 
   .post-card--featured {
     grid-column: span 8;
-    background:
-      linear-gradient(135deg, rgba(236, 254, 255, 0.72), transparent 58%),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .post-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   .post-header {
@@ -282,6 +269,9 @@ const title = `${year}/${month}`;
   }
 
   .post-image {
+    display: block;
+    background: var(--bento-muted-bg);
+    border-bottom: 1px solid var(--glass-border);
     object-fit: cover;
     object-position: top;
   }
@@ -328,11 +318,6 @@ const title = `${year}/${month}`;
         rgba(14, 165, 233, 0.12),
         rgba(20, 184, 166, 0.08)
       );
-  }
-
-  .post-kind {
-    margin: 0 0 var(--space-xs) 0;
-    color: var(--text-muted);
   }
 
   .post-meta {
@@ -416,9 +401,7 @@ const title = `${year}/${month}`;
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-xl);
-    background:
-      linear-gradient(135deg, rgba(241, 245, 249, 0.82), transparent 62%),
-      var(--bento-card-bg);
+    background: var(--bento-card-bg);
   }
 
   .archive-panel h2 {
