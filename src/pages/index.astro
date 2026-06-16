@@ -15,25 +15,18 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
 const overviewCards = [
   {
-    title: 'どんな人か',
+    title: '経歴と技術スタック',
     description:
-      '業務システム開発で扱っている領域、役割、技術スタックをまとめています。',
-    href: '/about',
-    meta: 'プロフィールと得意領域',
-  },
-  {
-    title: 'どんな経歴か',
-    description:
-      'これまで関わってきた業務システム開発、担当領域、技術スタックを時系列で確認できます。',
+      '経験年数、技術スタック、担当領域、プロジェクト履歴を確認できます。',
     href: '/career',
-    meta: '経歴と担当プロジェクト',
+    meta: 'Career summary',
   },
 ];
 
 const playground = {
-  title: 'Browser Oddities',
-  previewImage: '/assets/projects/fake-kirdy.webp',
-  gameUrl: 'https://penpenguin.github.io/fake-kirdy/',
+  title: 'Meaningless',
+  previewImage: '/assets/projects/meaningless.webp',
+  gameUrl: 'https://penpenguin.github.io/meaningless/',
 };
 ---
 
@@ -89,7 +82,7 @@ const playground = {
 
         {
           overviewCards.map((card) => (
-            <article class="bento-panel overview-card card-glass">
+            <article class="bento-panel overview-card overview-card--career card-glass">
               <div>
                 <h2>{card.title}</h2>
                 <p>{card.description}</p>
@@ -135,13 +128,13 @@ const playground = {
         <section
           class="bento-panel bento-card bento-card--playground card-glass"
           data-playground-card
-          data-game-src="https://penpenguin.github.io/fake-kirdy/"
+          data-game-src={playground.gameUrl}
         >
           <h2 class="playground-title">{playground.title}</h2>
           <div class="playground-preview" data-playground-preview>
             <img
               src={withBase(playground.previewImage)}
-              alt="Fake Kirdy gameplay preview"
+              alt="Meaningless aquarium app preview"
               width="960"
               height="540"
               loading="lazy"
@@ -151,7 +144,10 @@ const playground = {
               <button
                 class="playground-button"
                 type="button"
-                aria-label="Fake Kirdyを再生"
+                aria-label="Meaninglessを再生"
+                data-playground-play-label="Meaninglessを再生"
+                data-playground-close-label="Meaninglessを閉じる"
+                data-playground-frame-title="Meaningless aquarium app preview"
                 data-playground-toggle
               >
                 <span class="playground-button__label">Play</span>
@@ -209,17 +205,24 @@ const playground = {
           }
 
           const existingFrame = playgroundPreview.querySelector('iframe');
+          const playLabel =
+            playgroundToggle.dataset.playgroundPlayLabel ?? 'プレビューを再生';
+          const closeLabel =
+            playgroundToggle.dataset.playgroundCloseLabel ??
+            'プレビューを閉じる';
+          const frameTitle =
+            playgroundToggle.dataset.playgroundFrameTitle ?? 'Playable preview';
 
           if (existingFrame) {
             existingFrame.remove();
             playgroundPreview.classList.remove('is-playing');
-            playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを再生');
+            playgroundToggle.setAttribute('aria-label', playLabel);
             return;
           }
 
           const frame = document.createElement('iframe');
           frame.className = 'playground-frame';
-          frame.setAttribute('title', 'Fake Kirdy playable preview');
+          frame.setAttribute('title', frameTitle);
           frame.setAttribute('loading', 'lazy');
           frame.setAttribute(
             'sandbox',
@@ -230,7 +233,7 @@ const playground = {
           frame.setAttribute('src', gameSrc);
           playgroundPreview.append(frame);
           playgroundPreview.classList.add('is-playing');
-          playgroundToggle.setAttribute('aria-label', 'Fake Kirdyを閉じる');
+          playgroundToggle.setAttribute('aria-label', closeLabel);
         });
       });
   };
@@ -296,6 +299,10 @@ const playground = {
     gap: var(--space-sm);
     justify-content: center;
     background: var(--bento-card-bg);
+  }
+
+  .overview-card--career {
+    grid-column: span 2;
   }
 
   .bento-card h1,

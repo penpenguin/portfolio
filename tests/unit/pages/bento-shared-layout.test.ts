@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 
 const pages = [
   '../../../src/pages/index.astro',
-  '../../../src/pages/about.astro',
   '../../../src/pages/projects/index.astro',
   '../../../src/pages/blog/index.astro',
   '../../../src/pages/career.astro',

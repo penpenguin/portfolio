@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,6 +15,9 @@ const readProject = (slug: string) =>
 
 const loadConfig = () =>
   readFileSync(resolve(currentDir, '../../../src/content.config.ts'), 'utf-8');
+
+const hashFile = (path: string) =>
+  createHash('sha256').update(readFileSync(path)).digest('hex');
 
 describe('projects content entries', () => {
   it('cadenzioのプロジェクトページが存在し必要なfrontmatterを含む', () => {
@@ -83,6 +87,17 @@ describe('projects content entries', () => {
     );
     expect(content).toMatch(
       /tags:\s*\[[^\]]*'Phaser'[^\]]*'Matter\.js'[^\]]*]/
+    );
+  });
+
+  it('Meaninglessの公開スクリーンショットを最新キャプチャに更新している', () => {
+    const imagePath = resolve(
+      currentDir,
+      '../../../public/assets/projects/meaningless.webp'
+    );
+
+    expect(hashFile(imagePath)).toBe(
+      'f80648bccec39d6f99f652141527fd43f69327eaeb41dae41620bc38cc89b053'
     );
   });
 

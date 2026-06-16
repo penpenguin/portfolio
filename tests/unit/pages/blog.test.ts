@@ -9,6 +9,8 @@ const currentDir = dirname(fileURLToPath(import.meta.url));
 const load = (relativePath: string) =>
   readFileSync(resolve(currentDir, relativePath), 'utf-8');
 
+const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ');
+
 describe('ブログ機能', () => {
   it('git-worktree-runner 記事が公開状態で存在する', () => {
     const post = load(
@@ -48,9 +50,12 @@ describe('ブログ機能', () => {
     expect(index).not.toContain('最新月:');
   });
 
-  it('ブログ一覧のリード文が日本語で案内されている', () => {
+  it('ブログ一覧のリード文は英語で表示する', () => {
     const index = load('../../../src/pages/blog/index.astro');
-    expect(index).toContain('ブログや開発に関する記事を公開しています');
+    expect(normalizeWhitespace(index)).toContain(
+      'Development notes, implementation details, and design learnings, updated in short readable entries.'
+    );
+    expect(index).not.toContain('ブログや開発に関する記事を公開しています');
   });
 
   it('ブログ一覧は最新記事とアーカイブをBentoグリッドとして配置する', () => {

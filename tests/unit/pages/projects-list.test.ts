@@ -12,7 +12,18 @@ const getMobileBlock = () => {
   return match ? match[0] : '';
 };
 
+const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ');
+
 describe('Projects list Bento layout', () => {
+  it('Projects heroのリード文は英語で表示する', () => {
+    expect(normalizeWhitespace(source)).toContain(
+      'Music tools, web apps, and operations support, documented with design intent and working outputs.'
+    );
+    expect(source).not.toContain(
+      '音楽ツール、Webアプリ、運用支援まで。実装したものを、設計意図と動作する形で残しています。'
+    );
+  });
+
   it('project画像はGitHub Pagesのbase pathを考慮して解決する', () => {
     expect(source).toContain("import { withBase } from '../../utils/withBase'");
     expect(source).toContain('src={withBase(project.data.heroImage)}');

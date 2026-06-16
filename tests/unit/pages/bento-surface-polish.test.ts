@@ -27,13 +27,13 @@ describe('Bento surface polish', () => {
     }
   });
 
-  it('about Bento cards use quiet surfaces instead of loud gradients', () => {
-    const source = readPage('../../../src/pages/about.astro');
+  it('career overview Bento cards use quiet surfaces instead of loud gradients', () => {
+    const source = readPage('../../../src/pages/career.astro');
 
     for (const selector of [
-      '.about-card--hero',
-      '.about-card--experience',
-      '.about-card--delivery',
+      '.career-card--hero',
+      '.career-card--experience',
+      '.career-card--stack',
     ]) {
       const rule = getRule(source, selector);
       expect(rule).toContain('background: var(--bento-card-bg)');
