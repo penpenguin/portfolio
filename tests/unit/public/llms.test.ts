@@ -19,9 +19,9 @@ describe('llms.txt', () => {
     expect(guide).toContain('portfolio.search_content');
     expect(guide).toContain('portfolio.find_projects');
     expect(guide).toContain('portfolio.find_blog_posts');
-    expect(guide).toContain('portfolio.get_career_summary');
     expect(guide).toContain('portfolio.get_contact_routes');
     expect(guide).toContain('portfolio.open_page');
+    expect(guide).not.toContain('portfolio.get_career_summary');
   });
 
   it('explains how supported agents can use the WebMCP tools', () => {

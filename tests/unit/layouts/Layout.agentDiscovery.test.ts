@@ -26,7 +26,7 @@ describe('Layout agent discovery metadata', () => {
 
     expect(layout).toMatch(/name=['"]ai-agent-capabilities['"]/);
     expect(layout).toMatch(
-      /content=['"]WebMCP; portfolio search; projects; blog; career summary; contact routes['"]/
+      /content=['"]WebMCP; portfolio search; projects; blog; contact routes['"]/
     );
   });
 });

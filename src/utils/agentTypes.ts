@@ -34,16 +34,6 @@ export interface AgentBlogPost {
   url: string;
 }
 
-export interface AgentCareerItem {
-  title: string;
-  period: string;
-  role: string;
-  description: string;
-  teamSize: string;
-  responsibilities: string;
-  techStack: string[];
-}
-
 export interface AgentContact {
   pageUrl: string;
   githubUrl: string;
@@ -55,7 +45,6 @@ export interface AgentIndex {
   profile: AgentProfile;
   projects: AgentProject[];
   blog: AgentBlogPost[];
-  career: AgentCareerItem[];
   contact: AgentContact;
 }
 

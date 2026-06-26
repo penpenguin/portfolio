@@ -27,21 +27,6 @@ describe('Bento surface polish', () => {
     }
   });
 
-  it('career overview Bento cards use quiet surfaces instead of loud gradients', () => {
-    const source = readPage('../../../src/pages/career.astro');
-
-    for (const selector of [
-      '.career-card--hero',
-      '.career-card--experience',
-      '.career-card--stack',
-    ]) {
-      const rule = getRule(source, selector);
-      expect(rule).toContain('background: var(--bento-card-bg)');
-      expect(rule).not.toContain('linear-gradient');
-      expect(rule).not.toContain('radial-gradient');
-    }
-  });
-
   it('blog Bento cards use quiet surfaces while fallback visuals keep their original art', () => {
     for (const path of [
       '../../../src/pages/blog/index.astro',

@@ -43,8 +43,9 @@ describe('Layout navigation active state', () => {
     expect(layout).toMatch(/\{ href: '\/blog', label: 'Blog' \}/);
   });
 
-  it('does not include About navigation after profile content moved to Career', () => {
+  it('does not include removed page navigation items', () => {
     const layout = loadLayoutSource();
     expect(layout).not.toMatch(/\{ href: '\/about', label: 'About' \}/);
+    expect(layout).not.toMatch(/\{ href: '\/career', label: 'Career' \}/);
   });
 });

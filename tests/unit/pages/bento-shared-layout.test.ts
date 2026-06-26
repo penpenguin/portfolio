@@ -5,7 +5,6 @@ const pages = [
   '../../../src/pages/index.astro',
   '../../../src/pages/projects/index.astro',
   '../../../src/pages/blog/index.astro',
-  '../../../src/pages/career.astro',
   '../../../src/pages/contact.astro',
 ];
 

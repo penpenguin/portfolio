@@ -4,7 +4,6 @@ const pages = [
   { path: './', heading: 'Enterprise systems, shipped end-to-end' },
   { path: 'projects/', heading: 'Built Systems' },
   { path: 'blog/', heading: 'Blog' },
-  { path: 'career/', heading: 'Career' },
   { path: 'contact/', heading: 'Contact' },
 ];
 
@@ -49,7 +48,7 @@ test.describe('Bento layout', () => {
       const minCardWidth = await page.evaluate(() => {
         const cards = Array.from(
           document.querySelectorAll(
-            '.bento-card, .overview-card, .project-card, .contact-info, .availability'
+            '.bento-card, .project-card, .contact-info, .availability'
           )
         );
 
