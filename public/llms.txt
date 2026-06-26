@@ -26,6 +26,5 @@ Open the portfolio in a supported browser or agent, discover the `portfolio.*` W
 - `portfolio.search_content`: Search across projects and blog posts.
 - `portfolio.find_projects`: Search portfolio projects.
 - `portfolio.find_blog_posts`: Search blog posts.
-- `portfolio.get_career_summary`: Return the career timeline and a short summary.
 - `portfolio.get_contact_routes`: Return contact page, GitHub, and email routes.
 - `portfolio.open_page`: Navigate to an internal portfolio page on the same origin.

@@ -38,25 +38,4 @@ const blog = defineCollection({
   }),
 });
 
-const career = defineCollection({
-  loader: glob({
-    base: './src/content/pages',
-    pattern: 'career.md',
-    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
-  }),
-  schema: z.object({
-    timeline: z.array(
-      z.object({
-        title: z.string(),
-        period: z.string(),
-        role: z.string(),
-        description: z.string(),
-        teamSize: z.string(),
-        responsibilities: z.string(),
-        techStack: z.array(z.string()),
-      })
-    ),
-  }),
-});
-
-export const collections = { projects, blog, career };
+export const collections = { projects, blog };

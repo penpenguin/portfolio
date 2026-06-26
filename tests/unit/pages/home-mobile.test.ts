@@ -51,33 +51,28 @@ describe('Home モバイルレイアウト', () => {
     );
   });
 
-  it('HomeはAboutとContactを除いた主要導線を表示する', () => {
+  it('HomeはProjectsとBlogを主要導線として表示する', () => {
     expect(page).not.toContain('どんな人か');
-    expect(page).toContain('経歴と技術スタック');
     expect(page).not.toContain("href: '/about'");
     expect(page).not.toContain('href="/about"');
-    expect(page).toContain('href="/projects"');
-    expect(page).toContain('href="/blog"');
-    expect(page).toContain("href: '/career'");
-    expect(page).toContain(
+    expect(page).not.toContain("href: '/career'");
+    expect(page).not.toContain('href="/career"');
+    expect(page).not.toContain('経歴と技術スタック');
+    expect(page).not.toContain(
       '経験年数、技術スタック、担当領域、プロジェクト履歴を確認できます。'
     );
+    expect(page).toContain('href="/projects"');
+    expect(page).toContain('href="/blog"');
     expect(page).not.toContain('Featured Project');
     expect(page).not.toContain('Featured Article');
     expect(page).not.toContain('相談・連絡する');
     expect(page).not.toContain("href: '/contact'");
   });
 
-  it('経歴と技術スタックカードは右側に空きを作らない幅で配置する', () => {
-    expect(page).toContain(
-      'class="bento-panel overview-card overview-card--career card-glass"'
-    );
-    expect(page).toMatch(
-      /\.overview-card--career\s*\{[^}]*grid-column:\s*span\s*2/s
-    );
-    expect(page).toMatch(
-      /@media\s*\(max-width:\s*768px\)[\s\S]*?\.overview-card\s*\{[^}]*grid-column:\s*span\s*1/s
-    );
+  it('HomeからCareer概要カードを削除する', () => {
+    expect(page).not.toContain('overview-card--career');
+    expect(page).not.toContain('overviewCards.map');
+    expect(page).not.toContain('Career summary');
   });
 
   it('ProjectsとBlogは最新1件のプレビューカードとして表示する', () => {
@@ -100,14 +95,12 @@ describe('Home モバイルレイアウト', () => {
     expect(page).toContain('Blog一覧を見る');
   });
 
-  it('BlogプレビューカードはProjectsの次の行に配置する', () => {
+  it('BlogプレビューカードはProjectsの後に配置する', () => {
     const projectIndex = page.indexOf('bento-card--project');
-    const overviewIndex = page.indexOf('overviewCards.map');
     const blogIndex = page.indexOf('bento-card--blog');
 
     expect(projectIndex).toBeGreaterThan(-1);
-    expect(overviewIndex).toBeGreaterThan(projectIndex);
-    expect(blogIndex).toBeGreaterThan(overviewIndex);
+    expect(blogIndex).toBeGreaterThan(projectIndex);
   });
 
   it('Meaninglessは初期表示で読み込まず再生時だけiframeを生成する', () => {
@@ -170,14 +163,14 @@ describe('Home モバイルレイアウト', () => {
     );
   });
 
-  it('HomeのBentoセルを概要導線と元のProjects表示に整理する', () => {
+  it('HomeのBentoセルをProjectsとBlog表示に整理する', () => {
     expect(page).not.toContain('<h3>社内システム開発</h3>');
     expect(page).not.toContain('<h3>フルスタック開発</h3>');
     expect(page).not.toContain('<h3>CI/CD・自動化</h3>');
     expect(page).not.toContain('tile-number');
     expect(page).not.toContain('Core Stack');
     expect(page).toContain('class="bento-grid home-overview-grid"');
-    expect(page).toContain('overview-card');
-    expect(page).toContain('const overviewCards = [');
+    expect(page).not.toContain('overview-card');
+    expect(page).not.toContain('const overviewCards = [');
   });
 });

@@ -29,11 +29,6 @@ interface OpenPageOutput {
   navigatedTo: string;
 }
 
-interface CareerSummaryOutput {
-  career: AgentIndex['career'];
-  suggestedSummary: string;
-}
-
 type PortfolioToolsRegistry = Record<string, ToolDefinition['invoke']>;
 
 interface WebMCPRegistry {
@@ -144,19 +139,6 @@ export function createPortfolioTools(
       },
     },
     {
-      name: 'portfolio.get_career_summary',
-      title: 'Get career summary',
-      description: 'Return the career timeline and a short suggested summary.',
-      inputSchema: emptyInputSchema,
-      annotations: {
-        readOnlyHint: true,
-      },
-      invoke: (): CareerSummaryOutput => ({
-        career: index.career,
-        suggestedSummary: buildCareerSummary(index.career),
-      }),
-    },
-    {
       name: 'portfolio.get_contact_routes',
       title: 'Get contact routes',
       description: 'Return contact page, GitHub, and email routes.',
@@ -180,18 +162,6 @@ export function createPortfolioTools(
       },
     },
   ];
-}
-
-function buildCareerSummary(career: AgentIndex['career']): string {
-  const baseSummary =
-    '10年以上にわたり、メーカーの社内システム開発を中心に要件定義、設計、実装、テスト、運用、インフラ構築まで幅広く担当しています。';
-  const [latestCareer] = career;
-
-  if (!latestCareer) {
-    return baseSummary;
-  }
-
-  return `現在は${latestCareer.title}で${latestCareer.role}として、${latestCareer.description}を担当しています。${baseSummary}`;
 }
 
 const emptyInputSchema = {

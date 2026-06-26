@@ -1,4 +1,4 @@
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import type { APIRoute } from 'astro';
 
 import { sortPublishedPostsByDate } from '../utils/blog';
@@ -16,17 +16,10 @@ const githubUrl =
 const email = import.meta.env.PUBLIC_EMAIL || null;
 
 export const GET: APIRoute = async () => {
-  const [projects, blogPosts, careerEntry] = await Promise.all([
+  const [projects, blogPosts] = await Promise.all([
     getCollection('projects'),
     getCollection('blog'),
-    getEntry('career', 'career'),
   ]);
-
-  if (!careerEntry) {
-    throw new Error(
-      'Missing career content entry: src/content/pages/career.md'
-    );
-  }
 
   const agentIndex: AgentIndex = {
     site: {
@@ -58,7 +51,6 @@ export const GET: APIRoute = async () => {
     },
     projects: projects.map(toAgentProject),
     blog: sortPublishedPostsByDate(blogPosts).map(toAgentBlogPost),
-    career: careerEntry.data.timeline,
     contact: {
       pageUrl: withBase('/contact'),
       githubUrl,

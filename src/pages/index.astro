@@ -13,16 +13,6 @@ const [latestProject] = [...projects].sort(
 const blogPosts = await getCollection('blog');
 const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
-const overviewCards = [
-  {
-    title: '経歴と技術スタック',
-    description:
-      '経験年数、技術スタック、担当領域、プロジェクト履歴を確認できます。',
-    href: '/career',
-    meta: 'Career summary',
-  },
-];
-
 const playground = {
   title: 'Meaningless',
   previewImage: '/assets/projects/meaningless.webp',
@@ -32,7 +22,7 @@ const playground = {
 
 <Layout
   title="Portfolio - Programmer"
-  description="プロフィール、制作物、技術メモ、職務経歴、連絡先をまとめたポートフォリオです。"
+  description="プロフィール、制作物、技術メモ、連絡先をまとめたポートフォリオです。"
 >
   <section class="page-shell bento-shell">
     <div class="container">
@@ -78,23 +68,6 @@ const playground = {
               </Link>
             </section>
           )
-        }
-
-        {
-          overviewCards.map((card) => (
-            <article class="bento-panel overview-card overview-card--career card-glass">
-              <div>
-                <h2>{card.title}</h2>
-                <p>{card.description}</p>
-              </div>
-              <div class="overview-card__footer">
-                <span>{card.meta}</span>
-                <Link href={card.href} class="overview-link">
-                  ページを見る
-                </Link>
-              </div>
-            </article>
-          ))
         }
 
         {
@@ -247,8 +220,7 @@ const playground = {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .bento-card,
-  .overview-card {
+  .bento-card {
     min-height: 240px;
     display: flex;
     flex-direction: column;
@@ -301,23 +273,12 @@ const playground = {
     background: var(--bento-card-bg);
   }
 
-  .overview-card--career {
-    grid-column: span 2;
-  }
-
-  .bento-card h1,
-  .overview-card h1 {
+  .bento-card h1 {
     max-width: 760px;
     margin: var(--space-sm) 0;
     font-size: 5.25rem;
     line-height: 0.95;
     letter-spacing: 0;
-  }
-
-  .overview-card h2 {
-    margin: 0 0 var(--space-sm) 0;
-    color: var(--text-primary);
-    font-size: var(--font-size-3xl);
   }
 
   .playground-title {
@@ -405,8 +366,7 @@ const playground = {
     font-size: var(--font-size-lg);
   }
 
-  .bento-card p,
-  .overview-card p {
+  .bento-card p {
     margin-bottom: 0;
   }
 
@@ -521,20 +481,6 @@ const playground = {
     display: none;
   }
 
-  .overview-card__footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-md);
-    margin-top: var(--space-xl);
-  }
-
-  .overview-card__footer span {
-    color: var(--text-muted);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-  }
-
   .overview-link {
     color: var(--text-accent);
     flex: 0 0 auto;
@@ -569,28 +515,19 @@ const playground = {
     .bento-card--metric,
     .bento-card--project,
     .bento-card--blog,
-    .bento-card--playground,
-    .overview-card {
+    .bento-card--playground {
       grid-column: span 1;
       min-height: auto;
     }
 
-    .bento-card h1,
-    .overview-card h1 {
+    .bento-card h1 {
       font-size: 3rem;
       line-height: 1.02;
-    }
-
-    .overview-card__footer {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: var(--space-sm);
     }
   }
 
   @media (max-width: 420px) {
-    .bento-card h1,
-    .overview-card h1 {
+    .bento-card h1 {
       font-size: 2.5rem;
     }
   }

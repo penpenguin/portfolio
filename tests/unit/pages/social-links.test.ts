@@ -5,10 +5,6 @@ const contactSource = readFileSync(
   new URL('../../../src/pages/contact.astro', import.meta.url),
   'utf-8'
 );
-const careerSource = readFileSync(
-  new URL('../../../src/pages/career.astro', import.meta.url),
-  'utf-8'
-);
 const layoutSource = readFileSync(
   new URL('../../../src/layouts/Layout.astro', import.meta.url),
   'utf-8'
@@ -23,11 +19,6 @@ describe('Xリンクの削除', () => {
   it('ContactページにXリンクが含まれない', () => {
     expect(contactSource).not.toMatch(/PUBLIC_X_URL/);
     expect(contactSource).not.toMatch(/https:\/\/x\.com/);
-  });
-
-  it('CareerページにXリンクが含まれない', () => {
-    expect(careerSource).not.toMatch(/PUBLIC_X_URL/);
-    expect(careerSource).not.toMatch(/https:\/\/x\.com/);
   });
 
   it('LayoutフッターにXリンクが含まれない', () => {

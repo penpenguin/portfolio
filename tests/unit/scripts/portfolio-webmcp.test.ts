@@ -46,7 +46,6 @@ const index: AgentIndex = {
       url: '/portfolio/blog/2026/05/webmcp-basics',
     },
   ],
-  career: [],
   contact: {
     pageUrl: '/portfolio/contact',
     githubUrl: 'https://github.com/penpenguin',
@@ -187,33 +186,12 @@ describe('createPortfolioTools', () => {
     ).resolves.toEqual(index.contact);
   });
 
-  it('portfolio.get_career_summaryで最新の経歴を反映した要約を返す', async () => {
-    const latestIndex: AgentIndex = {
-      ...index,
-      career: [
-        {
-          title: 'Azure RAG/FulltextSearch 構築支援',
-          period: '2025.07 - ',
-          role: 'SRE',
-          description: '全文検索システム導入支援',
-          teamSize: '8名',
-          responsibilities: 'PoC、要件定義、設計、実装、テスト、運用、インフラ構築',
-          techStack: ['Azure AI Search', 'Azure OpenAI', 'Java', 'React'],
-        },
-      ],
-    };
-    const tools = createPortfolioTools(latestIndex);
-    const getCareerSummary = tools.find(
-      (tool) => tool.name === 'portfolio.get_career_summary'
-    );
+  it('portfolio.get_career_summaryは登録しない', () => {
+    const tools = createPortfolioTools(index);
 
-    await expect(
-      Promise.resolve(getCareerSummary?.invoke({}))
-    ).resolves.toMatchObject({
-      career: latestIndex.career,
-      suggestedSummary:
-        '現在はAzure RAG/FulltextSearch 構築支援でSREとして、全文検索システム導入支援を担当しています。10年以上にわたり、メーカーの社内システム開発を中心に要件定義、設計、実装、テスト、運用、インフラ構築まで幅広く担当しています。',
-    });
+    expect(tools.map((tool) => tool.name)).not.toContain(
+      'portfolio.get_career_summary'
+    );
   });
 });
 
