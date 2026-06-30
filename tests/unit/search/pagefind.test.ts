@@ -33,7 +33,7 @@ describe('Pagefind search integration', () => {
     expect(layout).toContain('<pagefind-config');
     expect(layout).toContain('bundle-path={pagefindBundlePath}');
     expect(layout).toContain('base-url={pagefindBaseUrl}');
-    expect(layout).toContain('<pagefind-modal reset-on-close>');
+    expect(layout).toMatch(/<pagefind-modal\s+reset-on-close/);
     expect(layout).toContain('<pagefind-modal-trigger');
     expect(layout).toContain('shortcut="mod+k"');
     expect(layout).toContain('hide-shortcut');
@@ -42,6 +42,34 @@ describe('Pagefind search integration', () => {
     );
     expect(layout).not.toMatch(
       /<pagefind-modal-trigger[^>]*class="[^"]*\bnav-link\b/
+    );
+  });
+
+  it('keeps Pagefind modal utilities alive across Astro view transitions', () => {
+    const layout = readSource('src/layouts/Layout.astro');
+
+    expect(layout).toMatch(
+      /<pagefind-config\b[^>]*transition:persist[^>]*transition:animate="none"[^>]*>/s
+    );
+    expect(layout).toMatch(
+      /<pagefind-modal\b[^>]*transition:persist[^>]*transition:animate="none"[^>]*>/s
+    );
+  });
+
+  it('aligns the search trigger with the other header navigation items', () => {
+    const layout = readSource('src/layouts/Layout.astro');
+
+    expect(layout).toMatch(
+      /\.nav-links\s*\{[^}]*align-items:\s*stretch/s
+    );
+    expect(layout).toContain(
+      ':global(:is(*, #\\#):is(*, #\\#):is(*, #\\#) .search-trigger .pf-trigger-btn)'
+    );
+    expect(layout).toMatch(
+      /:global\([\s\S]*?\.search-trigger \.pf-trigger-btn\)\s*\{[^}]*padding:\s*var\(--space-xs\) var\(--space-sm\)/s
+    );
+    expect(layout).toMatch(
+      /@media\s*\(max-width:\s*768px\)[\s\S]*:global\([\s\S]*?\.search-trigger \.pf-trigger-btn\)\s*\{[^}]*padding:\s*var\(--space-2xs\) var\(--space-xs\)/s
     );
   });
 
