@@ -54,6 +54,9 @@ describe('Pagefind search integration', () => {
     expect(layout).toMatch(
       /<pagefind-modal\b[^>]*transition:persist[^>]*transition:animate="none"[^>]*>/s
     );
+    expect(layout).toContain(
+      "import '../scripts/pagefind-view-transitions';"
+    );
   });
 
   it('places Pagefind config before UI components so options are registered first', () => {
