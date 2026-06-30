@@ -12,6 +12,10 @@ export interface Props {
 const { title, description = 'Modern portfolio built with Astro' } =
   Astro.props;
 const faviconHref = withBase('/favicon.svg');
+const pagefindCssHref = withBase('/pagefind/pagefind-component-ui.css');
+const pagefindJsSrc = withBase('/pagefind/pagefind-component-ui.js');
+const pagefindBundlePath = withBase('/pagefind/');
+const pagefindBaseUrl = withBase('/');
 
 const normalizePath = (path: string): string => {
   if (!path || path === '/') {
@@ -53,6 +57,7 @@ const navItems = baseNavItems.map((item) => {
       name="ai-agent-capabilities"
       content="WebMCP; portfolio search; projects; blog; contact routes"
     />
+    <link href={pagefindCssHref} rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -60,6 +65,7 @@ const navItems = baseNavItems.map((item) => {
       rel="stylesheet"
     />
     <title>{title}</title>
+    <script src={pagefindJsSrc} type="module" is:inline></script>
     <ClientRouter />
   </head>
   <body>
@@ -83,10 +89,23 @@ const navItems = baseNavItems.map((item) => {
                 </Link>
               ))
             }
+            <pagefind-modal-trigger
+              class="search-trigger"
+              placeholder="Search"
+              shortcut="mod+k"
+              hide-shortcut
+            ></pagefind-modal-trigger>
           </div>
         </div>
       </div>
     </nav>
+
+    <pagefind-config
+      bundle-path={pagefindBundlePath}
+      base-url={pagefindBaseUrl}
+      excerpt-length="24"
+    ></pagefind-config>
+    <pagefind-modal reset-on-close></pagefind-modal>
 
     <main>
       <slot />
@@ -227,6 +246,24 @@ const navItems = baseNavItems.map((item) => {
     pointer-events: none;
   }
 
+  .search-trigger {
+    --pagefind-ui-primary: var(--text-primary);
+    --pagefind-ui-text: var(--text-primary);
+    --pagefind-ui-background: transparent;
+    --pagefind-ui-border: var(--glass-border);
+    --pagefind-ui-border-radius: var(--radius-md);
+    --pagefind-ui-font: inherit;
+
+    display: inline-flex;
+    min-height: 100%;
+    color: var(--text-secondary);
+    font: inherit;
+  }
+
+  .search-trigger:hover {
+    color: var(--text-primary);
+  }
+
   main {
     margin-top: var(--nav-offset);
     min-height: calc(100vh - 160px);
@@ -282,6 +319,10 @@ const navItems = baseNavItems.map((item) => {
 
     .nav-link {
       padding: var(--space-2xs) var(--space-xs);
+      font-size: var(--font-size-sm);
+    }
+
+    .search-trigger {
       font-size: var(--font-size-sm);
     }
 

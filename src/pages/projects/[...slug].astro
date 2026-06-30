@@ -21,7 +21,7 @@ const projectHeroClass = project.data.heroImage
 ---
 
 <Layout title={`${project.data.title} - Projects`}>
-  <article class="project-detail">
+  <article class="project-detail" data-pagefind-filter="type:Project">
     <header class="project-header">
       <div class="container">
         <div class="breadcrumb">
@@ -32,8 +32,14 @@ const projectHeroClass = project.data.heroImage
 
         <div class={`bento-hero ${projectHeroClass} card-glass`}>
           <div class="project-meta">
-            <h1>{project.data.title}</h1>
-            <p class="project-description">{project.data.description}</p>
+            <h1
+              data-pagefind-meta={`title, date:${project.data.pubDate.toISOString().slice(0, 10)}`}
+            >
+              {project.data.title}
+            </h1>
+            <p class="project-description" data-pagefind-meta="description">
+              {project.data.description}
+            </p>
 
             <div class="project-info">
               <div class="project-date">
@@ -51,7 +57,9 @@ const projectHeroClass = project.data.heroImage
                 project.data.tags && (
                   <div class="pill-list project-tags">
                     {project.data.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
+                      <span class="tag" data-pagefind-filter="tag">
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 )
@@ -92,6 +100,7 @@ const projectHeroClass = project.data.heroImage
                 <img
                   src={withBase(project.data.heroImage)}
                   alt={project.data.title}
+                  data-pagefind-meta="image[src], image_alt[alt]"
                 />
               </div>
             )
@@ -102,7 +111,7 @@ const projectHeroClass = project.data.heroImage
 
     <main class="project-content">
       <div class="container">
-        <div class="bento-panel content-wrapper card-glass">
+        <div class="bento-panel content-wrapper card-glass" data-pagefind-body>
           <Content />
         </div>
       </div>
