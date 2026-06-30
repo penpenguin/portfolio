@@ -1,4 +1,5 @@
 // @ts-check
+import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import { remarkAdmonition } from './src/utils/remarkAdmonition.js';
 
@@ -6,7 +7,9 @@ import { remarkAdmonition } from './src/utils/remarkAdmonition.js';
 export default defineConfig({
   base: '/portfolio',
   markdown: {
-    remarkPlugins: [remarkAdmonition],
+    processor: unified({
+      remarkPlugins: [remarkAdmonition],
+    }),
     shikiConfig: {
       theme: 'github-dark-dimmed',
       wrap: true,

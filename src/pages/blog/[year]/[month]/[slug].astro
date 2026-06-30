@@ -3,6 +3,7 @@ import Layout from '../../../../layouts/Layout.astro';
 import Link from '../../../../components/Link.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { formatDate } from '../../../../utils/formatDate';
+import { withBase } from '../../../../utils/withBase';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -46,7 +47,7 @@ const heroClass = heroImage
 ---
 
 <Layout title={`${title} - Blog`} description={description}>
-  <article class="blog-article">
+  <article class="blog-article" data-pagefind-filter="type:Blog">
     <header class="article-header">
       <div class="container">
         <p class="breadcrumb">
@@ -56,8 +57,14 @@ const heroClass = heroImage
 
         <div class={`bento-hero ${heroClass} card-glass`}>
           <div class="article-meta">
-            <h1>{title}</h1>
-            <p class="article-description">{description}</p>
+            <h1
+              data-pagefind-meta={`title, date:${pubDate.toISOString().slice(0, 10)}`}
+            >
+              {title}
+            </h1>
+            <p class="article-description" data-pagefind-meta="description">
+              {description}
+            </p>
 
             <div class="meta">
               <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time
@@ -73,7 +80,9 @@ const heroClass = heroImage
               tags && (
                 <div class="pill-list tag-list" aria-label="Tags">
                   {tags.map((tag: string) => (
-                    <span class="tag">{tag}</span>
+                    <span class="tag" data-pagefind-filter="tag">
+                      {tag}
+                    </span>
                   ))}
                 </div>
               )
@@ -83,7 +92,12 @@ const heroClass = heroImage
           {
             heroImage && (
               <div class="hero-wrapper">
-                <img src={heroImage} alt={title} loading="lazy" />
+                <img
+                  src={withBase(heroImage)}
+                  alt={title}
+                  loading="lazy"
+                  data-pagefind-meta="image[src], image_alt[alt]"
+                />
               </div>
             )
           }
@@ -93,7 +107,7 @@ const heroClass = heroImage
 
     <section class="article-body">
       <div class="container">
-        <div class="bento-panel content-wrapper card-glass">
+        <div class="bento-panel content-wrapper card-glass" data-pagefind-body>
           <Content />
         </div>
       </div>
