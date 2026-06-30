@@ -69,6 +69,14 @@ const navItems = baseNavItems.map((item) => {
     <ClientRouter />
   </head>
   <body>
+    <pagefind-config
+      transition:persist
+      transition:animate="none"
+      bundle-path={pagefindBundlePath}
+      base-url={pagefindBaseUrl}
+      excerpt-length="24"
+    ></pagefind-config>
+
     <nav class="navbar" transition:persist transition:animate="none">
       <div class="container">
         <div class="navbar-content">
@@ -100,13 +108,6 @@ const navItems = baseNavItems.map((item) => {
       </div>
     </nav>
 
-    <pagefind-config
-      transition:persist
-      transition:animate="none"
-      bundle-path={pagefindBundlePath}
-      base-url={pagefindBaseUrl}
-      excerpt-length="24"
-    ></pagefind-config>
     <pagefind-modal
       reset-on-close
       transition:persist

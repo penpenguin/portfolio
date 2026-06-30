@@ -56,6 +56,20 @@ describe('Pagefind search integration', () => {
     );
   });
 
+  it('places Pagefind config before UI components so options are registered first', () => {
+    const layout = readSource('src/layouts/Layout.astro');
+
+    const configIndex = layout.indexOf('<pagefind-config');
+    const triggerIndex = layout.indexOf('<pagefind-modal-trigger');
+    const modalIndex = layout.indexOf('<pagefind-modal');
+
+    expect(configIndex).toBeGreaterThan(-1);
+    expect(triggerIndex).toBeGreaterThan(-1);
+    expect(modalIndex).toBeGreaterThan(-1);
+    expect(configIndex).toBeLessThan(triggerIndex);
+    expect(configIndex).toBeLessThan(modalIndex);
+  });
+
   it('aligns the search trigger with the other header navigation items', () => {
     const layout = readSource('src/layouts/Layout.astro');
 
