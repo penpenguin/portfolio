@@ -45,18 +45,24 @@ describe('Pagefind search integration', () => {
     );
   });
 
-  it('keeps Pagefind modal utilities alive across Astro view transitions', () => {
+  it('keeps Pagefind configuration stable across Astro view transitions', () => {
     const layout = readSource('src/layouts/Layout.astro');
 
     expect(layout).toMatch(
       /<pagefind-config\b[^>]*transition:persist[^>]*transition:animate="none"[^>]*>/s
     );
-    expect(layout).toMatch(
-      /<pagefind-modal\b[^>]*transition:persist[^>]*transition:animate="none"[^>]*>/s
-    );
     expect(layout).toContain(
       "import '../scripts/pagefind-view-transitions';"
     );
+  });
+
+  it('recreates the Pagefind modal shell instead of persisting generated dialog markup', () => {
+    const layout = readSource('src/layouts/Layout.astro');
+
+    const modalTag = layout.match(/<pagefind-modal(?:\s|>)[^>]*>/s)?.[0];
+
+    expect(modalTag).toBeDefined();
+    expect(modalTag).not.toContain('transition:persist');
   });
 
   it('places Pagefind config before UI components so options are registered first', () => {
