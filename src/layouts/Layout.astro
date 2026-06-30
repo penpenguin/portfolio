@@ -69,6 +69,14 @@ const navItems = baseNavItems.map((item) => {
     <ClientRouter />
   </head>
   <body>
+    <pagefind-config
+      transition:persist
+      transition:animate="none"
+      bundle-path={pagefindBundlePath}
+      base-url={pagefindBaseUrl}
+      excerpt-length="24"
+    ></pagefind-config>
+
     <nav class="navbar" transition:persist transition:animate="none">
       <div class="container">
         <div class="navbar-content">
@@ -100,12 +108,11 @@ const navItems = baseNavItems.map((item) => {
       </div>
     </nav>
 
-    <pagefind-config
-      bundle-path={pagefindBundlePath}
-      base-url={pagefindBaseUrl}
-      excerpt-length="24"
-    ></pagefind-config>
-    <pagefind-modal reset-on-close></pagefind-modal>
+    <pagefind-modal
+      reset-on-close
+      transition:persist
+      transition:animate="none"
+    ></pagefind-modal>
 
     <main>
       <slot />
@@ -216,6 +223,7 @@ const navItems = baseNavItems.map((item) => {
 
   .nav-links {
     display: flex;
+    align-items: stretch;
     gap: var(--space-2xs);
   }
 
@@ -253,15 +261,66 @@ const navItems = baseNavItems.map((item) => {
     --pagefind-ui-border: var(--glass-border);
     --pagefind-ui-border-radius: var(--radius-md);
     --pagefind-ui-font: inherit;
+    --pf-background: transparent;
+    --pf-border: transparent;
+    --pf-border-focus: transparent;
+    --pf-border-radius: var(--radius-md);
+    --pf-font: var(--font-family-base);
+    --pf-input-height: auto;
+    --pf-outline-focus: var(--text-accent);
+    --pf-text: var(--text-primary);
+    --pf-text-muted: var(--text-secondary);
+    --pf-text-secondary: var(--text-secondary);
 
     display: inline-flex;
-    min-height: 100%;
+    align-items: stretch;
     color: var(--text-secondary);
     font: inherit;
+    line-height: 1.6;
   }
 
   .search-trigger:hover {
+    --pf-text-muted: var(--text-primary);
+
     color: var(--text-primary);
+  }
+
+  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn) {
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    height: auto;
+    padding: var(--space-xs) var(--space-sm);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    color: var(--text-secondary);
+    font: inherit;
+    font-weight: 500;
+    line-height: 1.6;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn:hover) {
+    background: transparent;
+    color: var(--text-primary);
+  }
+
+  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn:focus-visible) {
+    outline: 2px solid var(--text-accent);
+    outline-offset: 3px;
+  }
+
+  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-icon) {
+    background: currentColor;
+  }
+
+  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-text) {
+    flex: 0 0 auto;
+    color: currentColor;
   }
 
   main {
@@ -323,6 +382,11 @@ const navItems = baseNavItems.map((item) => {
     }
 
     .search-trigger {
+      font-size: var(--font-size-sm);
+    }
+
+    :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn) {
+      padding: var(--space-2xs) var(--space-xs);
       font-size: var(--font-size-sm);
     }
 
