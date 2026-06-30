@@ -433,34 +433,31 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(.admonition) {
-    --admonition-color: #0969da;
+    --admonition-color: var(--text-accent);
     display: grid;
     grid-template-columns: 1fr;
     row-gap: var(--space-xs);
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--glass-border);
-    border-left: 3px solid var(--admonition-color);
-    background: color-mix(
-      in srgb,
-      var(--bento-card-bg) 92%,
-      var(--admonition-color) 8%
-    );
+    padding: 0 0 0 var(--space-md);
+    border-left: 2px solid var(--admonition-color);
+    background: transparent;
     margin: var(--space-lg) 0;
     color: var(--text-secondary);
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
   }
 
-  .content-wrapper :global(.admonition)::after {
+  .content-wrapper :global(.admonition)::before {
     content: attr(data-label);
-    color: var(--admonition-color);
-    font-weight: 700;
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: color-mix(
+      in srgb,
+      var(--admonition-color) 78%,
+      var(--text-primary) 22%
+    );
+    font-weight: 600;
     font-size: var(--font-size-xs);
-    letter-spacing: 0.08em;
-    line-height: 1.2;
-    text-transform: uppercase;
+    line-height: 1.35;
     grid-column: 1;
-    grid-row: 1;
   }
 
   .content-wrapper :global(.admonition p),
@@ -472,23 +469,23 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(.admonition-note) {
-    --admonition-color: #58a6ff;
+    --admonition-color: #5e6ad2;
   }
 
   .content-wrapper :global(.admonition-tip) {
-    --admonition-color: #3fb950;
+    --admonition-color: #2f7d4f;
   }
 
   .content-wrapper :global(.admonition-important) {
-    --admonition-color: #a371f7;
+    --admonition-color: #8250df;
   }
 
   .content-wrapper :global(.admonition-warning) {
-    --admonition-color: #d29922;
+    --admonition-color: #9a6700;
   }
 
   .content-wrapper :global(.admonition-caution) {
-    --admonition-color: #f85149;
+    --admonition-color: #b42318;
   }
 
   .article-footer {

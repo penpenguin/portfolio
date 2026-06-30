@@ -267,7 +267,7 @@ describe('ブログ機能', () => {
     expect(detailPage).toMatch(/overflow-wrap:\s*anywhere/);
   });
 
-  it('ブログ詳細ページのadmonitionは控えめな単一カラムで表示する', () => {
+  it('ブログ詳細ページのadmonitionはカード化せず控えめな単一カラムで表示する', () => {
     const detailPage = load(
       '../../../src/pages/blog/[year]/[month]/[slug].astro'
     );
@@ -279,6 +279,27 @@ describe('ブログ機能', () => {
     expect(detailPage).not.toMatch(/mask:\s*var\(--admonition-icon-url\)/);
     expect(detailPage).toMatch(
       /\.content-wrapper\s+:global\(\.admonition p\),\s*\.content-wrapper\s+:global\(\.admonition ul\),\s*\.content-wrapper\s+:global\(\.admonition ol\)\s*\{[^}]*grid-column:\s*1/s
+    );
+    expect(detailPage).toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)\s*\{[^}]*border-left:\s*2px solid var\(--admonition-color\)[^}]*background:\s*transparent[^}]*box-shadow:\s*none/s
+    );
+    expect(detailPage).toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)::before\s*\{[^}]*content:\s*attr\(data-label\)[^}]*display:\s*block[^}]*margin-bottom:\s*var\(--space-xs\)/s
+    );
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)\s*\{[^}]*border-radius:/s
+    );
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)::before\s*\{[^}]*border-radius:/s
+    );
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)::after\s*\{/s
+    );
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)::(?:before|after)\s*\{[^}]*text-transform:\s*uppercase/s
+    );
+    expect(detailPage).not.toMatch(
+      /\.content-wrapper\s+:global\(\.admonition\)::(?:before|after)\s*\{[^}]*letter-spacing:\s*0\.08em/s
     );
   });
 
