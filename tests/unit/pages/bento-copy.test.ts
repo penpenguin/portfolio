@@ -22,7 +22,10 @@ describe('Bento copy direction', () => {
     expect(combined).not.toContain('My Projects');
     expect(combined).not.toContain('作品集');
     expect(combined).not.toContain('お気軽にご連絡ください');
-    expect(combined).toContain('Enterprise systems, shipped end-to-end');
+    expect(combined).not.toContain('Enterprise systems, shipped end-to-end');
+    expect(combined).not.toContain('Enterprise Systems Programmer');
+    expect(combined).toContain('About');
+    expect(combined).toContain('Memos on systems, tools, and everyday experiments.');
     expect(combined).toContain('Built Systems');
     expect(combined).toContain('業務システム開発の相談');
   });

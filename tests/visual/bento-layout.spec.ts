@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const pages = [
-  { path: './', heading: 'Enterprise systems, shipped end-to-end' },
+  { path: './', heading: 'About' },
   { path: 'projects/', heading: 'Built Systems' },
   { path: 'blog/', heading: 'Blog' },
   { path: 'contact/', heading: 'Contact' },
@@ -59,5 +59,58 @@ test.describe('Bento layout', () => {
 
       expect(minCardWidth).toBeGreaterThanOrEqual(320);
     }
+  });
+
+  test('home top cards share the same row height on desktop', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('./');
+
+    const heights = await page.evaluate(() => {
+      const intro = document.querySelector('.bento-card--intro');
+      const metric = document.querySelector('.bento-card--metric');
+
+      return {
+        intro: intro?.getBoundingClientRect().height ?? 0,
+        metric: metric?.getBoundingClientRect().height ?? 0,
+      };
+    });
+
+    expect(Math.abs(heights.intro - heights.metric)).toBeLessThanOrEqual(1);
+  });
+
+  test('home Meaningless card shows an animated window scene by default', async ({
+    page,
+  }) => {
+    await page.goto('./');
+
+    const card = page.locator('.bento-card--playground');
+    await expect(card).toHaveAttribute(
+      'aria-label',
+      'Meaningless window scene'
+    );
+    await expect(
+      card.getByRole('heading', { name: 'Meaningless' })
+    ).toHaveCount(0);
+    await expect(card.locator('.window-scene')).toBeVisible();
+    await expect(card.locator('.window-scene__image')).toBeVisible();
+    await expect(card.locator('.window-scene__road-lights')).toBeVisible();
+    await expect(card.locator('.window-scene__tail-lamps')).toBeVisible();
+    await expect(
+      card.locator('.window-scene__tail-lamps-track--near')
+    ).toBeVisible();
+    await expect(
+      card.locator('.window-scene__tail-lamps-track--bend')
+    ).toBeVisible();
+    await expect(
+      card.locator('.window-scene__tail-lamps-track--far')
+    ).toBeVisible();
+    await expect(card.locator('.window-scene__aircraft-beacons')).toBeVisible();
+    await expect(card.locator('.window-scene__tree-line')).toBeVisible();
+    await expect(card.getByRole('link', { name: '別タブで開く' })).toHaveCount(
+      0
+    );
+    await expect(card.locator('.playground-actions')).toHaveCount(0);
   });
 });
