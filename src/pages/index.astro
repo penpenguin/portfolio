@@ -14,9 +14,7 @@ const blogPosts = await getCollection('blog');
 const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
 const playground = {
-  title: 'Meaningless',
-  previewImage: '/assets/projects/meaningless.webp',
-  gameUrl: 'https://penpenguin.github.io/meaningless/',
+  previewImage: '/assets/home/meaningless-night-window.webp',
 };
 ---
 
@@ -31,15 +29,16 @@ const playground = {
           class="bento-hero bento-panel bento-card bento-card--intro card-glass"
         >
           <div class="intro-copy">
-            <h1>Enterprise systems, shipped end-to-end</h1>
-            <p class="intro-role">Enterprise Systems Programmer</p>
+            <h1>About</h1>
+            <p class="intro-role">
+              Memos on systems, tools, and everyday experiments.
+            </p>
           </div>
         </section>
 
         <section class="bento-panel bento-card bento-card--metric card-glass">
           <span class="metric-value">10+</span>
-          <p class="metric-label">years in production systems</p>
-          <p>要件定義から運用改善まで、長期運用される業務システムを支援。</p>
+          <p class="metric-label">years building systems</p>
         </section>
 
         {
@@ -100,120 +99,42 @@ const playground = {
 
         <section
           class="bento-panel bento-card bento-card--playground card-glass"
-          data-playground-card
-          data-game-src={playground.gameUrl}
+          aria-label="Meaningless window scene"
         >
-          <h2 class="playground-title">{playground.title}</h2>
-          <div class="playground-preview" data-playground-preview>
+          <div class="window-scene">
             <img
+              class="window-scene__image"
               src={withBase(playground.previewImage)}
-              alt="Meaningless aquarium app preview"
-              width="960"
-              height="540"
+              alt="Window view of Meaningless at night"
+              width="1600"
+              height="1000"
               loading="lazy"
               decoding="async"
             />
-            <div class="playground-actions">
-              <button
-                class="playground-button"
-                type="button"
-                aria-label="Meaninglessを再生"
-                data-playground-play-label="Meaninglessを再生"
-                data-playground-close-label="Meaninglessを閉じる"
-                data-playground-frame-title="Meaningless aquarium app preview"
-                data-playground-toggle
-              >
-                <span class="playground-button__label">Play</span>
-                <svg
-                  class="playground-button__icon"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M18 6 6 18"></path>
-                  <path d="m6 6 12 12"></path>
-                </svg>
-              </button>
-              <a
-                class="overview-link"
-                href={playground.gameUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                別タブで開く
-              </a>
-            </div>
+            <span class="window-scene__skyline-glow" aria-hidden="true"></span>
+            <span class="window-scene__city-lights" aria-hidden="true"></span>
+            <span class="window-scene__aircraft-beacons" aria-hidden="true"
+            ></span>
+            <span class="window-scene__road-lights" aria-hidden="true"></span>
+            <span class="window-scene__tail-lamps" aria-hidden="true">
+              <span
+                class="window-scene__tail-lamps-track window-scene__tail-lamps-track--near"
+              ></span>
+              <span
+                class="window-scene__tail-lamps-track window-scene__tail-lamps-track--bend"
+              ></span>
+              <span
+                class="window-scene__tail-lamps-track window-scene__tail-lamps-track--far"
+              ></span>
+            </span>
+            <span class="window-scene__tree-line" aria-hidden="true"></span>
+            <span class="window-scene__mullion" aria-hidden="true"></span>
           </div>
         </section>
       </div>
     </div>
   </section>
 </Layout>
-
-<script>
-  const setupPlayground = () => {
-    document
-      .querySelectorAll<HTMLElement>('[data-playground-card]')
-      .forEach((card) => {
-        const playgroundPreview = card.querySelector<HTMLElement>(
-          '[data-playground-preview]'
-        );
-        const playgroundToggle = card.querySelector<HTMLButtonElement>(
-          '[data-playground-toggle]'
-        );
-
-        if (!playgroundPreview || !playgroundToggle) {
-          return;
-        }
-
-        if (playgroundToggle.dataset.playgroundBound === 'true') {
-          return;
-        }
-
-        playgroundToggle.dataset.playgroundBound = 'true';
-        playgroundToggle.addEventListener('click', () => {
-          const gameSrc = card.getAttribute('data-game-src');
-
-          if (!gameSrc) {
-            return;
-          }
-
-          const existingFrame = playgroundPreview.querySelector('iframe');
-          const playLabel =
-            playgroundToggle.dataset.playgroundPlayLabel ?? 'プレビューを再生';
-          const closeLabel =
-            playgroundToggle.dataset.playgroundCloseLabel ??
-            'プレビューを閉じる';
-          const frameTitle =
-            playgroundToggle.dataset.playgroundFrameTitle ?? 'Playable preview';
-
-          if (existingFrame) {
-            existingFrame.remove();
-            playgroundPreview.classList.remove('is-playing');
-            playgroundToggle.setAttribute('aria-label', playLabel);
-            return;
-          }
-
-          const frame = document.createElement('iframe');
-          frame.className = 'playground-frame';
-          frame.setAttribute('title', frameTitle);
-          frame.setAttribute('loading', 'lazy');
-          frame.setAttribute(
-            'sandbox',
-            'allow-scripts allow-same-origin allow-pointer-lock'
-          );
-          frame.setAttribute('referrerpolicy', 'no-referrer');
-          frame.setAttribute('allow', 'fullscreen; gamepad');
-          frame.setAttribute('src', gameSrc);
-          playgroundPreview.append(frame);
-          playgroundPreview.classList.add('is-playing');
-          playgroundToggle.setAttribute('aria-label', closeLabel);
-        });
-      });
-  };
-
-  setupPlayground();
-  document.addEventListener('astro:page-load', setupPlayground);
-</script>
 
 <style>
   .home-overview-grid {
@@ -229,12 +150,13 @@ const playground = {
 
   .bento-card--intro {
     grid-column: span 3;
-    min-height: 390px;
+    min-height: auto;
     background: var(--bento-card-bg);
   }
 
   .bento-card--metric {
     grid-column: span 1;
+    min-height: auto;
     background: var(--text-primary);
     color: #ffffff;
     position: relative;
@@ -268,7 +190,7 @@ const playground = {
 
   .bento-card--playground {
     grid-column: span 2;
-    gap: var(--space-sm);
+    gap: 0;
     justify-content: center;
     background: var(--bento-card-bg);
   }
@@ -279,12 +201,6 @@ const playground = {
     font-size: 5.25rem;
     line-height: 0.95;
     letter-spacing: 0;
-  }
-
-  .playground-title {
-    margin: 0;
-    color: var(--text-primary);
-    font-size: var(--font-size-2xl);
   }
 
   .project-summary {
@@ -375,110 +291,617 @@ const playground = {
     margin-top: var(--space-lg);
   }
 
-  .playground-preview {
-    aspect-ratio: 16 / 9;
+  .window-scene {
+    aspect-ratio: 16 / 10;
+    background: #08111a;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: var(--radius-md);
+    isolation: isolate;
     overflow: hidden;
     position: relative;
   }
 
-  .playground-preview img {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .playground-preview img {
-    object-fit: cover;
-  }
-
-  :global(.playground-frame) {
-    border: 0;
-    inset: 0;
+  .window-scene::before {
+    animation: glass-reflection 18s ease-in-out infinite;
+    background:
+      linear-gradient(
+        112deg,
+        transparent 0 34%,
+        rgba(255, 255, 255, 0.1) 42%,
+        transparent 50% 100%
+      ),
+      linear-gradient(
+        76deg,
+        transparent 0 58%,
+        rgba(198, 226, 255, 0.08) 62%,
+        transparent 68%
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 24%);
+    content: '';
+    inset: -6%;
+    opacity: 0.36;
+    pointer-events: none;
     position: absolute;
-    width: 100%;
+    transform: translate3d(-6%, 0, 0);
+    z-index: 3;
+  }
+
+  .window-scene::after {
+    animation: night-vignette 16s ease-in-out infinite;
+    background:
+      radial-gradient(
+        ellipse at 66% 56%,
+        rgba(86, 145, 214, 0.16),
+        transparent 34%
+      ),
+      radial-gradient(
+        ellipse at 50% 54%,
+        transparent 58%,
+        rgba(2, 7, 13, 0.42) 100%
+      ),
+      linear-gradient(180deg, transparent 52%, rgba(4, 8, 13, 0.62));
+    content: '';
+    inset: 0;
+    opacity: 0.78;
+    pointer-events: none;
+    position: absolute;
+    z-index: 4;
+  }
+
+  .window-scene__image {
+    animation: city-pan 38s ease-in-out infinite;
+    display: block;
     height: 100%;
+    object-fit: cover;
+    transform: scale(1.055) translate3d(-0.7%, 0, 0);
+    width: 100%;
+  }
+
+  .window-scene__skyline-glow {
+    animation: city-bloom 11.5s ease-in-out infinite;
+    background: radial-gradient(
+      ellipse at 62% 56%,
+      rgba(177, 211, 255, 0.3),
+      transparent 44%
+    );
+    inset: 0;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+    pointer-events: none;
+    position: absolute;
     z-index: 1;
   }
 
-  .playground-preview.is-playing img {
-    display: none;
-  }
-
-  .playground-actions {
-    align-items: center;
-    background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.72));
-    bottom: 0;
-    display: flex;
-    gap: var(--space-md);
-    justify-content: space-between;
-    left: 0;
-    padding: var(--space-md);
+  .window-scene__city-lights {
+    animation: lights-glimmer 6.4s ease-in-out infinite;
+    background:
+      radial-gradient(
+        circle at 55% 54%,
+        rgba(255, 231, 182, 0.44) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 58% 49%,
+        rgba(196, 224, 255, 0.4) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 61% 47%,
+        rgba(255, 213, 151, 0.52) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 64% 55%,
+        rgba(210, 230, 255, 0.38) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 69% 48%,
+        rgba(255, 232, 188, 0.48) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 72% 51%,
+        rgba(205, 226, 255, 0.48) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 76% 57%,
+        rgba(255, 223, 172, 0.4) 0 1px,
+        transparent 2px
+      );
+    filter: blur(0.2px);
+    inset: 0;
+    mix-blend-mode: screen;
+    opacity: 0.54;
+    pointer-events: none;
     position: absolute;
-    right: 0;
     z-index: 2;
   }
 
-  .playground-button {
-    align-items: center;
-    background: #ffffff;
-    border: 0;
-    border-radius: var(--radius-sm);
-    color: var(--text-primary);
-    cursor: pointer;
-    display: inline-flex;
-    font: inherit;
-    font-size: var(--font-size-sm);
-    font-weight: 700;
-    justify-content: center;
-    padding: 0.65rem 0.95rem;
-  }
-
-  .playground-button__icon {
-    display: none;
-    height: 1.2rem;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2.2;
-    width: 1.2rem;
-  }
-
-  .playground-actions .overview-link {
-    color: #ffffff;
-  }
-
-  .playground-preview.is-playing .playground-actions {
-    background: transparent;
-    bottom: auto;
-    justify-content: flex-end;
-    top: var(--space-xs);
-    right: var(--space-xs);
-    left: auto;
-    padding: 0;
+  .window-scene__aircraft-beacons {
+    animation: beacon-blink 2.8s steps(1, end) infinite;
+    background:
+      radial-gradient(
+        circle at 60.5% 43%,
+        rgba(255, 42, 42, 0.95) 0 1px,
+        rgba(255, 42, 42, 0.3) 2px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 65.3% 47%,
+        rgba(255, 42, 42, 0.82) 0 1px,
+        rgba(255, 42, 42, 0.26) 2px,
+        transparent 4px
+      );
+    filter: drop-shadow(0 0 4px rgba(255, 42, 42, 0.48));
+    inset: 0;
+    mix-blend-mode: screen;
+    opacity: 0.18;
     pointer-events: none;
+    position: absolute;
+    z-index: 3;
   }
 
-  .playground-preview.is-playing .playground-button {
-    border-radius: 999px;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22);
-    height: 2.5rem;
-    padding: 0;
-    pointer-events: auto;
-    width: 2.5rem;
+  .window-scene__aircraft-beacons::after {
+    animation: beacon-blink 3.4s steps(1, end) infinite;
+    background:
+      radial-gradient(
+        circle at 70.8% 48%,
+        rgba(255, 42, 42, 0.84) 0 1px,
+        rgba(255, 42, 42, 0.26) 2px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 75.2% 52%,
+        rgba(255, 42, 42, 0.76) 0 1px,
+        rgba(255, 42, 42, 0.22) 2px,
+        transparent 4px
+      );
+    content: '';
+    filter: drop-shadow(0 0 3px rgba(255, 42, 42, 0.42));
+    inset: 0;
+    opacity: 0.3;
+    pointer-events: none;
+    position: absolute;
   }
 
-  .playground-preview.is-playing .playground-button__label {
-    display: none;
+  .window-scene__road-lights {
+    animation: road-lights 7.6s ease-in-out infinite;
+    background: linear-gradient(
+      90deg,
+      transparent 0 10%,
+      rgba(255, 232, 190, 0.08) 24% 72%,
+      transparent 88% 100%
+    );
+    bottom: 16%;
+    height: 14%;
+    left: 29%;
+    opacity: 0.34;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    transform: rotate(-10deg) skewX(-24deg);
+    transform-origin: 12% 60%;
+    width: 74%;
+    z-index: 2;
   }
 
-  .playground-preview.is-playing .playground-button__icon {
-    display: block;
+  .window-scene__road-lights::before,
+  .window-scene__road-lights::after {
+    content: '';
+    filter: blur(1px);
+    height: 4px;
+    left: -38%;
+    opacity: 0.56;
+    position: absolute;
+    width: 142%;
   }
 
-  .playground-preview.is-playing .overview-link {
-    display: none;
+  .window-scene__road-lights::before {
+    animation: road-headlights 4.2s linear infinite;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 12%,
+      rgba(255, 236, 196, 0.9) 13.2% 15.4%,
+      rgba(255, 255, 244, 0.7) 16% 17.2%,
+      transparent 18% 30%
+    );
+    top: 34%;
+  }
+
+  .window-scene__road-lights::after {
+    animation: road-tail-lights 4.8s linear infinite;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 15%,
+      rgba(255, 86, 65, 0.42) 16.2% 18%,
+      rgba(255, 142, 94, 0.28) 18.6% 19.8%,
+      transparent 20.5% 34%
+    );
+    top: 55%;
+  }
+
+  .window-scene__tail-lamps {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 3;
+  }
+
+  .window-scene__tail-lamps-track {
+    mix-blend-mode: screen;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 12% 60%;
+  }
+
+  .window-scene__tail-lamps-track--near {
+    animation: tail-lamps-near-flow 7.4s linear infinite;
+    background:
+      radial-gradient(
+        circle at 10% 58%,
+        rgba(255, 52, 52, 0.58) 0 1.1px,
+        rgba(255, 52, 52, 0.18) 2px,
+        transparent 3.4px
+      ),
+      radial-gradient(
+        circle at 11.8% 58%,
+        rgba(255, 52, 52, 0.58) 0 1.1px,
+        rgba(255, 52, 52, 0.18) 2px,
+        transparent 3.4px
+      ),
+      radial-gradient(
+        circle at 36% 52%,
+        rgba(255, 52, 52, 0.5) 0 0.95px,
+        rgba(255, 52, 52, 0.16) 1.8px,
+        transparent 3.1px
+      ),
+      radial-gradient(
+        circle at 37.6% 52%,
+        rgba(255, 52, 52, 0.5) 0 0.95px,
+        rgba(255, 52, 52, 0.16) 1.8px,
+        transparent 3.1px
+      ),
+      radial-gradient(
+        circle at 64% 46%,
+        rgba(255, 52, 52, 0.42) 0 0.8px,
+        rgba(255, 52, 52, 0.13) 1.6px,
+        transparent 2.8px
+      ),
+      radial-gradient(
+        circle at 65.4% 46%,
+        rgba(255, 52, 52, 0.42) 0 0.8px,
+        rgba(255, 52, 52, 0.13) 1.6px,
+        transparent 2.8px
+      );
+    bottom: 15.6%;
+    filter: blur(0.1px) drop-shadow(0 0 2px rgba(255, 52, 52, 0.22));
+    height: 8%;
+    left: 31%;
+    opacity: 0.56;
+    transform: rotate(-8deg) skewX(-16deg);
+    width: 48%;
+  }
+
+  .window-scene__tail-lamps-track--bend {
+    animation: tail-lamps-bend-flow 8.8s linear infinite;
+    background:
+      radial-gradient(
+        circle at 18% 58%,
+        rgba(255, 52, 52, 0.46) 0 0.85px,
+        rgba(255, 52, 52, 0.14) 1.6px,
+        transparent 2.8px
+      ),
+      radial-gradient(
+        circle at 19.5% 58%,
+        rgba(255, 52, 52, 0.46) 0 0.85px,
+        rgba(255, 52, 52, 0.14) 1.6px,
+        transparent 2.8px
+      ),
+      radial-gradient(
+        circle at 48% 45%,
+        rgba(255, 52, 52, 0.38) 0 0.72px,
+        rgba(255, 52, 52, 0.12) 1.4px,
+        transparent 2.4px
+      ),
+      radial-gradient(
+        circle at 49.3% 45%,
+        rgba(255, 52, 52, 0.38) 0 0.72px,
+        rgba(255, 52, 52, 0.12) 1.4px,
+        transparent 2.4px
+      );
+    bottom: 18.2%;
+    filter: blur(0.08px) drop-shadow(0 0 1.8px rgba(255, 52, 52, 0.18));
+    height: 7%;
+    left: 49%;
+    opacity: 0.44;
+    transform: rotate(-18deg) skewX(-18deg);
+    width: 25%;
+  }
+
+  .window-scene__tail-lamps-track--far {
+    animation: tail-lamps-far-flow 10.2s linear infinite;
+    background:
+      radial-gradient(
+        circle at 22% 58%,
+        rgba(255, 52, 52, 0.32) 0 0.65px,
+        rgba(255, 52, 52, 0.1) 1.2px,
+        transparent 2.1px
+      ),
+      radial-gradient(
+        circle at 23.2% 58%,
+        rgba(255, 52, 52, 0.32) 0 0.65px,
+        rgba(255, 52, 52, 0.1) 1.2px,
+        transparent 2.1px
+      ),
+      radial-gradient(
+        circle at 60% 48%,
+        rgba(255, 52, 52, 0.26) 0 0.55px,
+        rgba(255, 52, 52, 0.08) 1.1px,
+        transparent 1.9px
+      ),
+      radial-gradient(
+        circle at 61% 48%,
+        rgba(255, 52, 52, 0.26) 0 0.55px,
+        rgba(255, 52, 52, 0.08) 1.1px,
+        transparent 1.9px
+      );
+    bottom: 21%;
+    filter: blur(0.06px) drop-shadow(0 0 1.4px rgba(255, 52, 52, 0.14));
+    height: 5%;
+    left: 63%;
+    opacity: 0.34;
+    transform: rotate(-3deg) skewX(-8deg);
+    width: 28%;
+  }
+
+  .window-scene__tree-line {
+    animation: trees-breathe 10.5s ease-in-out infinite;
+    background:
+      radial-gradient(
+        circle at 12% 64%,
+        rgba(25, 56, 39, 0.82),
+        transparent 20%
+      ),
+      radial-gradient(
+        circle at 32% 76%,
+        rgba(20, 48, 34, 0.8),
+        transparent 21%
+      ),
+      radial-gradient(
+        circle at 70% 68%,
+        rgba(29, 63, 43, 0.82),
+        transparent 22%
+      ),
+      radial-gradient(
+        circle at 88% 56%,
+        rgba(19, 44, 33, 0.86),
+        transparent 23%
+      );
+    bottom: -9%;
+    height: 36%;
+    left: -5%;
+    opacity: 0.78;
+    pointer-events: none;
+    position: absolute;
+    width: 110%;
+    z-index: 2;
+  }
+
+  .window-scene__mullion {
+    background:
+      linear-gradient(
+        90deg,
+        transparent 0 47%,
+        rgba(6, 7, 9, 0.66) 47.5% 49.5%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(6, 7, 9, 0.72) 51% 53%,
+        transparent 53.5%
+      ),
+      linear-gradient(
+        90deg,
+        transparent 0 84%,
+        rgba(6, 7, 9, 0.62) 84.5% 86.5%,
+        rgba(255, 255, 255, 0.12) 87%,
+        transparent 88%
+      );
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 5;
+  }
+
+  @keyframes city-pan {
+    0%,
+    100% {
+      transform: scale(1.055) translate3d(-0.7%, 0, 0);
+    }
+
+    32% {
+      transform: scale(1.065) translate3d(0.55%, -0.35%, 0);
+    }
+
+    68% {
+      transform: scale(1.072) translate3d(0.8%, -0.75%, 0);
+    }
+
+    86% {
+      transform: scale(1.062) translate3d(-0.25%, -0.25%, 0);
+    }
+  }
+
+  @keyframes road-lights {
+    0%,
+    100% {
+      opacity: 0.24;
+    }
+
+    46% {
+      opacity: 0.34;
+    }
+  }
+
+  @keyframes road-headlights {
+    from {
+      transform: translate3d(-18%, 0, 0);
+    }
+
+    to {
+      transform: translate3d(28%, 0, 0);
+    }
+  }
+
+  @keyframes road-tail-lights {
+    from {
+      transform: translate3d(24%, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-22%, 0, 0);
+    }
+  }
+
+  @keyframes tail-lamps-near-flow {
+    from {
+      transform: rotate(-8deg) skewX(-16deg) translate3d(-10%, 0, 0);
+    }
+
+    to {
+      transform: rotate(-8deg) skewX(-16deg) translate3d(18%, 0, 0);
+    }
+  }
+
+  @keyframes tail-lamps-bend-flow {
+    from {
+      transform: rotate(-18deg) skewX(-18deg) translate3d(-8%, 0, 0);
+    }
+
+    to {
+      transform: rotate(-18deg) skewX(-18deg) translate3d(14%, -8%, 0);
+    }
+  }
+
+  @keyframes tail-lamps-far-flow {
+    from {
+      transform: rotate(-3deg) skewX(-8deg) translate3d(-6%, 0, 0);
+    }
+
+    to {
+      transform: rotate(-3deg) skewX(-8deg) translate3d(10%, -3%, 0);
+    }
+  }
+
+  @keyframes trees-breathe {
+    0%,
+    100% {
+      transform: translate3d(-0.25%, 0, 0) scaleX(1);
+      opacity: 0.76;
+    }
+
+    48% {
+      transform: translate3d(0.42%, -0.28%, 0) scaleX(1.012);
+      opacity: 0.86;
+    }
+  }
+
+  @keyframes glass-reflection {
+    0%,
+    100% {
+      opacity: 0.28;
+      transform: translate3d(-6%, 0, 0);
+    }
+
+    48% {
+      opacity: 0.42;
+      transform: translate3d(5%, -1%, 0);
+    }
+  }
+
+  @keyframes night-vignette {
+    0%,
+    100% {
+      opacity: 0.78;
+    }
+
+    56% {
+      opacity: 0.92;
+    }
+  }
+
+  @keyframes city-bloom {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+
+    46% {
+      opacity: 0.48;
+    }
+
+    72% {
+      opacity: 0.36;
+    }
+  }
+
+  @keyframes lights-glimmer {
+    0%,
+    100% {
+      opacity: 0.46;
+      filter: blur(0.2px) brightness(1.02);
+    }
+
+    24% {
+      opacity: 0.66;
+      filter: blur(0.2px) brightness(1.22);
+    }
+
+    52% {
+      opacity: 0.5;
+      filter: blur(0.2px) brightness(1.08);
+    }
+
+    76% {
+      opacity: 0.62;
+      filter: blur(0.2px) brightness(1.18);
+    }
+  }
+
+  @keyframes beacon-blink {
+    0%,
+    38%,
+    100% {
+      opacity: 0.18;
+    }
+
+    42%,
+    54% {
+      opacity: 1;
+    }
+
+    58%,
+    70% {
+      opacity: 0.28;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .window-scene::before,
+    .window-scene::after,
+    .window-scene__image,
+    .window-scene__city-lights,
+    .window-scene__road-lights,
+    .window-scene__road-lights::before,
+    .window-scene__road-lights::after,
+    .window-scene__tail-lamps-track--near,
+    .window-scene__tail-lamps-track--bend,
+    .window-scene__tail-lamps-track--far,
+    .window-scene__aircraft-beacons,
+    .window-scene__aircraft-beacons::after,
+    .window-scene__tree-line,
+    .window-scene__skyline-glow {
+      animation: none;
+    }
   }
 
   .overview-link {
