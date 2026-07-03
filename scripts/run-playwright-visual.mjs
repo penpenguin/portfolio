@@ -233,7 +233,7 @@ function printServerOutput() {
 
 async function main() {
   try {
-    if (await requestURL(baseURL, 1_000)) {
+    if (!process.env.CI && (await requestURL(baseURL, 1_000))) {
       console.log(`Reusing Astro dev server at ${baseURL}`);
       const exitCode = await runPlaywright(process.argv.slice(2));
       process.exitCode = exitCode;

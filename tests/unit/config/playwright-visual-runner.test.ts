@@ -60,7 +60,13 @@ describe('Playwright visual test runner', () => {
 
   it('reuses a healthy visual server before starting Astro', () => {
     expect(visualRunnerScript).toMatch(
-      /if\s*\(\s*await requestURL\(baseURL,\s*1_000\)\s*\)[\s\S]*Reusing Astro dev server[\s\S]*runPlaywright\(process\.argv\.slice\(2\)\)[\s\S]*return[\s\S]*devServer = startAstroDevServer\(\)/
+      /if\s*\(\s*!process\.env\.CI\s*&&\s*\(?\s*await requestURL\(baseURL,\s*1_000\)\s*\)?\s*\)[\s\S]*Reusing Astro dev server[\s\S]*runPlaywright\(process\.argv\.slice\(2\)\)[\s\S]*return[\s\S]*devServer = startAstroDevServer\(\)/
+    );
+  });
+
+  it('does not reuse an existing visual server in CI', () => {
+    expect(visualRunnerScript).toMatch(
+      /if\s*\(\s*!process\.env\.CI\s*&&\s*\(?\s*await requestURL\(baseURL,\s*1_000\)\s*\)?\s*\)/
     );
   });
 
