@@ -9,6 +9,10 @@ const host = '127.0.0.1';
 const port = 4324;
 const baseURL = `http://${host}:${port}/portfolio/`;
 const isWindows = process.platform === 'win32';
+const targetLocalURLPattern =
+  /Local\s+http:\/\/127\.0\.0\.1:4324\/portfolio\/?(?:\s|$)/;
+const anyLocalURLPattern =
+  /Local\s+(http:\/\/127\.0\.0\.1:\d+\/portfolio\/?)(?:\s|$)/;
 
 let serverOutput = '';
 let devServer;
@@ -25,6 +29,10 @@ function appendServerOutput(data) {
   if (serverOutput.length > 20_000) {
     serverOutput = serverOutput.slice(-20_000);
   }
+}
+
+function normalizeURL(url) {
+  return url.endsWith('/') ? url : `${url}/`;
 }
 
 function startAstroDevServer() {
@@ -64,19 +72,30 @@ function waitForAstroReady(child) {
       resolve();
     };
 
+    const fail = (error) => {
+      cleanup();
+      reject(error);
+    };
+
     const onData = () => {
-      if (
-        /Local\s+http:\/\/127\.0\.0\.1:4324\/portfolio\/?(?:\s|$)/.test(
-          serverOutput
-        )
-      ) {
+      if (targetLocalURLPattern.test(serverOutput)) {
         finish();
+        return;
+      }
+
+      const localURLMatch = serverOutput.match(anyLocalURLPattern);
+      if (localURLMatch) {
+        const reportedURL = normalizeURL(localURLMatch[1]);
+        fail(
+          new Error(
+            `Astro dev server started at ${reportedURL} instead of ${baseURL}. Is port ${port} already in use?`
+          )
+        );
       }
     };
 
     const onExit = (code, signal) => {
-      cleanup();
-      reject(
+      fail(
         new Error(
           `Astro dev server exited before readiness. code=${code ?? 'null'} signal=${signal ?? 'null'}`
         )
@@ -84,8 +103,7 @@ function waitForAstroReady(child) {
     };
 
     const onError = (error) => {
-      cleanup();
-      reject(error);
+      fail(error);
     };
 
     child.stdout.on('data', onData);
@@ -214,9 +232,15 @@ function printServerOutput() {
 }
 
 async function main() {
-  devServer = startAstroDevServer();
-
   try {
+    if (await requestURL(baseURL, 1_000)) {
+      console.log(`Reusing Astro dev server at ${baseURL}`);
+      const exitCode = await runPlaywright(process.argv.slice(2));
+      process.exitCode = exitCode;
+      return;
+    }
+
+    devServer = startAstroDevServer();
     await waitForAstroReady(devServer);
     await waitForHTTP(baseURL);
     console.log(`Astro dev server ready at ${baseURL}`);

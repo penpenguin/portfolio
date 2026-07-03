@@ -57,4 +57,17 @@ describe('Playwright visual test runner', () => {
     expect(visualRunnerScript).toContain("'/t'");
     expect(visualRunnerScript).toContain("'/f'");
   });
+
+  it('reuses a healthy visual server before starting Astro', () => {
+    expect(visualRunnerScript).toMatch(
+      /if\s*\(\s*await requestURL\(baseURL,\s*1_000\)\s*\)[\s\S]*Reusing Astro dev server[\s\S]*runPlaywright\(process\.argv\.slice\(2\)\)[\s\S]*return[\s\S]*devServer = startAstroDevServer\(\)/
+    );
+  });
+
+  it('fails fast when Astro reports a different local URL', () => {
+    expect(visualRunnerScript).toContain(
+      'Astro dev server started at ${reportedURL} instead of ${baseURL}'
+    );
+    expect(visualRunnerScript).toContain('Is port ${port} already in use?');
+  });
 });
