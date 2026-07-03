@@ -30,7 +30,7 @@ function appendServerOutput(data) {
 function startAstroDevServer() {
   const child = spawn(
     localBin('astro'),
-    ['dev', '--host', host, '--port', String(port), '--strictPort'],
+    ['dev', '--host', host, '--port', String(port)],
     {
       cwd: rootDir,
       detached: !isWindows,
@@ -66,7 +66,7 @@ function waitForAstroReady(child) {
 
     const onData = () => {
       if (
-        /astro\s+v[\d.]+ ready in|Local\s+http:\/\/127\.0\.0\.1:4324\/portfolio/.test(
+        /Local\s+http:\/\/127\.0\.0\.1:4324\/portfolio\/?(?:\s|$)/.test(
           serverOutput
         )
       ) {

@@ -40,4 +40,14 @@ describe('Playwright visual test runner', () => {
       /spawn\(\s*localBin\('playwright'\)[\s\S]*shell:\s*isWindows/
     );
   });
+
+  it('requires Astro to report the exact tested URL before continuing', () => {
+    expect(visualRunnerScript).toContain(
+      'Local\\s+http:\\/\\/127\\.0\\.0\\.1:4324\\/portfolio'
+    );
+    expect(visualRunnerScript).not.toContain(
+      'astro\\s+v[\\d.]+ ready in|Local'
+    );
+    expect(visualRunnerScript).not.toContain("'--strictPort'");
+  });
 });
