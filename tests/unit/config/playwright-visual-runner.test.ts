@@ -13,6 +13,11 @@ const playwrightConfig = readFileSync(
   'utf-8'
 );
 
+const visualRunnerScript = readFileSync(
+  new URL('../../../scripts/run-playwright-visual.mjs', import.meta.url),
+  'utf-8'
+);
+
 describe('Playwright visual test runner', () => {
   it('uses a wrapper that starts Astro before Playwright checks availability', () => {
     expect(packageJson.scripts['test:visual']).toBe(
@@ -24,6 +29,15 @@ describe('Playwright visual test runner', () => {
     expect(playwrightConfig).toContain('PLAYWRIGHT_EXTERNAL_WEB_SERVER');
     expect(playwrightConfig).toMatch(
       /webServer:\s*usesExternalWebServer\s*\?\s*undefined\s*:/s
+    );
+  });
+
+  it('launches npm command shims through a shell on Windows', () => {
+    expect(visualRunnerScript).toMatch(
+      /spawn\(\s*localBin\('astro'\)[\s\S]*shell:\s*isWindows/
+    );
+    expect(visualRunnerScript).toMatch(
+      /spawn\(\s*localBin\('playwright'\)[\s\S]*shell:\s*isWindows/
     );
   });
 });

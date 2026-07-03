@@ -35,6 +35,7 @@ function startAstroDevServer() {
       cwd: rootDir,
       detached: !isWindows,
       env: process.env,
+      shell: isWindows,
       stdio: ['ignore', 'pipe', 'pipe'],
     }
   );
@@ -138,6 +139,7 @@ function runPlaywright(args) {
         ...process.env,
         PLAYWRIGHT_EXTERNAL_WEB_SERVER: '1',
       },
+      shell: isWindows,
       stdio: 'inherit',
     });
 
