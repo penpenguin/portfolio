@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const usesExternalWebServer =
+  process.env.PLAYWRIGHT_EXTERNAL_WEB_SERVER === '1';
+
 export default defineConfig({
   testDir: './tests/visual',
   timeout: 30_000,
@@ -11,12 +14,14 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
-  webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 4324 --strictPort',
-    url: 'http://127.0.0.1:4324/portfolio/',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  webServer: usesExternalWebServer
+    ? undefined
+    : {
+        command: 'npm run dev -- --host 127.0.0.1 --port 4324 --strictPort',
+        url: 'http://127.0.0.1:4324/portfolio/',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120_000,
+      },
   projects: [
     {
       name: 'desktop',

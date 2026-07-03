@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "preview:search": "npm run build && astro preview",
     "test": "vitest",
-    "test:visual": "playwright test",
+    "test:visual": "node scripts/run-playwright-visual.mjs",
     "check": "astro check && tsc",
     "lint": "eslint .",
     "format": "prettier --write ."
