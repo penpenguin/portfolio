@@ -50,4 +50,11 @@ describe('Playwright visual test runner', () => {
     );
     expect(visualRunnerScript).not.toContain("'--strictPort'");
   });
+
+  it('kills the Astro process tree on Windows', () => {
+    expect(visualRunnerScript).toContain("'taskkill'");
+    expect(visualRunnerScript).toContain("'/pid'");
+    expect(visualRunnerScript).toContain("'/t'");
+    expect(visualRunnerScript).toContain("'/f'");
+  });
 });

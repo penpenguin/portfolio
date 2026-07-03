@@ -158,6 +158,18 @@ function runPlaywright(args) {
   });
 }
 
+function killWindowsProcessTree(pid) {
+  return new Promise((resolve, reject) => {
+    const killer = spawn('taskkill', ['/pid', String(pid), '/t', '/f'], {
+      stdio: 'ignore',
+      windowsHide: true,
+    });
+
+    killer.once('error', reject);
+    killer.once('exit', () => resolve());
+  });
+}
+
 async function stopProcess(child) {
   if (!child?.pid || child.exitCode !== null) {
     return;
@@ -167,7 +179,7 @@ async function stopProcess(child) {
 
   try {
     if (isWindows) {
-      child.kill('SIGTERM');
+      await killWindowsProcessTree(child.pid);
     } else {
       process.kill(-child.pid, 'SIGTERM');
     }
@@ -182,7 +194,7 @@ async function stopProcess(child) {
   if (child.exitCode === null) {
     try {
       if (isWindows) {
-        child.kill('SIGKILL');
+        await killWindowsProcessTree(child.pid);
       } else {
         process.kill(-child.pid, 'SIGKILL');
       }
