@@ -28,7 +28,7 @@ DSLXはXLS IRへ変換され、最適化を通ったあと、スケジューラ�
 
 XLSにはDSLXのテスト、IR変換、Verilog生成に加え、Yosysでの合成やOpenROADでの配置配線まで試せるColabが用意されています。x64 Linux向けにはリリースバイナリもあります。ソースビルドはBazelとUbuntu 22.04を中心に案内され、READMEでは初回のフルビルドに長い時間がかかると説明されています。([README][1])
 
-既存のC++資産を入口にしたい場合は、実験的なXLS[cc]もあります。ただし、ポインタ、関数ポインタ、仮想メソッドなど未対応の構文があり、任意のC++をそのまま効率のよい回路へ変える道具ではありません。([XLS[cc] Overview][7])
+既存のC++資産を入口にしたい場合は、実験的なXLS[cc]もあります。ポインタは全面的に未対応ではなく、参照先を静的に解析できる配列スライスなど、限定的な利用に対応しています。公式テストには、実行時の添字で配列内の位置を選ぶ例もあります。一方、`nullptr`やポインタへのポインタは未対応で、関数ポインタや仮想メソッドも使えません。任意のC++をそのまま効率のよい回路へ変える道具ではなく、対応範囲を個別に確認する必要があります。([XLS[cc] Overview][7], [ポインタの公式テスト][8], [XLS[cc] README][9])
 
 最初に試すなら、小さな演算をDSLXで書き、IRの最適化前後と生成されたRTLを並べて見るのがよさそうです。XLSの面白さは「ハードウェアを隠す」ことより、データフロー、タイミング制約、生成結果を行き来できる余白にあります。同時にDSLXは後方互換性を保たず変更されることがあるため、継続利用ではコンパイラ更新の追従方法まで先に決めておきたいところです。
 
@@ -41,6 +41,8 @@ XLSにはDSLXのテスト、IR変換、Verilog生成に加え、Yosysでの合�
 - [Codegen Options][5]
 - [What is a Proc?][6]
 - [XLS[cc] Overview][7]
+- [XLS[cc] ポインタの公式テスト][8]
+- [XLS[cc] README][9]
 
 [1]: https://github.com/google/xls 'google/xls'
 [2]: https://google.github.io/xls/dslx_reference/ 'DSLX Reference'
@@ -49,3 +51,5 @@ XLSにはDSLXのテスト、IR変換、Verilog生成に加え、Yosysでの合�
 [5]: https://google.github.io/xls/codegen_options/ 'Codegen Options'
 [6]: https://google.github.io/xls/tutorials/what_is_a_proc/ 'What is a Proc?'
 [7]: https://google.github.io/xls/tutorials/xlscc_overview/ 'XLS[cc] Overview'
+[8]: https://github.com/google/xls/blob/fc958afd12a61f0cf8ef2a60ce186d99a783cd8c/xls/contrib/xlscc/unit_tests/translator_pointer_test.cc 'XLS[cc] ポインタの公式テスト'
+[9]: https://github.com/google/xls/blob/fc958afd12a61f0cf8ef2a60ce186d99a783cd8c/xls/contrib/xlscc/README.md 'XLS[cc] README'
