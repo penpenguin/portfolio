@@ -20,6 +20,10 @@ describe('llms.txt', () => {
     expect(guide).toContain('portfolio.find_projects');
     expect(guide).toContain('portfolio.find_blog_posts');
     expect(guide).toContain('portfolio.get_contact_routes');
+    expect(guide).toContain('Return the GitHub profile URL.');
+    expect(guide).not.toContain(
+      'Return contact page, GitHub, and email routes.'
+    );
     expect(guide).toContain('portfolio.open_page');
     expect(guide).not.toContain('portfolio.get_career_summary');
   });

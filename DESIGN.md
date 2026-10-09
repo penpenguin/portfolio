@@ -463,7 +463,6 @@ Recommended order:
 2. best work
 3. project cards
 4. skills or process
-5. contact
 
 Rules:
 

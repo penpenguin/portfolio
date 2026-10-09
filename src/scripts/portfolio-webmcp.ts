@@ -141,7 +141,7 @@ export function createPortfolioTools(
     {
       name: 'portfolio.get_contact_routes',
       title: 'Get contact routes',
-      description: 'Return contact page, GitHub, and email routes.',
+      description: 'Return the GitHub profile URL.',
       inputSchema: emptyInputSchema,
       annotations: {
         readOnlyHint: true,

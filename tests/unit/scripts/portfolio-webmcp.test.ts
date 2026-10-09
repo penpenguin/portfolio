@@ -47,9 +47,7 @@ const index: AgentIndex = {
     },
   ],
   contact: {
-    pageUrl: '/portfolio/contact',
     githubUrl: 'https://github.com/penpenguin',
-    email: null,
   },
 };
 
@@ -175,15 +173,18 @@ describe('createPortfolioTools', () => {
     ).resolves.toEqual([index.projects[0]]);
   });
 
-  it('portfolio.get_contact_routesで連絡先を返す', async () => {
+  it('portfolio.get_contact_routesでGitHubの連絡先だけを返す', async () => {
     const tools = createPortfolioTools(index);
     const getContactRoutes = tools.find(
       (tool) => tool.name === 'portfolio.get_contact_routes'
     );
 
+    expect(getContactRoutes?.description).toBe(
+      'Return the GitHub profile URL.'
+    );
     await expect(
       Promise.resolve(getContactRoutes?.invoke({}))
-    ).resolves.toEqual(index.contact);
+    ).resolves.toEqual({ githubUrl: 'https://github.com/penpenguin' });
   });
 
   it('portfolio.get_career_summaryは登録しない', () => {

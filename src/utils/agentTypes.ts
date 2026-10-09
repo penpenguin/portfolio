@@ -35,9 +35,7 @@ export interface AgentBlogPost {
 }
 
 export interface AgentContact {
-  pageUrl: string;
   githubUrl: string;
-  email: string | null;
 }
 
 export interface AgentIndex {

@@ -33,11 +33,10 @@ describe('Deploy workflow hardening', () => {
   });
 
   it('reads public build values from repository variables instead of environment secrets', () => {
-    expect(workflow).toContain('PUBLIC_EMAIL: ${{ vars.PUBLIC_EMAIL }}');
+    expect(workflow).not.toContain('PUBLIC_EMAIL');
     expect(workflow).toContain(
       'PUBLIC_GITHUB_URL: ${{ vars.PUBLIC_GITHUB_URL }}'
     );
-    expect(workflow).not.toContain('secrets.PUBLIC_EMAIL');
     expect(workflow).not.toContain('secrets.PUBLIC_GITHUB_URL');
   });
 });

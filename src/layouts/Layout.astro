@@ -1,8 +1,10 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 import '../styles/global.css';
 import Link from '../components/Link.astro';
+import { getGithubUrl } from '../utils/getGithubUrl';
 import { withBase } from '../utils/withBase';
-import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -29,7 +31,6 @@ const baseNavItems = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
 ];
 
 const currentPath = normalizePath(Astro.url.pathname);
@@ -55,7 +56,7 @@ const navItems = baseNavItems.map((item) => {
     />
     <meta
       name="ai-agent-capabilities"
-      content="WebMCP; portfolio search; projects; blog; contact routes"
+      content="WebMCP; portfolio search; projects; blog; GitHub profile"
     />
     <link href={pagefindCssHref} rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,8 +75,7 @@ const navItems = baseNavItems.map((item) => {
       transition:animate="none"
       bundle-path={pagefindBundlePath}
       base-url={pagefindBaseUrl}
-      excerpt-length="24"
-    ></pagefind-config>
+      excerpt-length="24"></pagefind-config>
 
     <nav class="navbar" transition:persist transition:animate="none">
       <div class="container">
@@ -101,8 +101,7 @@ const navItems = baseNavItems.map((item) => {
               class="search-trigger"
               placeholder="Search"
               shortcut="mod+k"
-              hide-shortcut
-            ></pagefind-modal-trigger>
+              hide-shortcut></pagefind-modal-trigger>
           </div>
         </div>
       </div>
@@ -122,11 +121,7 @@ const navItems = baseNavItems.map((item) => {
             <Link href="/llms.txt" title="WebMCP tools and usage">
               WebMCP enabled
             </Link>
-            <a
-              href={import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com'}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={getGithubUrl()} target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
           </div>
@@ -301,12 +296,18 @@ const navItems = baseNavItems.map((item) => {
       color 0.2s ease;
   }
 
-  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn:hover) {
+  :global(
+    :is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn:hover
+  ) {
     background: transparent;
     color: var(--text-primary);
   }
 
-  :global(:is(*, #\#):is(*, #\#):is(*, #\#) .search-trigger .pf-trigger-btn:focus-visible) {
+  :global(
+    :is(*, #\#):is(*, #\#):is(*, #\#)
+      .search-trigger
+      .pf-trigger-btn:focus-visible
+  ) {
     outline: 2px solid var(--text-accent);
     outline-offset: 3px;
   }

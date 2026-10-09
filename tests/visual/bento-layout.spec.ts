@@ -4,7 +4,6 @@ const pages = [
   { path: './', heading: 'About' },
   { path: 'projects/', heading: 'Built Systems' },
   { path: 'blog/', heading: 'Blog' },
-  { path: 'contact/', heading: 'Contact' },
 ];
 
 test.describe('Bento layout', () => {
@@ -43,13 +42,11 @@ test.describe('Bento layout', () => {
   test('mobile key bento cards keep readable width', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
-    for (const path of ['./', 'projects/', 'contact/']) {
+    for (const path of ['./', 'projects/']) {
       await page.goto(path);
       const minCardWidth = await page.evaluate(() => {
         const cards = Array.from(
-          document.querySelectorAll(
-            '.bento-card, .project-card, .contact-info, .availability'
-          )
+          document.querySelectorAll('.bento-card, .project-card')
         );
 
         return Math.min(
