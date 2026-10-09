@@ -8,7 +8,6 @@ const pages = [
   '../../../src/pages/blog/index.astro',
   '../../../src/pages/blog/[year]/[month]/index.astro',
   '../../../src/pages/blog/[year]/[month]/[slug].astro',
-  '../../../src/pages/contact.astro',
 ];
 
 const load = (path: string) =>

@@ -5,7 +5,6 @@ const pages = [
   '../../../src/pages/index.astro',
   '../../../src/pages/projects/index.astro',
   '../../../src/pages/blog/index.astro',
-  '../../../src/pages/contact.astro',
 ];
 
 const load = (path: string) =>

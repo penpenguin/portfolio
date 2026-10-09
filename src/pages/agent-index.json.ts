@@ -7,13 +7,10 @@ import type {
   AgentIndex,
   AgentProject,
 } from '../utils/agentTypes';
+import { getGithubUrl } from '../utils/getGithubUrl';
 import { withBase } from '../utils/withBase';
 
 export const prerender = true;
-
-const githubUrl =
-  import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/penpenguin';
-const email = import.meta.env.PUBLIC_EMAIL || null;
 
 export const GET: APIRoute = async () => {
   const [projects, blogPosts] = await Promise.all([
@@ -52,9 +49,7 @@ export const GET: APIRoute = async () => {
     projects: projects.map(toAgentProject),
     blog: sortPublishedPostsByDate(blogPosts).map(toAgentBlogPost),
     contact: {
-      pageUrl: withBase('/contact'),
-      githubUrl,
-      email,
+      githubUrl: getGithubUrl(),
     },
   };
 

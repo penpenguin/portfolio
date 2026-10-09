@@ -9,14 +9,10 @@ const projects = readFileSync(
   new URL('../../../src/pages/projects/index.astro', import.meta.url),
   'utf-8'
 );
-const contact = readFileSync(
-  new URL('../../../src/pages/contact.astro', import.meta.url),
-  'utf-8'
-);
 
 describe('Bento copy direction', () => {
   it('主要ページの汎用コピーを職能寄せに置き換える', () => {
-    const combined = [home, projects, contact].join('\n');
+    const combined = [home, projects].join('\n');
 
     expect(combined).not.toContain("Hello, I'm a Programmer");
     expect(combined).not.toContain('My Projects');
@@ -25,8 +21,9 @@ describe('Bento copy direction', () => {
     expect(combined).not.toContain('Enterprise systems, shipped end-to-end');
     expect(combined).not.toContain('Enterprise Systems Programmer');
     expect(combined).toContain('About');
-    expect(combined).toContain('Memos on systems, tools, and everyday experiments.');
+    expect(combined).toContain(
+      'Memos on systems, tools, and everyday experiments.'
+    );
     expect(combined).toContain('Built Systems');
-    expect(combined).toContain('業務システム開発の相談');
   });
 });
