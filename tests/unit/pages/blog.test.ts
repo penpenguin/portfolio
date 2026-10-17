@@ -186,6 +186,19 @@ describe('ブログ機能', () => {
     );
   });
 
+  it('ブログ詳細のヒーロー画像は遅延せず高優先度で読み込む', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+    const heroImage = detailPage.match(
+      /<img\s+src=\{withBase\(heroImage\)\}[\s\S]*?\/>/
+    )?.[0];
+    expect(heroImage).toBeDefined();
+    expect(heroImage).toContain('loading="eager"');
+    expect(heroImage).toContain('fetchpriority="high"');
+    expect(heroImage).not.toContain('loading="lazy"');
+  });
+
   it('月別アーカイブページが該当月で絞り込む', () => {
     const archivePage = load(
       '../../../src/pages/blog/[year]/[month]/index.astro'
