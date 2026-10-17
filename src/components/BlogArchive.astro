@@ -1,0 +1,210 @@
+---
+import Link from './Link.astro';
+import { createBlogArchive } from '../utils/blogArchive';
+
+interface Props {
+  months: string[];
+  currentMonth?: string;
+}
+
+const { months, currentMonth } = Astro.props;
+const archive = createBlogArchive(months, currentMonth);
+---
+
+{
+  archive && (
+    <aside
+      class="bento-panel archive-panel card-glass"
+      aria-label="月別アーカイブ"
+    >
+      <h2>月別アーカイブ</h2>
+      <blog-archive>
+        <label class="archive-year-control" data-year-control hidden>
+          <span>年</span>
+          <select>
+            {archive.years.map(({ year }) => (
+              <option value={year} selected={year === archive.selectedYear}>
+                {year}年
+              </option>
+            ))}
+          </select>
+        </label>
+        {archive.years.map(({ year, months: yearMonths }) => (
+          <details
+            class="archive-year"
+            data-year={year}
+            open={year === archive.selectedYear}
+          >
+            <summary>{year}年</summary>
+            <ul class="month-list" aria-label={`${year}年の月別アーカイブ`}>
+              {yearMonths.map(({ key, label, hasPosts, isCurrent }) => (
+                <li>
+                  {hasPosts ? (
+                    <Link
+                      href={`/blog/${key}`}
+                      class="month-cell month-link"
+                      aria-label={`${year}年${label}`}
+                      aria-current={isCurrent ? 'page' : undefined}
+                    >
+                      {label}
+                    </Link>
+                  ) : (
+                    <span class="month-cell month-empty">
+                      {label}
+                      <span class="visually-hidden">（記事なし）</span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </blog-archive>
+      <p class="archive-summary">全{archive.totalMonths}か月</p>
+    </aside>
+  )
+}
+
+<script>
+  import '../scripts/blogArchive';
+</script>
+
+<style>
+  .archive-panel {
+    grid-column: 9 / span 4;
+    align-self: stretch;
+    min-width: 0;
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    background: var(--bento-card-bg);
+  }
+
+  .archive-panel h2 {
+    margin: 0 0 var(--space-sm);
+    font-size: var(--font-size-xl);
+  }
+
+  blog-archive {
+    display: block;
+  }
+
+  .archive-year-control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .archive-year-control select {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: var(--space-xs);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    background: var(--bento-muted-bg);
+    color: var(--text-primary);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .archive-year summary {
+    min-height: 44px;
+    padding: var(--space-xs) 0;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  .archive-year[open] summary {
+    margin-bottom: var(--space-xs);
+  }
+
+  blog-archive:not([data-enhanced]) .archive-year + .archive-year {
+    margin-top: var(--space-sm);
+  }
+
+  .archive-panel [hidden],
+  blog-archive[data-enhanced] summary {
+    display: none;
+  }
+
+  .month-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-xs);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .month-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: var(--space-2xs);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    background: var(--bento-muted-bg);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .month-link {
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .month-link:hover,
+  .month-link[aria-current='page'] {
+    color: var(--text-accent);
+    border-color: var(--text-accent);
+  }
+
+  .month-link[aria-current='page'] {
+    font-weight: 600;
+  }
+
+  .month-link:focus-visible,
+  .archive-year-control select:focus-visible,
+  .archive-year summary:focus-visible {
+    outline: 2px solid var(--text-accent);
+    outline-offset: 2px;
+  }
+
+  .month-empty {
+    border-color: transparent;
+    background: transparent;
+    color: var(--text-muted);
+  }
+
+  .archive-summary {
+    margin: auto 0 0;
+    padding-top: var(--space-md);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .archive-panel {
+      grid-column: span 1;
+    }
+  }
+</style>
