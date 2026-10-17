@@ -171,6 +171,21 @@ describe('ブログ機能', () => {
     expect(detailPage).toMatch(/params:\s*\{\s*year,\s*month,\s*slug\s*\}/);
   });
 
+  it('ブログ詳細のヒーロー画像は読み込み前から16:9の領域を確保する', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+    const heroImage = detailPage.match(
+      /<img\s+src=\{withBase\(heroImage\)\}[\s\S]*?\/>/
+    )?.[0];
+    expect(heroImage).toBeDefined();
+    expect(heroImage).toContain('width="960"');
+    expect(heroImage).toContain('height="540"');
+    expect(detailPage).toMatch(
+      /\.hero-wrapper img\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto;/s
+    );
+  });
+
   it('月別アーカイブページが該当月で絞り込む', () => {
     const archivePage = load(
       '../../../src/pages/blog/[year]/[month]/index.astro'
