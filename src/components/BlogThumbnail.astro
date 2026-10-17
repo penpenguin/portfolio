@@ -1,0 +1,63 @@
+---
+import { withBase } from '../utils/withBase';
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+}
+
+const { src, alt, class: className, ...attributes } = Astro.props;
+const imageSrc = withBase(src);
+---
+
+<div {...attributes} class:list={['blog-thumbnail', className]}>
+  <img
+    class="blog-thumbnail__backdrop"
+    src={imageSrc}
+    alt=""
+    aria-hidden="true"
+    decoding="async"
+  />
+  <img
+    class="blog-thumbnail__image"
+    src={imageSrc}
+    alt={alt}
+    decoding="async"
+  />
+</div>
+
+<style>
+  .blog-thumbnail {
+    --thumbnail-blur: 28px;
+    --thumbnail-backdrop-opacity: 0.7;
+    --thumbnail-backdrop-saturation: 0.8;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--bento-muted-bg);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .blog-thumbnail__backdrop {
+    position: absolute;
+    inset: calc(var(--thumbnail-blur) * -2);
+    width: calc(100% + var(--thumbnail-blur) * 4);
+    height: calc(100% + var(--thumbnail-blur) * 4);
+    object-fit: cover;
+    filter: blur(var(--thumbnail-blur))
+      saturate(var(--thumbnail-backdrop-saturation));
+    opacity: var(--thumbnail-backdrop-opacity);
+    pointer-events: none;
+  }
+
+  .blog-thumbnail__image {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+</style>
