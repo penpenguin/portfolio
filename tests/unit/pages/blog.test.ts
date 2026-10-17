@@ -64,20 +64,14 @@ describe('ブログ機能', () => {
     expect(index).toContain('const secondaryPosts = latestPosts.slice(1);');
     expect(index).toContain('class="bento-grid blog-bento"');
     expect(index).toContain('post-card--featured');
-    expect(index).toContain('archive-panel');
-    expect(index).toContain('archive-summary');
-    expect(index).toContain('archive-metric');
+    expect(index).toContain('<BlogArchive months={months} />');
     expect(index).toContain('post-visual--fallback');
-    expect(index.indexOf('archive-panel')).toBeLessThan(
+    expect(index.indexOf('<BlogArchive')).toBeLessThan(
       index.indexOf('secondaryPosts.map')
     );
     expect(index).toMatch(
       /\.blog-bento\s*\{[^}]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)/
     );
-    expect(index).toMatch(
-      /\.archive-panel\s*\{[^}]*grid-column:\s*9\s*\/\s*span\s*4/s
-    );
-    expect(index).toMatch(/\.archive-panel\s*\{[^}]*align-self:\s*stretch/s);
   });
 
   it('月別アーカイブもBlog一覧と同じBentoカード構成を使う', () => {
@@ -92,17 +86,17 @@ describe('ブログ機能', () => {
     );
     expect(archivePage).toContain('post-card--featured');
     expect(archivePage).toContain('post-visual--fallback');
-    expect(archivePage).toContain('archive-panel');
-    expect(archivePage).toContain('archive-summary');
-    expect(archivePage).toContain('archive-metric');
-    expect(archivePage).toContain('month-link--current');
-    expect(archivePage.indexOf('archive-panel')).toBeLessThan(
+    expect(archivePage).toContain(
+      '<BlogArchive months={months} currentMonth={title} />'
+    );
+    expect(archivePage.indexOf('<BlogArchive')).toBeLessThan(
       archivePage.indexOf('secondaryPosts.map')
     );
-    expect(archivePage).toMatch(
+    const component = load('../../../src/components/BlogArchive.astro');
+    expect(component).toMatch(
       /\.archive-panel\s*\{[^}]*grid-column:\s*9\s*\/\s*span\s*4/s
     );
-    expect(archivePage).toMatch(
+    expect(component).toMatch(
       /\.archive-panel\s*\{[^}]*align-self:\s*stretch/s
     );
   });

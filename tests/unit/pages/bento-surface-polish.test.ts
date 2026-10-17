@@ -34,11 +34,9 @@ describe('Bento surface polish', () => {
     ]) {
       const source = readPage(path);
 
-      for (const selector of ['.post-card--featured', '.archive-panel']) {
-        const rule = getRule(source, selector);
-        expect(rule).not.toContain('linear-gradient');
-        expect(rule).not.toContain('radial-gradient');
-      }
+      const featured = getRule(source, '.post-card--featured');
+      expect(featured).not.toContain('linear-gradient');
+      expect(featured).not.toContain('radial-gradient');
 
       const fallback = getRule(source, '.post-visual--fallback');
       expect(fallback).toContain(
@@ -49,5 +47,12 @@ describe('Bento surface polish', () => {
       expect(fallbackArt).toContain('radial-gradient(');
       expect(fallbackArt).toContain('linear-gradient(');
     }
+
+    const archive = getRule(
+      readPage('../../../src/components/BlogArchive.astro'),
+      '.archive-panel'
+    );
+    expect(archive).toContain('background: var(--bento-card-bg)');
+    expect(archive).not.toContain('gradient');
   });
 });

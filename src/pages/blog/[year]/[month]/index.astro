@@ -1,7 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../../../layouts/Layout.astro';
 import Link from '../../../../components/Link.astro';
-import { getCollection } from 'astro:content';
+import BlogArchive from '../../../../components/BlogArchive.astro';
 import { sortPublishedPostsByDate } from '../../../../utils/blog';
 import { formatDate } from '../../../../utils/formatDate';
 import { withBase } from '../../../../utils/withBase';
@@ -97,33 +98,7 @@ const title = `${year}/${month}`;
                 </div>
               </article>
             )}
-            {months.length > 0 && (
-              <aside class="bento-panel archive-panel card-glass">
-                <h2>月別アーカイブ</h2>
-                <ul class="month-list">
-                  {months.map((entry) => (
-                    <li>
-                      <Link
-                        href={`/blog/${entry}`}
-                        class={
-                          entry === title
-                            ? 'month-link month-link--current'
-                            : 'month-link'
-                        }
-                        aria-current={entry === title ? 'page' : undefined}
-                      >
-                        {entry}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <div class="archive-metric" aria-hidden="true">
-                  <span>{months.length}</span>
-                  <span>months</span>
-                </div>
-                <p class="archive-summary">{title} を表示中</p>
-              </aside>
-            )}
+            <BlogArchive months={months} currentMonth={title} />
             {secondaryPosts.map((post) => (
               <article class="bento-panel post-card card card-glass">
                 <div class="post-header">
@@ -394,80 +369,6 @@ const title = `${year}/${month}`;
     gap: var(--space-xs);
   }
 
-  .archive-panel {
-    grid-column: 9 / span 4;
-    align-self: stretch;
-    padding: var(--space-lg);
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-xl);
-    background: var(--bento-card-bg);
-  }
-
-  .archive-panel h2 {
-    margin: 0 0 var(--space-md) 0;
-    font-size: var(--font-size-2xl);
-  }
-
-  .month-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .month-list a {
-    display: inline-flex;
-    padding: var(--space-xs) var(--space-md);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--glass-border);
-    background: var(--bento-muted-bg);
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition:
-      color 0.2s ease,
-      border-color 0.2s ease,
-      background 0.2s ease;
-  }
-
-  .month-list a:hover,
-  .month-link--current {
-    color: var(--text-accent);
-    border-color: var(--text-accent);
-  }
-
-  .archive-summary {
-    margin: auto 0 0;
-    color: var(--text-secondary);
-    font-size: var(--font-size-sm);
-  }
-
-  .archive-metric {
-    margin-top: auto;
-    color: var(--text-primary);
-  }
-
-  .archive-metric span:first-child {
-    display: block;
-    font-size: clamp(4rem, 8vw, 6.5rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: 0;
-  }
-
-  .archive-metric span:last-child {
-    color: var(--text-secondary);
-    font-size: var(--font-size-sm);
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .archive-metric + .archive-summary {
-    margin-top: var(--space-xs);
-  }
-
   .empty-state {
     padding: var(--space-2xl);
     border-radius: var(--radius-xl);
@@ -516,8 +417,7 @@ const title = `${year}/${month}`;
     }
 
     .post-card,
-    .post-card--featured,
-    .archive-panel {
+    .post-card--featured {
       grid-column: span 1;
     }
 
