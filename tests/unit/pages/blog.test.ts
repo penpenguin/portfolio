@@ -117,23 +117,18 @@ describe('ブログ機能', () => {
     expect(index).not.toMatch(/\.post-card\s*\{[^}]*min-height:\s*100%/);
   });
 
-  it('Blogのサムネイルは図柄を切り取らずhairline frame内に中央表示する', () => {
+  it('ブログ一覧と月別一覧は画像がある記事に共通サムネイルを使う', () => {
     const index = load('../../../src/pages/blog/index.astro');
     const archivePage = load(
       '../../../src/pages/blog/[year]/[month]/index.astro'
     );
 
     for (const source of [index, archivePage]) {
-      expect(source).toMatch(/\.post-image\s*\{[^}]*display:\s*block/s);
-      expect(source).toMatch(/\.post-image\s*\{[^}]*object-fit:\s*contain/s);
       expect(source).toMatch(
-        /\.post-image\s*\{[^}]*object-position:\s*center/s
+        /featuredPost\.data\.heroImage\s*\?\s*\(\s*<BlogThumbnail\s+src=\{featuredPost\.data\.heroImage\}/s
       );
       expect(source).toMatch(
-        /\.post-image\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
-      );
-      expect(source).toMatch(
-        /\.post-image\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
+        /post\.data\.heroImage\s*\?\s*\(\s*<BlogThumbnail\s+src=\{post\.data\.heroImage\}/s
       );
     }
   });
