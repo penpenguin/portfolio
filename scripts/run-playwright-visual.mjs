@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { request } from 'node:http';
 import { setTimeout as delay } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
+import { normalizeAstroOutput } from './astro-dev-output.mjs';
 
 const rootDir = fileURLToPath(new URL('..', import.meta.url));
 const host = '127.0.0.1';
@@ -38,7 +39,7 @@ function normalizeURL(url) {
 function startAstroDevServer() {
   const child = spawn(
     localBin('astro'),
-    ['dev', '--host', host, '--port', String(port)],
+    ['dev', '--ignore-lock', '--host', host, '--port', String(port)],
     {
       cwd: rootDir,
       detached: !isWindows,
@@ -78,12 +79,13 @@ function waitForAstroReady(child) {
     };
 
     const onData = () => {
-      if (targetLocalURLPattern.test(serverOutput)) {
+      const readableOutput = normalizeAstroOutput(serverOutput);
+      if (targetLocalURLPattern.test(readableOutput)) {
         finish();
         return;
       }
 
-      const localURLMatch = serverOutput.match(anyLocalURLPattern);
+      const localURLMatch = readableOutput.match(anyLocalURLPattern);
       if (localURLMatch) {
         const reportedURL = normalizeURL(localURLMatch[1]);
         fail(

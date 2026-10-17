@@ -17,7 +17,8 @@ export default defineConfig({
   webServer: usesExternalWebServer
     ? undefined
     : {
-        command: 'npm run dev -- --host 127.0.0.1 --port 4324 --strictPort',
+        command:
+          'npm run dev -- --ignore-lock --host 127.0.0.1 --port 4324 --strictPort',
         url: 'http://127.0.0.1:4324/portfolio/',
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
