@@ -95,7 +95,10 @@ const heroClass = heroImage
                 <img
                   src={withBase(heroImage)}
                   alt={title}
-                  loading="lazy"
+                  width="960"
+                  height="540"
+                  loading="eager"
+                  fetchpriority="high"
                   data-pagefind-meta="image[src], image_alt[alt]"
                 />
               </div>
@@ -273,6 +276,7 @@ const heroClass = heroImage
 
   .hero-wrapper img {
     width: 100%;
+    height: auto;
     display: block;
     object-fit: cover;
   }

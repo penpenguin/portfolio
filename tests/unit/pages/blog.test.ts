@@ -117,7 +117,7 @@ describe('ブログ機能', () => {
     expect(index).not.toMatch(/\.post-card\s*\{[^}]*min-height:\s*100%/);
   });
 
-  it('BlogのサムネイルはProjectと同じくカードを埋めるhairline frameで表示する', () => {
+  it('Blogのサムネイルは図柄を切り取らずhairline frame内に中央表示する', () => {
     const index = load('../../../src/pages/blog/index.astro');
     const archivePage = load(
       '../../../src/pages/blog/[year]/[month]/index.astro'
@@ -125,8 +125,10 @@ describe('ブログ機能', () => {
 
     for (const source of [index, archivePage]) {
       expect(source).toMatch(/\.post-image\s*\{[^}]*display:\s*block/s);
-      expect(source).toMatch(/\.post-image\s*\{[^}]*object-fit:\s*cover/s);
-      expect(source).toMatch(/\.post-image\s*\{[^}]*object-position:\s*top/s);
+      expect(source).toMatch(/\.post-image\s*\{[^}]*object-fit:\s*contain/s);
+      expect(source).toMatch(
+        /\.post-image\s*\{[^}]*object-position:\s*center/s
+      );
       expect(source).toMatch(
         /\.post-image\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
       );
@@ -161,6 +163,34 @@ describe('ブログ機能', () => {
     );
     expect(detailPage).toMatch(/!data\.draft/);
     expect(detailPage).toMatch(/params:\s*\{\s*year,\s*month,\s*slug\s*\}/);
+  });
+
+  it('ブログ詳細のヒーロー画像は読み込み前から16:9の領域を確保する', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+    const heroImage = detailPage.match(
+      /<img\s+src=\{withBase\(heroImage\)\}[\s\S]*?\/>/
+    )?.[0];
+    expect(heroImage).toBeDefined();
+    expect(heroImage).toContain('width="960"');
+    expect(heroImage).toContain('height="540"');
+    expect(detailPage).toMatch(
+      /\.hero-wrapper img\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto;/s
+    );
+  });
+
+  it('ブログ詳細のヒーロー画像は遅延せず高優先度で読み込む', () => {
+    const detailPage = load(
+      '../../../src/pages/blog/[year]/[month]/[slug].astro'
+    );
+    const heroImage = detailPage.match(
+      /<img\s+src=\{withBase\(heroImage\)\}[\s\S]*?\/>/
+    )?.[0];
+    expect(heroImage).toBeDefined();
+    expect(heroImage).toContain('loading="eager"');
+    expect(heroImage).toContain('fetchpriority="high"');
+    expect(heroImage).not.toContain('loading="lazy"');
   });
 
   it('月別アーカイブページが該当月で絞り込む', () => {
