@@ -6,6 +6,22 @@ Astroで構築したポートフォリオサイト
 
 🔗 **[https://penpenguin.github.io/portfolio/](https://penpenguin.github.io/portfolio/)**
 
+## 開発環境と依存関係
+
+Node.js は `.nvmrc` の 24.22.0、npm は 11.14.1 を使用します。nvm を使う場合のセットアップは次のとおりです。
+
+```sh
+nvm install
+nvm use
+npm install --global npm@11.14.1 --ignore-scripts
+npm ci
+npm run dev
+```
+
+`.npmrc` でインストール時のスクリプトを無効化し、公開から3日以上経過したバージョンを選びます。依存追加時は完全なバージョン番号で保存し、非対応の Node.js / npm ではインストールを停止します。`npm run` で指定したスクリプトは実行できますが、付随する `pre` / `post` スクリプトは実行されません。
+
+依存更新後は `npm audit`、`npm test -- --run`、`npm run lint`、`npm run check`、`npm run build` を実行してください。CI でも全依存を監査し、High 以上の脆弱性で停止します。`npm ci` は lockfile の固定バージョンを再現するため、更新時に監査結果と lockfile の差分を確認してください。
+
 ## 環境変数
 
 `PUBLIC_GITHUB_URL` は任意です。フッターの GitHub リンクと、AI 向けの連絡先情報に使用します。未設定または空文字の場合は `https://github.com/penpenguin` を使用します。
