@@ -123,7 +123,7 @@ describe('ブログ機能', () => {
     expect(index).not.toMatch(/\.post-card\s*\{[^}]*min-height:\s*100%/);
   });
 
-  it('BlogのサムネイルはProjectと同じくカードを埋めるhairline frameで表示する', () => {
+  it('Blogのサムネイルは図柄を切り取らずhairline frame内に中央表示する', () => {
     const index = load('../../../src/pages/blog/index.astro');
     const archivePage = load(
       '../../../src/pages/blog/[year]/[month]/index.astro'
@@ -131,8 +131,10 @@ describe('ブログ機能', () => {
 
     for (const source of [index, archivePage]) {
       expect(source).toMatch(/\.post-image\s*\{[^}]*display:\s*block/s);
-      expect(source).toMatch(/\.post-image\s*\{[^}]*object-fit:\s*cover/s);
-      expect(source).toMatch(/\.post-image\s*\{[^}]*object-position:\s*top/s);
+      expect(source).toMatch(/\.post-image\s*\{[^}]*object-fit:\s*contain/s);
+      expect(source).toMatch(
+        /\.post-image\s*\{[^}]*object-position:\s*center/s
+      );
       expect(source).toMatch(
         /\.post-image\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
       );

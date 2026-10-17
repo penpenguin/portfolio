@@ -2,6 +2,7 @@
 title: 'imozuruは、調査の答えより先に原文への道筋を残す'
 description: 'Claude Code向けスキルimozuruの探索手順を読む。用語と資料の地図、証拠による停止条件、抜き書きの照合から、要約を急がない調べ方を見ていく。'
 pubDate: 2026-10-17
+heroImage: '/assets/blog/2026/10/imozuru-source-first-research.webp'
 tags: ['Claude Code', 'Agent Skills', 'リサーチ']
 ---
 
