@@ -159,4 +159,11 @@ describe('Home モバイルレイアウト', () => {
     expect(page).not.toContain('overview-card');
     expect(page).not.toContain('const overviewCards = [');
   });
+
+  it('水槽のスクリプトだけを許可し、親ページへの同一オリジンアクセスを許可しない', () => {
+    const iframe = page.match(/<iframe\b[^>]*>/)?.[0] ?? '';
+    const sandbox = iframe.match(/\bsandbox="([^"]*)"/)?.[1];
+
+    expect(sandbox?.split(/\s+/)).toEqual(['allow-scripts']);
+  });
 });

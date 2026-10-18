@@ -180,4 +180,34 @@ test.describe('Bento layout', () => {
     ).toBeVisible();
     await expect(iframe.getByText('水槽の読み込み確認')).toBeVisible();
   });
+
+  test('aquarium scripts run without access to the parent on the same origin', async ({
+    page,
+  }) => {
+    await page.route('**/aquarium-isolation-probe', (route) =>
+      route.fulfill({
+        contentType: 'text/html; charset=utf-8',
+        body: `<!doctype html><html><body><script>
+          try {
+            parent.document.title;
+            document.body.dataset.parentAccess = 'allowed';
+          } catch (error) {
+            document.body.dataset.parentAccess = error.name;
+          }
+        </script></body></html>`,
+      })
+    );
+    await page.goto('./');
+    const sameOriginUrl = new URL('aquarium-isolation-probe', page.url()).href;
+    await page
+      .locator('.bento-card--aquarium iframe')
+      .evaluate((iframe, src) => {
+        (iframe as HTMLIFrameElement).src = src;
+      }, sameOriginUrl);
+
+    const body = page
+      .frameLocator('.bento-card--aquarium iframe')
+      .locator('body');
+    await expect(body).toHaveAttribute('data-parent-access', 'SecurityError');
+  });
 });
