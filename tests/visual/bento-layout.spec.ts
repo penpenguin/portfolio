@@ -7,6 +7,15 @@ const pages = [
 ];
 
 test.describe('Bento layout', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.route('https://penpenguin.github.io/suiren-aquarium/', (route) =>
+      route.fulfill({
+        contentType: 'text/html; charset=utf-8',
+        body: '<!doctype html><html lang="ja"><body>水槽の読み込み確認</body></html>',
+      })
+    );
+  });
+
   for (const pageInfo of pages) {
     test(`${pageInfo.path} has stable responsive framing`, async ({ page }) => {
       await page.goto(pageInfo.path);
@@ -58,56 +67,117 @@ test.describe('Bento layout', () => {
     }
   });
 
-  test('home top cards share the same row height on desktop', async ({
+  test('home keeps the aquarium beside About with the original desktop proportions', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto('./');
 
-    const heights = await page.evaluate(() => {
-      const intro = document.querySelector('.bento-card--intro');
-      const metric = document.querySelector('.bento-card--metric');
+    const card = page.locator('.bento-card--aquarium');
+    const iframe = card.locator('iframe');
+    await expect(iframe).toBeVisible();
+    await expect(iframe).toHaveAttribute('title', '水縁 — SUIREN');
+    await expect(page.locator('.bento-card')).toHaveCount(4);
+    await expect(
+      page.locator('.bento-card--metric, .bento-card--playground')
+    ).toHaveCount(0);
 
+    const layout = await page.evaluate(() => {
+      const intro = document.querySelector('.bento-card--intro')!;
+      const aquarium = document.querySelector('.bento-card--aquarium')!;
+      const iframe = aquarium.querySelector('iframe')!;
+      const grid = document.querySelector('.home-overview-grid')!;
       return {
-        intro: intro?.getBoundingClientRect().height ?? 0,
-        metric: metric?.getBoundingClientRect().height ?? 0,
+        intro: intro.getBoundingClientRect().toJSON(),
+        aquarium: aquarium.getBoundingClientRect().toJSON(),
+        iframe: iframe.getBoundingClientRect().toJSON(),
+        gap: parseFloat(getComputedStyle(grid).columnGap),
       };
     });
 
-    expect(Math.abs(heights.intro - heights.metric)).toBeLessThanOrEqual(1);
+    expect(layout.aquarium.height).toBeGreaterThan(150);
+    expect(
+      Math.abs(layout.intro.height - layout.aquarium.height)
+    ).toBeLessThanOrEqual(1);
+    expect(
+      Math.abs(layout.intro.top - layout.aquarium.top)
+    ).toBeLessThanOrEqual(1);
+    expect(layout.aquarium.left).toBeGreaterThan(layout.intro.right);
+    expect(
+      Math.abs(
+        layout.intro.width - (3 * layout.aquarium.width + 2 * layout.gap)
+      )
+    ).toBeLessThanOrEqual(1);
+    expect(
+      Math.abs(layout.iframe.width - (layout.aquarium.width - 2))
+    ).toBeLessThanOrEqual(1);
+    expect(
+      Math.abs(layout.iframe.height - (layout.aquarium.height - 2))
+    ).toBeLessThanOrEqual(1);
   });
 
-  test('home Meaningless card shows an animated window scene by default', async ({
+  test('home stacks all four cards with a 240px aquarium on smaller screens', async ({
+    page,
+  }) => {
+    for (const width of [980, 768, 390]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto('./');
+      const layout = await page.evaluate(() => ({
+        clientWidth: document.documentElement.clientWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+        cards: Array.from(document.querySelectorAll('.bento-card')).map(
+          (card) => ({
+            className: card.className,
+            ...card.getBoundingClientRect().toJSON(),
+          })
+        ),
+      }));
+
+      expect(layout.cards).toHaveLength(4);
+      for (const [index, name] of [
+        'intro',
+        'aquarium',
+        'project',
+        'blog',
+      ].entries()) {
+        const card = layout.cards[index];
+        expect(card.className).toContain(`bento-card--${name}`);
+        expect(
+          Math.abs(card.width - layout.cards[0].width)
+        ).toBeLessThanOrEqual(1);
+        expect(Math.abs(card.left - layout.cards[0].left)).toBeLessThanOrEqual(
+          1
+        );
+        if (index > 0)
+          expect(card.top).toBeGreaterThan(layout.cards[index - 1].bottom);
+      }
+      expect(layout.cards[1].height).toBe(240);
+      expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth + 1);
+    }
+  });
+
+  test('home reloads the embedded app after navigating away and back', async ({
     page,
   }) => {
     await page.goto('./');
+    const iframe = page.frameLocator('.bento-card--aquarium iframe');
+    await expect(iframe.getByText('水槽の読み込み確認')).toBeVisible();
 
-    const card = page.locator('.bento-card--playground');
-    await expect(card).toHaveAttribute(
-      'aria-label',
-      'Meaningless window scene'
-    );
+    await page
+      .locator('.navbar')
+      .getByRole('link', { name: 'Projects', exact: true })
+      .click();
     await expect(
-      card.getByRole('heading', { name: 'Meaningless' })
-    ).toHaveCount(0);
-    await expect(card.locator('.window-scene')).toBeVisible();
-    await expect(card.locator('.window-scene__image')).toBeVisible();
-    await expect(card.locator('.window-scene__road-lights')).toBeVisible();
-    await expect(card.locator('.window-scene__tail-lamps')).toBeVisible();
-    await expect(
-      card.locator('.window-scene__tail-lamps-track--near')
+      page.getByRole('heading', { name: 'Built Systems', level: 1 })
     ).toBeVisible();
+    await expect(page.locator('.bento-card--aquarium')).toHaveCount(0);
+    await page
+      .locator('.navbar')
+      .getByRole('link', { name: 'Home', exact: true })
+      .click();
     await expect(
-      card.locator('.window-scene__tail-lamps-track--bend')
+      page.getByRole('heading', { name: 'About', level: 1 })
     ).toBeVisible();
-    await expect(
-      card.locator('.window-scene__tail-lamps-track--far')
-    ).toBeVisible();
-    await expect(card.locator('.window-scene__aircraft-beacons')).toBeVisible();
-    await expect(card.locator('.window-scene__tree-line')).toBeVisible();
-    await expect(card.getByRole('link', { name: '別タブで開く' })).toHaveCount(
-      0
-    );
-    await expect(card.locator('.playground-actions')).toHaveCount(0);
+    await expect(iframe.getByText('水槽の読み込み確認')).toBeVisible();
   });
 });
