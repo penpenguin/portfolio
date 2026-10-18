@@ -16,9 +16,9 @@ describe('Bento surface polish', () => {
 
     for (const selector of [
       '.bento-card--intro',
+      '.bento-card--aquarium',
       '.bento-card--project',
       '.bento-card--blog',
-      '.bento-card--playground',
     ]) {
       const rule = getRule(source, selector);
       expect(rule).toContain('background: var(--bento-card-bg)');
