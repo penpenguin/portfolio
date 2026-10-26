@@ -6,6 +6,17 @@ const workflowPath = fileURLToPath(
   new URL('../../../.github/workflows/deploy.yml', import.meta.url)
 );
 const workflow = readFileSync(workflowPath, 'utf8');
+const { packageManager, engines, devDependencies } = JSON.parse(
+  readFileSync(new URL('../../../package.json', import.meta.url), 'utf8')
+) as {
+  packageManager: string;
+  engines: { node: string };
+  devDependencies: Record<string, string>;
+};
+const nodeVersion = readFileSync(
+  new URL('../../../.nvmrc', import.meta.url),
+  'utf8'
+).trim();
 
 const getJobBlock = (jobName: string) => {
   const marker = `  ${jobName}:\n`;
@@ -20,6 +31,27 @@ const getJobBlock = (jobName: string) => {
 };
 
 describe('Deploy workflow hardening', () => {
+  it('uses the project Node.js version for both tests and builds', () => {
+    expect(getJobBlock('test')).toContain('node-version-file: .nvmrc');
+    expect(getJobBlock('build')).toContain(`node-version: ${nodeVersion}`);
+  });
+
+  it('keeps the Node.js engine and types aligned with the runtime', () => {
+    expect(engines.node).toBe(`^${nodeVersion}`);
+    expect(devDependencies['@types/node'].split('.')[0]).toBe(
+      nodeVersion.split('.')[0]
+    );
+  });
+
+  it('uses the project npm version for both tests and builds', () => {
+    expect(getJobBlock('test')).toContain(
+      `npm install --global ${packageManager} --ignore-scripts`
+    );
+    expect(getJobBlock('build')).toContain(
+      `package-manager: ${packageManager}`
+    );
+  });
+
   it('uses Node 24-compatible major versions for GitHub Actions', () => {
     expect(workflow).toContain('uses: actions/checkout@v7');
     expect(workflow).toContain('uses: actions/setup-node@v6');

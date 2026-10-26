@@ -8,12 +8,12 @@ Astroで構築したポートフォリオサイト
 
 ## 開発環境と依存関係
 
-Node.js は `.nvmrc` の 24.22.0、npm は 11.14.1 を使用します。nvm を使う場合のセットアップは次のとおりです。
+Node.js は `.nvmrc` の 26.12.1、npm は 12.2.1 を使用します。nvm を使う場合のセットアップは次のとおりです。
 
 ```sh
 nvm install
 nvm use
-npm install --global npm@11.14.1 --ignore-scripts
+npm install --global npm@12.2.1 --ignore-scripts
 npm ci
 npm run dev
 ```
