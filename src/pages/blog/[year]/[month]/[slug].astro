@@ -51,7 +51,9 @@ const heroClass = heroImage
     <header class="article-header">
       <div class="container">
         <p class="breadcrumb">
-          <Link href="/blog" class="btn btn-glass">← ブログ一覧に戻る</Link>
+          <Link href="/blog" class="btn btn-glass">
+            ← ブログ一覧に戻る
+          </Link>
           <span class="sr-only"> / {title}</span>
         </p>
 
@@ -62,48 +64,47 @@ const heroClass = heroImage
             >
               {title}
             </h1>
+            <div class="meta">
+              <time datetime={pubDate.toISOString()}>
+                {formatDate(pubDate)}
+              </time>
+              {updatedDate && (
+                <span class="updated">
+                  Updated{' '}
+                  <time datetime={updatedDate.toISOString()}>
+                    {formatDate(updatedDate)}
+                  </time>
+                </span>
+              )}
+            </div>
             <p class="article-description" data-pagefind-meta="description">
               {description}
             </p>
 
-            <div class="meta">
-              <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time
-              >
-              {
-                updatedDate && (
-                  <span class="updated">Updated {formatDate(updatedDate)}</span>
-                )
-              }
-            </div>
-
-            {
-              tags && (
-                <div class="pill-list tag-list" aria-label="Tags">
-                  {tags.map((tag: string) => (
-                    <span class="tag" data-pagefind-filter="tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )
-            }
+            {tags && (
+              <div class="pill-list tag-list" aria-label="Tags">
+                {tags.map((tag: string) => (
+                  <span class="tag" data-pagefind-filter="tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
-          {
-            heroImage && (
-              <div class="hero-wrapper">
-                <img
-                  src={withBase(heroImage)}
-                  alt={title}
-                  width="960"
-                  height="540"
-                  loading="eager"
-                  fetchpriority="high"
-                  data-pagefind-meta="image[src], image_alt[alt]"
-                />
-              </div>
-            )
-          }
+          {heroImage && (
+            <div class="hero-wrapper">
+              <img
+                src={withBase(heroImage)}
+                alt={title}
+                width="960"
+                height="540"
+                loading="eager"
+                fetchpriority="high"
+                data-pagefind-meta="image[src], image_alt[alt]"
+              />
+            </div>
+          )}
         </div>
       </div>
     </header>
@@ -118,24 +119,24 @@ const heroClass = heroImage
 
     <footer class="article-footer">
       <div class="container">
-        {
-          impression && (
-            <aside class="author-impression" aria-label="Author note">
-              <img
-                class="author-impression__avatar"
-                src="https://github.com/penpenguin.png?size=64"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="author-impression__content">
-                <p class="author-impression__label">My note</p>
-                <p class="author-impression__text">{impression}</p>
-              </div>
-            </aside>
-          )
-        }
-        <Link href="/blog" class="btn btn-glass">← ブログ一覧に戻る</Link>
+        {impression && (
+          <aside class="author-impression" aria-label="Author note">
+            <img
+              class="author-impression__avatar"
+              src="https://github.com/penpenguin.png?size=64"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="author-impression__content">
+              <p class="author-impression__label">My note</p>
+              <p class="author-impression__text">{impression}</p>
+            </div>
+          </aside>
+        )}
+        <Link href="/blog" class="btn btn-glass">
+          ← ブログ一覧に戻る
+        </Link>
       </div>
     </footer>
   </article>
@@ -177,7 +178,7 @@ const heroClass = heroImage
     height: 44px;
     border-radius: 999px;
     object-fit: cover;
-    border: 1px solid rgba(31, 35, 40, 0.2);
+    border: 1px solid var(--glass-border);
     display: block;
     margin-top: 6px;
   }
@@ -211,8 +212,8 @@ const heroClass = heroImage
 
   .article-hero {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xl);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
     align-items: center;
   }
 
@@ -222,10 +223,15 @@ const heroClass = heroImage
     justify-items: start;
   }
 
+  .article-meta {
+    min-width: 0;
+    width: 100%;
+  }
+
   .article-meta h1 {
     margin: 0 0 var(--space-md) 0;
-    font-size: clamp(2.25rem, 6vw, 4.5rem);
-    line-height: 1.1;
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    line-height: 1.5;
     letter-spacing: 0;
   }
 
@@ -233,14 +239,19 @@ const heroClass = heroImage
     margin: 0 0 var(--space-md) 0;
     color: var(--text-secondary);
     font-size: var(--font-size-lg);
-    line-height: 1.6;
+    line-height: 1.85;
   }
 
   .meta {
+    flex-wrap: wrap;
+    font-family: var(--font-family-mono);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+    border-bottom: 1px solid var(--glass-border);
     display: flex;
     gap: var(--space-md);
     color: var(--text-secondary);
-    font-size: var(--font-size-sm);
+    font-size: 0.8125rem;
     align-items: center;
   }
 
@@ -255,11 +266,11 @@ const heroClass = heroImage
   }
 
   .tag {
-    background: var(--bento-muted-bg);
-    color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
     border-radius: var(--radius-sm);
-    font-weight: 600;
+    font-weight: 400;
     display: inline-flex;
     align-items: center;
     font-size: var(--font-size-xs);
@@ -267,6 +278,7 @@ const heroClass = heroImage
   }
 
   .hero-wrapper {
+    padding: var(--space-sm);
     border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--bento-muted-bg);
@@ -278,7 +290,7 @@ const heroClass = heroImage
     width: 100%;
     height: auto;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .article-body {
@@ -286,10 +298,12 @@ const heroClass = heroImage
   }
 
   .content-wrapper {
-    padding: clamp(var(--space-lg), 4vw, var(--space-2xl));
+    min-width: 0;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+    padding: var(--card-padding);
     border-radius: var(--radius-xl);
     line-height: 1.85;
-    overflow-x: auto;
     box-shadow: var(--shadow-sm);
   }
 
@@ -302,6 +316,7 @@ const heroClass = heroImage
     color: var(--text-primary);
     margin-top: var(--space-xl);
     margin-bottom: var(--space-md);
+    font-family: var(--font-family-japanese);
   }
 
   .content-wrapper :global(h2):first-child,
@@ -353,7 +368,7 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(code) {
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-family: var(--font-family-mono);
     font-size: 0.95em;
   }
 
@@ -379,7 +394,7 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(blockquote) {
-    border-left: 4px solid var(--text-accent);
+    border-left: 1px solid var(--border-strong);
     padding-left: var(--space-md);
     margin: var(--space-lg) 0;
     font-style: italic;
@@ -396,7 +411,7 @@ const heroClass = heroImage
     background: var(--bento-card-bg);
     color: var(--text-secondary);
     box-shadow: var(--shadow-sm);
-    margin: var(--space-lg) 0;
+    margin: 0;
   }
 
   .content-wrapper :global(thead) {
@@ -420,7 +435,7 @@ const heroClass = heroImage
   }
 
   .content-wrapper :global(td) {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
   }
 
   .content-wrapper :global(th:not(:last-child)),
@@ -496,6 +511,23 @@ const heroClass = heroImage
     padding-bottom: var(--space-2xl);
   }
 
+  .content-wrapper :global(.table-scroll) {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+  }
+
+  .content-wrapper :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  .content-wrapper :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
   @media (max-width: 768px) {
     .article-hero {
       grid-template-columns: 1fr;
@@ -503,10 +535,15 @@ const heroClass = heroImage
     }
 
     .article-meta h1 {
-      font-size: var(--font-size-3xl);
+      font-size: 2rem;
     }
 
     .meta {
+      flex-wrap: wrap;
+      font-family: var(--font-family-mono);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+      border-bottom: 1px solid var(--glass-border);
       flex-direction: column;
       align-items: center;
     }
@@ -516,11 +553,12 @@ const heroClass = heroImage
     }
 
     .hero-wrapper {
+      padding: var(--space-sm);
       order: -1;
     }
 
     .content-wrapper {
-      padding: var(--space-lg);
+      padding: var(--card-padding);
       border-radius: var(--radius-lg);
     }
 

@@ -22,6 +22,8 @@ describe('Astro Markdown configuration', () => {
       /processor:\s*unified\(\{\s*remarkPlugins:\s*\[remarkAdmonition\]/s
     );
     expect(astroConfig).not.toMatch(/\n\s{4}remarkPlugins:/);
+    expect(astroConfig).toMatch(/rehypePlugins:\s*\[rehypeScrollableTables\]/);
+    expect(astroConfig).toMatch(/shikiConfig:\s*\{[^}]*wrap:\s*false/s);
   });
 
   it('declares the Markdown processor package as a direct dev dependency', () => {

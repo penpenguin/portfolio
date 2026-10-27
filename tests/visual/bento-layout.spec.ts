@@ -48,6 +48,141 @@ test.describe('Bento layout', () => {
     });
   }
 
+  test('keeps About dark through hover and focus without darkening list heroes', async ({
+    page,
+  }) => {
+    await page.goto('./');
+    const intro = page.locator('.bento-card--intro');
+    const assertColors = async () => {
+      await expect(intro).toHaveCSS('background-color', 'rgb(9, 9, 9)');
+      await expect(intro.locator('h1')).toHaveCSS(
+        'color',
+        'rgb(196, 196, 196)'
+      );
+      await expect(intro.locator('.intro-role')).toHaveCSS(
+        'color',
+        'rgb(182, 181, 187)'
+      );
+    };
+    await assertColors();
+    await intro.hover();
+    await assertColors();
+    // A temporary focus target exercises :focus-within without adding a production CTA.
+    await intro.evaluate((element) => {
+      const probe = document.createElement('button');
+      probe.textContent = 'Focus probe';
+      element.append(probe);
+      probe.focus();
+    });
+    await page.mouse.move(0, 0);
+    await assertColors();
+    for (const path of ['projects/', 'blog/']) {
+      await page.goto(path);
+      await expect(page.locator('header.bento-hero')).toHaveCSS(
+        'background-color',
+        'rgb(233, 233, 233)'
+      );
+    }
+  });
+
+  test('detail pages and media remain readable at 320px', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 844 });
+    for (const path of [
+      './',
+      'projects/',
+      'projects/card-lighting-demo/',
+      'projects/petatas/',
+      'blog/',
+      'blog/2025/11/',
+      'blog/2026/05/webmcp-basics/',
+    ]) {
+      await page.goto(path);
+      await page.evaluate(() => document.fonts.ready);
+      const layout = await page.evaluate(() => ({
+        width: document.documentElement.clientWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+        navBottom: document
+          .querySelector('.navbar-content')!
+          .getBoundingClientRect().bottom,
+        panelTop: document.querySelector('.bento-hero')!.getBoundingClientRect()
+          .top,
+      }));
+      expect(layout.scrollWidth, path).toBeLessThanOrEqual(layout.width + 1);
+      expect(layout.panelTop, path).toBeGreaterThanOrEqual(layout.navBottom);
+      const firstDate = page.locator('time').first();
+      await expect(firstDate).toHaveText(/^\s*\d{4}\.\d{2}\.\d{2}\s*$/);
+      await expect(firstDate).toHaveAttribute(
+        'datetime',
+        /^\d{4}-\d{2}-\d{2}T/
+      );
+    }
+    const table = page.locator('.table-scroll').first();
+    await expect(table).toHaveAttribute('tabindex', '0');
+    const dimensions = await table.evaluate((el) => ({
+      width: el.clientWidth,
+      scrollWidth: el.scrollWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeGreaterThan(dimensions.width);
+    await table.focus();
+    await expect(table).toHaveCSS('outline-style', 'solid');
+    await expect(page.locator('.content-wrapper pre').first()).toHaveCSS(
+      'white-space',
+      'pre'
+    );
+    const codeOverflow = await page
+      .locator('.content-wrapper pre')
+      .evaluateAll((blocks) =>
+        Math.max(
+          ...blocks.map((block) => block.scrollWidth - block.clientWidth)
+        )
+      );
+    expect(codeOverflow).toBeGreaterThan(0);
+    await page.goto('projects/');
+    const image = page.locator('.project-card--featured .project-image');
+    await expect(image).toHaveCSS('object-fit', 'contain');
+    await expect(image).toHaveCSS('object-position', '50% 50%');
+  });
+
+  test('font fallback and long preview content fit without animation', async ({
+    page,
+  }) => {
+    await page.route('https://fonts.googleapis.com/**', (route) =>
+      route.abort()
+    );
+    await page.route('https://fonts.gstatic.com/**', (route) => route.abort());
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const width of [320, 390, 768, 1024]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto('./');
+      await page.locator('.project-summary h2 a').evaluate((el) => {
+        el.textContent =
+          'Long English Project Title With Supercalifragilisticexpialidocious';
+      });
+      await page.locator('.blog-summary h2 a').evaluate((el) => {
+        el.textContent =
+          '長い日本語の記事タイトルでも読みやすい行間と折り返しを保つための検証';
+      });
+      await page.locator('.project-tags').evaluate((el) => {
+        const tag = el.firstElementChild!;
+        for (let index = 0; index < 10; index++) el.append(tag.cloneNode(true));
+      });
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth)
+      ).toBeLessThanOrEqual(width);
+      await expect(page.locator('.bento-card--intro')).toHaveCSS(
+        'transition-duration',
+        '0s'
+      );
+    }
+    await page
+      .getByRole('navigation')
+      .getByRole('link', { name: 'Projects', exact: true })
+      .click();
+    await expect(
+      page.getByRole('heading', { name: 'Built Systems' })
+    ).toBeVisible();
+  });
+
   test('mobile key bento cards keep readable width', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
@@ -119,7 +254,7 @@ test.describe('Bento layout', () => {
   test('home stacks all four cards with a 240px aquarium on smaller screens', async ({
     page,
   }) => {
-    for (const width of [980, 768, 390]) {
+    for (const width of [980, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 1000 });
       await page.goto('./');
       const layout = await page.evaluate(() => ({

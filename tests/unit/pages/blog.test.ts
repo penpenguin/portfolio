@@ -65,7 +65,7 @@ describe('ブログ機能', () => {
     expect(index).toContain('class="bento-grid blog-bento"');
     expect(index).toContain('post-card--featured');
     expect(index).toContain('<BlogArchive months={months} />');
-    expect(index).toContain('post-visual--fallback');
+    expect(index).toContain('<BlogThumbnail');
     expect(index.indexOf('<BlogArchive')).toBeLessThan(
       index.indexOf('secondaryPosts.map')
     );
@@ -85,7 +85,7 @@ describe('ブログ機能', () => {
       'class="bento-grid blog-bento blog-bento--archive"'
     );
     expect(archivePage).toContain('post-card--featured');
-    expect(archivePage).toContain('post-visual--fallback');
+    expect(archivePage).toContain('<BlogThumbnail');
     expect(archivePage).toContain(
       '<BlogArchive months={months} currentMonth={title} />'
     );
@@ -93,6 +93,7 @@ describe('ブログ機能', () => {
       archivePage.indexOf('secondaryPosts.map')
     );
     const component = load('../../../src/components/BlogArchive.astro');
+    expect(component).toContain('font-family: var(--font-family-mono)');
     expect(component).toMatch(
       /\.archive-panel\s*\{[^}]*grid-column:\s*9\s*\/\s*span\s*4/s
     );
@@ -110,9 +111,7 @@ describe('ブログ機能', () => {
     expect(index).toMatch(
       /\.post-card--featured\s+\.post-description\s*\{[^}]*-webkit-line-clamp:\s*4/s
     );
-    expect(index).toMatch(
-      /\.post-meta\s+h2\s*\{[^}]*font-size:\s*var\(--font-size-xl\)/s
-    );
+    expect(index).toMatch(/\.post-meta\s+h2\s*\{[^}]*font-size:\s*1.5rem/s);
     expect(index).toMatch(/\.blog-bento\s*\{[^}]*align-items:\s*start/s);
     expect(index).not.toMatch(/\.post-card\s*\{[^}]*min-height:\s*100%/);
   });
@@ -125,11 +124,9 @@ describe('ブログ機能', () => {
 
     for (const source of [index, archivePage]) {
       expect(source).toMatch(
-        /featuredPost\.data\.heroImage\s*\?\s*\(\s*<BlogThumbnail\s+src=\{featuredPost\.data\.heroImage\}/s
+        /<BlogThumbnail\s+src=\{featuredPost\.data\.heroImage\}/s
       );
-      expect(source).toMatch(
-        /post\.data\.heroImage\s*\?\s*\(\s*<BlogThumbnail\s+src=\{post\.data\.heroImage\}/s
-      );
+      expect(source).toMatch(/<BlogThumbnail\s+src=\{post\.data\.heroImage\}/s);
     }
   });
 
@@ -250,7 +247,7 @@ describe('ブログ機能', () => {
       /\.content-wrapper\s+:global\(table\)\s*\{[^}]*display:\s*block/s
     );
     expect(detailPage).toMatch(
-      /\.content-wrapper\s*\{[^}]*overflow-x:\s*auto/s
+      /\.content-wrapper\s+:global\(\.table-scroll\)\s*\{[^}]*overflow-x:\s*auto/s
     );
   });
 

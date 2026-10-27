@@ -25,7 +25,7 @@
 ## Design Direction
 
 - Read `DESIGN.md` before making visual changes.
-- The visual baseline is Linear-inspired precision: quiet product surfaces, hairline borders, restrained typography, subtle hover states, and compact CTAs.
+- The visual baseline is a quietly edited collection: light gray surfaces, large serif headings, monospaced metadata, hairline borders, 2px card corners, and no decorative shadows. Only Home About uses a black title surface.
 - Preserve the existing BentoUI grid composition, section structure, and content order; design polish must not reorganize cards, sections, routes, or page hierarchy.
 - Limit UI polish to card padding, border, surface, typography, hover, CTA, and screenshot presentation unless the user explicitly asks for a layout change.
 - Avoid loud gradients, decorative spotlight effects, heavy shadows, and large layout changes.

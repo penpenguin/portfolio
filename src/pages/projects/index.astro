@@ -22,82 +22,81 @@ const sortedProjects = [...projects].sort(
         </p>
       </header>
       <div class="bento-grid projects-bento">
-        {
-          sortedProjects.map((project, index) => (
-            <article
-              class:list={[
-                'bento-panel project-card card card-glass',
-                { 'project-card--featured': index === 0 },
-              ]}
-            >
-              <div class="project-header">
-                {project.data.heroImage ? (
-                  <img
-                    src={withBase(project.data.heroImage)}
-                    alt={project.data.title}
-                    class="project-image"
-                  />
-                ) : (
-                  <div class="project-card__fallback-visual" aria-hidden="true">
-                    <div class="project-card__fallback-art" />
-                  </div>
-                )}
-                <div class="project-meta">
-                  <h2>
-                    <Link href={`/projects/${project.id}`}>
-                      {project.data.title}
-                    </Link>
-                  </h2>
-                  <p class="project-card-meta">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <span>{formatDate(project.data.pubDate)}</span>
-                  </p>
+        {sortedProjects.map((project, index) => (
+          <article
+            class:list={[
+              'bento-panel project-card card card-glass',
+              { 'project-card--featured': index === 0 },
+            ]}
+          >
+            <div class="project-header">
+              {project.data.heroImage ? (
+                <img
+                  src={withBase(project.data.heroImage)}
+                  alt={project.data.title}
+                  class="project-image"
+                />
+              ) : (
+                <div class="project-card__fallback-visual" aria-hidden="true">
+                  <span class="project-card__fallback-art">
+                    {project.data.title}
+                  </span>
                 </div>
-              </div>
-
-              <div class="project-content project-summary">
-                <p class="project-description">{project.data.description}</p>
-
-                {project.data.tags && (
-                  <div class="pill-list project-tags">
-                    {project.data.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
-
-                <div class="project-links">
-                  {project.data.link && (
-                    <a
-                      href={project.data.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn-glass"
-                    >
-                      ライブ版を見る
-                    </a>
-                  )}
-                  {project.data.github && (
-                    <a
-                      href={project.data.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn-glass"
-                    >
-                      コードを見る
-                    </a>
-                  )}
-                  <Link
-                    href={`/projects/${project.id}`}
-                    class="btn btn-primary"
-                  >
-                    詳細を見る
+              )}
+              <div class="project-meta">
+                <h2>
+                  <Link href={`/projects/${project.id}`}>
+                    {project.data.title}
                   </Link>
-                </div>
+                </h2>
+                <p class="project-card-meta">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <time datetime={project.data.pubDate.toISOString()}>
+                    {formatDate(project.data.pubDate)}
+                  </time>
+                </p>
               </div>
-            </article>
-          ))
-        }
+            </div>
+
+            <div class="project-content project-summary">
+              <p class="project-description">{project.data.description}</p>
+
+              {project.data.tags && (
+                <div class="pill-list project-tags">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+
+              <div class="project-links">
+                {project.data.link && (
+                  <a
+                    href={project.data.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-glass"
+                  >
+                    ライブ版を見る
+                  </a>
+                )}
+                {project.data.github && (
+                  <a
+                    href={project.data.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-glass"
+                  >
+                    コードを見る
+                  </a>
+                )}
+                <Link href={`/projects/${project.id}`} class="btn btn-primary">
+                  詳細を見る
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -106,13 +105,15 @@ const sortedProjects = [...projects].sort(
 <style>
   .projects-hero {
     min-height: 280px;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--grid-gap);
   }
 
   .projects-hero h1 {
-    font-size: clamp(2.75rem, 7vw, 5rem);
+    font-size: clamp(3.5rem, 5.5vw, 5rem);
     margin-bottom: var(--space-md);
-    letter-spacing: 0;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
   .projects-hero p {
@@ -122,10 +123,14 @@ const sortedProjects = [...projects].sort(
   }
 
   .project-card-meta {
+    flex-wrap: wrap;
+    font-family: var(--font-family-mono);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--glass-border);
     display: flex;
     gap: var(--space-xs);
     color: var(--text-muted);
-    font-size: var(--font-size-sm);
+    font-size: 0.8125rem;
     margin: 0;
   }
 
@@ -134,6 +139,8 @@ const sortedProjects = [...projects].sort(
   }
 
   .project-card {
+    display: flex;
+    flex-direction: column;
     padding: 0;
     overflow: hidden;
     border-radius: var(--radius-xl);
@@ -142,10 +149,6 @@ const sortedProjects = [...projects].sort(
   .project-card--featured {
     grid-column: span 2;
     background: var(--bento-card-bg);
-  }
-
-  .project-card:hover {
-    transform: translateY(-1px);
   }
 
   .project-header {
@@ -163,96 +166,62 @@ const sortedProjects = [...projects].sort(
     padding: var(--space-sm);
     background: var(--bento-muted-bg);
     border-bottom: 1px solid var(--glass-border);
-    object-fit: cover;
-    object-position: top;
+    object-fit: contain;
+    object-position: center;
   }
 
   .project-card__fallback-visual {
-    position: relative;
-    height: 220px;
-    overflow: hidden;
-    background:
-      linear-gradient(135deg, rgba(14, 165, 233, 0.14), transparent 44%),
-      linear-gradient(180deg, var(--bento-card-bg), var(--bento-muted-bg));
-  }
-
-  .project-card__fallback-visual::before {
-    content: '';
-    position: absolute;
-    inset: var(--space-lg);
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    opacity: 0.58;
+    display: flex;
+    align-items: center;
+    min-height: 220px;
+    padding: var(--space-sm);
+    background: var(--bento-muted-bg);
+    border-bottom: 1px solid var(--glass-border);
   }
 
   .project-card__fallback-art {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    background:
-      radial-gradient(
-        circle at 24% 28%,
-        rgba(20, 184, 166, 0.18),
-        transparent 28%
-      ),
-      radial-gradient(
-        circle at 78% 20%,
-        rgba(129, 140, 248, 0.16),
-        transparent 24%
-      ),
-      linear-gradient(
-        115deg,
-        transparent 0 34%,
-        rgba(255, 255, 255, 0.62) 34% 62%,
-        transparent 62%
-      ),
-      linear-gradient(
-        155deg,
-        rgba(14, 165, 233, 0.14),
-        rgba(20, 184, 166, 0.08)
-      );
-  }
-
-  .project-card__fallback-art::before {
-    content: '';
-    position: absolute;
-    inset: auto 0 0;
-    height: 42%;
-    background: linear-gradient(90deg, rgba(15, 23, 42, 0.07), transparent 62%);
+    color: var(--text-secondary);
+    font-family: var(--font-family-heading);
+    font-size: 1.875rem;
+    font-weight: 500;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
   }
 
   .project-card--featured .project-image {
-    height: 320px;
-    min-height: 360px;
+    height: 360px;
   }
 
   .project-card--featured .project-card__fallback-visual {
-    height: 320px;
     min-height: 360px;
   }
 
   .project-meta {
-    padding: var(--space-lg);
+    padding: var(--card-padding);
     padding-bottom: var(--space-md);
   }
 
   .project-meta h2 {
     margin: 0 0 var(--space-xs) 0;
-    font-size: var(--font-size-2xl);
+    font-size: 1.875rem;
+    line-height: 1.35;
   }
 
   .project-meta h2 a {
     color: var(--text-primary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
   }
 
   .project-meta h2 a:hover {
-    color: var(--text-accent);
+    color: var(--text-primary);
   }
 
   .project-content {
-    padding: 0 var(--space-lg) var(--space-lg);
+    padding: 0 var(--card-padding) var(--card-padding);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
   }
 
   .project-card--featured .project-content {
@@ -269,7 +238,7 @@ const sortedProjects = [...projects].sort(
 
   .project-card--featured .project-description {
     max-width: 760px;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
   }
 
   .project-tags {
@@ -277,12 +246,13 @@ const sortedProjects = [...projects].sort(
   }
 
   .tag {
-    color: var(--text-accent);
+    color: var(--text-secondary);
     font-size: var(--font-size-xs);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .project-links {
+    margin-top: auto;
     display: flex;
     gap: var(--space-sm);
     flex-wrap: wrap;
@@ -302,12 +272,22 @@ const sortedProjects = [...projects].sort(
       grid-column: span 1;
     }
 
+    .projects-hero {
+      min-height: auto;
+    }
     .projects-hero h1 {
-      font-size: var(--font-size-4xl);
+      font-size: clamp(2.5rem, 8vw, 3.5rem);
+    }
+    .project-meta h2 {
+      font-size: 1.625rem;
+    }
+    .project-image,
+    .project-card__fallback-visual {
+      padding: 0.75rem;
     }
 
     .project-card--featured .project-image {
-      min-height: 220px;
+      height: 220px;
     }
 
     .project-card--featured .project-card__fallback-visual {

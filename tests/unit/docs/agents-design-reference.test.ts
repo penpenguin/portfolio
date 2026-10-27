@@ -10,6 +10,8 @@ describe('AGENTS.md design guidance', () => {
   it('requires agents to consult DESIGN.md for visual changes', () => {
     expect(agents).toContain('DESIGN.md');
     expect(agents).toContain('visual changes');
+    expect(agents).toContain('edited collection');
+    expect(agents).toContain('Home About');
   });
 
   it('preserves BentoUI structure during design polish', () => {

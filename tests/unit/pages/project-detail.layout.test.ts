@@ -58,6 +58,9 @@ describe('Project detail layout', () => {
     const source = loadProjectDetailSource();
 
     expect(source).toMatch(
+      /\.project-image\s+img\s*\{[^}]*padding:\s*var\(--space-sm\)/s
+    );
+    expect(source).toMatch(
       /\.project-image\s+img\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
     );
     expect(source).toMatch(

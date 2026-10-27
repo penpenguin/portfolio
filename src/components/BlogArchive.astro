@@ -11,59 +11,57 @@ const { months, currentMonth } = Astro.props;
 const archive = createBlogArchive(months, currentMonth);
 ---
 
-{
-  archive && (
-    <aside
-      class="bento-panel archive-panel card-glass"
-      aria-label="月別アーカイブ"
-    >
-      <h2>月別アーカイブ</h2>
-      <blog-archive>
-        <label class="archive-year-control" data-year-control hidden>
-          <span>年</span>
-          <select>
-            {archive.years.map(({ year }) => (
-              <option value={year} selected={year === archive.selectedYear}>
-                {year}年
-              </option>
+{archive && (
+  <aside
+    class="bento-panel archive-panel card-glass"
+    aria-label="月別アーカイブ"
+  >
+    <h2>月別アーカイブ</h2>
+    <blog-archive>
+      <label class="archive-year-control" data-year-control hidden>
+        <span>年</span>
+        <select>
+          {archive.years.map(({ year }) => (
+            <option value={year} selected={year === archive.selectedYear}>
+              {year}年
+            </option>
+          ))}
+        </select>
+      </label>
+      {archive.years.map(({ year, months: yearMonths }) => (
+        <details
+          class="archive-year"
+          data-year={year}
+          open={year === archive.selectedYear}
+        >
+          <summary>{year}年</summary>
+          <ul class="month-list" aria-label={`${year}年の月別アーカイブ`}>
+            {yearMonths.map(({ key, label, hasPosts, isCurrent }) => (
+              <li>
+                {hasPosts ? (
+                  <Link
+                    href={`/blog/${key}`}
+                    class="month-cell month-link"
+                    aria-label={`${year}年${label}`}
+                    aria-current={isCurrent ? 'page' : undefined}
+                  >
+                    {label}
+                  </Link>
+                ) : (
+                  <span class="month-cell month-empty">
+                    {label}
+                    <span class="visually-hidden">（記事なし）</span>
+                  </span>
+                )}
+              </li>
             ))}
-          </select>
-        </label>
-        {archive.years.map(({ year, months: yearMonths }) => (
-          <details
-            class="archive-year"
-            data-year={year}
-            open={year === archive.selectedYear}
-          >
-            <summary>{year}年</summary>
-            <ul class="month-list" aria-label={`${year}年の月別アーカイブ`}>
-              {yearMonths.map(({ key, label, hasPosts, isCurrent }) => (
-                <li>
-                  {hasPosts ? (
-                    <Link
-                      href={`/blog/${key}`}
-                      class="month-cell month-link"
-                      aria-label={`${year}年${label}`}
-                      aria-current={isCurrent ? 'page' : undefined}
-                    >
-                      {label}
-                    </Link>
-                  ) : (
-                    <span class="month-cell month-empty">
-                      {label}
-                      <span class="visually-hidden">（記事なし）</span>
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </details>
-        ))}
-      </blog-archive>
-      <p class="archive-summary">全{archive.totalMonths}か月</p>
-    </aside>
-  )
-}
+          </ul>
+        </details>
+      ))}
+    </blog-archive>
+    <p class="archive-summary">全{archive.totalMonths}か月</p>
+  </aside>
+)}
 
 <script>
   import '../scripts/blogArchive';
@@ -74,7 +72,7 @@ const archive = createBlogArchive(months, currentMonth);
     grid-column: 9 / span 4;
     align-self: stretch;
     min-width: 0;
-    padding: var(--space-lg);
+    padding: var(--card-padding);
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-xl);
@@ -91,6 +89,7 @@ const archive = createBlogArchive(months, currentMonth);
   }
 
   .archive-year-control {
+    font-family: var(--font-family-mono);
     display: flex;
     align-items: center;
     gap: var(--space-xs);
@@ -113,6 +112,7 @@ const archive = createBlogArchive(months, currentMonth);
   }
 
   .archive-year summary {
+    font-family: var(--font-family-mono);
     min-height: 44px;
     padding: var(--space-xs) 0;
     color: var(--text-secondary);
@@ -142,6 +142,7 @@ const archive = createBlogArchive(months, currentMonth);
   }
 
   .month-cell {
+    font-family: var(--font-family-mono);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -159,24 +160,30 @@ const archive = createBlogArchive(months, currentMonth);
 
   .month-link {
     transition:
-      color 0.2s ease,
-      border-color 0.2s ease;
+      color 0.15s ease,
+      border-color 0.15s ease;
   }
 
   .month-link:hover,
   .month-link[aria-current='page'] {
-    color: var(--text-accent);
-    border-color: var(--text-accent);
+    background: var(--accent-bg);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    color: var(--text-primary);
+    border-color: var(--border-strong);
   }
 
   .month-link[aria-current='page'] {
+    background: var(--accent-bg);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
     font-weight: 600;
   }
 
   .month-link:focus-visible,
   .archive-year-control select:focus-visible,
   .archive-year summary:focus-visible {
-    outline: 2px solid var(--text-accent);
+    outline: 2px solid var(--focus-color);
     outline-offset: 2px;
   }
 
@@ -187,6 +194,7 @@ const archive = createBlogArchive(months, currentMonth);
   }
 
   .archive-summary {
+    font-family: var(--font-family-mono);
     margin: auto 0 0;
     padding-top: var(--space-md);
     color: var(--text-secondary);

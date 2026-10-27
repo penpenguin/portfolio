@@ -27,7 +27,9 @@ describe('Projects list Bento layout', () => {
   it('project画像はGitHub Pagesのbase pathを考慮して解決する', () => {
     expect(source).toContain("import { withBase } from '../../utils/withBase'");
     expect(source).toContain('src={withBase(project.data.heroImage)}');
-    expect(source).toMatch(/\.project-image\s*\{[^}]*object-position:\s*top/);
+    expect(source).toMatch(
+      /\.project-image\s*\{[^}]*object-position:\s*center/
+    );
   });
 
   it('プロジェクト一覧は公開日の降順で並べ、最新をfeaturedにする', () => {
@@ -44,7 +46,7 @@ describe('Projects list Bento layout', () => {
     );
   });
 
-  it('画像がない場合はUI部品を描かない背景アートとして代替ビジュアルを表示する', () => {
+  it('画像がない場合は既存の作品名を使った組版として代替ビジュアルを表示する', () => {
     expect(source).toContain('project-card__fallback-visual');
     expect(source).toContain('project-card__fallback-art');
     expect(source).not.toContain('project-card__fallback-mark');
@@ -80,18 +82,16 @@ describe('Projects list Bento layout', () => {
     expect(source).toMatch(
       /\.project-image\s*\{[^}]*padding:\s*var\(--space-sm\)/s
     );
-    expect(source).toMatch(/\.project-image\s*\{[^}]*object-fit:\s*cover/s);
+    expect(source).toMatch(/\.project-image\s*\{[^}]*object-fit:\s*contain/s);
   });
 
-  it('画像なしプロジェクトには変更前の代替ビジュアルを表示する', () => {
+  it('画像なしプロジェクトは既存タイトルの無彩色の組版にする', () => {
+    expect(source).not.toMatch(/(?:linear|radial)-gradient/);
     expect(source).toMatch(
-      /\.project-card__fallback-visual\s*\{[^}]*linear-gradient\(135deg,\s*rgba\(14,\s*165,\s*233,\s*0\.14\),\s*transparent 44%\)/s
+      /class="project-card__fallback-art"[^>]*>\s*\{project.data.title\}/s
     );
     expect(source).toMatch(
-      /\.project-card__fallback-art\s*\{[^}]*radial-gradient\(\s*circle at 24% 28%,\s*rgba\(20,\s*184,\s*166,\s*0\.18\)/s
-    );
-    expect(source).toMatch(
-      /\.project-card__fallback-art::before\s*\{[^}]*background:\s*linear-gradient\(90deg,\s*rgba\(15,\s*23,\s*42,\s*0\.07\),\s*transparent 62%\)/s
+      /class="project-card__fallback-visual" aria-hidden="true"/
     );
   });
 

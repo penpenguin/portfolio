@@ -21,13 +21,19 @@ describe('スキップリンク', () => {
 describe('キーボードフォーカスの視認性', () => {
   it('ボタンスタイルにフォーカス可視アウトラインが定義されている', () => {
     expect(globalStyles).toMatch(
-      /\.btn:focus-visible\s*\{[^}]*outline:\s*2px solid var\(--text-accent\)[^}]*outline-offset:\s*3px[^}]*\}/
+      /\.btn:focus-visible\s*\{[^}]*outline:\s*2px solid var\(--focus-color\)[^}]*outline-offset:\s*3px[^}]*\}/
     );
   });
 
   it('ナビゲーションリンクがフォーカス時にハイライトされる', () => {
     expect(globalStyles).toMatch(
-      /\.nav-link:focus-visible\s*\{[^}]*outline:\s*2px solid var\(--text-accent\)[^}]*\}/
+      /\.nav-link:focus-visible\s*\{[^}]*outline:\s*2px solid var\(--focus-color\)[^}]*\}/
     );
   });
+});
+
+it('記事の補助的なパンくずは読み上げ用として画面から隠す', () => {
+  expect(globalStyles).toMatch(
+    /\.sr-only\s*\{[^}]*position:\s*absolute[^}]*width:\s*1px[^}]*height:\s*1px[^}]*clip-path:\s*inset\(50%\)/s
+  );
 });

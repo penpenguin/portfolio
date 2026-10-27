@@ -7,10 +7,13 @@ const design = readFileSync(
 );
 
 describe('DESIGN.md portfolio design guidance', () => {
-  it('documents a Linear-based direction for this portfolio', () => {
-    expect(design).toContain('Linear');
-    expect(design).toContain('precision');
-    expect(design).toContain('product-minded');
+  it('documents the light editorial direction and distinct font roles', () => {
+    expect(design).toContain('edited collection');
+    expect(design).toContain('Cormorant Garamond');
+    expect(design).toContain('Noto Serif JP');
+    expect(design).toContain('Home About only');
+    expect(design).toContain('#EDEDED');
+    expect(design).toContain('#090909');
   });
 
   it('locks the existing BentoUI structure while allowing visual polish', () => {

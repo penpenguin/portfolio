@@ -56,3 +56,24 @@ describe('No eyebrow visual policy', () => {
     );
   });
 });
+
+it('詳細でもタイトル、日付、説明、タグの順に並ぶ', () => {
+  for (const [path, dateClass, descriptionClass] of [
+    [
+      '../../../src/pages/projects/[...slug].astro',
+      'project-date',
+      'project-description',
+    ],
+    [
+      '../../../src/pages/blog/[year]/[month]/[slug].astro',
+      'meta',
+      'article-description',
+    ],
+  ]) {
+    const content = load(path).split('</h1>')[1];
+    expect(content.indexOf(`class="${dateClass}"`)).toBeLessThan(
+      content.indexOf(`class="${descriptionClass}"`)
+    );
+    expect(content).toMatch(/<time\s+datetime=/);
+  }
+});

@@ -21,9 +21,7 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
   <section class="page-shell bento-shell">
     <div class="container">
       <div class="bento-grid home-overview-grid">
-        <section
-          class="bento-hero bento-panel bento-card bento-card--intro card-glass"
-        >
+        <section class="bento-hero bento-panel bento-card bento-card--intro card-glass">
           <div class="intro-copy">
             <h1>About</h1>
             <p class="intro-role">
@@ -42,64 +40,67 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
             loading="eager"
             sandbox="allow-scripts"
             allow="fullscreen"
-            allowfullscreen></iframe>
+            allowfullscreen
+          ></iframe>
         </section>
 
-        {
-          latestProject && (
-            <section class="bento-panel bento-card bento-card--project card-glass">
-              <div class="project-summary">
-                <h2>
-                  <Link href={`/projects/${latestProject.id}`}>
-                    {latestProject.data.title}
-                  </Link>
-                </h2>
-                <span class="project-card-meta">
-                  {formatDate(latestProject.data.pubDate)}
-                </span>
-                <p>{latestProject.data.description}</p>
+        {latestProject && (
+          <section class="bento-panel bento-card bento-card--project card-glass">
+            <div class="project-summary">
+              <h2>
+                <Link href={`/projects/${latestProject.id}`}>
+                  {latestProject.data.title}
+                </Link>
+              </h2>
+              <time
+                class="project-card-meta"
+                datetime={latestProject.data.pubDate.toISOString()}
+              >
+                {formatDate(latestProject.data.pubDate)}
+              </time>
+              <p>{latestProject.data.description}</p>
+            </div>
+            {latestProject.data.tags && (
+              <div class="pill-list project-tags">
+                {latestProject.data.tags.slice(0, 4).map((tag) => (
+                  <span>{tag}</span>
+                ))}
               </div>
-              {latestProject.data.tags && (
-                <div class="pill-list project-tags">
-                  {latestProject.data.tags.slice(0, 4).map((tag) => (
-                    <span>{tag}</span>
-                  ))}
-                </div>
-              )}
-              <Link href="/projects" class="overview-link project-index-link">
-                Projects一覧を見る
-              </Link>
-            </section>
-          )
-        }
+            )}
+            <Link href="/projects" class="overview-link project-index-link">
+              Projects一覧を見る
+            </Link>
+          </section>
+        )}
 
-        {
-          latestPost && (
-            <section class="bento-panel bento-card bento-card--blog card-glass">
-              <div class="blog-summary">
-                <h2>
-                  <Link href={`/blog/${latestPost.id}`}>
-                    {latestPost.data.title}
-                  </Link>
-                </h2>
-                <span class="blog-card-meta">
-                  {formatDate(latestPost.data.pubDate)}
-                </span>
-                <p>{latestPost.data.description}</p>
+        {latestPost && (
+          <section class="bento-panel bento-card bento-card--blog card-glass">
+            <div class="blog-summary">
+              <h2>
+                <Link href={`/blog/${latestPost.id}`}>
+                  {latestPost.data.title}
+                </Link>
+              </h2>
+              <time
+                class="blog-card-meta"
+                datetime={latestPost.data.pubDate.toISOString()}
+              >
+                {formatDate(latestPost.data.pubDate)}
+              </time>
+              <p>{latestPost.data.description}</p>
+            </div>
+            {latestPost.data.tags && (
+              <div class="pill-list blog-tags">
+                {latestPost.data.tags.slice(0, 4).map((tag) => (
+                  <span>{tag}</span>
+                ))}
               </div>
-              {latestPost.data.tags && (
-                <div class="pill-list blog-tags">
-                  {latestPost.data.tags.slice(0, 4).map((tag) => (
-                    <span>{tag}</span>
-                  ))}
-                </div>
-              )}
-              <Link href="/blog" class="overview-link project-index-link">
-                Blog一覧を見る
-              </Link>
-            </section>
-          )
-        }
+            )}
+            <Link href="/blog" class="overview-link project-index-link">
+              Blog一覧を見る
+            </Link>
+          </section>
+        )}
       </div>
     </div>
   </section>
@@ -114,13 +115,20 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
     min-height: 240px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: var(--space-md);
   }
 
   .bento-card--intro {
     grid-column: span 3;
     min-height: auto;
-    background: var(--bento-card-bg);
+    background: var(--about-bg);
+    border-color: var(--about-border);
+  }
+
+  .bento-card--intro:hover,
+  .bento-card--intro:focus-within {
+    background: var(--about-bg);
+    border-color: var(--about-border);
   }
 
   .bento-card--aquarium {
@@ -153,10 +161,12 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
   .bento-card h1 {
     max-width: 760px;
-    margin: var(--space-sm) 0;
-    font-size: 5.25rem;
-    line-height: 0.95;
-    letter-spacing: 0;
+    margin: 0;
+    font-size: clamp(5.5rem, 7.2vw, 6.5rem);
+    line-height: 1.02;
+    font-weight: 400;
+    color: var(--about-heading);
+    letter-spacing: -0.025em;
   }
 
   .project-summary {
@@ -171,12 +181,15 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
   .project-summary h2 {
     margin-bottom: 0;
-    font-size: var(--font-size-3xl);
+    font-size: 1.875rem;
+    line-height: 1.35;
   }
 
   .blog-summary h2 {
     margin-bottom: 0;
-    font-size: var(--font-size-3xl);
+    font-family: var(--font-family-japanese);
+    font-size: 1.5rem;
+    line-height: 1.6;
   }
 
   .project-summary h2 a {
@@ -188,37 +201,48 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
   }
 
   .project-card-meta {
-    color: var(--text-accent);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
+    font-family: var(--font-family-mono);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 400;
   }
 
   .blog-card-meta {
-    color: var(--text-accent);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
+    font-family: var(--font-family-mono);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 400;
   }
 
   .project-tags span {
-    color: var(--text-accent);
+    color: var(--text-secondary);
     font-size: var(--font-size-xs);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .blog-tags span {
-    color: var(--text-accent);
+    color: var(--text-secondary);
     font-size: var(--font-size-xs);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .intro-copy {
     max-width: 820px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
   }
 
   .intro-role {
-    margin: var(--space-md) 0 0;
-    color: var(--text-secondary);
-    font-size: var(--font-size-lg);
+    margin: 0;
+    color: var(--about-text);
+    font-size: var(--font-size-base);
   }
 
   .bento-card p {
@@ -227,14 +251,19 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
   .project-index-link {
     align-self: flex-start;
-    margin-top: var(--space-lg);
+    margin-top: auto;
   }
 
   .overview-link {
-    color: var(--text-accent);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    color: var(--text-secondary);
     flex: 0 0 auto;
     font-size: var(--font-size-sm);
-    font-weight: 700;
+    font-weight: 500;
   }
 
   .overview-link:hover {
@@ -273,14 +302,20 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
     }
 
     .bento-card h1 {
-      font-size: 3rem;
+      font-size: clamp(4rem, 18vw, 5rem);
       line-height: 1.02;
     }
   }
 
-  @media (max-width: 420px) {
-    .bento-card h1 {
-      font-size: 2.5rem;
+  @media (max-width: 768px) {
+    .intro-copy {
+      gap: 2rem;
+    }
+    .project-summary h2 {
+      font-size: 1.625rem;
+    }
+    .blog-summary h2 {
+      font-size: 1.375rem;
     }
   }
 </style>

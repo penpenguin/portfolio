@@ -29,3 +29,31 @@ describe('Layout モバイルナビゲーション', () => {
     );
   });
 });
+
+describe('資料集の共有ヘッダーと検索', () => {
+  it('必要なセリフ体をswapで読み込む', () => {
+    expect(layout).toContain('Cormorant+Garamond:wght@400;500');
+    expect(layout).toContain('Noto+Serif+JP:wght@500');
+    expect(layout).toContain('display=swap');
+  });
+
+  it('不透明な面と下線のナビを使用する', () => {
+    expect(layout).toMatch(
+      /\.navbar-content\s*\{[^}]*background:\s*var\(--primary-bg\)/s
+    );
+    expect(layout).toMatch(
+      /\.nav-link--active\s*\{[^}]*text-decoration:\s*underline/s
+    );
+    expect(layout).not.toContain('backdrop-filter');
+  });
+
+  it('検索ダイアログにも操作色と読みやすい副文字を適用する', () => {
+    expect(layout).toMatch(
+      /body\s*\{[^}]*--pf-outline-focus:\s*var\(--focus-color\)/s
+    );
+    expect(layout).toMatch(
+      /body\s*\{[^}]*--pf-text-muted:\s*var\(--text-secondary\)/s
+    );
+    expect(layout).toContain('--pf-shadow-lg: none');
+  });
+});

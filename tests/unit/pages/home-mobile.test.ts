@@ -63,8 +63,10 @@ describe('Home モバイルレイアウト', () => {
     expect(introRule).not.toContain('min-height: 390px');
 
     const heroHeadingRule = getRule('.bento-card h1');
-    expect(heroHeadingRule).toContain('font-size: 5.25rem');
-    expect(heroHeadingRule).toContain('line-height: 0.95');
+    expect(heroHeadingRule).toContain(
+      'font-size: clamp(5.5rem, 7.2vw, 6.5rem)'
+    );
+    expect(heroHeadingRule).toContain('line-height: 1.02');
   });
 
   it('HomeはProjectsとBlogを主要導線として表示する', () => {
