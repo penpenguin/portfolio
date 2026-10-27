@@ -8,64 +8,97 @@ interface Props {
 }
 
 const { src, alt, class: className, ...attributes } = Astro.props;
+const imageSrc = src?.trim() ? withBase(src.trim()) : undefined;
 ---
 
-<div
+<blog-thumbnail
   {...attributes}
-  class:list={['blog-thumbnail', className, { 'post-visual--fallback': !src }]}
+  class:list={[
+    'blog-thumbnail',
+    className,
+    { 'post-visual--fallback': !imageSrc },
+  ]}
 >
-  {src ? (
-    <img
-      class="blog-thumbnail__image"
-      src={withBase(src)}
-      alt={alt}
-      decoding="async"
-    />
-  ) : (
-    <span class="post-visual__art" aria-hidden="true">
-      {alt}
-    </span>
+  <div
+    class="blog-thumbnail__fallback"
+    style={`--noise-image: url("${withBase('/assets/noimage-noise.svg')}")`}
+    aria-hidden="true"
+    hidden={!!imageSrc}
+  >
+    <span>NoImage</span>
+  </div>
+  {imageSrc && (
+    <>
+      <img
+        class="blog-thumbnail__backdrop"
+        src={imageSrc}
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+      />
+      <img
+        class="blog-thumbnail__image"
+        src={imageSrc}
+        alt={alt}
+        decoding="async"
+      />
+    </>
   )}
-</div>
+</blog-thumbnail>
+
+<script>
+  import '../scripts/blogThumbnail';
+</script>
 
 <style>
   .blog-thumbnail {
     height: var(--thumbnail-height, 150px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    position: relative;
+    isolation: isolate;
     min-width: 0;
     overflow: hidden;
-    padding: var(--space-sm);
+    padding: 0;
     background: var(--bento-muted-bg);
     border-bottom: 1px solid var(--glass-border);
   }
 
   .blog-thumbnail__image {
     display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: contain;
     object-position: center;
   }
 
-  .post-visual__art {
+  .blog-thumbnail__backdrop {
+    position: absolute;
+    inset: -32px;
+    width: calc(100% + 64px);
+    height: calc(100% + 64px);
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(22px);
+  }
+
+  .blog-thumbnail__fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: var(--bento-muted-bg) var(--noise-image) repeat;
     color: var(--text-secondary);
-    font-family: var(--font-family-japanese);
-    font-size: clamp(1.25rem, 2vw, 1.625rem);
-    font-weight: 500;
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    font-weight: 400;
     line-height: 1.6;
-    overflow-wrap: anywhere;
   }
 
-  .post-visual--fallback {
-    height: auto;
-    min-height: var(--thumbnail-height, 150px);
-  }
-
-  @media (max-width: 768px) {
-    .blog-thumbnail {
-      padding: 0.75rem;
-    }
+  [hidden] {
+    display: none;
   }
 </style>

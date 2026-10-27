@@ -7,15 +7,6 @@ const pages = [
 ];
 
 test.describe('Bento layout', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.route('https://penpenguin.github.io/suiren-aquarium/', (route) =>
-      route.fulfill({
-        contentType: 'text/html; charset=utf-8',
-        body: '<!doctype html><html lang="ja"><body>水槽の読み込み確認</body></html>',
-      })
-    );
-  });
-
   for (const pageInfo of pages) {
     test(`${pageInfo.path} has stable responsive framing`, async ({ page }) => {
       await page.goto(pageInfo.path);
@@ -202,16 +193,16 @@ test.describe('Bento layout', () => {
     }
   });
 
-  test('home keeps the aquarium beside About with the original desktop proportions', async ({
+  test('home keeps the device beside About with the original desktop proportions', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto('./');
 
-    const card = page.locator('.bento-card--aquarium');
-    const iframe = card.locator('iframe');
-    await expect(iframe).toBeVisible();
-    await expect(iframe).toHaveAttribute('title', '水縁 — SUIREN');
+    const card = page.locator('.bento-card--device');
+    const canvas = card.locator('canvas');
+    await expect(canvas).toBeVisible();
+    await expect(card).toHaveAttribute('aria-label', '線画の3D装置');
     await expect(page.locator('.bento-card')).toHaveCount(4);
     await expect(
       page.locator('.bento-card--metric, .bento-card--playground')
@@ -219,39 +210,37 @@ test.describe('Bento layout', () => {
 
     const layout = await page.evaluate(() => {
       const intro = document.querySelector('.bento-card--intro')!;
-      const aquarium = document.querySelector('.bento-card--aquarium')!;
-      const iframe = aquarium.querySelector('iframe')!;
+      const device = document.querySelector('.bento-card--device')!;
+      const canvas = device.querySelector('canvas')!;
       const grid = document.querySelector('.home-overview-grid')!;
       return {
         intro: intro.getBoundingClientRect().toJSON(),
-        aquarium: aquarium.getBoundingClientRect().toJSON(),
-        iframe: iframe.getBoundingClientRect().toJSON(),
+        device: device.getBoundingClientRect().toJSON(),
+        canvas: canvas.getBoundingClientRect().toJSON(),
         gap: parseFloat(getComputedStyle(grid).columnGap),
       };
     });
 
-    expect(layout.aquarium.height).toBeGreaterThan(150);
+    expect(layout.device.height).toBeGreaterThan(150);
     expect(
-      Math.abs(layout.intro.height - layout.aquarium.height)
+      Math.abs(layout.intro.height - layout.device.height)
+    ).toBeLessThanOrEqual(1);
+    expect(Math.abs(layout.intro.top - layout.device.top)).toBeLessThanOrEqual(
+      1
+    );
+    expect(layout.device.left).toBeGreaterThan(layout.intro.right);
+    expect(
+      Math.abs(layout.intro.width - (3 * layout.device.width + 2 * layout.gap))
     ).toBeLessThanOrEqual(1);
     expect(
-      Math.abs(layout.intro.top - layout.aquarium.top)
-    ).toBeLessThanOrEqual(1);
-    expect(layout.aquarium.left).toBeGreaterThan(layout.intro.right);
-    expect(
-      Math.abs(
-        layout.intro.width - (3 * layout.aquarium.width + 2 * layout.gap)
-      )
+      Math.abs(layout.canvas.width - (layout.device.width - 2))
     ).toBeLessThanOrEqual(1);
     expect(
-      Math.abs(layout.iframe.width - (layout.aquarium.width - 2))
-    ).toBeLessThanOrEqual(1);
-    expect(
-      Math.abs(layout.iframe.height - (layout.aquarium.height - 2))
+      Math.abs(layout.canvas.height - (layout.device.height - 50))
     ).toBeLessThanOrEqual(1);
   });
 
-  test('home stacks all four cards with a 240px aquarium on smaller screens', async ({
+  test('home stacks all four cards with a 240px device on smaller screens', async ({
     page,
   }) => {
     for (const width of [980, 768, 390, 320]) {
@@ -271,7 +260,7 @@ test.describe('Bento layout', () => {
       expect(layout.cards).toHaveLength(4);
       for (const [index, name] of [
         'intro',
-        'aquarium',
+        'device',
         'project',
         'blog',
       ].entries()) {
@@ -291,58 +280,101 @@ test.describe('Bento layout', () => {
     }
   });
 
-  test('home reloads the embedded app after navigating away and back', async ({
+  test('home retains pause across repeated ClientRouter visits and resumes with the keyboard', async ({
     page,
   }) => {
     await page.goto('./');
-    const iframe = page.frameLocator('.bento-card--aquarium iframe');
-    await expect(iframe.getByText('水槽の読み込み確認')).toBeVisible();
-
-    await page
-      .locator('.navbar')
-      .getByRole('link', { name: 'Projects', exact: true })
-      .click();
+    await page.evaluate(() =>
+      Reflect.set(window, 'deviceNavigationMarker', true)
+    );
+    const canvas = page.locator('wireframe-device canvas');
+    const pixels = () =>
+      canvas.evaluate((el) => (el as HTMLCanvasElement).toDataURL());
     await expect(
-      page.getByRole('heading', { name: 'Built Systems', level: 1 })
+      page.getByRole('button', { name: '回転を停止' })
     ).toBeVisible();
-    await expect(page.locator('.bento-card--aquarium')).toHaveCount(0);
-    await page
-      .locator('.navbar')
-      .getByRole('link', { name: 'Home', exact: true })
-      .click();
-    await expect(
-      page.getByRole('heading', { name: 'About', level: 1 })
-    ).toBeVisible();
-    await expect(iframe.getByText('水槽の読み込み確認')).toBeVisible();
+    const initial = await pixels();
+    await expect.poll(pixels).not.toBe(initial);
+    await page.getByRole('button', { name: '回転を停止' }).click();
+    const paused = await pixels();
+    await page.waitForTimeout(150);
+    expect(await pixels()).toBe(paused);
+    for (let visit = 0; visit < 3; visit++) {
+      await page
+        .getByRole('navigation')
+        .getByRole('link', { name: 'Blog', exact: true })
+        .click();
+      await expect(page.locator('wireframe-device')).toHaveCount(0);
+      await page
+        .getByRole('navigation')
+        .getByRole('link', { name: 'Home', exact: true })
+        .click();
+      await expect(
+        page.getByRole('button', { name: '回転を再生' })
+      ).toBeVisible();
+      await expect.poll(pixels).toBe(paused);
+    }
+    expect(
+      await page.evaluate(() => Reflect.get(window, 'deviceNavigationMarker'))
+    ).toBe(true);
+    const play = page.getByRole('button', { name: '回転を再生' });
+    await play.focus();
+    await page.keyboard.press('Shift+Tab');
+    await page.keyboard.press('Tab');
+    await expect(play).toBeFocused();
+    await expect(play).toHaveCSS('outline-style', 'solid');
+    await play.press('Enter');
+    await expect.poll(pixels).not.toBe(paused);
   });
 
-  test('aquarium scripts run without access to the parent on the same origin', async ({
+  test('device stays still under reduced motion and suspends offscreen', async ({
     page,
   }) => {
-    await page.route('**/aquarium-isolation-probe', (route) =>
-      route.fulfill({
-        contentType: 'text/html; charset=utf-8',
-        body: `<!doctype html><html><body><script>
-          try {
-            parent.document.title;
-            document.body.dataset.parentAccess = 'allowed';
-          } catch (error) {
-            document.body.dataset.parentAccess = error.name;
-          }
-        </script></body></html>`,
-      })
-    );
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('./');
-    const sameOriginUrl = new URL('aquarium-isolation-probe', page.url()).href;
-    await page
-      .locator('.bento-card--aquarium iframe')
-      .evaluate((iframe, src) => {
-        (iframe as HTMLIFrameElement).src = src;
-      }, sameOriginUrl);
+    await page.evaluate(() => document.fonts.ready);
+    const canvas = page.locator('wireframe-device canvas');
+    const pixels = () =>
+      canvas.evaluate((el) => (el as HTMLCanvasElement).toDataURL());
+    const play = page.getByRole('button', { name: '回転を再生' });
+    await expect(play).toBeVisible();
+    await page.waitForTimeout(100);
+    const still = await pixels();
+    await page.waitForTimeout(150);
+    expect(await pixels()).toBe(still);
+    await play.click();
+    await expect.poll(pixels).not.toBe(still);
+    // A short viewport makes the top row completely leave the viewport at all widths.
+    await page.setViewportSize({ width: 390, height: 400 });
+    await page.evaluate(() =>
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' })
+    );
+    await page.waitForTimeout(100);
+    const offscreen = await pixels();
+    await page.waitForTimeout(150);
+    expect(await pixels()).toBe(offscreen);
+    await canvas.scrollIntoViewIfNeeded();
+    await expect.poll(pixels).not.toBe(offscreen);
+  });
 
-    const body = page
-      .frameLocator('.bento-card--aquarium iframe')
-      .locator('body');
-    await expect(body).toHaveAttribute('data-parent-access', 'SecurityError');
+  test('Canvas failure retains the static drawing without a nonfunctional control', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      HTMLCanvasElement.prototype.getContext = () => null;
+    });
+    await page.goto('./');
+    await expect(page.locator('wireframe-device svg')).toBeVisible();
+    await expect(page.locator('wireframe-device canvas')).toBeHidden();
+    await expect(page.locator('wireframe-device button')).toBeHidden();
+  });
+});
+
+test.describe('device without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('keeps the static wireframe visible', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('wireframe-device svg')).toBeVisible();
+    await expect(page.locator('wireframe-device button')).toBeHidden();
   });
 });

@@ -1,0 +1,86 @@
+---
+import { initialAngle, projectDevice } from '../utils/wireframeDevice';
+
+const lines = projectDevice(initialAngle, 240, 180);
+---
+
+<wireframe-device>
+  <div
+    data-device-stage
+    role="img"
+    aria-label="基板、支持柱、ヒートシンク、端子を持つ装置の線画"
+  >
+    <svg viewBox="0 0 240 180" fill="none" aria-hidden="true">
+      {lines.map(({ from, to, opacity }) => (
+        <line
+          x1={from.x}
+          y1={from.y}
+          x2={to.x}
+          y2={to.y}
+          stroke="#5B5A60"
+          stroke-opacity={opacity}
+          stroke-width="0.8"
+          vector-effect="non-scaling-stroke"
+        />
+      ))}
+    </svg>
+    <canvas aria-hidden="true"></canvas>
+  </div>
+  <button
+    type="button"
+    class="btn device-toggle"
+    aria-label="回転を再生"
+    hidden
+  >
+    再生
+  </button>
+</wireframe-device>
+
+<script>
+  import '../scripts/wireframeDevice';
+</script>
+
+<style>
+  wireframe-device {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  [data-device-stage] {
+    position: absolute;
+    inset: 0 0 48px;
+  }
+  svg,
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  canvas,
+  [hidden],
+  [data-enhanced] svg {
+    display: none;
+  }
+  [data-enhanced] canvas {
+    display: block;
+  }
+  .device-toggle {
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 10px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    background: var(--bento-muted-bg);
+    color: var(--text-secondary);
+    font-family: var(--font-family-mono);
+    font-size: 12px;
+  }
+  .device-toggle:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+</style>

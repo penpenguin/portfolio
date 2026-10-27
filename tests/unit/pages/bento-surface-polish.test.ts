@@ -18,19 +18,18 @@ describe('Bento surface polish', () => {
       'background: var(--about-bg)'
     );
 
-    for (const selector of [
-      '.bento-card--aquarium',
-      '.bento-card--project',
-      '.bento-card--blog',
-    ]) {
+    for (const selector of ['.bento-card--project', '.bento-card--blog']) {
       const rule = getRule(source, selector);
       expect(rule).toContain('background: var(--bento-card-bg)');
       expect(rule).not.toContain('linear-gradient');
       expect(rule).not.toContain('radial-gradient');
     }
+    expect(getRule(source, '.bento-card--device')).toContain(
+      'background: var(--bento-muted-bg)'
+    );
   });
 
-  it('blog Bento cards use quiet surfaces with a shared neutral typographic fallback', () => {
+  it('blog Bento cards use quiet surfaces with a shared thumbnail fallback', () => {
     for (const path of [
       '../../../src/pages/blog/index.astro',
       '../../../src/pages/blog/[year]/[month]/index.astro',

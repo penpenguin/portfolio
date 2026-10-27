@@ -42,4 +42,12 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).toContain('Eyebrow text is forbidden');
     expect(design).toContain('Card titles must stand on their own');
   });
+
+  it('documents the approved wireframe motion and thumbnail exceptions', () => {
+    expect(design).toContain('16-second');
+    expect(design).toContain('NoImage');
+    expect(design).toContain('blur(22px)');
+    expect(design).not.toContain('the aquarium iframe');
+    expect(design).not.toContain('without a blurred duplicate backdrop');
+  });
 });

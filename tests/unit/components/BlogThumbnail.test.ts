@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import BlogThumbnail from '../../../src/components/BlogThumbnail.astro';
 
 describe('BlogThumbnail', () => {
-  it('renders one accessible image with a base-aware URL', async () => {
+  it('renders the same base-aware image twice with only the foreground accessible', async () => {
     vi.stubEnv('BASE_URL', '/portfolio/');
     const container = await AstroContainer.create();
     const html = await container.renderToString(BlogThumbnail, {
@@ -16,14 +16,17 @@ describe('BlogThumbnail', () => {
         class: 'post-visual',
       },
     });
-    expect(html).toMatch(/<div[^>]*class="[^"]*post-visual/);
+    expect(html).toMatch(/<blog-thumbnail[^>]*class="[^"]*post-visual/);
     const images = html.match(/<img\b[^>]*>/g)!;
-    expect(images).toHaveLength(1);
+    expect(images).toHaveLength(2);
     expect(images.map((image) => image.match(/src="([^"]+)"/)?.[1])).toEqual([
       '/portfolio/assets/projects/cadenzio.webp',
+      '/portfolio/assets/projects/cadenzio.webp',
     ]);
-    expect(images[0]).toContain('alt="記事のサムネイル"');
-    expect(images[0]).not.toContain('aria-hidden');
+    expect(images[0]).toContain('alt=""');
+    expect(images[0]).toContain('aria-hidden="true"');
+    expect(images[1]).toContain('alt="記事のサムネイル"');
+    expect(images[1]).not.toContain('aria-hidden');
   });
 
   it('keeps the image uncropped and its surrounding frame neutral', () => {
@@ -35,13 +38,14 @@ describe('BlogThumbnail', () => {
     expect(source).toMatch(
       /\.blog-thumbnail\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
     );
-    expect(source).not.toContain('filter:');
-    expect(source).toMatch(
-      /\.blog-thumbnail\s*\{[^}]*padding:\s*var\(--space-sm\)/s
-    );
+    expect(source).toMatch(/\.blog-thumbnail\s*\{[^}]*padding:\s*0/s);
     expect(source).toMatch(
       /\.blog-thumbnail__image\s*\{[^}]*object-fit:\s*contain/s
     );
+    const foreground = source.match(
+      /\.blog-thumbnail__image\s*\{[^}]*\}/s
+    )?.[0];
+    expect(foreground).not.toContain('filter:');
   });
 
   it('preserves the parent page style scope so card heights remain responsive', async () => {
@@ -54,16 +58,20 @@ describe('BlogThumbnail', () => {
         'data-astro-cid-parent': true,
       },
     });
-    expect(html).toMatch(/<div[^>]*data-astro-cid-parent/);
+    expect(html).toMatch(/<blog-thumbnail[^>]*data-astro-cid-parent/);
   });
 });
 
-it('uses the existing title as a decorative fallback without inventing content', async () => {
-  const container = await AstroContainer.create();
-  const html = await container.renderToString(BlogThumbnail, {
-    props: { alt: '実際の記事タイトル', class: 'post-visual' },
-  });
-  expect(html).not.toContain('<img');
-  expect(html).toMatch(/aria-hidden="true"[^>]*>\s*実際の記事タイトル/s);
-  expect(html).toContain('post-visual--fallback');
-});
+it.each([undefined, '', '   '])(
+  'uses static NoImage for missing source %s without repeating the title',
+  async (src) => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(BlogThumbnail, {
+      props: { src, alt: '実際の記事タイトル', class: 'post-visual' },
+    });
+    expect(html).not.toContain('<img');
+    expect(html).toMatch(/aria-hidden="true"[^>]*>[\s\S]*?NoImage/s);
+    expect(html).not.toContain('実際の記事タイトル');
+    expect(html).toContain('post-visual--fallback');
+  }
+);
