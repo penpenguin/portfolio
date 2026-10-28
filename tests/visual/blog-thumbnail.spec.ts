@@ -1,5 +1,57 @@
 import { expect, test } from '@playwright/test';
 
+test('original tone keeps both layers neutral and featured images load eagerly', async ({
+  page,
+}) => {
+  for (const path of ['blog/', 'blog/2026/10/']) {
+    await page.goto(path);
+    const featured = page.locator('.post-card--featured blog-thumbnail');
+    for (const image of await featured.locator('img').all()) {
+      await expect(image).toHaveAttribute('loading', 'eager');
+    }
+    for (const image of await page
+      .locator('.post-card:not(.post-card--featured) blog-thumbnail img')
+      .all()) {
+      await expect(image).toHaveAttribute('loading', 'lazy');
+    }
+    await featured.evaluate((el) => el.setAttribute('data-tone', 'original'));
+    await expect(featured.locator('.blog-thumbnail__image')).toHaveCSS(
+      'filter',
+      'grayscale(0) contrast(1) brightness(1)'
+    );
+    await expect(featured.locator('.blog-thumbnail__backdrop')).toHaveCSS(
+      'filter',
+      'grayscale(0) contrast(1) brightness(1) blur(22px)'
+    );
+  }
+});
+
+test('passive cards stay still while article links remain accessible', async ({
+  page,
+}) => {
+  await page.goto('blog/');
+  const card = page.locator('.post-card').first();
+  const surface = () =>
+    card.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return [style.backgroundColor, style.borderColor];
+    });
+  const before = await surface();
+  await card.locator('.post-description').hover();
+  expect(await surface()).toEqual(before);
+  const link = card.locator('.read-more');
+  expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  expect((await link.boundingBox())!.width).toBeLessThan(
+    (await card.boundingBox())!.width / 2
+  );
+  await expect(link).toHaveCSS('text-decoration-line', 'underline');
+  await link.focus();
+  await expect(link).toBeFocused();
+  await expect(link).not.toHaveCSS('outline-style', 'none');
+  await link.press('Enter');
+  await expect(page).toHaveURL(/\/blog\/\d{4}\/\d{2}\/[^/]+\/?$/);
+});
+
 test('foreground stays sharp while the expanded backdrop fills different aspect ratios', async ({
   page,
 }) => {
@@ -40,9 +92,15 @@ test('foreground stays sharp while the expanded backdrop fills different aspect 
           )
           .toBeGreaterThan(0);
         await expect(front).toHaveCSS('object-fit', 'contain');
-        await expect(front).toHaveCSS('filter', 'none');
+        await expect(front).toHaveCSS(
+          'filter',
+          'grayscale(0.92) contrast(0.94) brightness(0.98)'
+        );
         await expect(back).toHaveCSS('object-fit', 'cover');
-        await expect(back).toHaveCSS('filter', 'blur(22px)');
+        await expect(back).toHaveCSS(
+          'filter',
+          'grayscale(0.92) contrast(0.94) brightness(0.98) blur(22px)'
+        );
         await expect(back).toHaveAttribute('aria-hidden', 'true');
         await expect(back).toHaveAttribute('alt', '');
         await expect(frame).toHaveCSS('padding', '0px');
@@ -119,7 +177,7 @@ test('failed images hide both layers without changing height and recover on a la
   await expect(frame.locator('.blog-thumbnail__image')).toBeVisible();
   await expect(frame.locator('.blog-thumbnail__backdrop')).toHaveCSS(
     'filter',
-    'blur(22px)'
+    'grayscale(0.92) contrast(0.94) brightness(0.98) blur(22px)'
   );
 });
 

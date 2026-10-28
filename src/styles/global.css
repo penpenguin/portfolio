@@ -13,6 +13,7 @@
   --accent-bg: #e4e4e4;
   --glass-bg: #e9e9e9;
   --glass-border: #c6c5c9;
+  --border-editorial: #d3d2d6;
   --glass-subtle: #e4e4e4;
   --bento-card-bg: #e9e9e9;
   --bento-muted-bg: #e4e4e4;
@@ -254,14 +255,8 @@ a:hover {
 
 .card-glass {
   background: var(--bento-card-bg);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-editorial);
   box-shadow: var(--shadow-sm);
-}
-
-.card-glass:hover {
-  background: var(--accent-bg);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
 }
 
 /* Bento layout primitives */
@@ -315,7 +310,7 @@ a:hover {
   font-weight: 400;
   overflow-wrap: anywhere;
   min-width: 0;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-editorial);
 }
 
 /* Layout utilities */

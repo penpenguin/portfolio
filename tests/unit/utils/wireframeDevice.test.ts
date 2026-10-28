@@ -7,6 +7,18 @@ import {
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device projection', () => {
+  it('shares three line weights and keeps depth-dependent shading within each hierarchy', () => {
+    const lines = projectDevice(initialAngle, 240, 192);
+    expect(new Set(lines.map((line) => line.width))).toEqual(
+      new Set([0.95, 0.8, 0.6])
+    );
+    for (const width of [0.95, 0.8, 0.6]) {
+      const opacities = lines
+        .filter((line) => line.width === width)
+        .map((line) => line.opacity);
+      expect(Math.max(...opacities)).toBeGreaterThan(Math.min(...opacities));
+    }
+  });
   it('rotates a full turn in 16 seconds regardless of frame intervals', () => {
     expect(advanceAngle(initialAngle, 16000)).toBeCloseTo(initialAngle);
     expect(advanceAngle(0, 4000)).toBeCloseTo(Math.PI / 2);

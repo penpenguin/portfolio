@@ -11,7 +11,7 @@ const lines = projectDevice(initialAngle, 240, 180);
     aria-label="基板、支持柱、ヒートシンク、端子を持つ装置の線画"
   >
     <svg viewBox="0 0 240 180" fill="none" aria-hidden="true">
-      {lines.map(({ from, to, opacity }) => (
+      {lines.map(({ from, to, opacity, width }) => (
         <line
           x1={from.x}
           y1={from.y}
@@ -19,7 +19,7 @@ const lines = projectDevice(initialAngle, 240, 180);
           y2={to.y}
           stroke="#5B5A60"
           stroke-opacity={opacity}
-          stroke-width="0.8"
+          stroke-width={width}
           vector-effect="non-scaling-stroke"
         />
       ))}

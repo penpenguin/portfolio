@@ -1,6 +1,6 @@
 ---
 name: Editorial Bento Portfolio Design System
-version: 2.1.0
+version: 2.2.0
 base: Light gray edited collection with restrained terminal details
 mode: light-only
 scope: visual direction only
@@ -35,6 +35,7 @@ Keep the order: title → date and existing number → thin divider → descript
 | Inset / selected surface | `#E4E4E4` | `--accent-bg`, `--glass-subtle`, `--bento-muted-bg` |
 | Main text / normal links | `#171719` | `--text-primary`, `--text-accent`                   |
 | Body / dates / metadata  | `#5B5A60` | `--text-secondary`, `--text-muted`                  |
+| Editorial border         | `#D3D2D6` | `--border-editorial`                                |
 | Hairline                 | `#C6C5C9` | `--glass-border`                                    |
 | Strong border            | `#77767D` | `--border-strong`                                   |
 | Focus                    | `#625E72` | `--focus-color`                                     |
@@ -49,7 +50,7 @@ Body text, dates, and ordinary links must meet 4.5:1 contrast on their actual su
 
 Apply About colors directly to its heading and description. Scope the black surface to `.bento-card--intro`, including hover and focus-within; never darken the shared `.bento-hero` class.
 
-Keep original image colors intact. Do not apply grayscale or reduced saturation to images, iframes, or pages. Preserve warning/error colors, admonition categories, and syntax highlighting. These semantic colors are intentional exceptions to the neutral UI palette.
+Keep original files, article body images, and Project image colors intact. Blog list thumbnails alone use the shared grayscale tone described below; never filter cards, text, NoImage, or the entire page. Preserve warning/error colors, admonition categories, and syntax highlighting. These semantic colors are intentional exceptions to the neutral UI palette.
 
 ## 4. Typography
 
@@ -58,7 +59,7 @@ Keep original image colors intact. Do not apply grayscale or reduced saturation 
 | About                                 | Cormorant Garamond 400         | Desktop 88–104px; mobile 64–80px; 1.02           |
 | English page titles / logo            | Cormorant Garamond 400–500     | Page titles 56–80px desktop, 40–56px mobile; 1.1 |
 | Project card titles                   | Serif stack, 500               | Desktop 26–30px, mobile 24–28px; 1.35            |
-| Japanese card titles                  | Noto Serif JP 500              | Desktop 22–26px, mobile 20–24px; 1.6             |
+| Japanese card titles                  | Noto Serif JP 500              | Desktop 22–26px, mobile 20–24px; 1.4             |
 | Descriptions / prose                  | Inter and Japanese system sans | 16px minimum; 1.8–1.9                            |
 | Dates / compact technical tags / code | System monospace               | Metadata 12–13px; 1.5–1.7                        |
 | Navigation / controls                 | Inter and system sans          | Approximately 14px; 400–500                      |
@@ -85,13 +86,13 @@ Frame Project images with neutral inset surfaces, thin borders, and 16px inner p
 
 When a Project image is missing, use its existing dynamic title as neutral typography. Do not generate fake interfaces, charts, maps, or counts. Decorative repeated titles are hidden from assistive technology; the actual card heading remains accessible.
 
-Blog thumbnails retain their existing 150px regular / 260px featured height (180px featured on mobile), with zero padding and no enforced aspect ratio. Use the original image twice: a sharp centered `contain` foreground and a decorative `cover` background with `blur(22px)` extending 32px beyond each edge. Clip both inside an isolated positioning context. Keep the background alt empty and hide it from assistive technology; never filter or desaturate the foreground. Keep the existing heroImage and base-path handling, with no additional content metadata.
+Blog thumbnails retain their existing 150px regular / 260px featured height (180px featured on mobile), with zero padding and no enforced aspect ratio. Use the original image twice: a sharp centered `contain` foreground and a decorative `cover` background with `blur(22px)` extending 32px beyond each edge. Clip both inside an isolated positioning context. Keep the background alt empty and hide it from assistive technology; never blur the foreground. Both image layers share `grayscale(0.92) contrast(0.94) brightness(0.98)` in that order, with the background blur appended. Optional Blog frontmatter `thumbnailTone: 'original'` preserves informative colors through `grayscale(0) contrast(1) brightness(1)` on both layers. Omit it for the default editorial tone, including the current two illustrative images. Keep heroImage and base-path handling. Featured images use eager loading; both layers of other images use native lazy loading. Retain fixed frame dimensions and async decoding.
 
-Missing, empty or failed foreground image URLs use exactly `NoImage`, centered in small monospaced type over a shared, seeded, static grayscale SVG noise texture. Do not repeat article titles. Hide this decorative fallback from assistive technology. Failed images hide both layers; loading and fallback states retain the same frame dimensions. The broad prohibition on decorative noise does not apply to this thumbnail-only static texture.
+Missing, empty or failed foreground image URLs use exactly `NoImage`, centered in 14px monospaced type (#3E3E45) over a #C5C5C8 base. A shared non-repeating static SVG spans the frame with broad tonal variation and faint scan remnants; only fine grain repeats as a separate 256px SVG with fixed seed 17. These external assets have no animation or runtime texture generation. Keep the text sharp and check groups of 3–6 missing-image cards. Do not repeat article titles. Hide this decorative fallback from assistive technology. Failed images hide both layers; loading and fallback states retain the same frame dimensions. The broad prohibition on decorative noise does not apply to this thumbnail-only static texture.
 
-Home uses a wireframe computing device with internal boards, columns, a heat sink and terminals, projected from 3D line segments onto Canvas 2D. Use a light gray inset surface, 0.8px gray lines with depth-dependent opacity, a fixed elevated camera, and a scale that contains the entire rotation. No filled faces, glass, photographs, glow, metrics or new descriptive copy. The independent aquarium website remains unchanged.
+Home uses a wireframe computing device with internal boards, columns, a heat sink and terminals, projected from 3D line segments onto Canvas 2D. Use a light gray inset surface, gray lines at 0.95px for the outline, 0.8px for components, and 0.6px for detail, each with depth-dependent opacity, a fixed elevated camera, and a scale that contains the entire rotation. No filled faces, glass, photographs, glow, metrics or new descriptive copy. Add board mounting rings, connector pins, a few connecting wires and varied components; concentrate detail around compute and cooling while leaving space in the lower bay. Canvas and the static SVG share the line hierarchy. Preserve the camera, chassis dimensions and lower 48px control area. The independent aquarium website remains unchanged.
 
-Technology tags have a transparent background, thin border, 2px radius, and small regular-weight monospaced text. Do not use colored pills.
+Technology tags have a transparent background, a thin editorial border, 2px radius, and small regular-weight monospaced text. Do not use colored pills.
 
 ## 6. Shared UI and article content
 
@@ -99,7 +100,7 @@ The header stays fixed, with an opaque gray surface, thin bottom border, and no 
 
 The footer uses a thin top border and small text; retain generated copyright year, GitHub, and WebMCP links.
 
-Primary buttons use dark gray with light text, including hover. Secondary controls stay neutral. Article links must be underlined. Keep all mobile controls and primary navigation targets at least 44px tall.
+Primary buttons use dark gray with light text, including hover. Secondary controls stay neutral. Blog card CTAs are left-aligned underlined “記事を読む →” links with at least 44px height; retain their bottom alignment. Card borders and thumbnail boundaries use the weaker editorial token, while date dividers and actual controls keep their existing border tokens. Article links must be underlined. Keep all mobile controls and primary navigation targets at least 44px tall.
 
 Pagefind Component UI uses `--pf-*`; set its body-inherited surface, text, border, selected state, focus, radius, and shadow tokens as well as the existing `--pagefind-ui-*` mapping. Preserve error colors, opening/closing, shortcuts, results, focus return, and behavior after ClientRouter navigation. Verify on a production build with the search index.
 
@@ -109,7 +110,7 @@ Prose remains Gothic; headings are serif. Tables retain native table structure i
 
 ## 7. Motion and verification
 
-Use approximately 150ms transitions. Hover changes borders, text, surfaces, or underlines; it must not lift or scale cards. Respect `prefers-reduced-motion` for decorative motion and scrolling while preserving page rendering and event registration.
+Use approximately 150ms transitions. Passive card surfaces do not react to hover. Actual links and controls change borders, text, surfaces, or underlines; it must not lift or scale cards. Respect `prefers-reduced-motion` for decorative motion and scrolling while preserving page rendering and event registration.
 
 Home's device is an explicit motion exception: a continuous one-direction 16-second rotation, calculated from elapsed time, rendered at approximately 30fps with DPR capped at 2. Provide a keyboard-accessible pause/play control with a 44px target. Start still under reduced motion and stop when that preference changes to reduce; explicit play may override it. Stop all scheduled drawing when paused, offscreen, in a hidden tab, or disconnected. Resume without adding hidden time. Preserve the user's pause/play choice and angle across Astro transitions in memory; a full reload initializes from the OS preference. Custom element disconnect must release animation frames, observers and listeners. Render a static SVG from the same geometry when JavaScript or Canvas is unavailable.
 

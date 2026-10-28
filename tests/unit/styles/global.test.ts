@@ -105,17 +105,17 @@ describe('global.css カラーパレット', () => {
     expect(getRuleValue('.btn-primary::before', 'background')).toBeNull();
   });
 
-  it('Bento surface hover is precise and does not rely on heavy depth', () => {
-    expect(getRuleValue('.card-glass:hover', 'background')).toBe(
-      'var(--accent-bg)'
+  it('keeps passive panels still and separates editorial borders from controls', () => {
+    expect(getVar('--border-editorial')).toBe('#d3d2d6');
+    expect(getRuleValue('.card-glass', 'border')).toBe(
+      '1px solid var(--border-editorial)'
     );
-    expect(getRuleValue('.card-glass:hover', 'border-color')).toBe(
+    expect(getRuleValue('.card-glass:hover', 'background')).toBeNull();
+    expect(getRuleValue('.card-glass:hover', 'border-color')).toBeNull();
+    expect(getVar('--glass-border')).toBe('#c6c5c9');
+    expect(getRuleValue('.btn-glass:hover', 'border-color')).toBe(
       'var(--border-strong)'
     );
-    expect(getRuleValue('.card-glass:hover', 'box-shadow')).toBe(
-      'var(--shadow-md)'
-    );
-    expect(getRuleValue('.bento-eyebrow', 'line-height')).toBeNull();
   });
 
   it('ページ間で共有するBentoレイアウトユーティリティを持つ', () => {

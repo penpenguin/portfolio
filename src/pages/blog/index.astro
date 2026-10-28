@@ -41,6 +41,8 @@ const months = Array.from(
               <div class="post-header">
                 <BlogThumbnail
                   src={featuredPost.data.heroImage}
+                  tone={featuredPost.data.thumbnailTone}
+                  loading="eager"
                   alt={featuredPost.data.title}
                   class="post-visual"
                 />
@@ -70,11 +72,8 @@ const months = Array.from(
                   </div>
                 )}
 
-                <Link
-                  href={`/blog/${featuredPost.id}`}
-                  class="read-more btn btn-glass"
-                >
-                  記事を読む
+                <Link href={`/blog/${featuredPost.id}`} class="read-more">
+                  記事を読む <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </article>
@@ -85,6 +84,7 @@ const months = Array.from(
               <div class="post-header">
                 <BlogThumbnail
                   src={post.data.heroImage}
+                  tone={post.data.thumbnailTone}
                   alt={post.data.title}
                   class="post-visual"
                 />
@@ -112,8 +112,8 @@ const months = Array.from(
                   </div>
                 )}
 
-                <Link href={`/blog/${post.id}`} class="read-more btn btn-glass">
-                  記事を読む
+                <Link href={`/blog/${post.id}`} class="read-more">
+                  記事を読む <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </article>
@@ -216,7 +216,7 @@ const months = Array.from(
     margin: 0 0 var(--space-xs) 0;
     font-family: var(--font-family-japanese);
     font-size: 1.5rem;
-    line-height: 1.6;
+    line-height: 1.4;
   }
 
   .post-card--featured .post-meta h2 {
@@ -230,6 +230,8 @@ const months = Array.from(
   }
 
   .post-meta h2 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
     color: var(--text-primary);
   }
 
@@ -275,8 +277,13 @@ const months = Array.from(
   }
 
   .read-more {
+    align-self: flex-start;
+    min-height: 44px;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    color: var(--text-secondary);
     margin-top: auto;
-    padding: var(--space-xs) var(--space-md);
+    padding: var(--space-xs) 0;
     font-size: var(--font-size-sm);
     display: inline-flex;
     align-items: center;

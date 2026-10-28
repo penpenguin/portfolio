@@ -6,6 +6,26 @@ import { describe, expect, it, vi } from 'vitest';
 import BlogThumbnail from '../../../src/components/BlogThumbnail.astro';
 
 describe('BlogThumbnail', () => {
+  it.each(['eager', 'lazy'] as const)(
+    'passes original tone and %s loading to both layers',
+    async (loading) => {
+      const container = await AstroContainer.create();
+      const html = await container.renderToString(BlogThumbnail, {
+        props: {
+          src: '/image.webp',
+          alt: 'Color diagram',
+          tone: 'original',
+          loading,
+        },
+      });
+      expect(html).toMatch(/<blog-thumbnail[^>]*data-tone="original"/);
+      const images = html.match(/<img\b[^>]*>/g)!;
+      expect(
+        images.every((image) => image.includes(`loading="${loading}"`))
+      ).toBe(true);
+    }
+  );
+
   it('renders the same base-aware image twice with only the foreground accessible', async () => {
     vi.stubEnv('BASE_URL', '/portfolio/');
     const container = await AstroContainer.create();
@@ -36,7 +56,7 @@ describe('BlogThumbnail', () => {
     );
     expect(source).toMatch(/\.blog-thumbnail\s*\{[^}]*overflow:\s*hidden/s);
     expect(source).toMatch(
-      /\.blog-thumbnail\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
+      /\.blog-thumbnail\s*\{[^}]*border-bottom:\s*1px solid var\(--border-editorial\)/s
     );
     expect(source).toMatch(/\.blog-thumbnail\s*\{[^}]*padding:\s*0/s);
     expect(source).toMatch(
@@ -45,7 +65,8 @@ describe('BlogThumbnail', () => {
     const foreground = source.match(
       /\.blog-thumbnail__image\s*\{[^}]*\}/s
     )?.[0];
-    expect(foreground).not.toContain('filter:');
+    expect(foreground).toContain('filter: var(--thumbnail-tone)');
+    expect(foreground).not.toContain('blur(');
   });
 
   it('preserves the parent page style scope so card heights remain responsive', async () => {

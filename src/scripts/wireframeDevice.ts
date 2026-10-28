@@ -45,9 +45,9 @@ export function mountWireframeDevice(
   const draw = () => {
     if (!canDraw()) return;
     ctx.clearRect(0, 0, width, height);
-    ctx.lineWidth = 0.8;
     ctx.strokeStyle = '#5B5A60';
     for (const line of projectDevice(state.angle, width, height)) {
+      ctx.lineWidth = line.width;
       ctx.globalAlpha = line.opacity;
       ctx.beginPath();
       ctx.moveTo(line.from.x, line.from.y);

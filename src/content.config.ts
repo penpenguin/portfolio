@@ -33,6 +33,7 @@ const blog = defineCollection({
     updatedDate: z.date().optional(),
     draft: z.boolean().default(false),
     heroImage: z.string().optional(),
+    thumbnailTone: z.literal('original').optional(),
     tags: z.array(z.string()).optional(),
     impression: z.string().optional(),
   }),
