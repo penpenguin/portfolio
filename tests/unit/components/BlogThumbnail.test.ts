@@ -106,14 +106,14 @@ describe('BlogThumbnail', () => {
 });
 
 it.each([undefined, '', '   '])(
-  'uses static NoImage for missing source %s without repeating the title',
+  'uses static NO IMAGE for missing source %s without repeating the title',
   async (src) => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(BlogThumbnail, {
       props: { src, alt: '実際の記事タイトル', class: 'post-visual' },
     });
     expect(html).not.toContain('<img');
-    expect(html).toMatch(/aria-hidden="true"[^>]*>[\s\S]*?NoImage/s);
+    expect(html).toMatch(/aria-hidden="true"[^>]*>[\s\S]*?NO IMAGE/s);
     expect(html).not.toContain('実際の記事タイトル');
     expect(html).toContain('post-visual--fallback');
   }

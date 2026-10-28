@@ -37,7 +37,7 @@ const imageSrc = src?.trim() ? withBase(src.trim()) : undefined;
     aria-hidden="true"
     hidden={!!imageSrc}
   >
-    <span>NoImage</span>
+    <span>NO IMAGE</span>
   </div>
   {imageSrc && (
     <>
@@ -121,7 +121,8 @@ const imageSrc = src?.trim() ? withBase(src.trim()) : undefined;
       100% 100%;
     color: #3e3e45;
     font-family: var(--font-family-mono);
-    font-size: 14px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
     font-weight: 400;
     line-height: 1.6;
   }

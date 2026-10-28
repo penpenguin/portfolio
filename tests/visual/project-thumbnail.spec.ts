@@ -29,7 +29,7 @@ test('project lists share Blog framing and tone without changing card heights', 
     const missing = page
       .locator('.project-card')
       .filter({ has: page.getByRole('heading', { name: /PetaTas/ }) });
-    await expect(missing.locator('.project-image')).toHaveText('NoImage');
+    await expect(missing.locator('.project-image')).toHaveText('NO IMAGE');
     await expect(missing.locator('.project-image')).toHaveCSS(
       'height',
       '220px'
@@ -57,7 +57,11 @@ test('details reserve their ratio, retain image metadata, and keep image-less de
     await expect(frame.locator('[data-pagefind-meta]')).toHaveCount(1);
     for (const image of await frame.locator('img').all())
       await expect(image).toHaveAttribute('loading', 'eager');
-    await frame.evaluate((el) => el.setAttribute('data-tone', 'original'));
+    await expect(frame).toHaveAttribute('data-tone', 'original');
+    await expect(page.locator('.project-tags .tag').first()).toHaveCSS(
+      'border-color',
+      'rgb(211, 210, 214)'
+    );
     await expect(frame.locator('.blog-thumbnail__image')).toHaveCSS(
       'filter',
       'grayscale(0) contrast(1) brightness(1)'
@@ -125,10 +129,10 @@ test('failed detail images keep their frame and recover after Astro navigation',
 
 test.describe('project images without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
-  test('renders both layers and NoImage on the server', async ({ page }) => {
+  test('renders both layers and NO IMAGE on the server', async ({ page }) => {
     await page.goto('projects/');
     await expect(page.locator('.blog-thumbnail__image').first()).toBeVisible();
-    await expect(page.locator('.post-visual--fallback')).toHaveText('NoImage');
+    await expect(page.locator('.post-visual--fallback')).toHaveText('NO IMAGE');
     await page.goto('projects/card-lighting-demo/');
     await expect(page.locator('.blog-thumbnail__image')).toBeVisible();
     await expect(page.locator('.blog-thumbnail__backdrop')).toHaveAttribute(

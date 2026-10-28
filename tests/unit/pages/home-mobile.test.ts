@@ -59,7 +59,7 @@ describe('Home モバイルレイアウト', () => {
     );
     const introRule = getRule('.bento-card--intro');
     expect(introRule).not.toContain('align-self: start');
-    expect(introRule).toContain('min-height: auto');
+    expect(introRule).not.toContain('min-height:');
     expect(introRule).not.toContain('min-height: 390px');
 
     const heroHeadingRule = getRule('.bento-card h1');

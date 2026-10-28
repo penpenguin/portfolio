@@ -105,7 +105,7 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .bento-card {
+  .bento-card:not(.bento-hero) {
     min-height: 240px;
     display: flex;
     flex-direction: column;
@@ -114,7 +114,6 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
 
   .bento-card--intro {
     grid-column: span 3;
-    min-height: auto;
     background: var(--about-bg);
     border-color: var(--about-border);
   }
@@ -221,7 +220,7 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    gap: 3rem;
+    gap: var(--space-sm);
   }
 
   .intro-role {
@@ -277,12 +276,11 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
       grid-template-columns: 1fr;
     }
 
-    .bento-card,
-    .bento-card--intro,
-    .bento-card--device,
-    .bento-card--project,
-    .bento-card--blog {
+    .bento-card {
       grid-column: span 1;
+    }
+
+    .bento-card:not(.bento-hero) {
       min-height: auto;
     }
 
@@ -293,9 +291,6 @@ const [latestPost] = sortPublishedPostsByDate(blogPosts);
   }
 
   @media (max-width: 768px) {
-    .intro-copy {
-      gap: 2rem;
-    }
     .project-summary h2 {
       font-size: 1.625rem;
     }

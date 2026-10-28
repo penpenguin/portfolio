@@ -109,7 +109,7 @@ const navItems = baseNavItems.map((item) => {
 
     <pagefind-modal reset-on-close></pagefind-modal>
 
-    <main>
+    <main class="site-main">
       <slot />
     </main>
 
@@ -131,6 +131,19 @@ const navItems = baseNavItems.map((item) => {
     <script>
       import '../scripts/portfolio-webmcp';
       import '../scripts/pagefind-view-transitions';
+
+      // The persisted header can wrap after fonts load or the viewport changes.
+      const navbar = document.querySelector<HTMLElement>('.navbar');
+      const updateHeaderHeight = () => {
+        if (navbar)
+          document.documentElement.style.setProperty(
+            '--header-height',
+            `${navbar.getBoundingClientRect().height}px`
+          );
+      };
+      if (navbar) new ResizeObserver(updateHeaderHeight).observe(navbar);
+      document.addEventListener('astro:page-load', updateHeaderHeight);
+      updateHeaderHeight();
     </script>
     <script is:inline>
       const normalizePathname = (input) => {
@@ -170,7 +183,6 @@ const navItems = baseNavItems.map((item) => {
 
 <style>
   body {
-    --nav-offset: 96px;
     --pagefind-ui-primary: var(--text-primary);
     --pagefind-ui-text: var(--text-primary);
     --pagefind-ui-background: var(--secondary-bg);
@@ -199,29 +211,26 @@ const navItems = baseNavItems.map((item) => {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-height: 100svh;
   }
 
   .navbar {
-    position: fixed;
-    top: var(--space-sm);
+    position: sticky;
+    top: 0;
+    flex: 0 0 auto;
+    background: var(--primary-bg);
+    border-bottom: 1px solid var(--border-editorial);
     left: 0;
     right: 0;
     z-index: 1000;
     padding: 0;
-    pointer-events: none;
   }
 
   .navbar-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-xs);
-    border: 0;
-    border-bottom: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    background: var(--primary-bg);
-    box-shadow: var(--shadow-md);
-    pointer-events: auto;
+    min-height: 64px;
   }
 
   .logo {
@@ -229,7 +238,7 @@ const navItems = baseNavItems.map((item) => {
     align-items: center;
     line-height: 1;
     flex-shrink: 0;
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-xs) 0;
     min-height: 44px;
     font-family: var(--font-family-heading);
     font-size: 1.75rem;
@@ -362,14 +371,16 @@ const navItems = baseNavItems.map((item) => {
     border-radius: var(--radius-md);
   }
 
-  main {
-    margin-top: var(--nav-offset);
-    min-height: calc(100vh - 160px);
-    flex: 1;
+  .site-main {
+    flex: 1 0 auto;
+    min-height: 0;
+    min-width: 0;
+    margin-top: 0;
   }
 
   .footer {
-    padding: var(--space-lg) 0 var(--space-md);
+    flex: 0 0 auto;
+    padding: 0 0 12px;
   }
 
   .footer-content {
@@ -377,8 +388,8 @@ const navItems = baseNavItems.map((item) => {
     align-items: center;
     justify-content: space-between;
     color: var(--text-secondary);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--glass-border);
+    padding-top: 12px;
+    border-top: 1px solid var(--border-editorial);
     font-size: var(--font-size-sm);
   }
 
@@ -402,14 +413,14 @@ const navItems = baseNavItems.map((item) => {
   }
 
   @media (max-width: 768px) {
-    body {
-      --nav-offset: 132px;
-    }
-
     .navbar-content {
       flex-direction: column;
       gap: var(--space-xs);
       align-items: center;
+    }
+
+    .logo {
+      align-self: flex-start;
     }
 
     .nav-links {

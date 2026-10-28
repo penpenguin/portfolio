@@ -15,10 +15,9 @@ export function mountWireframeDevice(
   root: HTMLElement,
   state: DeviceSession
 ): () => void {
-  const stage = root.querySelector<HTMLElement>('[data-device-stage]');
+  const stage = root.querySelector<HTMLButtonElement>('[data-device-stage]');
   const canvas = root.querySelector('canvas');
-  const button = root.querySelector('button');
-  if (!stage || !canvas || !button) return () => {};
+  if (!stage || !canvas) return () => {};
   let context: CanvasRenderingContext2D | null;
   try {
     context = canvas.getContext('2d');
@@ -79,8 +78,7 @@ export function mountWireframeDevice(
   };
   const sync = () => {
     if (!active) return;
-    button.textContent = state.paused ? '再生' : '停止';
-    button.setAttribute(
+    stage.setAttribute(
       'aria-label',
       state.paused ? '回転を再生' : '回転を停止'
     );
@@ -131,13 +129,17 @@ export function mountWireframeDevice(
     sync();
   });
   const size = new ResizeObserver(resize);
-  button.addEventListener('click', toggle);
+  stage.addEventListener('click', toggle);
   document.addEventListener('visibilitychange', visibility);
   media.addEventListener('change', preference);
   window.addEventListener('pagehide', hide);
   window.addEventListener('pageshow', show);
   root.setAttribute('data-enhanced', '');
-  button.hidden = false;
+  stage.disabled = false;
+  stage.setAttribute(
+    'aria-description',
+    '線画の計算装置。クリック、Enter、Spaceで回転を停止・再開できます。'
+  );
   resize();
   sync();
   intersection.observe(root);
@@ -149,13 +151,18 @@ export function mountWireframeDevice(
     stop();
     intersection.disconnect();
     size.disconnect();
-    button.removeEventListener('click', toggle);
+    stage.removeEventListener('click', toggle);
     document.removeEventListener('visibilitychange', visibility);
     media.removeEventListener('change', preference);
     window.removeEventListener('pagehide', hide);
     window.removeEventListener('pageshow', show);
     root.removeAttribute('data-enhanced');
-    button.hidden = true;
+    stage.disabled = true;
+    stage.removeAttribute('aria-description');
+    stage.setAttribute(
+      'aria-label',
+      '基板、支持柱、ヒートシンク、端子を持つ装置の線画'
+    );
   };
 }
 

@@ -45,7 +45,7 @@ describe('DESIGN.md portfolio design guidance', () => {
 
   it('documents the approved wireframe motion and thumbnail exceptions', () => {
     expect(design).toContain('16-second');
-    expect(design).toContain('NoImage');
+    expect(design).toContain('NO IMAGE');
     expect(design).toContain('blur(22px)');
     expect(design).not.toContain('the aquarium iframe');
     expect(design).not.toContain('without a blurred duplicate backdrop');

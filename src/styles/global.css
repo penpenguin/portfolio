@@ -49,6 +49,8 @@
   --space-xl: 3rem;
   --space-2xl: 4rem;
 
+  --page-hero-min-height: 260px;
+  --header-height: 65px;
   --page-gutter: 2rem;
   --card-padding: 2rem;
   --grid-gap: 1.25rem;
@@ -89,6 +91,7 @@
 /* Base styles */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 16px);
   background: var(--primary-bg);
   background-image: none;
   background-attachment: fixed;
@@ -261,7 +264,7 @@ a:hover {
 
 /* Bento layout primitives */
 .page-shell {
-  padding: var(--space-xl) 0 var(--space-2xl);
+  padding: var(--space-lg) 0;
 }
 
 .bento-grid {
@@ -278,7 +281,8 @@ a:hover {
 }
 
 .bento-hero {
-  min-height: 260px;
+  min-height: var(--page-hero-min-height);
+  gap: var(--space-sm);
   padding: var(--card-padding);
   min-width: 0;
   display: flex;
@@ -393,6 +397,8 @@ a:hover {
 /* Responsive design */
 @media (max-width: 768px) {
   :root {
+    --page-hero-min-height: 240px;
+    --header-height: 97px;
     --page-gutter: 1.25rem;
     --card-padding: 1.25rem;
     --grid-gap: 1rem;
@@ -415,7 +421,7 @@ a:hover {
   }
 
   .page-shell {
-    padding: var(--space-lg) 0 var(--space-2xl);
+    padding: var(--space-md) 0;
   }
 
   .bento-grid {

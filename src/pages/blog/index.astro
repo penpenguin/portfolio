@@ -73,7 +73,9 @@ const months = Array.from(
                 )}
 
                 <Link href={`/blog/${featuredPost.id}`} class="read-more">
-                  記事を読む <span aria-hidden="true">→</span>
+                  <span class="read-more__label">
+                    記事を読む <span aria-hidden="true">→</span>
+                  </span>
                 </Link>
               </div>
             </article>
@@ -113,7 +115,9 @@ const months = Array.from(
                 )}
 
                 <Link href={`/blog/${post.id}`} class="read-more">
-                  記事を読む <span aria-hidden="true">→</span>
+                  <span class="read-more__label">
+                    記事を読む <span aria-hidden="true">→</span>
+                  </span>
                 </Link>
               </div>
             </article>
@@ -155,13 +159,12 @@ const months = Array.from(
 
 <style>
   .blog-hero {
-    min-height: 280px;
     margin-bottom: var(--grid-gap);
   }
 
   .blog-hero h1 {
     font-size: clamp(3.5rem, 5.5vw, 5rem);
-    margin-bottom: var(--space-md);
+    margin-bottom: 0;
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -279,15 +282,22 @@ const months = Array.from(
   .read-more {
     align-self: flex-start;
     min-height: 44px;
-    text-decoration: underline;
-    text-underline-offset: 0.3em;
+    text-decoration: none;
     color: var(--text-secondary);
     margin-top: auto;
     padding: var(--space-xs) 0;
     font-size: var(--font-size-sm);
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
+  }
+
+  .read-more__label {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding-bottom: 0.12em;
+    border-bottom: 1px solid currentColor;
+    line-height: 1.4;
   }
 
   .empty-state {
@@ -329,9 +339,6 @@ const months = Array.from(
   }
 
   @media (max-width: 768px) {
-    .blog-hero {
-      min-height: auto;
-    }
     .blog-hero h1 {
       font-size: clamp(2.5rem, 8vw, 3.5rem);
     }

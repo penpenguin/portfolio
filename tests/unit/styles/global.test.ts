@@ -119,14 +119,15 @@ describe('global.css カラーパレット', () => {
   });
 
   it('ページ間で共有するBentoレイアウトユーティリティを持つ', () => {
-    expect(getRuleValue('.page-shell', 'padding')).toBe(
-      'var(--space-xl) 0 var(--space-2xl)'
-    );
+    expect(getRuleValue('.page-shell', 'padding')).toBe('var(--space-lg) 0');
     expect(getRuleValue('.bento-hero', 'border-radius')).toBe(
       'var(--radius-xl)'
     );
     expect(getRuleValue('.bento-panel', 'border-radius')).toBe(
       'var(--radius-xl)'
+    );
+    expect(getMobileRuleValue('.page-shell', 'padding')).toBe(
+      'var(--space-md) 0'
     );
     expect(getRuleValue('.bento-grid', 'gap')).toBe('var(--grid-gap)');
     expect(getRuleValue('.pill-list', 'display')).toBe('flex');
@@ -134,7 +135,7 @@ describe('global.css カラーパレット', () => {
 
   it('モバイルでは共通Bentoレイアウトが1カラムに収まる', () => {
     expect(getMobileRuleValue('.page-shell', 'padding')).toBe(
-      'var(--space-lg) 0 var(--space-2xl)'
+      'var(--space-md) 0'
     );
     expect(getMobileRuleValue('.bento-grid', 'grid-template-columns')).toBe(
       '1fr'

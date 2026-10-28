@@ -84,7 +84,7 @@ afterEach(() => {
 function mount(session: DeviceSession = { angle: initialAngle }) {
   const root = document.createElement('div');
   root.innerHTML =
-    '<div data-device-stage><svg></svg><canvas></canvas></div><button hidden></button>';
+    '<button data-device-stage disabled><svg></svg><canvas></canvas></button>';
   document.body.append(root);
   vi.spyOn(
     root.querySelector('[data-device-stage]')!,
@@ -130,7 +130,9 @@ describe('wireframe device lifecycle', () => {
     ).toBeLessThanOrEqual(30);
     expect(frames.size).toBe(1);
     button.click();
-    expect(button.textContent).toBe('再生');
+    expect(button.querySelector('canvas')).not.toBeNull();
+    expect(button.querySelector('svg')).not.toBeNull();
+    expect(button.getAttribute('aria-label')).toBe('回転を再生');
     expect(frames.size).toBe(0);
     const pausedAngle = session.angle;
     tick(10000);
@@ -171,7 +173,7 @@ describe('wireframe device lifecycle', () => {
     motion.matches = true;
     const { button } = mount();
     intersect(true);
-    expect(button.textContent).toBe('再生');
+    expect(button.getAttribute('aria-label')).toBe('回転を再生');
     expect(frames.size).toBe(0);
     button.click();
     expect(frames.size).toBe(1);
@@ -180,7 +182,7 @@ describe('wireframe device lifecycle', () => {
     motion.matches = true;
     motion.dispatchEvent(new Event('change'));
     expect(frames.size).toBe(0);
-    expect(button.textContent).toBe('再生');
+    expect(button.getAttribute('aria-label')).toBe('回転を再生');
   });
 
   it('retains explicit pause and angle across page replacements and releases all work', () => {
@@ -193,7 +195,7 @@ describe('wireframe device lifecycle', () => {
         tick(1000);
         current.button.click();
       }
-      expect(current.button.textContent).toBe('再生');
+      expect(current.button.getAttribute('aria-label')).toBe('回転を再生');
       const angle = session.angle;
       current.cleanup();
       current.root.remove();
@@ -221,14 +223,14 @@ describe('wireframe device lifecycle', () => {
     motion.matches = true;
     const returned = mount(session);
     intersect(true);
-    expect(returned.button.textContent).toBe('再生');
+    expect(returned.button.getAttribute('aria-label')).toBe('回転を再生');
     expect(frames.size).toBe(0);
     returned.button.click();
     returned.cleanup();
     returned.root.remove();
     const explicitPlay = mount(session);
     intersect(true);
-    expect(explicitPlay.button.textContent).toBe('停止');
+    expect(explicitPlay.button.getAttribute('aria-label')).toBe('回転を停止');
     expect(frames.size).toBe(1);
   });
 
@@ -256,7 +258,7 @@ describe('wireframe device lifecycle', () => {
       );
       const { root, button } = mount();
       expect(root.hasAttribute('data-enhanced')).toBe(false);
-      expect(button.hidden).toBe(true);
+      expect(button.disabled).toBe(true);
       expect(root.querySelector('svg')).not.toBeNull();
       expect(frames.size).toBe(0);
     }

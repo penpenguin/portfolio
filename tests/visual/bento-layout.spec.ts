@@ -238,7 +238,7 @@ test.describe('Bento layout', () => {
       Math.abs(layout.canvas.width - (layout.device.width - 2))
     ).toBeLessThanOrEqual(1);
     expect(
-      Math.abs(layout.canvas.height - (layout.device.height - 50))
+      Math.abs(layout.canvas.height - (layout.device.height - 2))
     ).toBeLessThanOrEqual(1);
   });
 
@@ -299,6 +299,7 @@ test.describe('Bento layout', () => {
     await expect.poll(pixels).not.toBe(initial);
     await page.getByRole('button', { name: '回転を停止' }).click();
     const paused = await pixels();
+    await page.locator('.logo').focus();
     await page.waitForTimeout(150);
     expect(await pixels()).toBe(paused);
     for (let visit = 0; visit < 3; visit++) {
@@ -327,6 +328,11 @@ test.describe('Bento layout', () => {
     await expect(play).toHaveCSS('outline-style', 'solid');
     await play.press('Enter');
     await expect.poll(pixels).not.toBe(paused);
+    await page.locator('[data-device-stage]').press('Space');
+    const stopped = await pixels();
+    await page.locator('.logo').focus();
+    await page.waitForTimeout(150);
+    expect(await pixels()).toBe(stopped);
   });
 
   test('device stays still under reduced motion and suspends offscreen', async ({
@@ -368,7 +374,7 @@ test.describe('Bento layout', () => {
     await page.goto('./');
     await expect(page.locator('wireframe-device svg')).toBeVisible();
     await expect(page.locator('wireframe-device canvas')).toBeHidden();
-    await expect(page.locator('wireframe-device button')).toBeHidden();
+    await expect(page.locator('wireframe-device button')).toBeDisabled();
   });
 });
 
@@ -377,6 +383,6 @@ test.describe('device without JavaScript', () => {
   test('keeps the static wireframe visible', async ({ page }) => {
     await page.goto('./');
     await expect(page.locator('wireframe-device svg')).toBeVisible();
-    await expect(page.locator('wireframe-device button')).toBeHidden();
+    await expect(page.locator('wireframe-device button')).toBeDisabled();
   });
 });

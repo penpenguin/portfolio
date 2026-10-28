@@ -39,7 +39,12 @@ describe('wireframe device projection', () => {
       for (let degree = 0; degree < 360; degree++) {
         const lines = projectDevice((degree * Math.PI) / 180, width, height);
         expect(lines.length).toBeGreaterThan(100);
-        const points = lines.flatMap((line) => [line.from, line.to]);
+        const points = lines.flatMap((line) =>
+          [line.from, line.to].flatMap((point) => [
+            { x: point.x - line.width / 2, y: point.y - line.width / 2 },
+            { x: point.x + line.width / 2, y: point.y + line.width / 2 },
+          ])
+        );
         expect(Math.min(...points.map((p) => p.x))).toBeGreaterThanOrEqual(15);
         expect(Math.max(...points.map((p) => p.x))).toBeLessThanOrEqual(
           width - 15
@@ -66,4 +71,20 @@ describe('wireframe device projection', () => {
     const sideVertical = Math.abs(side[8].to.y - side[8].from.y);
     expect(frontVertical).toBeCloseTo(sideVertical);
   });
+});
+
+it('rotates about one fixed tilted axis without wobble or refitting', () => {
+  const vectors = [0, 90, 180, 270].map((degree) => {
+    const edge = projectDevice((degree * Math.PI) / 180, 278, 260)[8];
+    return { x: edge.to.x - edge.from.x, y: edge.to.y - edge.from.y };
+  });
+  const angle =
+    (Math.atan2(Math.abs(vectors[0].x), Math.abs(vectors[0].y)) * 180) /
+    Math.PI;
+  expect(angle).toBeGreaterThan(12);
+  expect(angle).toBeLessThan(14);
+  for (const vector of vectors) {
+    expect(vector.x).toBeCloseTo(vectors[0].x);
+    expect(vector.y).toBeCloseTo(vectors[0].y);
+  }
 });

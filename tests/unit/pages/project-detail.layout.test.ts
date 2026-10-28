@@ -60,7 +60,7 @@ describe('Project detail layout', () => {
   it('reserves a 16:10 shared thumbnail and preserves foreground search metadata', () => {
     const source = loadProjectDetailSource();
     expect(source).toMatch(
-      /<BlogThumbnail[^>]*tone=\{project.data.thumbnailTone\}[^>]*loading="eager"[^>]*pagefindImage/s
+      /<BlogThumbnail[^>]*tone="original"[^>]*loading="eager"[^>]*pagefindImage/s
     );
     expect(source).toMatch(
       /\.project-image\s*\{[^}]*--thumbnail-height:\s*auto/s
@@ -72,4 +72,10 @@ describe('Project detail layout', () => {
       /\.project-image\s*\{[^}]*border:\s*1px solid var\(--border-editorial\)/s
     );
   });
+});
+
+it('keeps non-interactive detail tags on the editorial border', () => {
+  expect(loadProjectDetailSource()).toMatch(
+    /\.tag\s*\{[^}]*border:\s*1px solid var\(--border-editorial\)/s
+  );
 });

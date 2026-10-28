@@ -41,6 +41,13 @@ describe('Bento surface polish', () => {
       expect(featured).not.toContain('radial-gradient');
 
       expect(source).toContain('<BlogThumbnail');
+      expect(source).toMatch(
+        /class="read-more__label">\s*記事を読む\s*<span aria-hidden="true">→/
+      );
+      expect(getRule(source, '.read-more__label')).toContain(
+        'border-bottom: 1px solid currentColor'
+      );
+      expect(getRule(source, '.read-more')).toContain('text-decoration: none');
       expect(source).not.toMatch(/(?:linear|radial)-gradient/);
     }
 

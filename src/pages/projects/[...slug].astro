@@ -96,7 +96,7 @@ const projectHeroClass = heroImage
             <BlogThumbnail
               src={heroImage}
               alt={project.data.title}
-              tone={project.data.thumbnailTone}
+              tone="original"
               loading="eager"
               pagefindImage
               class="project-image"
@@ -203,7 +203,7 @@ const projectHeroClass = heroImage
     border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 400;
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-editorial);
   }
 
   .project-links {

@@ -28,3 +28,17 @@ describe('Bento shared layout usage', () => {
     expect(source).toContain('bento-panel');
   });
 });
+
+it('shares hero minimum heights without page-specific overrides', () => {
+  const css = load('../../../src/styles/global.css');
+  expect(css).toContain('--page-hero-min-height: 260px');
+  expect(css).toContain('--page-hero-min-height: 240px');
+  expect(css).toMatch(
+    /\.bento-hero\s*\{[^}]*min-height:\s*var\(--page-hero-min-height\)/s
+  );
+  for (const path of pages) {
+    expect(load(path)).not.toMatch(
+      /\.(?:projects-hero|blog-hero|bento-card--intro)\s*\{[^}]*min-height:/s
+    );
+  }
+});

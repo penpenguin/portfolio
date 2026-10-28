@@ -44,7 +44,15 @@ test('passive cards stay still while article links remain accessible', async ({
   expect((await link.boundingBox())!.width).toBeLessThan(
     (await card.boundingBox())!.width / 2
   );
-  await expect(link).toHaveCSS('text-decoration-line', 'underline');
+  await expect(link).toHaveCSS('text-decoration-line', 'none');
+  await expect(link.locator('.read-more__label')).toHaveCSS(
+    'border-bottom-width',
+    '1px'
+  );
+  await expect(link.locator('.read-more__label')).toHaveCSS(
+    'border-bottom-style',
+    'solid'
+  );
   await link.focus();
   await expect(link).toBeFocused();
   await expect(link).not.toHaveCSS('outline-style', 'none');
@@ -121,7 +129,7 @@ test('foreground stays sharp while the expanded backdrop fills different aspect 
   }
 });
 
-test('NoImage is static, decorative and keeps the same frame heights in both lists', async ({
+test('NO IMAGE is static, decorative and keeps the same frame heights in both lists', async ({
   page,
 }) => {
   for (const path of ['blog/', 'blog/2025/11/']) {
@@ -129,7 +137,7 @@ test('NoImage is static, decorative and keeps the same frame heights in both lis
     await page.evaluate(() => document.fonts.ready);
     const fallback = page.locator('.post-visual--fallback').first();
     await fallback.scrollIntoViewIfNeeded();
-    await expect(fallback).toHaveText('NoImage');
+    await expect(fallback).toHaveText('NO IMAGE');
     await expect(fallback.locator('.blog-thumbnail__fallback')).toHaveAttribute(
       'aria-hidden',
       'true'
@@ -189,6 +197,6 @@ test.describe('thumbnails without JavaScript', () => {
     await page.goto('blog/');
     await expect(page.locator('.blog-thumbnail__image').first()).toBeVisible();
     const missing = page.locator('.post-visual--fallback').first();
-    await expect(missing).toHaveText('NoImage');
+    await expect(missing).toHaveText('NO IMAGE');
   });
 });

@@ -21,12 +21,14 @@ describe('Layout モバイルナビゲーション', () => {
     expect(mobileNavRule).toMatch(/justify-content\s*:\s*center/);
   });
 
-  it('ナビの高さと本文余白をCSS変数で連動する', () => {
-    expect(layout).toContain('--nav-offset');
-    expect(layout).toMatch(/main\s*\{[^}]*margin-top:\s*var\(--nav-offset\)/);
-    expect(layout).toMatch(
-      /@media\s*\(max-width:\s*768px\)[\s\S]*--nav-offset:\s*132px/
-    );
+  it('stickyヘッダーをフローに置き、本文の固定オフセットを撤去する', () => {
+    expect(layout).toMatch(/\.navbar\s*\{[^}]*position:\s*sticky/s);
+    expect(layout).toMatch(/\.navbar\s*\{[^}]*top:\s*0/s);
+    expect(layout).not.toContain('--nav-offset');
+    expect(layout).not.toContain('calc(100vh - 160px)');
+    expect(layout).toContain('<main class="site-main">');
+    expect(layout).toMatch(/\.site-main\s*\{[^}]*flex:\s*1 0 auto/s);
+    expect(layout).toContain('min-height: 100svh');
   });
 });
 
@@ -39,7 +41,7 @@ describe('資料集の共有ヘッダーと検索', () => {
 
   it('不透明な面と下線のナビを使用する', () => {
     expect(layout).toMatch(
-      /\.navbar-content\s*\{[^}]*background:\s*var\(--primary-bg\)/s
+      /\.navbar\s*\{[^}]*background:\s*var\(--primary-bg\)/s
     );
     expect(layout).toMatch(
       /\.nav-link--active\s*\{[^}]*text-decoration:\s*underline/s
