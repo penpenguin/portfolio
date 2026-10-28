@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Link from '../../components/Link.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../../utils/formatDate';
-import { withBase } from '../../utils/withBase';
+import BlogThumbnail from '../../components/BlogThumbnail.astro';
 
 const projects = await getCollection('projects');
 const sortedProjects = [...projects].sort(
@@ -30,19 +30,13 @@ const sortedProjects = [...projects].sort(
             ]}
           >
             <div class="project-header">
-              {project.data.heroImage ? (
-                <img
-                  src={withBase(project.data.heroImage)}
-                  alt={project.data.title}
-                  class="project-image"
-                />
-              ) : (
-                <div class="project-card__fallback-visual" aria-hidden="true">
-                  <span class="project-card__fallback-art">
-                    {project.data.title}
-                  </span>
-                </div>
-              )}
+              <BlogThumbnail
+                src={project.data.heroImage}
+                alt={project.data.title}
+                tone={project.data.thumbnailTone}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                class="project-image"
+              />
               <div class="project-meta">
                 <h2>
                   <Link href={`/projects/${project.id}`}>
@@ -160,40 +154,12 @@ const sortedProjects = [...projects].sort(
   }
 
   .project-image {
-    display: block;
     width: 100%;
-    height: 220px;
-    padding: var(--space-sm);
-    background: var(--bento-muted-bg);
-    border-bottom: 1px solid var(--glass-border);
-    object-fit: contain;
-    object-position: center;
-  }
-
-  .project-card__fallback-visual {
-    display: flex;
-    align-items: center;
-    min-height: 220px;
-    padding: var(--space-sm);
-    background: var(--bento-muted-bg);
-    border-bottom: 1px solid var(--glass-border);
-  }
-
-  .project-card__fallback-art {
-    color: var(--text-secondary);
-    font-family: var(--font-family-heading);
-    font-size: 1.875rem;
-    font-weight: 500;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
+    --thumbnail-height: 220px;
   }
 
   .project-card--featured .project-image {
-    height: 360px;
-  }
-
-  .project-card--featured .project-card__fallback-visual {
-    min-height: 360px;
+    --thumbnail-height: 360px;
   }
 
   .project-meta {
@@ -281,17 +247,8 @@ const sortedProjects = [...projects].sort(
     .project-meta h2 {
       font-size: 1.625rem;
     }
-    .project-image,
-    .project-card__fallback-visual {
-      padding: 0.75rem;
-    }
-
     .project-card--featured .project-image {
-      height: 220px;
-    }
-
-    .project-card--featured .project-card__fallback-visual {
-      min-height: 220px;
+      --thumbnail-height: 220px;
     }
 
     .project-links {

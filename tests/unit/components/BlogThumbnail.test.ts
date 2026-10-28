@@ -6,6 +6,28 @@ import { describe, expect, it, vi } from 'vitest';
 import BlogThumbnail from '../../../src/components/BlogThumbnail.astro';
 
 describe('BlogThumbnail', () => {
+  it.each([false, true])(
+    'exposes Pagefind image metadata only on the foreground when enabled: %s',
+    async (pagefindImage) => {
+      const container = await AstroContainer.create();
+      const html = await container.renderToString(BlogThumbnail, {
+        props: {
+          src: '/assets/projects/cadenzio.webp',
+          alt: 'Cadenzio',
+          pagefindImage,
+        },
+      });
+      const images = html.match(/<img\b[^>]*>/g)!;
+      expect(images[0]).not.toContain('data-pagefind-meta');
+      expect(
+        images[1].includes('data-pagefind-meta="image[src], image_alt[alt]"')
+      ).toBe(pagefindImage);
+      expect(html.match(/<blog-thumbnail[^>]*>/)?.[0]).not.toMatch(
+        /pagefindimage/i
+      );
+    }
+  );
+
   it.each(['eager', 'lazy'] as const)(
     'passes original tone and %s loading to both layers',
     async (loading) => {

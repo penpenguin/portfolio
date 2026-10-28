@@ -7,6 +7,7 @@ interface Props {
   class?: string;
   tone?: 'original';
   loading?: 'eager' | 'lazy';
+  pagefindImage?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   class: className,
   tone,
   loading = 'lazy',
+  pagefindImage = false,
   ...attributes
 } = Astro.props;
 const imageSrc = src?.trim() ? withBase(src.trim()) : undefined;
@@ -51,6 +53,9 @@ const imageSrc = src?.trim() ? withBase(src.trim()) : undefined;
         class="blog-thumbnail__image"
         src={imageSrc}
         alt={alt}
+        data-pagefind-meta={
+          pagefindImage ? 'image[src], image_alt[alt]' : undefined
+        }
         decoding="async"
         loading={loading}
       />

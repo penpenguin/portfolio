@@ -129,7 +129,9 @@ test.describe('Bento layout', () => {
       );
     expect(codeOverflow).toBeGreaterThan(0);
     await page.goto('projects/');
-    const image = page.locator('.project-card--featured .project-image');
+    const image = page.locator(
+      '.project-card--featured .blog-thumbnail__image'
+    );
     await expect(image).toHaveCSS('object-fit', 'contain');
     await expect(image).toHaveCSS('object-position', '50% 50%');
   });

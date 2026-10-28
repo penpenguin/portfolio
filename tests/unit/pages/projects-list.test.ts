@@ -24,12 +24,13 @@ describe('Projects list Bento layout', () => {
     );
   });
 
-  it('project画像はGitHub Pagesのbase pathを考慮して解決する', () => {
-    expect(source).toContain("import { withBase } from '../../utils/withBase'");
-    expect(source).toContain('src={withBase(project.data.heroImage)}');
-    expect(source).toMatch(
-      /\.project-image\s*\{[^}]*object-position:\s*center/
+  it('uses the shared base-aware thumbnail with project tone and loading policy', () => {
+    expect(source).toContain(
+      "import BlogThumbnail from '../../components/BlogThumbnail.astro'"
     );
+    expect(source).toMatch(/<BlogThumbnail\s+src=\{project.data.heroImage\}/s);
+    expect(source).toContain('tone={project.data.thumbnailTone}');
+    expect(source).toContain("loading={index === 0 ? 'eager' : 'lazy'}");
   });
 
   it('プロジェクト一覧は公開日の降順で並べ、最新をfeaturedにする', () => {
@@ -46,20 +47,10 @@ describe('Projects list Bento layout', () => {
     );
   });
 
-  it('画像がない場合は既存の作品名を使った組版として代替ビジュアルを表示する', () => {
-    expect(source).toContain('project-card__fallback-visual');
-    expect(source).toContain('project-card__fallback-art');
-    expect(source).not.toContain('project-card__fallback-mark');
-    expect(source).not.toContain('project-card__fallback-line');
-    expect(source).not.toContain('project-card__fallback-mosaic');
-    expect(source).not.toContain('project-card__fallback-tile');
-    expect(source).not.toContain('project-card__fallback-graph');
-    expect(source).not.toContain('project-card__fallback-bar');
+  it('delegates absent images to the common NoImage without excluding them', () => {
+    expect(source).toContain('<BlogThumbnail');
+    expect(source).not.toMatch(/project\.data\.heroImage\s*\?\s*\(/);
     expect(source).toContain('project-summary');
-    expect(source).toMatch(/project\.data\.heroImage\s*\?\s*\(/);
-    expect(source).toMatch(
-      /\.project-card__fallback-visual\s*\{[^}]*var\(--bento-muted-bg\)/s
-    );
   });
 
   it('featuredカードは派手なグラデーションではなく静かなsurfaceで強調する', () => {
@@ -71,28 +62,22 @@ describe('Projects list Bento layout', () => {
     );
   });
 
-  it('プロジェクト画像をスクリーンショットとしてhairline frameで見せる', () => {
-    expect(source).toMatch(/\.project-image\s*\{[^}]*display:\s*block/s);
+  it('preserves regular and featured thumbnail heights', () => {
     expect(source).toMatch(
-      /\.project-image\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
+      /\.project-image\s*\{[^}]*--thumbnail-height:\s*220px/s
     );
     expect(source).toMatch(
-      /\.project-image\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
+      /\.project-card--featured\s+\.project-image\s*\{[^}]*--thumbnail-height:\s*360px/s
     );
-    expect(source).toMatch(
-      /\.project-image\s*\{[^}]*padding:\s*var\(--space-sm\)/s
+    expect(getMobileBlock()).toMatch(
+      /\.project-card--featured\s+\.project-image\s*\{[^}]*--thumbnail-height:\s*220px/s
     );
-    expect(source).toMatch(/\.project-image\s*\{[^}]*object-fit:\s*contain/s);
   });
 
-  it('画像なしプロジェクトは既存タイトルの無彩色の組版にする', () => {
+  it('does not repeat project titles inside a decorative fallback', () => {
     expect(source).not.toMatch(/(?:linear|radial)-gradient/);
-    expect(source).toMatch(
-      /class="project-card__fallback-art"[^>]*>\s*\{project.data.title\}/s
-    );
-    expect(source).toMatch(
-      /class="project-card__fallback-visual" aria-hidden="true"/
-    );
+    expect(source).not.toContain('project-card__fallback-art');
+    expect(source).not.toContain('project-card__fallback-visual');
   });
 
   it('画像なしfeaturedカードに空白を作る固定高を持たせない', () => {

@@ -129,9 +129,7 @@ describe('Pagefind search integration', () => {
     expect(projectDetail).toMatch(
       /<div class="bento-panel content-wrapper card-glass" data-pagefind-body>/
     );
-    expect(projectDetail).toContain(
-      'data-pagefind-meta="image[src], image_alt[alt]"'
-    );
+    expect(projectDetail).toMatch(/<BlogThumbnail[^>]*pagefindImage/s);
   });
 });
 

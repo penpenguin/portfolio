@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Link from '../../components/Link.astro';
 import { getCollection, render } from 'astro:content';
 import { formatDate } from '../../utils/formatDate';
-import { withBase } from '../../utils/withBase';
+import BlogThumbnail from '../../components/BlogThumbnail.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -15,7 +15,8 @@ export async function getStaticPaths() {
 
 const project = Astro.props;
 const { Content } = await render(project);
-const projectHeroClass = project.data.heroImage
+const heroImage = project.data.heroImage?.trim();
+const projectHeroClass = heroImage
   ? 'project-hero'
   : 'project-hero project-hero--single';
 ---
@@ -91,14 +92,15 @@ const projectHeroClass = project.data.heroImage
             </div>
           </div>
 
-          {project.data.heroImage && (
-            <div class="project-image">
-              <img
-                src={withBase(project.data.heroImage)}
-                alt={project.data.title}
-                data-pagefind-meta="image[src], image_alt[alt]"
-              />
-            </div>
+          {heroImage && (
+            <BlogThumbnail
+              src={heroImage}
+              alt={project.data.title}
+              tone={project.data.thumbnailTone}
+              loading="eager"
+              pagefindImage
+              class="project-image"
+            />
           )}
         </div>
       </div>
@@ -211,19 +213,11 @@ const projectHeroClass = project.data.heroImage
   }
 
   .project-image {
-    position: relative;
-  }
-
-  .project-image img {
-    display: block;
-    padding: var(--space-sm);
-    object-fit: contain;
     width: 100%;
-    height: auto;
-    background: var(--bento-muted-bg);
+    --thumbnail-height: auto;
+    aspect-ratio: 16 / 10;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-editorial);
   }
 
   .project-content {
@@ -313,9 +307,6 @@ const projectHeroClass = project.data.heroImage
   }
 
   @media (max-width: 768px) {
-    .project-image img {
-      padding: 0.75rem;
-    }
     .project-hero {
       grid-template-columns: 1fr;
       text-align: center;

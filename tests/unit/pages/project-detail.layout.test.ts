@@ -17,10 +17,13 @@ function loadProjectDetailSource(): string {
 describe('Project detail layout', () => {
   it('falls back to a centered single-column layout when no hero image is provided', () => {
     const source = loadProjectDetailSource();
-    expect(source).toContain("import { withBase } from '../../utils/withBase'");
-    expect(source).toContain('src={withBase(project.data.heroImage)}');
+    expect(source).toContain(
+      'const heroImage = project.data.heroImage?.trim();'
+    );
+    expect(source).toContain('{heroImage && (');
+    expect(source).toContain('src={heroImage}');
     expect(source).toMatch(
-      /const projectHeroClass = project\.data\.heroImage\s*\?\s*'project-hero'\s*:\s*'project-hero project-hero--single';/
+      /const projectHeroClass = heroImage\s*\?\s*'project-hero'\s*:\s*'project-hero project-hero--single';/
     );
     expect(source).toMatch(
       /<div class=\{`bento-hero \$\{projectHeroClass\} card-glass`\}>/
@@ -54,20 +57,19 @@ describe('Project detail layout', () => {
     expect(source).not.toContain('project.render()');
   });
 
-  it('frames project screenshots with a restrained product-surface treatment', () => {
+  it('reserves a 16:10 shared thumbnail and preserves foreground search metadata', () => {
     const source = loadProjectDetailSource();
-
     expect(source).toMatch(
-      /\.project-image\s+img\s*\{[^}]*padding:\s*var\(--space-sm\)/s
+      /<BlogThumbnail[^>]*tone=\{project.data.thumbnailTone\}[^>]*loading="eager"[^>]*pagefindImage/s
     );
     expect(source).toMatch(
-      /\.project-image\s+img\s*\{[^}]*background:\s*var\(--bento-muted-bg\)/s
+      /\.project-image\s*\{[^}]*--thumbnail-height:\s*auto/s
     );
     expect(source).toMatch(
-      /\.project-image\s+img\s*\{[^}]*border:\s*1px solid var\(--glass-border\)/s
+      /\.project-image\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*10/s
     );
     expect(source).toMatch(
-      /\.project-image\s+img\s*\{[^}]*box-shadow:\s*var\(--shadow-sm\)/s
+      /\.project-image\s*\{[^}]*border:\s*1px solid var\(--border-editorial\)/s
     );
   });
 });

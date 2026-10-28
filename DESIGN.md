@@ -1,6 +1,6 @@
 ---
 name: Editorial Bento Portfolio Design System
-version: 2.2.0
+version: 2.3.0
 base: Light gray edited collection with restrained terminal details
 mode: light-only
 scope: visual direction only
@@ -50,7 +50,7 @@ Body text, dates, and ordinary links must meet 4.5:1 contrast on their actual su
 
 Apply About colors directly to its heading and description. Scope the black surface to `.bento-card--intro`, including hover and focus-within; never darken the shared `.bento-hero` class.
 
-Keep original files, article body images, and Project image colors intact. Blog list thumbnails alone use the shared grayscale tone described below; never filter cards, text, NoImage, or the entire page. Preserve warning/error colors, admonition categories, and syntax highlighting. These semantic colors are intentional exceptions to the neutral UI palette.
+Keep original files and article/project body images intact. Blog list thumbnails, Projects list thumbnails and Project detail hero images use the shared grayscale tone described below; never filter cards, text, NoImage, or the entire page. Preserve warning/error colors, admonition categories, and syntax highlighting. These semantic colors are intentional exceptions to the neutral UI palette.
 
 ## 4. Typography
 
@@ -82,11 +82,11 @@ Use slight negative tracking only on large English titles. Keep Japanese trackin
 - Preserve Projects' two-column grid and featured first card. Preserve Blog's featured card, archive location, and secondary cards.
 - Use content-driven heights; remove unnecessary mobile hero minimum heights. Align card CTAs using flexible content, not fixed blank space.
 
-Frame Project images with neutral inset surfaces, thin borders, and 16px inner padding (12px mobile). Existing Project screenshots are 16:10: center them with `object-fit: contain` within their media slots. Card Lighting Demo's central card must remain completely visible.
+Projects reuse the Blog thumbnail component, including zero padding, sharp contain foreground, blurred cover background, shared tone, loading policy and failure handling. List frames remain 220px regular / 360px featured, with the featured frame at 220px on mobile. Detail hero frames retain the current screenshots' 16:10 ratio and reserve space before loading. Card Lighting Demo's central card must remain completely visible. Detail hero frames have a thin editorial border and 2px radius.
 
-When a Project image is missing, use its existing dynamic title as neutral typography. Do not generate fake interfaces, charts, maps, or counts. Decorative repeated titles are hidden from assistive technology; the actual card heading remains accessible.
+Missing, empty or failed Project list images use the same NoImage as Blog; never repeat the project title inside the image frame. Project details with missing or blank heroImage keep the existing centered single-column layout without an image frame. When a specified detail image fails, keep the frame and show NoImage. Detail hero images load eagerly and expose Pagefind image metadata only on the foreground. Do not generate fake interfaces, charts, maps, or counts.
 
-Blog thumbnails retain their existing 150px regular / 260px featured height (180px featured on mobile), with zero padding and no enforced aspect ratio. Use the original image twice: a sharp centered `contain` foreground and a decorative `cover` background with `blur(22px)` extending 32px beyond each edge. Clip both inside an isolated positioning context. Keep the background alt empty and hide it from assistive technology; never blur the foreground. Both image layers share `grayscale(0.92) contrast(0.94) brightness(0.98)` in that order, with the background blur appended. Optional Blog frontmatter `thumbnailTone: 'original'` preserves informative colors through `grayscale(0) contrast(1) brightness(1)` on both layers. Omit it for the default editorial tone, including the current two illustrative images. Keep heroImage and base-path handling. Featured images use eager loading; both layers of other images use native lazy loading. Retain fixed frame dimensions and async decoding.
+Blog thumbnails retain their existing 150px regular / 260px featured height (180px featured on mobile), with zero padding and no enforced aspect ratio. Use the original image twice: a sharp centered `contain` foreground and a decorative `cover` background with `blur(22px)` extending 32px beyond each edge. Clip both inside an isolated positioning context. Keep the background alt empty and hide it from assistive technology; never blur the foreground. Both image layers share `grayscale(0.92) contrast(0.94) brightness(0.98)` in that order, with the background blur appended. Optional Blog or Projects frontmatter `thumbnailTone: 'original'` preserves informative colors through `grayscale(0) contrast(1) brightness(1)` on both layers. Omit it for the default editorial tone, including the current Blog illustrations and Project thumbnails. Projects apply the same choice to list and detail hero images. Keep heroImage and base-path handling. Featured images use eager loading; both layers of other images use native lazy loading. Retain fixed frame dimensions and async decoding.
 
 Missing, empty or failed foreground image URLs use exactly `NoImage`, centered in 14px monospaced type (#3E3E45) over a #C5C5C8 base. A shared non-repeating static SVG spans the frame with broad tonal variation and faint scan remnants; only fine grain repeats as a separate 256px SVG with fixed seed 17. These external assets have no animation or runtime texture generation. Keep the text sharp and check groups of 3–6 missing-image cards. Do not repeat article titles. Hide this decorative fallback from assistive technology. Failed images hide both layers; loading and fallback states retain the same frame dimensions. The broad prohibition on decorative noise does not apply to this thumbnail-only static texture.
 
