@@ -20,6 +20,12 @@ const hashFile = (path: string) =>
   createHash('sha256').update(readFileSync(path)).digest('hex');
 
 describe('projects content entries', () => {
+  it('allows the same optional original thumbnail tone as Blog', () => {
+    const projectsSchema = loadConfig().split('const blog =')[0];
+    expect(projectsSchema).toMatch(
+      /thumbnailTone:\s*z\.literal\('original'\)\.optional\(\)/
+    );
+  });
   it('cadenzioのプロジェクトページが存在し必要なfrontmatterを含む', () => {
     const content = readProject('cadenzio');
     expect(content).toMatch(/title:\s*'Cadenzio/);

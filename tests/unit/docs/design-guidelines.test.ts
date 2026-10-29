@@ -7,10 +7,13 @@ const design = readFileSync(
 );
 
 describe('DESIGN.md portfolio design guidance', () => {
-  it('documents a Linear-based direction for this portfolio', () => {
-    expect(design).toContain('Linear');
-    expect(design).toContain('precision');
-    expect(design).toContain('product-minded');
+  it('documents the light editorial direction and distinct font roles', () => {
+    expect(design).toContain('edited collection');
+    expect(design).toContain('Cormorant Garamond');
+    expect(design).toContain('Noto Serif JP');
+    expect(design).toContain('Home About only');
+    expect(design).toContain('#EDEDED');
+    expect(design).toContain('#090909');
   });
 
   it('locks the existing BentoUI structure while allowing visual polish', () => {
@@ -38,5 +41,13 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).toContain('No Eyebrow / Overline Policy');
     expect(design).toContain('Eyebrow text is forbidden');
     expect(design).toContain('Card titles must stand on their own');
+  });
+
+  it('documents the approved wireframe motion and thumbnail exceptions', () => {
+    expect(design).toContain('16-second');
+    expect(design).toContain('NO IMAGE');
+    expect(design).toContain('blur(22px)');
+    expect(design).not.toContain('the aquarium iframe');
+    expect(design).not.toContain('without a blurred duplicate backdrop');
   });
 });

@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Link from '../../components/Link.astro';
 import { getCollection, render } from 'astro:content';
 import { formatDate } from '../../utils/formatDate';
-import { withBase } from '../../utils/withBase';
+import BlogThumbnail from '../../components/BlogThumbnail.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -15,7 +15,8 @@ export async function getStaticPaths() {
 
 const project = Astro.props;
 const { Content } = await render(project);
-const projectHeroClass = project.data.heroImage
+const heroImage = project.data.heroImage?.trim();
+const projectHeroClass = heroImage
   ? 'project-hero'
   : 'project-hero project-hero--single';
 ---
@@ -25,9 +26,9 @@ const projectHeroClass = project.data.heroImage
     <header class="project-header">
       <div class="container">
         <div class="breadcrumb">
-          <Link href="/projects" class="btn btn-glass"
-            >← プロジェクト一覧に戻る</Link
-          >
+          <Link href="/projects" class="btn btn-glass">
+            ← プロジェクト一覧に戻る
+          </Link>
         </div>
 
         <div class={`bento-hero ${projectHeroClass} card-glass`}>
@@ -37,85 +38,81 @@ const projectHeroClass = project.data.heroImage
             >
               {project.data.title}
             </h1>
+            <div class="project-date">
+              Published:{' '}
+              <time datetime={project.data.pubDate.toISOString()}>
+                {formatDate(project.data.pubDate)}
+              </time>
+              {project.data.updatedDate && (
+                <span class="updated">
+                  • Updated:{' '}
+                  <time datetime={project.data.updatedDate.toISOString()}>
+                    {formatDate(project.data.updatedDate)}
+                  </time>
+                </span>
+              )}
+            </div>
             <p class="project-description" data-pagefind-meta="description">
               {project.data.description}
             </p>
 
             <div class="project-info">
-              <div class="project-date">
-                Published: {formatDate(project.data.pubDate)}
-                {
-                  project.data.updatedDate && (
-                    <span class="updated">
-                      • Updated: {formatDate(project.data.updatedDate)}
+              {project.data.tags && (
+                <div class="pill-list project-tags">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag" data-pagefind-filter="tag">
+                      {tag}
                     </span>
-                  )
-                }
-              </div>
-
-              {
-                project.data.tags && (
-                  <div class="pill-list project-tags">
-                    {project.data.tags.map((tag) => (
-                      <span class="tag" data-pagefind-filter="tag">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )
-              }
+                  ))}
+                </div>
+              )}
 
               <div class="project-links">
-                {
-                  project.data.link && (
-                    <a
-                      href={project.data.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn-primary"
-                    >
-                      ライブデモを見る
-                    </a>
-                  )
-                }
-                {
-                  project.data.github && (
-                    <a
-                      href={project.data.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn-glass"
-                    >
-                      ソースコードを見る
-                    </a>
-                  )
-                }
+                {project.data.link && (
+                  <a
+                    href={project.data.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary"
+                  >
+                    ライブデモを見る
+                  </a>
+                )}
+                {project.data.github && (
+                  <a
+                    href={project.data.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-glass"
+                  >
+                    ソースコードを見る
+                  </a>
+                )}
               </div>
             </div>
           </div>
 
-          {
-            project.data.heroImage && (
-              <div class="project-image">
-                <img
-                  src={withBase(project.data.heroImage)}
-                  alt={project.data.title}
-                  data-pagefind-meta="image[src], image_alt[alt]"
-                />
-              </div>
-            )
-          }
+          {heroImage && (
+            <BlogThumbnail
+              src={heroImage}
+              alt={project.data.title}
+              tone="original"
+              loading="eager"
+              pagefindImage
+              class="project-image"
+            />
+          )}
         </div>
       </div>
     </header>
 
-    <main class="project-content">
+    <div class="project-content">
       <div class="container">
         <div class="bento-panel content-wrapper card-glass" data-pagefind-body>
           <Content />
         </div>
       </div>
-    </main>
+    </div>
   </article>
 </Layout>
 
@@ -135,8 +132,8 @@ const projectHeroClass = project.data.heroImage
 
   .project-hero {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xl);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
     align-items: center;
     margin-bottom: var(--space-2xl);
   }
@@ -160,8 +157,13 @@ const projectHeroClass = project.data.heroImage
     flex-wrap: wrap;
   }
 
+  .project-meta {
+    min-width: 0;
+    width: 100%;
+  }
+
   .project-meta h1 {
-    font-size: clamp(2.25rem, 6vw, 4.5rem);
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
     margin-bottom: var(--space-md);
     letter-spacing: 0;
   }
@@ -179,8 +181,12 @@ const projectHeroClass = project.data.heroImage
   }
 
   .project-date {
+    font-family: var(--font-family-mono);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+    border-bottom: 1px solid var(--glass-border);
     color: var(--text-secondary);
-    font-size: var(--font-size-sm);
+    font-size: 0.8125rem;
   }
 
   .updated {
@@ -191,31 +197,27 @@ const projectHeroClass = project.data.heroImage
   }
 
   .tag {
-    background: var(--bento-muted-bg);
-    color: var(--text-accent);
-    padding: var(--space-xs) var(--space-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
     border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
-    font-weight: 600;
-    border: 1px solid var(--glass-border);
+    font-weight: 400;
+    border: 1px solid var(--border-editorial);
   }
 
   .project-links {
+    flex-wrap: wrap;
     display: flex;
     gap: var(--space-md);
   }
 
   .project-image {
-    position: relative;
-  }
-
-  .project-image img {
     width: 100%;
-    height: auto;
-    background: var(--bento-muted-bg);
+    --thumbnail-height: auto;
+    aspect-ratio: 16 / 10;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-editorial);
   }
 
   .project-content {
@@ -223,7 +225,10 @@ const projectHeroClass = project.data.heroImage
   }
 
   .content-wrapper {
-    padding: var(--space-2xl);
+    min-width: 0;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+    padding: var(--card-padding);
     border-radius: var(--radius-xl);
   }
 
@@ -236,6 +241,7 @@ const projectHeroClass = project.data.heroImage
     color: var(--text-primary);
     margin-top: var(--space-xl);
     margin-bottom: var(--space-md);
+    font-family: var(--font-family-japanese);
   }
 
   .content-wrapper :global(h1):first-child,
@@ -247,7 +253,7 @@ const projectHeroClass = project.data.heroImage
   .content-wrapper :global(p) {
     color: var(--text-secondary);
     margin-bottom: var(--space-md);
-    line-height: 1.7;
+    line-height: 1.85;
   }
 
   .content-wrapper :global(ul),
@@ -271,16 +277,33 @@ const projectHeroClass = project.data.heroImage
   }
 
   .content-wrapper :global(code) {
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-family: var(--font-family-mono);
     font-size: 0.9em;
   }
 
   .content-wrapper :global(blockquote) {
-    border-left: 4px solid var(--text-accent);
+    border-left: 1px solid var(--border-strong);
     padding-left: var(--space-md);
     margin: var(--space-lg) 0;
     font-style: italic;
     color: var(--text-secondary);
+  }
+
+  .content-wrapper :global(.table-scroll) {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+  }
+
+  .content-wrapper :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  .content-wrapper :global(img) {
+    max-width: 100%;
+    height: auto;
   }
 
   @media (max-width: 768px) {
@@ -290,7 +313,7 @@ const projectHeroClass = project.data.heroImage
     }
 
     .project-meta h1 {
-      font-size: var(--font-size-3xl);
+      font-size: 2rem;
     }
 
     .project-links {
@@ -299,7 +322,7 @@ const projectHeroClass = project.data.heroImage
     }
 
     .content-wrapper {
-      padding: var(--space-lg);
+      padding: var(--card-padding);
     }
   }
 </style>

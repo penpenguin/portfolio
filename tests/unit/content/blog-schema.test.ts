@@ -9,6 +9,11 @@ const loadConfig = () =>
   readFileSync(resolve(currentDir, '../../../src/content.config.ts'), 'utf-8');
 
 describe('blog collection schema', () => {
+  it('allows an optional original thumbnail tone without requiring post-specific settings', () => {
+    expect(loadConfig()).toMatch(
+      /thumbnailTone:\s*z\.literal\('original'\)\.optional\(\)/
+    );
+  });
   it('declares draft field so draft filtering works', () => {
     const config = loadConfig();
     expect(config).toMatch(/draft:\s*z\.boolean/);

@@ -1,0 +1,75 @@
+---
+import { initialAngle, projectDevice } from '../utils/wireframeDevice';
+
+const lines = projectDevice(initialAngle, 240, 240);
+---
+
+<wireframe-device>
+  <button
+    type="button"
+    data-device-stage
+    disabled
+    aria-label="基板、支持柱、ヒートシンク、端子を持つ装置の線画"
+  >
+    <svg viewBox="0 0 240 240" fill="none" aria-hidden="true">
+      {lines.map(({ from, to, opacity, width }) => (
+        <line
+          x1={from.x}
+          y1={from.y}
+          x2={to.x}
+          y2={to.y}
+          stroke="#5B5A60"
+          stroke-opacity={opacity}
+          stroke-width={width}
+          vector-effect="non-scaling-stroke"
+        />
+      ))}
+    </svg>
+    <canvas aria-hidden="true"></canvas>
+  </button>
+</wireframe-device>
+
+<script>
+  import '../scripts/wireframeDevice';
+</script>
+
+<style>
+  wireframe-device {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  [data-device-stage] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    appearance: none;
+  }
+  svg,
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  canvas,
+  [data-enhanced] svg {
+    display: none;
+  }
+  [data-enhanced] canvas {
+    display: block;
+  }
+  [data-device-stage]:enabled {
+    cursor: pointer;
+  }
+  [data-device-stage]:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: -4px;
+  }
+</style>

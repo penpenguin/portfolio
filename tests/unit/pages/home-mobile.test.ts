@@ -59,12 +59,14 @@ describe('Home モバイルレイアウト', () => {
     );
     const introRule = getRule('.bento-card--intro');
     expect(introRule).not.toContain('align-self: start');
-    expect(introRule).toContain('min-height: auto');
+    expect(introRule).not.toContain('min-height:');
     expect(introRule).not.toContain('min-height: 390px');
 
     const heroHeadingRule = getRule('.bento-card h1');
-    expect(heroHeadingRule).toContain('font-size: 5.25rem');
-    expect(heroHeadingRule).toContain('line-height: 0.95');
+    expect(heroHeadingRule).toContain(
+      'font-size: clamp(5.5rem, 7.2vw, 6.5rem)'
+    );
+    expect(heroHeadingRule).toContain('line-height: 1.02');
   });
 
   it('HomeはProjectsとBlogを主要導線として表示する', () => {
@@ -127,24 +129,17 @@ describe('Home モバイルレイアウト', () => {
     expect(page.match(/10\+|years building systems/g)).toBeNull();
   });
 
-  it('Aboutの直後に操作できる水槽アプリを埋め込む', () => {
-    const aquarium =
+  it('Aboutの直後に停止・再生できる線画の装置を配置する', () => {
+    const device =
       page.match(
-        /<section\b[^>]*bento-card--aquarium[^>]*>[\s\S]*?<\/section>/
+        /<section\b[^>]*bento-card--device[^>]*>[\s\S]*?<\/section>/
       )?.[0] ?? '';
-    const iframe = aquarium.match(/<iframe\b[^>]*>/)?.[0] ?? '';
-
-    expect(iframe).toContain(
-      'src="https://penpenguin.github.io/suiren-aquarium/"'
-    );
-    expect(iframe).toContain('title="水縁 — SUIREN"');
-    expect(iframe).toContain('loading="eager"');
-    expect(iframe).toContain('allow="fullscreen"');
-    expect(iframe).toContain('allowfullscreen');
-    expect(page.indexOf(aquarium)).toBeGreaterThan(
+    expect(device).toContain('<WireframeDevice');
+    expect(page).not.toContain('<iframe');
+    expect(page.indexOf(device)).toBeGreaterThan(
       page.indexOf('bento-card--intro')
     );
-    expect(page.indexOf(aquarium)).toBeLessThan(
+    expect(page.indexOf(device)).toBeLessThan(
       page.indexOf('bento-card--project')
     );
   });
@@ -160,10 +155,8 @@ describe('Home モバイルレイアウト', () => {
     expect(page).not.toContain('const overviewCards = [');
   });
 
-  it('水槽のスクリプトだけを許可し、親ページへの同一オリジンアクセスを許可しない', () => {
-    const iframe = page.match(/<iframe\b[^>]*>/)?.[0] ?? '';
-    const sandbox = iframe.match(/\bsandbox="([^"]*)"/)?.[1];
-
-    expect(sandbox?.split(/\s+/)).toEqual(['allow-scripts']);
+  it('展示枠のアクセシブル名を新しい内容へ更新する', () => {
+    expect(page).toContain('aria-label="線画の3D装置"');
+    expect(page).not.toContain('水縁 — SUIREN');
   });
 });

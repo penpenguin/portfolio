@@ -2,62 +2,132 @@
 import { withBase } from '../utils/withBase';
 
 interface Props {
-  src: string;
+  src?: string;
   alt: string;
   class?: string;
+  tone?: 'original';
+  loading?: 'eager' | 'lazy';
+  pagefindImage?: boolean;
 }
 
-const { src, alt, class: className, ...attributes } = Astro.props;
-const imageSrc = withBase(src);
+const {
+  src,
+  alt,
+  class: className,
+  tone,
+  loading = 'lazy',
+  pagefindImage = false,
+  ...attributes
+} = Astro.props;
+const imageSrc = src?.trim() ? withBase(src.trim()) : undefined;
 ---
 
-<div {...attributes} class:list={['blog-thumbnail', className]}>
-  <img
-    class="blog-thumbnail__backdrop"
-    src={imageSrc}
-    alt=""
+<blog-thumbnail
+  {...attributes}
+  data-tone={tone}
+  class:list={[
+    'blog-thumbnail',
+    className,
+    { 'post-visual--fallback': !imageSrc },
+  ]}
+>
+  <div
+    class="blog-thumbnail__fallback"
+    style={`--noise-image: url("${withBase('/assets/noimage-noise.svg')}"); --noimage-composition: url("${withBase('/assets/noimage-composition.svg')}")`}
     aria-hidden="true"
-    decoding="async"
-  />
-  <img
-    class="blog-thumbnail__image"
-    src={imageSrc}
-    alt={alt}
-    decoding="async"
-  />
-</div>
+    hidden={!!imageSrc}
+  >
+    <span>NO IMAGE</span>
+  </div>
+  {imageSrc && (
+    <>
+      <img
+        class="blog-thumbnail__backdrop"
+        src={imageSrc}
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+        loading={loading}
+      />
+      <img
+        class="blog-thumbnail__image"
+        src={imageSrc}
+        alt={alt}
+        data-pagefind-meta={
+          pagefindImage ? 'image[src], image_alt[alt]' : undefined
+        }
+        decoding="async"
+        loading={loading}
+      />
+    </>
+  )}
+</blog-thumbnail>
+
+<script>
+  import '../scripts/blogThumbnail';
+</script>
 
 <style>
   .blog-thumbnail {
-    --thumbnail-blur: 28px;
-    --thumbnail-backdrop-opacity: 0.7;
-    --thumbnail-backdrop-saturation: 0.8;
-
+    --thumbnail-tone: grayscale(0.92) contrast(0.94) brightness(0.98);
+    height: var(--thumbnail-height, 150px);
+    display: block;
     position: relative;
     isolation: isolate;
+    min-width: 0;
     overflow: hidden;
+    padding: 0;
     background: var(--bento-muted-bg);
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--border-editorial);
   }
 
-  .blog-thumbnail__backdrop {
-    position: absolute;
-    inset: calc(var(--thumbnail-blur) * -2);
-    width: calc(100% + var(--thumbnail-blur) * 4);
-    height: calc(100% + var(--thumbnail-blur) * 4);
-    object-fit: cover;
-    filter: blur(var(--thumbnail-blur))
-      saturate(var(--thumbnail-backdrop-saturation));
-    opacity: var(--thumbnail-backdrop-opacity);
-    pointer-events: none;
+  .blog-thumbnail[data-tone='original'] {
+    --thumbnail-tone: grayscale(0) contrast(1) brightness(1);
   }
 
   .blog-thumbnail__image {
-    position: relative;
     display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: contain;
     object-position: center;
+    filter: var(--thumbnail-tone);
+  }
+
+  .blog-thumbnail__backdrop {
+    position: absolute;
+    inset: -32px;
+    width: calc(100% + 64px);
+    height: calc(100% + 64px);
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    filter: var(--thumbnail-tone) blur(22px);
+  }
+
+  .blog-thumbnail__fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background-color: #c5c5c8;
+    background-image: var(--noise-image), var(--noimage-composition);
+    background-repeat: repeat, no-repeat;
+    background-size:
+      256px 256px,
+      100% 100%;
+    color: #3e3e45;
+    font-family: var(--font-family-mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  [hidden] {
+    display: none;
   }
 </style>

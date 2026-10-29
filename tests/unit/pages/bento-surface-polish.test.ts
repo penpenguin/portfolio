@@ -14,20 +14,22 @@ describe('Bento surface polish', () => {
   it('home Bento cards use quiet surfaces instead of loud gradients', () => {
     const source = readPage('../../../src/pages/index.astro');
 
-    for (const selector of [
-      '.bento-card--intro',
-      '.bento-card--aquarium',
-      '.bento-card--project',
-      '.bento-card--blog',
-    ]) {
+    expect(getRule(source, '.bento-card--intro')).toContain(
+      'background: var(--about-bg)'
+    );
+
+    for (const selector of ['.bento-card--project', '.bento-card--blog']) {
       const rule = getRule(source, selector);
       expect(rule).toContain('background: var(--bento-card-bg)');
       expect(rule).not.toContain('linear-gradient');
       expect(rule).not.toContain('radial-gradient');
     }
+    expect(getRule(source, '.bento-card--device')).toContain(
+      'background: var(--bento-muted-bg)'
+    );
   });
 
-  it('blog Bento cards use quiet surfaces while fallback visuals keep their original art', () => {
+  it('blog Bento cards use quiet surfaces with a shared thumbnail fallback', () => {
     for (const path of [
       '../../../src/pages/blog/index.astro',
       '../../../src/pages/blog/[year]/[month]/index.astro',
@@ -38,14 +40,15 @@ describe('Bento surface polish', () => {
       expect(featured).not.toContain('linear-gradient');
       expect(featured).not.toContain('radial-gradient');
 
-      const fallback = getRule(source, '.post-visual--fallback');
-      expect(fallback).toContain(
-        'linear-gradient(135deg, rgba(14, 165, 233, 0.14), transparent 44%)'
+      expect(source).toContain('<BlogThumbnail');
+      expect(source).toMatch(
+        /class="read-more__label">\s*記事を読む\s*<span aria-hidden="true">→/
       );
-
-      const fallbackArt = getRule(source, '.post-visual__art');
-      expect(fallbackArt).toContain('radial-gradient(');
-      expect(fallbackArt).toContain('linear-gradient(');
+      expect(getRule(source, '.read-more__label')).toContain(
+        'border-bottom: 1px solid currentColor'
+      );
+      expect(getRule(source, '.read-more')).toContain('text-decoration: none');
+      expect(source).not.toMatch(/(?:linear|radial)-gradient/);
     }
 
     const archive = getRule(

@@ -6,7 +6,49 @@ import { describe, expect, it, vi } from 'vitest';
 import BlogThumbnail from '../../../src/components/BlogThumbnail.astro';
 
 describe('BlogThumbnail', () => {
-  it('uses the same base-aware image behind the accessible foreground', async () => {
+  it.each([false, true])(
+    'exposes Pagefind image metadata only on the foreground when enabled: %s',
+    async (pagefindImage) => {
+      const container = await AstroContainer.create();
+      const html = await container.renderToString(BlogThumbnail, {
+        props: {
+          src: '/assets/projects/cadenzio.webp',
+          alt: 'Cadenzio',
+          pagefindImage,
+        },
+      });
+      const images = html.match(/<img\b[^>]*>/g)!;
+      expect(images[0]).not.toContain('data-pagefind-meta');
+      expect(
+        images[1].includes('data-pagefind-meta="image[src], image_alt[alt]"')
+      ).toBe(pagefindImage);
+      expect(html.match(/<blog-thumbnail[^>]*>/)?.[0]).not.toMatch(
+        /pagefindimage/i
+      );
+    }
+  );
+
+  it.each(['eager', 'lazy'] as const)(
+    'passes original tone and %s loading to both layers',
+    async (loading) => {
+      const container = await AstroContainer.create();
+      const html = await container.renderToString(BlogThumbnail, {
+        props: {
+          src: '/image.webp',
+          alt: 'Color diagram',
+          tone: 'original',
+          loading,
+        },
+      });
+      expect(html).toMatch(/<blog-thumbnail[^>]*data-tone="original"/);
+      const images = html.match(/<img\b[^>]*>/g)!;
+      expect(
+        images.every((image) => image.includes(`loading="${loading}"`))
+      ).toBe(true);
+    }
+  );
+
+  it('renders the same base-aware image twice with only the foreground accessible', async () => {
     vi.stubEnv('BASE_URL', '/portfolio/');
     const container = await AstroContainer.create();
     const html = await container.renderToString(BlogThumbnail, {
@@ -16,7 +58,7 @@ describe('BlogThumbnail', () => {
         class: 'post-visual',
       },
     });
-    expect(html).toMatch(/<div[^>]*class="[^"]*post-visual/);
+    expect(html).toMatch(/<blog-thumbnail[^>]*class="[^"]*post-visual/);
     const images = html.match(/<img\b[^>]*>/g)!;
     expect(images).toHaveLength(2);
     expect(images.map((image) => image.match(/src="([^"]+)"/)?.[1])).toEqual([
@@ -29,24 +71,24 @@ describe('BlogThumbnail', () => {
     expect(images[1]).not.toContain('aria-hidden');
   });
 
-  it('keeps the foreground uncropped and clips the blurred backdrop to its frame', () => {
+  it('keeps the image uncropped and its surrounding frame neutral', () => {
     const source = readFileSync(
       new URL('../../../src/components/BlogThumbnail.astro', import.meta.url),
       'utf-8'
     );
     expect(source).toMatch(/\.blog-thumbnail\s*\{[^}]*overflow:\s*hidden/s);
     expect(source).toMatch(
-      /\.blog-thumbnail\s*\{[^}]*border-bottom:\s*1px solid var\(--glass-border\)/s
+      /\.blog-thumbnail\s*\{[^}]*border-bottom:\s*1px solid var\(--border-editorial\)/s
     );
-    expect(source).toMatch(
-      /\.blog-thumbnail__backdrop\s*\{[^}]*object-fit:\s*cover/s
-    );
-    expect(source).toMatch(
-      /\.blog-thumbnail__backdrop\s*\{[^}]*filter:\s*blur\(/s
-    );
+    expect(source).toMatch(/\.blog-thumbnail\s*\{[^}]*padding:\s*0/s);
     expect(source).toMatch(
       /\.blog-thumbnail__image\s*\{[^}]*object-fit:\s*contain/s
     );
+    const foreground = source.match(
+      /\.blog-thumbnail__image\s*\{[^}]*\}/s
+    )?.[0];
+    expect(foreground).toContain('filter: var(--thumbnail-tone)');
+    expect(foreground).not.toContain('blur(');
   });
 
   it('preserves the parent page style scope so card heights remain responsive', async () => {
@@ -59,6 +101,20 @@ describe('BlogThumbnail', () => {
         'data-astro-cid-parent': true,
       },
     });
-    expect(html).toMatch(/<div[^>]*data-astro-cid-parent/);
+    expect(html).toMatch(/<blog-thumbnail[^>]*data-astro-cid-parent/);
   });
 });
+
+it.each([undefined, '', '   '])(
+  'uses static NO IMAGE for missing source %s without repeating the title',
+  async (src) => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(BlogThumbnail, {
+      props: { src, alt: '実際の記事タイトル', class: 'post-visual' },
+    });
+    expect(html).not.toContain('<img');
+    expect(html).toMatch(/aria-hidden="true"[^>]*>[\s\S]*?NO IMAGE/s);
+    expect(html).not.toContain('実際の記事タイトル');
+    expect(html).toContain('post-visual--fallback');
+  }
+);

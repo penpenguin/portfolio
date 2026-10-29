@@ -24,9 +24,7 @@ describe('Pagefind search integration', () => {
   it('loads the Pagefind Component UI through base-aware asset paths', () => {
     const layout = readSource('src/layouts/Layout.astro');
 
-    expect(layout).toContain(
-      "withBase('/pagefind/pagefind-component-ui.css')"
-    );
+    expect(layout).toContain("withBase('/pagefind/pagefind-component-ui.css')");
     expect(layout).toContain("withBase('/pagefind/pagefind-component-ui.js')");
     expect(layout).toContain("withBase('/pagefind/')");
     expect(layout).toContain("withBase('/')");
@@ -37,9 +35,7 @@ describe('Pagefind search integration', () => {
     expect(layout).toContain('<pagefind-modal-trigger');
     expect(layout).toContain('shortcut="mod+k"');
     expect(layout).toContain('hide-shortcut');
-    expect(layout).toMatch(
-      /<pagefind-modal-trigger\s+class="search-trigger"/
-    );
+    expect(layout).toMatch(/<pagefind-modal-trigger\s+class="search-trigger"/);
     expect(layout).not.toMatch(
       /<pagefind-modal-trigger[^>]*class="[^"]*\bnav-link\b/
     );
@@ -51,9 +47,7 @@ describe('Pagefind search integration', () => {
     expect(layout).toMatch(
       /<pagefind-config\b[^>]*transition:persist[^>]*transition:animate="none"[^>]*>/s
     );
-    expect(layout).toContain(
-      "import '../scripts/pagefind-view-transitions';"
-    );
+    expect(layout).toContain("import '../scripts/pagefind-view-transitions';");
   });
 
   it('recreates the Pagefind modal shell instead of persisting generated dialog markup', () => {
@@ -82,9 +76,7 @@ describe('Pagefind search integration', () => {
   it('aligns the search trigger with the other header navigation items', () => {
     const layout = readSource('src/layouts/Layout.astro');
 
-    expect(layout).toMatch(
-      /\.nav-links\s*\{[^}]*align-items:\s*stretch/s
-    );
+    expect(layout).toMatch(/\.nav-links\s*\{[^}]*align-items:\s*stretch/s);
     expect(layout).toContain(
       ':global(:is(*, #\\#):is(*, #\\#):is(*, #\\#) .search-trigger .pf-trigger-btn)'
     );
@@ -97,9 +89,7 @@ describe('Pagefind search integration', () => {
   });
 
   it('indexes only the Blog detail content with metadata and filters', () => {
-    const blogDetail = readSource(
-      'src/pages/blog/[year]/[month]/[slug].astro'
-    );
+    const blogDetail = readSource('src/pages/blog/[year]/[month]/[slug].astro');
 
     expect(blogDetail).toContain(
       "import { withBase } from '../../../../utils/withBase';"
@@ -139,8 +129,13 @@ describe('Pagefind search integration', () => {
     expect(projectDetail).toMatch(
       /<div class="bento-panel content-wrapper card-glass" data-pagefind-body>/
     );
-    expect(projectDetail).toContain(
-      'data-pagefind-meta="image[src], image_alt[alt]"'
-    );
+    expect(projectDetail).toMatch(/<BlogThumbnail[^>]*pagefindImage/s);
   });
+});
+
+it('検索の閉じる・クリア操作は44px以上の領域と小さな角丸を持つ', () => {
+  const layout = readSource('src/layouts/Layout.astro');
+  expect(layout).toMatch(
+    /\.pf-modal-close\)[\s\S]*?\.pf-input-clear\)\s*\{[^}]*min-width:\s*44px[^}]*min-height:\s*44px[^}]*border-radius:\s*var\(--radius-md\)/s
+  );
 });
