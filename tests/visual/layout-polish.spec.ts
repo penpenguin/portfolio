@@ -1,16 +1,26 @@
 import { expect, test } from '@playwright/test';
 
+// Published month also used by blog-archive.spec.ts; keep Blog last for history.
+const introductionPaths = ['./', 'projects/', 'blog/2025/11/', 'blog/'];
+
 for (const width of [320, 390, 768, 980, 1024, 1440]) {
   test(`sticky shell and equal introduction heights at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 1000 });
     const heights: number[] = [];
-    for (const path of ['./', 'projects/', 'blog/']) {
+    for (const path of introductionPaths) {
       await page.goto(path);
       await page.evaluate(() => document.fonts.ready);
       const hero = page.locator('.bento-hero').first();
       heights.push((await hero.boundingBox())!.height);
+      expect((await hero.boundingBox())!.height).toBeCloseTo(
+        width <= 768 ? 240 : 260,
+        0
+      );
+      if (path === 'blog/2025/11/') {
+        await expect(hero.locator('p')).toHaveCSS('margin-bottom', '0px');
+      }
       const navbar = page.locator('.navbar');
       await expect(navbar).toHaveCSS('position', 'sticky');
       await expect(navbar).toHaveCSS('background-color', 'rgb(237, 237, 237)');
@@ -84,8 +94,9 @@ test('fallback fonts, zoom and long descriptions expand heroes without clipping'
   await page.route('https://fonts.googleapis.com/**', (route) => route.abort());
   await page.route('https://fonts.gstatic.com/**', (route) => route.abort());
   await page.setViewportSize({ width: 720, height: 1000 });
-  for (const path of ['./', 'projects/', 'blog/']) {
+  for (const path of introductionPaths) {
     await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
     await page.evaluate(() => {
       document.body.style.zoom = '2';
       const hero = document.querySelector('.bento-hero')!;
@@ -99,6 +110,11 @@ test('fallback fonts, zoom and long descriptions expand heroes without clipping'
     expect(
       await hero.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)
     ).toBe(true);
+    const heroBounds = (await hero.boundingBox())!;
+    const descriptionBounds = (await hero.locator('p').boundingBox())!;
+    expect(descriptionBounds.y + descriptionBounds.height).toBeLessThanOrEqual(
+      heroBounds.y + heroBounds.height
+    );
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth)
     ).toBeLessThanOrEqual(720);

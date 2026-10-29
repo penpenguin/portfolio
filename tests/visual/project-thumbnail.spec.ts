@@ -1,6 +1,19 @@
 import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 const tone = 'grayscale(0.92) contrast(0.94) brightness(0.98)';
+
+async function expectSingleMainWithContent(page: Page) {
+  await expect(page.locator('main')).toHaveCount(1);
+  await expect(page.locator('main.site-main')).toHaveCount(1);
+  await expect(page.locator('main main')).toHaveCount(0);
+  const content = page.locator(
+    'main.site-main div.project-content [data-pagefind-body]'
+  );
+  await expect(content).toHaveCount(1);
+  await expect(content).toBeVisible();
+  await expect(content.locator('p').first()).not.toBeEmpty();
+}
 
 test('project lists share Blog framing and tone without changing card heights', async ({
   page,
@@ -47,6 +60,7 @@ test('details reserve their ratio, retain image metadata, and keep image-less de
   for (const width of [1440, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('projects/card-lighting-demo/');
+    await expectSingleMainWithContent(page);
     const frame = page.locator('.project-image');
     const bounds = await frame.boundingBox();
     expect(bounds!.width / bounds!.height).toBeCloseTo(1.6, 1);
@@ -71,6 +85,7 @@ test('details reserve their ratio, retain image metadata, and keep image-less de
       'grayscale(0) contrast(1) brightness(1) blur(22px)'
     );
     await page.goto('projects/petatas/');
+    await expectSingleMainWithContent(page);
     await expect(page.locator('blog-thumbnail')).toHaveCount(0);
     await expect(page.locator('.project-hero--single')).toBeVisible();
     expect(

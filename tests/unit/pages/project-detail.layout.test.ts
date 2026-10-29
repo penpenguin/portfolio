@@ -15,6 +15,14 @@ function loadProjectDetailSource(): string {
 }
 
 describe('Project detail layout', () => {
+  it('keeps searchable content in a div beneath the Layout main landmark', () => {
+    const source = loadProjectDetailSource();
+    expect(source).toMatch(
+      /<div class="project-content">\s*<div class="container">\s*<div[^>]*data-pagefind-body>\s*<Content \/>\s*<\/div>\s*<\/div>\s*<\/div>/s
+    );
+    expect(source).not.toMatch(/<main\b|role="main"/);
+  });
+
   it('falls back to a centered single-column layout when no hero image is provided', () => {
     const source = loadProjectDetailSource();
     expect(source).toContain(

@@ -5,6 +5,7 @@ const pages = [
   '../../../src/pages/index.astro',
   '../../../src/pages/projects/index.astro',
   '../../../src/pages/blog/index.astro',
+  '../../../src/pages/blog/[year]/[month]/index.astro',
 ];
 
 const load = (path: string) =>
@@ -27,6 +28,12 @@ describe('Bento shared layout usage', () => {
     expect(source).toContain('class="bento-grid');
     expect(source).toContain('bento-panel');
   });
+});
+
+it('keeps the month introduction description free of trailing margin', () => {
+  expect(load('../../../src/pages/blog/[year]/[month]/index.astro')).toMatch(
+    /\.blog-hero p\s*\{[^}]*margin:\s*0;/s
+  );
 });
 
 it('shares hero minimum heights without page-specific overrides', () => {
