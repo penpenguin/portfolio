@@ -88,49 +88,54 @@ async function observeDrawing(page: Page) {
 
 const draws = (page: Page) => page.evaluate(() => window.deviceProbe.draws);
 
-test('Canvas draws the shared initial geometry and respects the DPR cap', async ({
-  page,
-}) => {
-  await observeDrawing(page);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('./');
-  await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator('wireframe-device')).toHaveAttribute(
-    'data-enhanced',
-    ''
-  );
-  await expect.poll(draws.bind(null, page)).toBeGreaterThan(0);
-  const actual = await page.evaluate(() => {
-    const canvas = document.querySelector<HTMLCanvasElement>(
-      'wireframe-device canvas'
-    )!;
-    const { width, height } = canvas.getBoundingClientRect();
-    return {
-      lines: window.deviceProbe.lines,
-      width,
-      height,
-      backing: [canvas.width, canvas.height],
-      dpr: Math.min(devicePixelRatio, 2),
-    };
+for (const dpr of [1, 2]) {
+  test.describe(`Canvas at DPR ${dpr}`, () => {
+    test.use({ deviceScaleFactor: dpr });
+    test('Canvas draws the shared initial geometry and respects the DPR cap', async ({
+      page,
+    }) => {
+      await observeDrawing(page);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto('./');
+      await page.evaluate(() => document.fonts.ready);
+      await expect(page.locator('wireframe-device')).toHaveAttribute(
+        'data-enhanced',
+        ''
+      );
+      await expect.poll(draws.bind(null, page)).toBeGreaterThan(0);
+      const actual = await page.evaluate(() => {
+        const canvas = document.querySelector<HTMLCanvasElement>(
+          'wireframe-device canvas'
+        )!;
+        const { width, height } = canvas.getBoundingClientRect();
+        return {
+          lines: window.deviceProbe.lines,
+          width,
+          height,
+          backing: [canvas.width, canvas.height],
+          dpr: Math.min(devicePixelRatio, 2),
+        };
+      });
+      const expected = projectDevice(initialAngle, actual.width, actual.height);
+      expect(actual.lines).toHaveLength(expected.length);
+      expect(actual.backing).toEqual([
+        Math.round(actual.width * actual.dpr),
+        Math.round(actual.height * actual.dpr),
+      ]);
+      const maximumError = Math.max(
+        ...actual.lines.flatMap((line, i) => [
+          Math.abs(line.from[0] - expected[i].from.x),
+          Math.abs(line.from[1] - expected[i].from.y),
+          Math.abs(line.to[0] - expected[i].to.x),
+          Math.abs(line.to[1] - expected[i].to.y),
+          Math.abs(line.width - expected[i].width),
+          Math.abs(line.opacity - expected[i].opacity),
+        ])
+      );
+      expect(maximumError).toBeLessThan(1e-6);
+    });
   });
-  const expected = projectDevice(initialAngle, actual.width, actual.height);
-  expect(actual.lines).toHaveLength(expected.length);
-  expect(actual.backing).toEqual([
-    Math.round(actual.width * actual.dpr),
-    Math.round(actual.height * actual.dpr),
-  ]);
-  const maximumError = Math.max(
-    ...actual.lines.flatMap((line, i) => [
-      Math.abs(line.from[0] - expected[i].from.x),
-      Math.abs(line.from[1] - expected[i].from.y),
-      Math.abs(line.to[0] - expected[i].to.x),
-      Math.abs(line.to[1] - expected[i].to.y),
-      Math.abs(line.width - expected[i].width),
-      Math.abs(line.opacity - expected[i].opacity),
-    ])
-  );
-  expect(maximumError).toBeLessThan(1e-6);
-});
+}
 
 test('tap/click, live reduced-motion changes and paused resize leave no continuous work', async ({
   page,

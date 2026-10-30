@@ -53,10 +53,11 @@ describe('DESIGN.md portfolio design guidance', () => {
 
   it('describes the industrial core and upper-left fixed axis without the obsolete chassis dimensions', () => {
     expect(design).toContain('industrial computing core');
-    expect(design).toContain('three vertical annular collars');
-    expect(design).toContain('+12-degree Z tilt');
+    expect(design).toContain('segmented cylindrical shell');
+    expect(design).toContain('35-degree screen-space left tilt');
     expect(design).toContain('upper-left');
     expect(design).not.toContain('-12-degree Z tilt');
+    expect(design).not.toContain('+12-degree Z tilt');
     expect(design).not.toContain('1.15:1.8:0.8');
   });
 });

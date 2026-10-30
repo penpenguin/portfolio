@@ -6,19 +6,26 @@ import {
   advanceAngle,
   projectDevice,
   projectDevicePoint,
+  createDeviceProjector,
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device projection', () => {
   it('shares three line weights and keeps depth-dependent shading within each hierarchy', () => {
     const lines = projectDevice(initialAngle, 240, 192);
     expect(new Set(lines.map((line) => line.width))).toEqual(
-      new Set([0.95, 0.8, 0.6])
+      new Set([1.1, 0.8, 0.5])
     );
-    for (const width of [0.95, 0.8, 0.6]) {
+    for (const [width, back, front] of [
+      [1.1, 0.58, 0.88],
+      [0.8, 0.3, 0.56],
+      [0.5, 0.14, 0.28],
+    ]) {
       const opacities = lines
         .filter((line) => line.width === width)
         .map((line) => line.opacity);
       expect(Math.max(...opacities)).toBeGreaterThan(Math.min(...opacities));
+      expect(Math.min(...opacities)).toBeGreaterThanOrEqual(back);
+      expect(Math.max(...opacities)).toBeLessThanOrEqual(front);
     }
   });
   it('rotates a full turn in 16 seconds regardless of frame intervals', () => {
@@ -30,22 +37,31 @@ describe('wireframe device projection', () => {
     expect(advanceAngle(initialAngle, 0)).toBe(initialAngle);
   });
 
-  it.each([
-    [224, 240],
-    [278, 240],
-    [348, 240],
-    [938, 240],
-    [267, 258],
-    [223, 258],
-    [348, 238],
-    [278, 238],
-    [914, 238],
-    [726, 238],
-  ])(
-    'keeps all edges inside the %i × %i stage throughout a full rotation',
-    (width, height) => {
+  it.each(
+    [
+      [224, 240],
+      [278, 240],
+      [348, 240],
+      [938, 240],
+      [267, 258],
+      [223, 258],
+      [348, 238],
+      [278, 238],
+      [914, 238],
+      [726, 238],
+    ].flatMap(([width, height]) =>
+      [35, 60].map((tilt) => [width, height, tilt])
+    )
+  )(
+    'keeps all edges inside the %i × %i stage at %i degrees throughout a full rotation',
+    (width, height, tilt) => {
+      const projector = createDeviceProjector(tilt);
       for (let degree = 0; degree < 360; degree++) {
-        const lines = projectDevice((degree * Math.PI) / 180, width, height);
+        const lines = projector.projectDevice(
+          (degree * Math.PI) / 180,
+          width,
+          height
+        );
         expect(lines.length).toBeGreaterThan(100);
         const points = lines.flatMap((line) =>
           [line.from, line.to].flatMap((point) => [
@@ -127,22 +143,54 @@ describe('wireframe device projection', () => {
   });
 });
 
-it('keeps the axis pointing upper-left without wobble or refitting', () => {
-  const vectors = [0, 90, 180, 270].map((degree) => {
-    const angle = (degree * Math.PI) / 180;
-    const top = projectDevicePoint([0, 0.9, 0], angle, 278, 260);
-    const bottom = projectDevicePoint([0, -0.9, 0], angle, 278, 260);
-    expect(top.x).toBeLessThan(bottom.x);
-    expect(top.y).toBeLessThan(bottom.y);
-    return { x: top.x - bottom.x, y: top.y - bottom.y };
-  });
-  const angle =
-    (Math.atan2(Math.abs(vectors[0].x), Math.abs(vectors[0].y)) * 180) /
-    Math.PI;
-  expect(angle).toBeGreaterThan(12);
-  expect(angle).toBeLessThan(14);
-  for (const vector of vectors) {
-    expect(vector.x).toBeCloseTo(vectors[0].x);
-    expect(vector.y).toBeCloseTo(vectors[0].y);
+it.each([35, 60])(
+  'projects a fixed %i-degree screen tilt without wobble or refitting',
+  (tilt) => {
+    const projector = createDeviceProjector(tilt);
+    const fit = projector.getFit(278, 260);
+    const vectors = Array.from({ length: 360 }, (_, degree) => {
+      const angle = (degree * Math.PI) / 180;
+      const top = projector.projectDevicePoint([0, 0.5, 0], angle, 278, 260);
+      const bottom = projector.projectDevicePoint(
+        [0, -0.5, 0],
+        angle,
+        278,
+        260
+      );
+      expect(top.x).toBeLessThan(bottom.x);
+      expect(top.y).toBeLessThan(bottom.y);
+      const origin = projector.projectDevicePoint([0, 0, 0], angle, 278, 260);
+      expect(origin.x).toBeCloseTo(fit.centerX);
+      expect(origin.y).toBeCloseTo(fit.centerY);
+      // Orthographic projection's row norm measures scale independently of tilt.
+      const basis = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+      ] as const;
+      const dx = basis.map(
+        (p) => projector.projectDevicePoint(p, angle, 278, 260).x - origin.x
+      );
+      expect(Math.hypot(...dx)).toBeCloseTo(fit.scale, 8);
+      return { x: top.x - bottom.x, y: top.y - bottom.y };
+    });
+    const angle =
+      (Math.atan2(Math.abs(vectors[0].x), Math.abs(vectors[0].y)) * 180) /
+      Math.PI;
+    expect(angle).toBeCloseTo(tilt, 8);
+    for (const vector of vectors) {
+      expect(vector.x).toBeCloseTo(vectors[0].x);
+      expect(vector.y).toBeCloseTo(vectors[0].y);
+    }
   }
+);
+
+it('uses the 35-degree projector for both public projection paths', () => {
+  const projector = createDeviceProjector(35);
+  expect(projectDevice(initialAngle, 267, 258)).toEqual(
+    projector.projectDevice(initialAngle, 267, 258)
+  );
+  expect(projectDevicePoint([0, 0.5, 0], initialAngle, 267, 258)).toEqual(
+    projector.projectDevicePoint([0, 0.5, 0], initialAngle, 267, 258)
+  );
 });
