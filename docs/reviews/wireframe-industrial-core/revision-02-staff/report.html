@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  /><title>PR #170 — SFインダストリアル制御杖</title
+  ><style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 32px;
+      background: #f7f7f7;
+      color: #171719;
+      font:
+        16px/1.85 system-ui,
+        sans-serif;
+    }
+    main {
+      max-width: 1164px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 30px;
+      line-height: 1.5;
+    }
+    h2 {
+      font-size: 23px;
+      margin-top: 36px;
+    }
+    p {
+      margin: 12px 0;
+    }
+    figure {
+      margin: 18px 0;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    figcaption,
+    .note {
+      font-size: 13px;
+      color: #555;
+    }
+    a {
+      color: #343b70;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 18px 0;
+    }
+    td,
+    th {
+      border: 1px solid #ccc;
+      text-align: left;
+      padding: 9px 12px;
+    }
+    th {
+      background: #ededed;
+    }
+    code {
+      font:
+        13px/1.6 ui-monospace,
+        monospace;
+      overflow-wrap: anywhere;
+    }
+    li {
+      margin: 6px 0;
+    }
+    .scroll {
+      overflow: auto;
+    }
+    .homes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .mobile {
+      max-width: 390px;
+    }
+    .compare img {
+      width: 1164px;
+    }
+    .dpr img {
+      width: 1164px;
+    }
+    @media (max-width: 700px) {
+      body {
+        padding: 16px;
+      }
+      .homes {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <body>
+    <main>
+      <h1>鋭い先端と長い軸を持つSFインダストリアル制御杖</h1>
+      <p>
+        <a href="https://github.com/penpenguin/portfolio/pull/170">PR #170</a
+        >の塊状演算コアを、制御杖へ置き換えました。外殻の尖り・厚みと先端内部の密度を残し、柄中央は長く静かな区間としています。
+      </p>
+      <p>
+        変更前は<a
+          href="https://github.com/penpenguin/portfolio/commit/266b0a02679fc1126b92e8f8e6b4c3adb006c4fd"
+          >266b0a02679fc1126b92e8f8e6b4c3adb006c4fd</a
+        >。実装対象は<a
+          href="https://github.com/penpenguin/portfolio/commit/6bc3a2208e7bc89c97564798fc961d01415e0460"
+          >6bc3a2208e7bc89c97564798fc961d01415e0460</a
+        >。マージ・公開は行っていません。
+      </p>
+      <h2>形状と描線</h2>
+      <ul>
+        <li>
+          異なる方位の4枚の尖った外殻。最長の先端と3つの長短・切欠き、表裏の輪郭、薄い側壁、首元へ接続した支持アームを構成しました。
+        </li>
+        <li>
+          先端内部に細長い八角機構、2か所の小さな分割カラー、制御パッケージ、端子、6枚の短い側面フィン。2本の輪郭を持つ配管と4本の細い信号線が首元と先端の継手へつながります。
+        </li>
+        <li>
+          主軸は八角柱、継ぎ目は2か所。段付きの首元と小さな柄尻を接続し、中央4.42モデル単位を装飾のない区間にしました。
+        </li>
+        <li>
+          全長10、先端の全周最大径2.123、比率4.711:1。先端長3.35（全長の33.5%）、主軸径0.23。細部392本のうち392本を先端・首元へ集中。
+        </li>
+        <li>
+          主要輪郭1.1px、部品0.8px、細部0.5pxのCSS線幅と従来のalpha範囲を維持。外殻の表側と支持線を強く、裏側・内部・細部を弱く割り当てました。塗り面・発光・新しい装飾UIはありません。
+        </li>
+      </ul>
+      <h2>同条件の前後比較</h2>
+      <p>
+        上段が変更前の塊状コア、下段が制御杖。1440px
+        viewport、実測267×258px、DPR
+        1、初期回転30°＋0／90／180／270°、画面上の左35°、カメラ・描線は共通です。
+      </p>
+      <p>
+        造形比較は両モデルに同じ全周固定フィット係数<strong>0.84</strong>を適用しました。変更前の本番係数0.78による実際のHome画像は後段へ別に保存しています。比較時の固定縮尺は旧モデル109.434、杖26.426
+        CSS px /
+        各モデル単位。モデル単位・全長が異なるため、縮尺値そのものは同一ではありません。フレームごとのズーム・中心追従はありません。
+      </p>
+      <div class="compare">
+        <figure>
+          <a href="comparison.png"
+            ><img
+              src="comparison.png"
+              alt="変更前：塊状コア ／ 変更後：制御杖。各ラベルは初期30°からの相対角度。"
+              loading="lazy"
+          /></a>
+          <figcaption>
+            変更前：塊状コア ／
+            変更後：制御杖。各ラベルは初期30°からの相対角度。
+          </figcaption>
+        </figure>
+      </div>
+      <h2>8方向・主要輪郭</h2>
+      <p>
+        実寸の8方向で、長い軸、複数の尖りと段差、先端の厚みを確認しました。外殻の隙間と内部の線が分かれ、側面で1枚板へ潰れず、先端・柄尻の欠けもありません。輪郭のみでも杖として読める外形です。拡大図だけで判断していません。
+      </p>
+      <figure>
+        <a href="rotation.png"
+          ><img
+            src="rotation.png"
+            alt="PC267×258px、DPR 1：初期30°＋45°刻みの8方向。"
+            loading="lazy"
+        /></a>
+        <figcaption>PC267×258px、DPR 1：初期30°＋45°刻みの8方向。</figcaption>
+      </figure>
+      <figure>
+        <a href="narrow.png"
+          ><img
+            src="narrow.png"
+            alt="狭いPC223×258px、DPR 1：初期30°＋45°刻みの8方向。"
+            loading="lazy"
+        /></a>
+        <figcaption>
+          狭いPC223×258px、DPR 1：初期30°＋45°刻みの8方向。
+        </figcaption>
+      </figure>
+      <figure>
+        <a href="structure-dpr1.png"
+          ><img
+            src="structure-dpr1.png"
+            alt="主要輪郭・支持構造のみ ／ 全線。DPR 1・実寸。"
+            loading="lazy"
+        /></a>
+        <figcaption>主要輪郭・支持構造のみ ／ 全線。DPR 1・実寸。</figcaption>
+      </figure>
+      <div class="dpr">
+        <figure>
+          <a href="structure-dpr2.png"
+            ><img
+              src="structure-dpr2.png"
+              alt="同じ比較をDPR 2で記録。表示幅1164 CSS px、画像は2倍の実ピクセル。"
+              loading="lazy"
+          /></a>
+          <figcaption>
+            同じ比較をDPR 2で記録。表示幅1164 CSS px、画像は2倍の実ピクセル。
+          </figcaption>
+        </figure>
+      </div>
+      <p>
+        <a href="rotation-dpr2.png">PCの8方向（DPR 2）</a> ·
+        <a href="narrow-dpr2.png">狭いPCの8方向（DPR 2）</a> ·
+        <a href="side-dpr2.png">側面寄りの原寸DPR 2切り出し</a
+        >。比較用Canvasの通常描画は、本番の初期Canvasとピクセル一致を6条件で確認。輪郭表示は資料作成用であり、本番に切替UIを追加していません。
+      </p>
+      <h2>実際のHome全体</h2>
+      <p>
+        以下は各モデルの実際の本番設定（変更前0.78／変更後0.84）。Bento配置、PCのAboutとの3:1関係、モバイル240px展示枠、共通高、ヘッダー・フッターは変更していません。
+      </p>
+      <figure>
+        <a href="home-1440-before.png"
+          ><img
+            src="home-1440-before.png"
+            alt="変更前：1440px viewport、DPR 1。"
+            loading="lazy"
+        /></a>
+        <figcaption>変更前：1440px viewport、DPR 1。</figcaption>
+      </figure>
+      <figure>
+        <a href="home-1440-after.png"
+          ><img
+            src="home-1440-after.png"
+            alt="変更後：1440px viewport、DPR 1。"
+            loading="lazy"
+        /></a>
+        <figcaption>変更後：1440px viewport、DPR 1。</figcaption>
+      </figure>
+      <div class="homes">
+        <figure>
+          <a href="home-390-before.png"
+            ><img
+              src="home-390-before.png"
+              alt="変更前：390px viewport、DPR 1。"
+              loading="lazy"
+          /></a>
+          <figcaption>変更前：390px viewport、DPR 1。</figcaption>
+        </figure>
+        <figure>
+          <a href="home-390-after.png"
+            ><img
+              src="home-390-after.png"
+              alt="変更後：390px viewport、DPR 1。"
+              loading="lazy"
+          /></a>
+          <figcaption>変更後：390px viewport、DPR 1。</figcaption>
+        </figure>
+      </div>
+      <div class="homes">
+        <figure>
+          <a href="home-320-before.png"
+            ><img
+              src="home-320-before.png"
+              alt="変更前：320px viewport、DPR 1。"
+              loading="lazy"
+          /></a>
+          <figcaption>変更前：320px viewport、DPR 1。</figcaption>
+        </figure>
+        <figure>
+          <a href="home-320-after.png"
+            ><img
+              src="home-320-after.png"
+              alt="変更後：320px viewport、DPR 1。"
+              loading="lazy"
+          /></a>
+          <figcaption>変更後：320px viewport、DPR 1。</figcaption>
+        </figure>
+      </div>
+      <p>
+        <a href="home-1024-after.png">1024px</a> ·
+        <a href="home-980-after.png">980px</a> ·
+        <a href="home-768-after.png">768px</a> ·
+        <a href="home-390-dpr2.png">390px全体・DPR 2</a
+        >。描画枠の実測・固定縮尺は<a href="variants.json">variants.json</a
+        >を参照。
+      </p>
+      <h2>数値・性能・配信サイズ</h2>
+      <p>
+        35°の投影軸は、上側−下側が dx=-14.526、dy=-20.745 CSS
+        px（267×258px、軸上±0.5）。見かけ35°、全周で同一ベクトル・固定中心・固定縮尺です。10寸法×360角度で線幅込みの最小余白<strong>18.952px</strong>、alphaは0.200〜0.872。全て有限。既存の60°投影器の回帰テストも維持していますが、本番は35°です。
+      </p>
+      <p>
+        linux 6.18.54.1-microsoft-standard-WSL2 / AMD Ryzen 5 3600 6-Core
+        Processor / Chromium 156.0.8078.4 / Node
+        v26.12.1。同一環境・枠・DPRで60実描画をウォームアップ後、各480実描画を採取。clearRect直前から最後のstrokeまでのCPU時間（投影・線描画と計測処理を含む）です。省略したrAFとGPU合成時間は含みません。
+      </p>
+      <div class="scroll">
+        <table>
+          <tr>
+            <th>条件</th>
+            <th>中央値 前 → 後</th>
+            <th>p95 前 → 後</th>
+          </tr>
+          <tr>
+            <td>1440px viewport / 267×258px / DPR 1</td>
+            <td>0.5 → 0.3 ms</td>
+            <td>0.7 → 0.5 ms</td>
+          </tr>
+          <tr>
+            <td>390px viewport / 348×238px / DPR 2</td>
+            <td>0.5 → 0.4 ms</td>
+            <td>0.8 → 0.6 ms</td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        この測定環境でp95
+        8ms以内の目安を満たしました。全端末での保証ではありません。
+      </p>
+      <table>
+        <tr>
+          <th>項目</th>
+          <th>変更前</th>
+          <th>変更後</th>
+        </tr>
+        <tr>
+          <td>線分数</td>
+          <td>1,883</td>
+          <td>1,144</td>
+        </tr>
+        <tr>
+          <td>共有頂点</td>
+          <td>1,466</td>
+          <td>818</td>
+        </tr>
+        <tr>
+          <td>Home HTML (B)</td>
+          <td>351,794</td>
+          <td>215,678</td>
+        </tr>
+        <tr>
+          <td>Home HTML gzip (B)</td>
+          <td>33,197</td>
+          <td>21,014</td>
+        </tr>
+        <tr>
+          <td>静止SVG (B)</td>
+          <td>341,550</td>
+          <td>205,444</td>
+        </tr>
+        <tr>
+          <td>静止SVG gzip (B)</td>
+          <td>28,961</td>
+          <td>16,914</td>
+        </tr>
+      </table>
+      <p>
+        線分数を合わせるために柄へ細部を追加していません。形状・共有頂点の整理は初期化時のみ。<a
+          href="metrics-before.json"
+          >変更前の全480サンプル</a
+        >
+        · <a href="metrics-after.json">変更後の全480サンプル</a> ·
+        <a href="geometry.json">全周の数値結果・部位別線分数</a>
+      </p>
+      <h2>検証と変更範囲</h2>
+      <ul>
+        <li>
+          <code>npm run check</code> — 94 files; 0 errors, warnings, hints
+        </li>
+        <li><code>npm run lint</code> — passed</li>
+        <li>
+          <code>npm run test -- --run</code> — 51 files / 315 tests passed; no
+          skipped tests
+        </li>
+        <li>
+          <code>npm run build</code> — 136 pages built; Pagefind indexed 121
+          pages
+        </li>
+        <li>
+          <code
+            >PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 ./node_modules/.bin/playwright
+            test tests/visual/wireframe-device.spec.ts
+            tests/visual/bento-layout.spec.ts tests/visual/layout-polish.spec.ts
+            tests/visual/blog-archive.spec.ts --workers=2</code
+          >
+          — 70 tests passed in 48.1s
+        </li>
+        <li>
+          <code>prettier --check (changed files); git diff --check</code> —
+          passed
+        </li>
+      </ul>
+      <p>
+        クリック・タップ・Enter・Space、フォーカス移動後の停止保持、Astro往復、reduced-motionの初期値と設定変更、画面外・非表示通知・離脱時の停止、停止中rAFなし、JS無効・Canvas失敗、検索併用、既存レイアウトの検証を維持しました。タッチはChromiumエミュレーション、非表示通知は合成イベントでの確認です。
+      </p>
+      <p>
+        形状の有限性・重複辺・部分重複・共有頂点、長い軸、尖った外殻の厚み、支持の接続、配線端点、端子リードの着地点を検証。TDDで形状・説明・フィット・接続・文書のRed
+        →
+        Greenを確認し、既存機能テストの削除・skipはありません。旧コアに特化した形状期待値のみ新モチーフへ置き換えました。
+      </p>
+      <ul>
+        <li><code>DESIGN.md</code></li>
+        <li><code>src/scripts/wireframeDevice.ts</code></li>
+        <li><code>src/utils/wireframeDevice.ts</code></li>
+        <li><code>src/utils/wireframeGeometry.ts</code></li>
+        <li><code>tests/unit/components/WireframeDevice.test.ts</code></li>
+        <li><code>tests/unit/docs/design-guidelines.test.ts</code></li>
+        <li><code>tests/unit/scripts/wireframeDevice.test.ts</code></li>
+        <li><code>tests/unit/utils/wireframeDevice.test.ts</code></li>
+        <li><code>tests/unit/utils/wireframeGeometry.test.ts</code></li>
+      </ul>
+      <p>
+        コンポーネントは従来の共有生成結果から静止SVGを描きます。Canvas/SVGの子要素、操作名、状態制御は維持。スクリプトの変更は操作説明1行のみ。ページ配置・共通CSS・本文・サムネイル・依存・CI・公開設定の変更はありません。
+      </p>
+      <h2>未検証・限界</h2>
+      <p>
+        Firefox／Safari、実機タッチ、実タブ由来のvisibilitychange通知は未検証です。サイト全体のアクセシビリティ適合や全端末の性能保証は主張しません。マージ・公開は実施していません。
+      </p>
+      <p>
+        <a href="verification.json"
+          >対象コミット・ソース／ビルドSHA256・実行コマンド・未検証事項</a
+        >。画像は今回の作業ブランチのビルド済みpreviewから取得し、公開mainや古いキャッシュを混ぜていません。
+      </p>
+    </main>
+  </body>
+</html>

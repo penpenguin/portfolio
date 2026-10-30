@@ -1,0 +1,136 @@
+{
+  "initialAngleDegrees": 30,
+  "screenTiltDegrees": 35,
+  "comparisonFitCoefficient": 0.84,
+  "actualBeforeFitCoefficient": 0.78,
+  "productionRendererMatches": true,
+  "structureFilter": "kind === outline (pointed shell fronts, shaft, neck, pommel, load-bearing arms)",
+  "records": [
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "width": 267,
+      "height": 258,
+      "beforeOriginalFit": {
+        "scale": 101.61719881607563,
+        "centerX": 132.78388053761458,
+        "centerY": 127.04131840485792
+      },
+      "beforeCommonFit": {
+        "scale": 109.4339064173122,
+        "centerX": 132.7287944251234,
+        "centerY": 126.89065058984698
+      },
+      "afterFit": {
+        "scale": 26.42620341970012,
+        "centerX": 137.58406720173804,
+        "centerY": 132.02859198976668
+      }
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "width": 223,
+      "height": 258,
+      "beforeOriginalFit": {
+        "scale": 86.8355757254651,
+        "centerX": 110.88804999026787,
+        "centerY": 127.32623565736267
+      },
+      "beforeCommonFit": {
+        "scale": 93.51523539665473,
+        "centerX": 110.84097691259618,
+        "centerY": 127.19748455408288
+      },
+      "afterFit": {
+        "scale": 26.42620341970012,
+        "centerX": 115.58406720173802,
+        "centerY": 132.02859198976668
+      }
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "width": 267,
+      "height": 258,
+      "beforeOriginalFit": {
+        "scale": 101.61719881607563,
+        "centerX": 132.78388053761458,
+        "centerY": 127.04131840485792
+      },
+      "beforeCommonFit": {
+        "scale": 109.4339064173122,
+        "centerX": 132.7287944251234,
+        "centerY": 126.89065058984698
+      },
+      "afterFit": {
+        "scale": 26.42620341970012,
+        "centerX": 137.58406720173804,
+        "centerY": 132.02859198976668
+      }
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "width": 223,
+      "height": 258,
+      "beforeOriginalFit": {
+        "scale": 86.8355757254651,
+        "centerX": 110.88804999026787,
+        "centerY": 127.32623565736267
+      },
+      "beforeCommonFit": {
+        "scale": 93.51523539665473,
+        "centerX": 110.84097691259618,
+        "centerY": 127.19748455408288
+      },
+      "afterFit": {
+        "scale": 26.42620341970012,
+        "centerX": 115.58406720173802,
+        "centerY": 132.02859198976668
+      }
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "width": 348,
+      "height": 238,
+      "beforeOriginalFit": {
+        "scale": 93.70616737846757,
+        "centerX": 173.33963137158776,
+        "centerY": 117.19380432117882
+      },
+      "beforeCommonFit": {
+        "scale": 100.91433409988814,
+        "centerX": 173.28883378478682,
+        "centerY": 117.05486619203873
+      },
+      "afterFit": {
+        "scale": 24.36888902346033,
+        "centerX": 177.76611724442094,
+        "centerY": 121.79281215405109
+      }
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "width": 278,
+      "height": 238,
+      "beforeOriginalFit": {
+        "scale": 93.70616737846757,
+        "centerX": 138.33963137158776,
+        "centerY": 117.19380432117882
+      },
+      "beforeCommonFit": {
+        "scale": 100.91433409988814,
+        "centerX": 138.28883378478682,
+        "centerY": 117.05486619203873
+      },
+      "afterFit": {
+        "scale": 24.36888902346033,
+        "centerX": 142.76611724442094,
+        "centerY": 121.79281215405109
+      }
+    }
+  ]
+}

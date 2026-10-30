@@ -1,0 +1,74 @@
+{
+  "baselineCommit": "266b0a02679fc1126b92e8f8e6b4c3adb006c4fd",
+  "implementationCommit": "6bc3a2208e7bc89c97564798fc961d01415e0460",
+  "previewURL": "http://127.0.0.1:4324/portfolio/",
+  "preview": "npm run preview -- --ignore-lock --host 127.0.0.1 --port 4324",
+  "commands": [
+    {
+      "command": "npm run check",
+      "result": "94 files; 0 errors, warnings, hints"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "51 files / 315 tests passed; no skipped tests"
+    },
+    {
+      "command": "npm run build",
+      "result": "136 pages built; Pagefind indexed 121 pages"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 ./node_modules/.bin/playwright test tests/visual/wireframe-device.spec.ts tests/visual/bento-layout.spec.ts tests/visual/layout-polish.spec.ts tests/visual/blog-archive.spec.ts --workers=2",
+      "result": "70 tests passed in 48.1s"
+    },
+    {
+      "command": "prettier --check (changed files); git diff --check",
+      "result": "passed"
+    }
+  ],
+  "tdd": [
+    "shaft/head/neck/pommel proportions and structural connectivity: Red → Green",
+    "sharp unequal shells with side walls: Red → Green",
+    "fixed fit and accessible staff descriptions: Red → Green",
+    "mounted mechanism, fins, conduits and signals: Red → Green",
+    "terminal leads must meet package or prism faces: Red → Green",
+    "DESIGN motif and retained tilt: Red → Green; formatting refactor, full regression green"
+  ],
+  "geometry": {
+    "length": 10,
+    "headSweepDiameter": 2.1228518617810193,
+    "lengthToHeadDiameter": 4.710644289427832,
+    "headLength": 3.35,
+    "quietShaftSpan": 4.42,
+    "shaftDiameter": 0.23,
+    "fineEdges": 392,
+    "detailAtHeadAndNeck": 392
+  },
+  "comparison": "Prior PR model at 266b0a0; both models use analytic full-turn fixed fitting with coefficient 0.84 for comparison. Actual before Home images/performance keep its production coefficient 0.78. After uses 0.84. Same screen tilt 35°, initial rotation 30°, camera and line styles.",
+  "inspectedViewports": [1440, 1024, 980, 768, 390, 320],
+  "DPR": [1, 2],
+  "limitations": [
+    "Chromium only; Firefox and Safari not verified",
+    "Touch input uses Chromium emulation, not a physical touchscreen",
+    "Synthetic visibilitychange notifications and unit tests cover hidden-tab lifecycle; native tab visibility events not verified",
+    "CPU measurements include projection, Canvas commands and instrumentation; exclude skipped rAF and GPU composition; not an all-device guarantee"
+  ],
+  "sourceSHA256": {
+    "DESIGN.md": "293e9e0795c429ac4c140834ca464362565e360b690fe420f633d4d027166485",
+    "src/scripts/wireframeDevice.ts": "d1bbe18a489a2f40dc83082a40c84b8e5f07641a22d90db17cdc84abe76fe6e2",
+    "src/utils/wireframeDevice.ts": "06b3c63c4dfc33198e972c8ce5ae539b732ad7af6f95de4dbf3ab466f8576e47",
+    "src/utils/wireframeGeometry.ts": "3106d7d6a3b495eada3198406084f087c0b395008eaaca79294358631a7b5784",
+    "tests/unit/components/WireframeDevice.test.ts": "7ebf3c22e7ccf5555903623dbcce93c755578ce195b01213f6a15df947e0d50e",
+    "tests/unit/docs/design-guidelines.test.ts": "0ca9dd9465a94660e2f8b75df4c05351889ef1968254aff5b18b0420d5fb01ff",
+    "tests/unit/scripts/wireframeDevice.test.ts": "8d47ac1acdb89ea9465576ad0d90bde70a87da2dbc7ab877e3138583a80ae85c",
+    "tests/unit/utils/wireframeDevice.test.ts": "1e317f1e2db2dbf37ca40bac4af9acbb2903bdb3d2eee898cd03949e8568c513",
+    "tests/unit/utils/wireframeGeometry.test.ts": "a92db48b74620a6cacabb4f372b03bb6b16d419751839ce899b6aaaae094e79d"
+  },
+  "homeHTMLSHA256": "ccfe4d984fa30a6c0ce85d42161cdabc8d13b8490b39a9910a8ab0dc212b4117",
+  "evidenceSource": "Before Home images and performance from baseline build; after from implementation build. Common-fit comparison replays the baseline projector at 0.84 in the built-preview Canvas. No public main or cached search images.",
+  "merged": false,
+  "published": false
+}
