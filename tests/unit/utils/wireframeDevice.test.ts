@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import { createDeviceGeometry } from '../../../src/utils/wireframeGeometry';
 
 import {
   initialAngle,
   advanceAngle,
   projectDevice,
+  projectDevicePoint,
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device projection', () => {
@@ -33,6 +35,12 @@ describe('wireframe device projection', () => {
     [278, 240],
     [348, 240],
     [938, 240],
+    [267, 258],
+    [223, 258],
+    [348, 238],
+    [278, 238],
+    [914, 238],
+    [726, 238],
   ])(
     'keeps all edges inside the %i × %i stage throughout a full rotation',
     (width, height) => {
@@ -54,11 +62,54 @@ describe('wireframe device projection', () => {
           height - 15
         );
         expect(
-          lines.every((line) => line.opacity > 0 && line.opacity <= 1)
+          lines.every(
+            (line) =>
+              line.opacity >= 0 &&
+              line.opacity <= 1 &&
+              line.width > 0 &&
+              [
+                line.width,
+                line.opacity,
+                ...Object.values(line.from),
+                ...Object.values(line.to),
+              ].every(Number.isFinite)
+          )
         ).toBe(true);
       }
     }
   );
+
+  it('projects the complete assembled model with shared vertices and the same reference-point transform', () => {
+    const edges = createDeviceGeometry();
+    const lines = projectDevice(initialAngle, 267, 258);
+    expect(lines).toHaveLength(edges.length);
+    const projected = new Map<string, (typeof lines)[number]['from']>();
+    edges.forEach((edge, index) => {
+      for (const [point, result] of [
+        [edge.a, lines[index].from],
+        [edge.b, lines[index].to],
+      ] as const) {
+        expect(result).toEqual(
+          projectDevicePoint(point, initialAngle, 267, 258)
+        );
+        const key = point.join(',');
+        if (projected.has(key)) expect(result).toBe(projected.get(key));
+        projected.set(key, result);
+      }
+    });
+    expect(projectDevice(initialAngle, 267, 258)).toEqual(lines);
+    const fullTurn = projectDevice(initialAngle + Math.PI * 2, 267, 258);
+    lines.forEach((line, index) => {
+      for (const end of ['from', 'to'] as const)
+        for (const axis of ['x', 'y', 'depth'] as const)
+          expect(fullTurn[index][end][axis]).toBeCloseTo(line[end][axis], 9);
+    });
+    const center = projectDevicePoint([0, 0, 0], 0, 267, 258);
+    for (let degree = 0; degree < 360; degree++)
+      expect(
+        projectDevicePoint([0, 0, 0], (degree * Math.PI) / 180, 267, 258)
+      ).toEqual(center);
+  });
 
   it('changes perspective through actual 3D rotation and preserves a stable scale', () => {
     const front = projectDevice(0, 240, 200);
@@ -67,16 +118,23 @@ describe('wireframe device projection', () => {
     expect(projectDevice(Math.PI * 2, 240, 200)[0].from.x).toBeCloseTo(
       front[0].from.x
     );
-    const frontVertical = Math.abs(front[8].to.y - front[8].from.y);
-    const sideVertical = Math.abs(side[8].to.y - side[8].from.y);
+    const vertical = (angle: number) =>
+      projectDevicePoint([0, 0.9, 0], angle, 240, 200).y -
+      projectDevicePoint([0, -0.9, 0], angle, 240, 200).y;
+    const frontVertical = vertical(0);
+    const sideVertical = vertical(Math.PI / 2);
     expect(frontVertical).toBeCloseTo(sideVertical);
   });
 });
 
-it('rotates about one fixed tilted axis without wobble or refitting', () => {
+it('keeps the axis pointing upper-left without wobble or refitting', () => {
   const vectors = [0, 90, 180, 270].map((degree) => {
-    const edge = projectDevice((degree * Math.PI) / 180, 278, 260)[8];
-    return { x: edge.to.x - edge.from.x, y: edge.to.y - edge.from.y };
+    const angle = (degree * Math.PI) / 180;
+    const top = projectDevicePoint([0, 0.9, 0], angle, 278, 260);
+    const bottom = projectDevicePoint([0, -0.9, 0], angle, 278, 260);
+    expect(top.x).toBeLessThan(bottom.x);
+    expect(top.y).toBeLessThan(bottom.y);
+    return { x: top.x - bottom.x, y: top.y - bottom.y };
   });
   const angle =
     (Math.atan2(Math.abs(vectors[0].x), Math.abs(vectors[0].y)) * 180) /
