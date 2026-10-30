@@ -8,8 +8,7 @@ const styles = {
 };
 const maxStroke = Math.max(...Object.values(styles).map(({ width }) => width));
 export const initialAngle = Math.PI / 6;
-export const deviceDescription =
-  '環状コア、基板、冷却部、配線を持つ演算装置の線画';
+export const deviceDescription = '鋭い先端機構と細長い軸を持つSF制御杖の線画';
 const turn = Math.PI * 2;
 const elevation = Math.PI / 9;
 
@@ -66,7 +65,7 @@ export function createDeviceProjector(screenTiltDegrees: number) {
   function getFit(width: number, height: number) {
     const scale = Math.max(
       0,
-      0.78 *
+      0.84 *
         Math.min(
           (width - maxStroke) / (bounds.right - bounds.left),
           (height - maxStroke) / (bounds.top - bounds.bottom)

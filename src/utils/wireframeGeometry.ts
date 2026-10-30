@@ -1,7 +1,7 @@
 export type Point3 = readonly [number, number, number];
 export type LineKind = 'outline' | 'component' | 'detail';
 export type DevicePart =
-  'frame' | 'core' | 'boards' | 'cooling' | 'connectors' | 'wiring';
+  'head' | 'neck' | 'shaft' | 'pommel' | 'cooling' | 'wiring';
 export type DeviceEdge = Readonly<{
   a: Point3;
   b: Point3;
@@ -9,16 +9,10 @@ export type DeviceEdge = Readonly<{
   part: DevicePart;
 }>;
 
-const add = (a: Point3, b: Point3): Point3 => [
-  a[0] + b[0],
-  a[1] + b[1],
-  a[2] + b[2],
-];
-
 export function createDeviceGeometry(): readonly DeviceEdge[] {
   const edges = new Map<string, DeviceEdge>();
   const vertices = new Map<string, Point3>();
-  let part: DevicePart = 'frame';
+  let part: DevicePart = 'shaft';
   const rank = { outline: 3, component: 2, detail: 1 };
   function vertex(point: Point3) {
     const rounded = point.map(
@@ -46,450 +40,319 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       line(points[i - 1], points[i], kind);
     if (closed) line(points[points.length - 1], points[0], kind);
   }
-  function extrude(
-    points: readonly Point3[],
+  function radial(
+    radius: number,
+    y: number,
+    angle: number,
+    tangent = 0
+  ): Point3 {
+    return [
+      radius * Math.cos(angle) - tangent * Math.sin(angle),
+      y,
+      radius * Math.sin(angle) + tangent * Math.cos(angle),
+    ];
+  }
+  function ring(radius: number, y: number, count = 8): Point3[] {
+    return Array.from({ length: count }, (_, i) =>
+      radial(radius, y, (i * Math.PI * 2) / count)
+    );
+  }
+  function sleeve(
+    sections: readonly (readonly [number, number])[],
+    kind: LineKind = 'component'
+  ) {
+    const rings = sections.map(([radius, y]) => ring(radius, y));
+    for (const points of rings) trace(points, kind, true);
+    for (let row = 1; row < rings.length; row++)
+      rings[row].forEach((point, i) => line(rings[row - 1][i], point, kind));
+  }
+  function plate(
+    points: Point3[],
     offset: Point3,
     kind: LineKind = 'component'
   ) {
-    const back = points.map((point) => add(point, offset));
+    const back = points.map(
+      (p) => p.map((n, i) => n + offset[i]) as unknown as Point3
+    );
     trace(points, kind, true);
-    trace(back, kind, true);
-    points.forEach((point, i) => line(point, back[i], kind));
-  }
-  function strut(a: Point3, b: Point3, offset: Point3 = [0, 0, 0.045]) {
-    trace([a, b, add(b, offset), add(a, offset)], 'outline', true);
-  }
-  function circle(
-    center: Point3,
-    radius: number,
-    axis: 'y' | 'z' = 'z',
-    count = 12
-  ): Point3[] {
-    return Array.from({ length: count }, (_, i) => {
-      const angle = (i * Math.PI * 2) / count;
-      const a = Math.cos(angle) * radius,
-        b = Math.sin(angle) * radius;
-      return add(center, axis === 'z' ? [a, b, 0] : [a, 0, b]);
-    });
-  }
-  function box(origin: Point3, size: Point3, kind: LineKind = 'component') {
-    const [w, h, d] = size;
-    extrude(
-      [
-        origin,
-        add(origin, [w, 0, 0]),
-        add(origin, [w, 0, d]),
-        add(origin, [0, 0, d]),
-      ],
-      [0, h, 0],
-      kind
-    );
-  }
-  function card(
-    origin: Point3,
-    u: Point3,
-    v: Point3,
-    normal: Point3,
-    w: number,
-    h: number
-  ) {
-    const at = (x: number, y: number, z = 0): Point3 =>
-      origin.map(
-        (n, i) => n + u[i] * x + v[i] * y + normal[i] * z
-      ) as unknown as Point3;
-    extrude(
-      [at(0, 0), at(w, 0), at(w, h - 0.05), at(w - 0.05, h), at(0, h)],
-      normal.map((n) => n * 0.025) as unknown as Point3
-    );
-    const packageAt = (
-      x: number,
-      y: number,
-      width: number,
-      height: number,
-      rise: number
-    ) => {
-      extrude(
-        [
-          at(x, y, 0.025),
-          at(x + width, y, 0.025),
-          at(x + width, y + height, 0.025),
-          at(x, y + height, 0.025),
-        ],
-        normal.map((n) => n * rise) as unknown as Point3
-      );
-    };
-    const chipWidth = w * 0.48,
-      chipHeight = h * 0.3;
-    packageAt(0.06, 0.14, chipWidth, chipHeight, 0.06);
-    trace(
-      [
-        at(0.09, 0.17, 0.085),
-        at(0.03 + chipWidth, 0.17, 0.085),
-        at(0.03 + chipWidth, 0.11 + chipHeight, 0.085),
-        at(0.09, 0.11 + chipHeight, 0.085),
-      ],
-      'detail',
-      true
-    );
-    for (let i = 0; i < (h > 0.6 ? 3 : 2); i++)
-      packageAt(w - 0.1, 0.09 + i * 0.15, 0.065, 0.085, 0.045);
-    for (let i = 1; i <= 4; i++) {
-      const x = 0.06 + (i * chipWidth) / 5;
-      for (const [y, direction] of [
-        [0.14, -1],
-        [0.14 + chipHeight, 1],
-      ])
-        trace(
-          [
-            at(x, y, 0.06),
-            at(x, y + direction * 0.03, 0.06),
-            at(x, y + direction * 0.06, 0.025),
-          ],
-          'detail'
-        );
-      trace(
-        [
-          at(x, 0.08, 0.025),
-          at(x, 0.055, 0.025),
-          at(x + 0.018, 0.037, 0.025),
-          at(x + 0.018, 0.02, 0.025),
-        ],
-        'detail'
-      );
-    }
-    packageAt(0.055, 0.005, chipWidth + 0.035, 0.03, 0.04);
-    for (const [x, y] of [
-      [0.035, 0.055],
-      [w - 0.04, h - 0.07],
-    ])
-      trace(
-        Array.from({ length: 8 }, (_, i) =>
-          at(
-            x + Math.cos((i * Math.PI) / 4) * 0.016,
-            y + Math.sin((i * Math.PI) / 4) * 0.016,
-            0.025
-          )
-        ),
-        'detail',
-        true
-      );
+    trace(back, 'detail', true);
+    points.forEach((p, i) => line(p, back[i], kind));
   }
 
-  function electronics() {
-    part = 'frame';
-    strut([-0.58, -0.43, -0.29], [-0.26, -0.64, -0.32]);
-    strut([-0.58, 0.39, -0.29], corePoint(12, 0.5, -0.32));
-    strut([-0.4, -0.38, -0.56], [-0.22, -0.64, -0.46]);
-    strut([-0.4, 0.12, -0.56], [-0.22, 0.08, -0.46]);
-    strut([-0.63, -0.51, -0.26], [-0.58, -0.43, -0.29]);
-    strut([-0.27, -0.51, -0.26], [-0.26, -0.64, -0.32]);
-    part = 'boards';
-    card([-0.58, -0.43, -0.29], [0, 0, 1], [0, 1, 0], [-1, 0, 0], 0.48, 0.82);
-    card(
-      [-0.4, -0.38, -0.56],
-      [0.94, 0, -0.342],
-      [0, 1, 0],
-      [-0.342, 0, -0.94],
-      0.45,
-      0.5
+  function shaft() {
+    part = 'shaft';
+    // One long quiet octagonal span separates the head's machinery from the heel.
+    sleeve(
+      [
+        [0.115, -4.3],
+        [0.115, 1.15],
+      ],
+      'outline'
     );
-    card([-0.63, -0.51, -0.26], [1, 0, 0], [0, 0, 1], [0, 1, 0], 0.36, 0.46);
+    sleeve([
+      [0.115, -4.3],
+      [0.145, -4.18],
+      [0.145, -3.9],
+      [0.115, -3.82],
+    ]);
+    sleeve([
+      [0.115, 0.6],
+      [0.145, 0.68],
+      [0.145, 0.92],
+      [0.115, 1.0],
+    ]);
+  }
+  function pommel() {
+    part = 'pommel';
+    sleeve(
+      [
+        [0.07, -5],
+        [0.16, -4.83],
+        [0.16, -4.42],
+        [0.115, -4.3],
+      ],
+      'outline'
+    );
+  }
+  function neck() {
+    part = 'neck';
+    sleeve(
+      [
+        [0.115, 1.15],
+        [0.2, 1.28],
+        [0.2, 1.48],
+        [0.3, 1.65],
+      ],
+      'outline'
+    );
+    sleeve([
+      [0.3, 1.65],
+      [0.3, 1.82],
+    ]);
+  }
+
+  function head() {
+    part = 'head';
+    const blades = [
+      { degrees: 208, tip: 5, reach: 0.44, shoulder: 1.04 },
+      { degrees: 25, tip: 4.55, reach: 0.72, shoulder: 1.02 },
+      { degrees: 115, tip: 4.12, reach: 0.64, shoulder: 0.9 },
+      { degrees: 300, tip: 3.58, reach: 0.98, shoulder: 1.06 },
+    ];
+    blades.forEach(({ degrees, tip, reach, shoulder }) => {
+      const angle = (degrees * Math.PI) / 180;
+      const at = (r: number, y: number, t: number) => radial(r, y, angle, t);
+      const height = tip - 1.65;
+      const profile = [
+        [0.3, 1.65],
+        [0.64, 1.65 + height * 0.2],
+        [shoulder, 1.65 + height * 0.5],
+        [shoulder - 0.2, 1.65 + height * 0.58],
+        [reach, tip],
+        [0.4, 1.65 + height * 0.48],
+        [0.3, 1.65 + height * 0.22],
+      ];
+      const front = profile.map(([r, y], i) => at(r, y, i === 4 ? 0 : -0.055));
+      const back = profile.map(([r, y], i) => at(r, y, i === 4 ? 0 : 0.055));
+      trace(front, 'outline', true);
+      trace(back, 'component', true);
+      front.forEach((point, i) => line(point, back[i]));
+      // Each blade has a forked seat on the neck, rather than a floating petal.
+      const mounts = ring(0.3, 1.65);
+      const seat = Math.round(degrees / 45) % 8;
+      line(mounts[seat], front[0], 'outline');
+      line(mounts[(seat + 1) % 8], back[0]);
+      const armStart = ring(0.3, 1.82)[seat];
+      trace([armStart, at(0.44, 2.03, -0.055), front[1]], 'outline');
+      trace([armStart, at(0.44, 2.03, 0.055), back[1]]);
+      // A folded inner rail follows the blade; it is not a triangulated mesh.
+      trace([
+        front[0],
+        at(0.48, 1.65 + height * 0.28, -0.055),
+        at(shoulder - 0.15, 1.65 + height * 0.49, -0.055),
+        front[4],
+      ]);
+      for (let rib = 0; rib < 3; rib++) {
+        const y = 1.65 + height * (0.23 + rib * 0.07);
+        const r = 0.48 + rib * 0.075;
+        trace(
+          [
+            at(r, y, -0.055),
+            at(r + 0.13, y + 0.05, -0.055),
+            at(r + 0.14, y + 0.13, -0.055),
+            at(r + 0.01, y + 0.08, -0.055),
+          ],
+          'detail',
+          true
+        );
+      }
+      // Small socket heads stay near the seats, away from the sharp outline.
+      for (const y of [1.83, 2.03]) {
+        const r = 0.33 + (y - 1.83) * 0.6;
+        trace(
+          Array.from({ length: 8 }, (_, i) => {
+            const a = (i * Math.PI) / 4;
+            return at(r + 0.035 * Math.cos(a), y + 0.035 * Math.sin(a), -0.055);
+          }),
+          'detail',
+          true
+        );
+      }
+    });
+  }
+
+  function mechanism() {
+    part = 'head';
+    sleeve([
+      [0.235, 1.82],
+      [0.235, 3.62],
+      [0.12, 3.93],
+    ]);
+    ring(0.235, 1.82).forEach((p, i) => line(p, ring(0.3, 1.82)[i]));
+    // Two small split collars tie the axial instrument to its mounting ribs.
+    for (const [y, radius] of [
+      [2.16, 0.37],
+      [3.18, 0.34],
+    ]) {
+      const low = ring(radius, y, 12),
+        high = ring(radius, y + 0.09, 12);
+      for (let sector = 0; sector < 4; sector++) {
+        const i = sector * 3;
+        trace(
+          [low[i], low[i + 1], low[i + 2], high[i + 2], high[i + 1], high[i]],
+          'component',
+          true
+        );
+        line(radial(0.235, y, (sector * Math.PI) / 2), low[i]);
+      }
+    }
+    for (const degrees of [22.5, 157.5, 247.5]) {
+      const angle = (degrees * Math.PI) / 180;
+      const at = (r: number, y: number, t: number) => radial(r, y, angle, t);
+      const face = 0.235 * Math.cos(Math.PI / 8);
+      // Raised control packages sit on the prism faces; leads return to them.
+      for (const y of [2.38, 2.86]) {
+        plate(
+          [
+            at(face, y, -0.09),
+            at(face, y + 0.27, -0.09),
+            at(face, y + 0.27, 0.09),
+            at(face, y, 0.09),
+          ],
+          [0.12 * Math.cos(angle), 0, 0.12 * Math.sin(angle)]
+        );
+        for (const side of [-1, 1])
+          for (let pin = 0; pin < 3; pin++) {
+            const py = y + 0.045 + pin * 0.08;
+            trace(
+              [
+                at(face + 0.12, py, side * 0.09),
+                at(face + 0.12, py, side * 0.13),
+                at(face, py + 0.035, side * 0.08),
+              ],
+              'detail'
+            );
+          }
+      }
+    }
   }
 
   function cooling() {
     part = 'cooling';
-    box([0.54, 0.31, -0.25], [0.24, 0.055, 0.5]);
-    for (let i = 0; i < 9; i++) {
-      const z = -0.24 + i * 0.058;
-      extrude(
+    const angle = Math.PI / 2;
+    const at = (r: number, y: number, t: number) => radial(r, y, angle, t);
+    // Fins grow directly from two axial rails in the head's open side.
+    for (const t of [-0.13, 0.13]) {
+      trace([
+        at(0.235, 2.3, 0),
+        at(0.3, 2.3, t),
+        at(0.3, 3.3, t),
+        at(0.235, 3.3, 0),
+      ]);
+    }
+    for (let i = 0; i < 6; i++) {
+      const y = 2.38 + i * 0.16;
+      plate(
         [
-          [0.56, 0.365, z],
-          [0.78, 0.365, z],
-          [0.78, 0.56, z],
-          [0.71, 0.64, z],
-          [0.56, 0.64, z],
+          at(0.3, y, -0.13),
+          at(0.62, y, -0.13),
+          at(0.72, y, 0),
+          at(0.62, y, 0.13),
+          at(0.3, y, 0.13),
         ],
-        [0, 0, 0.012],
-        i === 0 || i === 8 ? 'component' : 'detail'
+        [0, 0.035, 0],
+        i === 0 || i === 5 ? 'component' : 'detail'
       );
-      line([0.61, 0.41, z], [0.61, 0.57, z], 'detail');
-      line([0.69, 0.41, z], [0.69, 0.55, z], 'detail');
+      line(at(0.39, y, -0.09), at(0.59, y, 0.05), 'detail');
     }
-    for (const z of [-0.25, 0.25]) {
-      trace(
-        [[0.54, 0.31, z], corePoint(4, 0.5, z < 0 ? -0.32 : 0.32)],
-        'component'
-      );
-      extrude(circle([0.6, 0.31, z * 0.88], 0.047, 'y', 12), [0, -0.04, 0]);
-      line([0.6, 0.27, z * 0.88], [0.647, 0.27, z * 0.88]);
-    }
-  }
-
-  const routes: readonly (readonly [
-    Point3,
-    Point3,
-    Point3,
-    number,
-    LineKind,
-  ])[] = [
-    [
-      [-0.26, -0.64, 0.32],
-      [-0.69, -0.78, 0.54],
-      [-0.63, -0.51, 0.2],
-      3,
-      'component',
-    ],
-    [
-      [-0.58, 0.34, 0.19],
-      [-0.72, 0.48, 0.42],
-      corePoint(15, 0.5, 0.32),
-      2,
-      'detail',
-    ],
-    [
-      [-0.4, -0.38, -0.56],
-      [-0.78, -0.2, -0.53],
-      [-0.58, -0.43, -0.29],
-      2,
-      'detail',
-    ],
-  ];
-
-  function connections() {
-    part = 'connectors';
-    box([-0.26, -0.82, -0.32], [0.52, 0.18, 0.64]);
-    for (const [x, z, radius, h] of [
-      [-0.16, -0.17, 0.065, 0.19],
-      [0.03, -0.14, 0.05, 0.145],
-      [0.18, -0.1, 0.035, 0.11],
-    ]) {
-      extrude(circle([x, -0.64, z], radius, 'y'), [0, h, 0]);
-      trace(circle([x, -0.64 + h, z], radius * 0.65, 'y', 8), 'detail', true);
-    }
-    for (const [x, w, h] of [
-      [-0.22, 0.15, 0.075],
-      [-0.02, 0.1, 0.1],
-      [0.12, 0.11, 0.055],
-    ]) {
-      box([x, -0.64, 0.13], [w, h, 0.15]);
-      for (let i = 0; i < 3; i++)
-        extrude(
-          circle([x + 0.025 + i * 0.03, -0.605, 0.28], 0.013, 'z', 8),
-          [0, 0, 0.025],
-          'detail'
-        );
-    }
-    for (let i = 0; i < 5; i++)
-      line(
-        [-0.18 + i * 0.06, -0.78, 0.32],
-        [-0.18 + i * 0.06, -0.71, 0.32],
-        'detail'
-      );
-    for (const [a, , b, count] of routes) {
-      for (const anchor of [a, b]) {
-        box(anchor, [0.04, 0.035, count * 0.026]);
-        for (let i = 0; i < count; i++) {
-          const pin = add(anchor, [0, 0, i * 0.026]);
-          line(pin, add(pin, [0.04, 0, 0]), 'detail');
-          if (i > 0) line(add(anchor, [0, 0, (i - 1) * 0.026]), pin, 'detail');
-        }
-      }
-    }
-    for (const center of [
-      [-0.16, -0.55, -0.46],
-      [-0.1, 0.29, -0.46],
-    ] as const)
-      trace(circle(center, 0.018, 'z', 8), 'detail', true);
-  }
-
-  function curve(a: Point3, control: Point3, b: Point3): Point3[] {
-    return Array.from({ length: 13 }, (_, i) => {
-      const t = i / 12,
-        u = 1 - t;
-      return a.map(
-        (n, axis) => u * u * n + 2 * u * t * control[axis] + t * t * b[axis]
-      ) as unknown as Point3;
-    });
-  }
-
-  function pipe(a: Point3, control: Point3, b: Point3) {
-    const points = curve(a, control, b);
-    const normalize = (p: Point3) =>
-      p.map((n) => n / Math.hypot(...p)) as unknown as Point3;
-    const rings = points.map((center, i) => {
-      const previous = points[Math.max(0, i - 1)],
-        next = points[Math.min(12, i + 1)];
-      const tangent = normalize(
-        next.map((n, axis) => n - previous[axis]) as unknown as Point3
-      );
-      const side = normalize(
-        Math.hypot(tangent[0], tangent[2]) > 1e-8
-          ? [-tangent[2], 0, tangent[0]]
-          : [1, 0, 0]
-      );
-      const up = [
-        tangent[1] * side[2],
-        tangent[2] * side[0] - tangent[0] * side[2],
-        -tangent[1] * side[0],
-      ];
-      return Array.from(
-        { length: 8 },
-        (_, j) =>
-          center.map(
-            (n, axis) =>
-              n +
-              0.027 *
-                (side[axis] * Math.cos((j * Math.PI) / 4) +
-                  up[axis] * Math.sin((j * Math.PI) / 4))
-          ) as unknown as Point3
-      );
-    });
-    for (const ray of [0, 2, 4, 6]) trace(rings.map((ring) => ring[ray]));
-    for (const i of [0, 12]) trace(rings[i], 'component', true);
-    trace(rings[6], 'detail', true);
-    // Fitting centres meet the host's mounting vertices; the pipe has no drawn centreline.
-    line(a, rings[0][0]);
-    line(b, rings[12][0]);
   }
 
   function harnesses() {
-    part = 'wiring';
-    for (const z of [-0.32, 0.32])
-      pipe(
-        corePoint(1, 0.5, z),
-        [0.84, 0.02, z * 1.15],
-        [0.6, 0.27, z > 0 ? 0.22 : -0.22]
-      );
-    for (const [a, control, b, count, kind] of routes) {
-      const points = curve(a, control, b);
-      for (let wire = 0; wire < count; wire++)
-        trace(
-          points.map((p) => add(p, [0, 0, wire * 0.026])),
-          kind
+    for (const [angle, destination] of [
+      [0, 2.85],
+      [Math.PI, 3.3],
+    ]) {
+      const at = (r: number, y: number, t = 0) => radial(r, y, angle, t);
+      const section = (r: number, y: number, radius: number) =>
+        Array.from({ length: 8 }, (_, i) =>
+          at(
+            r + radius * Math.cos((i * Math.PI) / 4),
+            y,
+            radius * Math.sin((i * Math.PI) / 4)
+          )
         );
-      const mid = points[6];
-      extrude(
-        [
-          add(mid, [-0.014, -0.014, -0.01]),
-          add(mid, [0.014, -0.014, -0.01]),
-          add(mid, [0.014, 0.014, -0.01]),
-          add(mid, [-0.014, 0.014, -0.01]),
-        ],
-        [0, 0, count * 0.026],
-        'detail'
-      );
-    }
-  }
-
-  function skeleton() {
-    // A short rear spine and a fork cradle carry the core without a perimeter cage.
-    extrude(
-      [
-        [-0.22, -0.64, -0.46],
-        [-0.22, 0.08, -0.46],
-        [-0.1, 0.38, -0.46],
-        [0, 0.38, -0.46],
-        [-0.08, 0.06, -0.46],
-        [-0.08, -0.64, -0.46],
-      ],
-      [0, 0, 0.055],
-      'outline'
-    );
-    strut([-0.22, -0.64, -0.46], [-0.26, -0.64, -0.32]);
-    strut([-0.1, 0.38, -0.46], corePoint(12, 0.5, -0.32));
-    strut([-0.22, 0.08, -0.46], corePoint(4, 0.5, -0.32));
-    for (const z of [-0.32, 0.32])
-      strut([-0.26, -0.64, z], [0.26, -0.64, z], [0, -0.055, 0]);
-    for (const x of [-0.26, 0.26])
-      strut([x, -0.64, -0.32], [x, -0.64, 0.32], [0, -0.055, 0]);
-  }
-  function corePoint(index: number, radius: number, z: number): Point3 {
-    const angle = (index * Math.PI * 2) / 32;
-    return [Math.cos(angle) * radius, 0.12 + Math.sin(angle) * radius, z];
-  }
-
-  function centralCore() {
-    const interpolate = (from: Point3, to: Point3, t: number): Point3 => {
-      const a = vertex(from),
-        b = vertex(to);
-      return a.map((n, i) => n + (b[i] - n) * t) as unknown as Point3;
-    };
-    part = 'frame';
-    for (const z of [-0.32, 0.32]) {
-      strut(corePoint(20, 0.5, z), [-0.26, -0.64, z]);
-      strut(corePoint(28, 0.5, z), [0.26, -0.64, z]);
-    }
-    part = 'core';
-    // Four open sectors have real front/rear walls; no middle decorative ring.
-    for (let sector = 0; sector < 4; sector++) {
-      const first = sector * 8 + 1,
-        last = first + 6;
-      for (const z of [-0.32, 0.32]) {
-        const outer = Array.from({ length: 7 }, (_, i) =>
-          corePoint(first + i, 0.5, z)
-        );
-        const inner = Array.from({ length: 7 }, (_, i) =>
-          corePoint(first + i, 0.37, z)
-        );
-        trace(outer, 'outline');
-        trace(inner);
-        for (const index of [first, last])
-          line(corePoint(index, 0.5, z), corePoint(index, 0.37, z), 'outline');
-        // Paired edges describe a short spoke, leaving most of the bore open.
-        const bearing = circle([0, 0.12, z], 0.125, 'z', 12);
-        for (const side of [-0.35, 0.35]) {
-          const innerIndex = 3 + side;
-          const hubIndex = ((first + innerIndex) * 12) / 32;
-          line(
-            interpolate(
-              bearing[Math.floor(hubIndex)],
-              bearing[Math.ceil(hubIndex)],
-              hubIndex % 1
-            ),
-            interpolate(
-              inner[Math.floor(innerIndex)],
-              inner[Math.ceil(innerIndex)],
-              innerIndex % 1
-            )
-          );
-        }
-        for (const index of [first + 1, last - 1])
+      const route = Array.from({ length: 11 }, (_, i) => {
+        const t = i / 10;
+        return [
+          0.345 * (1 - t) ** 2 + 2 * 0.68 * t * (1 - t) + 0.32 * t ** 2,
+          1.65 + (destination - 1.65) * t,
+        ] as const;
+      });
+      for (const [index, name] of [
+        [0, 'neck'],
+        [10, 'head'],
+      ] as const) {
+        part = name;
+        const [r, y] = route[index];
+        const mouth = section(r, y, 0.045);
+        const seat = section(r, y + (index === 0 ? -0.1 : 0.1), 0.065);
+        trace(mouth, 'component', true);
+        trace(seat, 'component', true);
+        for (const i of [0, 2, 4, 6]) line(mouth[i], seat[i]);
+        line(at(name === 'neck' ? 0.3 : 0.235, y), mouth[4]);
+      }
+      part = 'wiring';
+      const sections = route.map(([r, y]) => section(r, y, 0.045));
+      for (const i of [0, 2, 4, 6]) trace(sections.map((points) => points[i]));
+      // A compact clamp gathers the contours halfway along each conduit.
+      trace(sections[5], 'detail', true);
+      for (const tangent of [-0.085, 0.085]) {
+        const signal = route.map(([r, y]) => at(r - 0.07, y, tangent));
+        // Terminal lugs give both ends of the fine signal paths real sockets.
+        for (const index of [0, 10]) {
+          part = index === 0 ? 'neck' : 'head';
           trace(
-            circle(corePoint(index, 0.435, z), 0.018, 'z', 8),
+            [
+              signal[index],
+              at(route[index][0] - 0.07, route[index][1] + 0.07, tangent),
+              section(...route[index], 0.045)[tangent < 0 ? 6 : 2],
+            ],
             'detail',
             true
           );
+        }
+        part = 'wiring';
+        trace(signal, 'detail');
       }
-      for (const index of [first, last]) {
-        line(
-          corePoint(index, 0.5, -0.32),
-          corePoint(index, 0.5, 0.32),
-          'outline'
-        );
-        line(corePoint(index, 0.37, -0.32), corePoint(index, 0.37, 0.32));
-      }
-      // Raised longitudinal ribs make the casing read as a barrel from the side.
-      for (const index of [first + 2, first + 4])
-        trace([
-          corePoint(index, 0.5, -0.32),
-          corePoint(index, 0.52, -0.24),
-          corePoint(index, 0.52, 0.24),
-          corePoint(index, 0.5, 0.32),
-        ]);
     }
-    extrude(circle([0, 0.12, -0.32], 0.125, 'z', 12), [0, 0, 0.64]);
-    for (const z of [-0.32, 0.32])
-      extrude(
-        circle([0, 0.12, z], 0.075, 'z', 12),
-        [0, 0, z > 0 ? 0.03 : -0.03],
-        'detail'
-      );
   }
-  skeleton();
-  centralCore();
-  electronics();
+
+  shaft();
+  pommel();
+  neck();
+  head();
+  mechanism();
   cooling();
-  connections();
   harnesses();
 
   // Split at shared mounting vertices before deduplication. A short bracket edge

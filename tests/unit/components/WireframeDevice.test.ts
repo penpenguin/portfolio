@@ -14,7 +14,7 @@ describe('wireframe device server rendering', () => {
     expect(html.match(/<button\b/g)).toHaveLength(1);
     expect(html).toMatch(/<button[^>]*>[\s\S]*<canvas[\s\S]*<\/button>/);
     expect(html).toContain(
-      'aria-label="環状コア、基板、冷却部、配線を持つ演算装置の線画"'
+      'aria-label="鋭い先端機構と細長い軸を持つSF制御杖の線画"'
     );
     expect(html.match(/<line\b/g)!.length).toBeGreaterThan(100);
     expect(html).toContain('fill="none"');

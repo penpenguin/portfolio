@@ -28,6 +28,21 @@ describe('wireframe device projection', () => {
       expect(Math.max(...opacities)).toBeLessThanOrEqual(front);
     }
   });
+  it('uses enough of the small Home stage for the long staff without changing fit per angle', () => {
+    const ys: number[] = [];
+    for (let degree = 0; degree < 360; degree++)
+      for (const line of projectDevice((degree * Math.PI) / 180, 267, 258))
+        ys.push(line.from.y, line.to.y);
+    // Full-turn height, not a per-frame zoom: the staff should use over 82%.
+    let low = Infinity,
+      high = -Infinity;
+    for (const y of ys) {
+      low = Math.min(low, y);
+      high = Math.max(high, y);
+    }
+    expect((high - low) / 258).toBeGreaterThan(0.82);
+    expect((high - low) / 258).toBeLessThan(0.85);
+  });
   it('rotates a full turn in 16 seconds regardless of frame intervals', () => {
     expect(advanceAngle(initialAngle, 16000)).toBeCloseTo(initialAngle);
     expect(advanceAngle(0, 4000)).toBeCloseTo(Math.PI / 2);

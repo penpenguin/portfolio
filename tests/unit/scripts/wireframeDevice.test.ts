@@ -103,6 +103,15 @@ function tick(elapsed: number) {
 }
 
 describe('wireframe device lifecycle', () => {
+  it('describes the staff controls without replacing Canvas or SVG children', () => {
+    const { button } = mount();
+    expect(button.getAttribute('aria-description')).toBe(
+      '線画の制御杖。クリック、Enter、Spaceで回転を停止・再開できます。'
+    );
+    expect(button.querySelector('canvas')).not.toBeNull();
+    expect(button.querySelector('svg')).not.toBeNull();
+  });
+
   it('holds the displayed angle when paused between scheduled draws', () => {
     const { session, button } = mount();
     intersect(true);
