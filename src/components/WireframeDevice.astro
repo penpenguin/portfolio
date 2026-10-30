@@ -1,7 +1,13 @@
 ---
-import { initialAngle, projectDevice } from '../utils/wireframeDevice';
+import {
+  deviceDescription,
+  initialAngle,
+  projectDevice,
+} from '../utils/wireframeDevice';
 
 const lines = projectDevice(initialAngle, 240, 240);
+// Sub-pixel precision avoids shipping long floating-point strings for every edge.
+const precision = (value: number) => Math.round(value * 1000) / 1000;
 ---
 
 <wireframe-device>
@@ -9,17 +15,17 @@ const lines = projectDevice(initialAngle, 240, 240);
     type="button"
     data-device-stage
     disabled
-    aria-label="基板、支持柱、ヒートシンク、端子を持つ装置の線画"
+    aria-label={deviceDescription}
   >
     <svg viewBox="0 0 240 240" fill="none" aria-hidden="true">
       {lines.map(({ from, to, opacity, width }) => (
         <line
-          x1={from.x}
-          y1={from.y}
-          x2={to.x}
-          y2={to.y}
+          x1={precision(from.x)}
+          y1={precision(from.y)}
+          x2={precision(to.x)}
+          y2={precision(to.y)}
           stroke="#5B5A60"
-          stroke-opacity={opacity}
+          stroke-opacity={precision(opacity)}
           stroke-width={width}
           vector-effect="non-scaling-stroke"
         />

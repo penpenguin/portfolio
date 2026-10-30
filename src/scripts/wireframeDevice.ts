@@ -1,5 +1,6 @@
 import {
   advanceAngle,
+  deviceDescription,
   initialAngle,
   projectDevice,
 } from '../utils/wireframeDevice';
@@ -138,7 +139,7 @@ export function mountWireframeDevice(
   stage.disabled = false;
   stage.setAttribute(
     'aria-description',
-    '線画の計算装置。クリック、Enter、Spaceで回転を停止・再開できます。'
+    '線画の制御杖。クリック、Enter、Spaceで回転を停止・再開できます。'
   );
   resize();
   sync();
@@ -159,10 +160,7 @@ export function mountWireframeDevice(
     root.removeAttribute('data-enhanced');
     stage.disabled = true;
     stage.removeAttribute('aria-description');
-    stage.setAttribute(
-      'aria-label',
-      '基板、支持柱、ヒートシンク、端子を持つ装置の線画'
-    );
+    stage.setAttribute('aria-label', deviceDescription);
   };
 }
 

@@ -1,0 +1,43 @@
+{
+  "implementation_commit": "14837f875bcfb63c2c2cd9de43da3fed30e059b3",
+  "baseline_commit": "2fd459edf548a08cd0bcc2b88f356242a58d00d2",
+  "adopted_screen_tilt_degrees": 35,
+  "comparison_screen_tilt_degrees": 60,
+  "initial_rotation_degrees": 30,
+  "desktop_stage_css_px": [267, 258],
+  "viewport_widths": [1440, 1024, 980, 768, 390, 320],
+  "dprs": [1, 2],
+  "verification": {
+    "unit_files": 51,
+    "unit_tests": 315,
+    "browser_tests": 70,
+    "check": "passed: 94 files, zero errors/warnings/hints",
+    "lint": "passed",
+    "build": "passed: 136 pages with Pagefind",
+    "prettier_changed_files": "passed",
+    "git_diff_check": "passed"
+  },
+  "commands": [
+    "npm run check",
+    "npm run lint",
+    "npm run test -- --run",
+    "npm run build",
+    "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 ./node_modules/.bin/playwright test tests/visual/wireframe-device.spec.ts tests/visual/bento-layout.spec.ts tests/visual/layout-polish.spec.ts tests/visual/blog-archive.spec.ts --workers=2"
+  ],
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "unverified": [
+    "Firefox/Safari",
+    "Physical touch devices",
+    "Native tab visibility notifications in this run; simulated visibilitychange regression passed"
+  ],
+  "source_sha256": {
+    "DESIGN.md": "4f65c7f00e574a30624eb0c1e797662403b8a72ebf174757d5a0cdc5dc9d15b7",
+    "src/utils/wireframeDevice.ts": "b1cd0c84b0d239a312f8ef06bc12bb4f380051d1378a5d569843bc2ca58c7beb",
+    "src/utils/wireframeGeometry.ts": "2e6ebce6ac8ca7e491c9fa2536d3fd646b7b72206be897b17de26450815ac37d",
+    "tests/unit/docs/design-guidelines.test.ts": "02c395ef73889136476061aa6a0861eb386a443dfc5879f060365803156e23a5",
+    "tests/unit/utils/wireframeDevice.test.ts": "ec33032067d10ac749003fadd43da4bd72730d69ec8ced72e8c3a598f0a66a5c",
+    "tests/unit/utils/wireframeGeometry.test.ts": "a0e17760c6e981d38162211c4644afa8b5281f3d3e7dc75ae572bdbe1cadd0a9",
+    "tests/visual/wireframe-device.spec.ts": "580c5eb74185dad71f7905363250c6397e47eaa888a6e7457c465b852808c695"
+  },
+  "home_html_sha256": "68192587afbb9f11606ec077c1cbbf9988a77b84e0172956aa07187780f8c643"
+}

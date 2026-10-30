@@ -1,0 +1,110 @@
+{
+  "initialDegrees": 30,
+  "productionRendererMatches": true,
+  "records": [
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "width": 267,
+      "height": 258,
+      "tilt": 35,
+      "fit": {
+        "scale": 101.61719881607563,
+        "centerX": 132.78388053761458,
+        "centerY": 127.04131840485792
+      },
+      "apparentDegrees": 34.99999999999999
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "width": 267,
+      "height": 258,
+      "tilt": 60,
+      "fit": {
+        "scale": 101.40612285600488,
+        "centerX": 131.35561410241937,
+        "centerY": 128.79489319297213
+      },
+      "apparentDegrees": 59.99999999999999
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "width": 267,
+      "height": 258,
+      "tilt": 35,
+      "fit": {
+        "scale": 101.61719881607563,
+        "centerX": 132.78388053761458,
+        "centerY": 127.04131840485792
+      },
+      "apparentDegrees": 34.99999999999999
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "width": 267,
+      "height": 258,
+      "tilt": 60,
+      "fit": {
+        "scale": 101.40612285600488,
+        "centerX": 131.35561410241937,
+        "centerY": 128.79489319297213
+      },
+      "apparentDegrees": 59.99999999999999
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "width": 348,
+      "height": 238,
+      "tilt": 35,
+      "fit": {
+        "scale": 93.70616737846757,
+        "centerX": 173.33963137158776,
+        "centerY": 117.19380432117882
+      },
+      "apparentDegrees": 35
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "width": 348,
+      "height": 238,
+      "tilt": 60,
+      "fit": {
+        "scale": 93.51152395713336,
+        "centerX": 172.02255734084525,
+        "centerY": 118.81086102536044
+      },
+      "apparentDegrees": 60.00000000000001
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "width": 278,
+      "height": 238,
+      "tilt": 35,
+      "fit": {
+        "scale": 93.70616737846757,
+        "centerX": 138.33963137158776,
+        "centerY": 117.19380432117882
+      },
+      "apparentDegrees": 35
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "width": 278,
+      "height": 238,
+      "tilt": 60,
+      "fit": {
+        "scale": 93.51152395713336,
+        "centerX": 137.02255734084525,
+        "centerY": 118.81086102536044
+      },
+      "apparentDegrees": 60.00000000000001
+    }
+  ]
+}

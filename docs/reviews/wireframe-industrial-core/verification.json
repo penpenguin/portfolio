@@ -1,0 +1,17 @@
+{
+  "implementation_commit": "42b94dee45035c8a988ddb0d8dbe88494e8b4af6",
+  "baseline_commit": "6ab7b73cb1509056c916e8c8dab95eab6bbcb63f",
+  "verification": {
+    "unit_tests": 297,
+    "unit_files": 51,
+    "browser_tests": 68,
+    "check": "passed",
+    "lint": "passed",
+    "build": "passed"
+  },
+  "unverified": [
+    "Firefox/Safari",
+    "Physical touch devices",
+    "Native hidden-tab notification; simulated visibilitychange and pause/resume regression tests passed"
+  ]
+}
