@@ -1,0 +1,75 @@
+{
+  "baseline": "5fef8b4bab482f372cce5a5864e1bfa4a0397499",
+  "implementation": "f483a2b3ceec20bce991e67f64fc8efc582ba0b1",
+  "changedFiles": [
+    "src/utils/wireframeStaffShells.ts",
+    "src/utils/wireframeGeometry.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "DESIGN.md"
+  ],
+  "checks": [
+    {
+      "command": "npm run check",
+      "result": "97 files; 0 errors, warnings, hints"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "53 files; 330 tests passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "Astro and Pagefind passed"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- --workers=2",
+      "result": "90 tests passed; Chromium desktop and mobile; built preview at http://127.0.0.1:4324/portfolio/"
+    },
+    {
+      "command": "Prettier --check changed TypeScript; git diff --check",
+      "result": "passed"
+    }
+  ],
+  "tdd": [
+    {
+      "red": "2 petal tests failed: per-layer mounting heights and tall/open/closed shape contrast",
+      "green": "5 petal tests passed including curve reference and boundary checks"
+    },
+    {
+      "red": "5 assembly tests failed: missing appendages, struts, pin cluster and incomplete connections before the lower crown was assembled",
+      "green": "18 shell and assembly tests passed"
+    },
+    {
+      "red": "Design document test failed for upper curved cable",
+      "green": "20 assembly and document tests passed; complete suite 330 passed"
+    }
+  ],
+  "preserved": [
+    "35-degree screen tilt",
+    "initial rotation 30 degrees",
+    "16-second revolution",
+    "30fps scheduling and DPR cap 2",
+    "pause/resume via stage and keyboard",
+    "reduced-motion and explicit playback",
+    "offscreen/hidden/route cleanup",
+    "Astro angle and paused-state persistence",
+    "shared Canvas/static SVG and disabled fallback",
+    "search and existing layout/thumbnail policies"
+  ],
+  "unverified": [
+    "Firefox",
+    "Safari",
+    "physical touch devices",
+    "real operating-system tab visibility changes",
+    "Windows test runner"
+  ],
+  "notes": [
+    "Touch is Chromium emulation; hidden-tab behaviour uses synthetic notifications plus unit tests.",
+    "No merge or deployment."
+  ]
+}
