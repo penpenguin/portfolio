@@ -1,3 +1,5 @@
+import { createStaffShells } from './wireframeStaffShells';
+
 export type Point3 = readonly [number, number, number];
 export type LineKind = 'outline' | 'component' | 'detail';
 export type DevicePart =
@@ -85,7 +87,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     sleeve(
       [
         [0.115, -4.3],
-        [0.115, 1.15],
+        [0.115, 1.05],
       ],
       'outline'
     );
@@ -118,97 +120,80 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     part = 'neck';
     sleeve(
       [
-        [0.115, 1.15],
-        [0.2, 1.28],
-        [0.2, 1.48],
-        [0.3, 1.65],
+        [0.115, 1.05],
+        [0.18, 1.14],
+        [0.18, 1.22],
+        [0.3, 1.25],
       ],
       'outline'
     );
     sleeve([
-      [0.3, 1.65],
-      [0.3, 1.82],
+      [0.3, 1.25],
+      [0.3, 1.45],
     ]);
   }
 
   function head() {
     part = 'head';
-    const blades = [
-      { degrees: 208, tip: 5, reach: 0.44, shoulder: 1.04 },
-      { degrees: 25, tip: 4.55, reach: 0.72, shoulder: 1.02 },
-      { degrees: 115, tip: 4.12, reach: 0.64, shoulder: 0.9 },
-      { degrees: 300, tip: 3.58, reach: 0.98, shoulder: 1.06 },
-    ];
-    blades.forEach(({ degrees, tip, reach, shoulder }) => {
-      const angle = (degrees * Math.PI) / 180;
-      const at = (r: number, y: number, t: number) => radial(r, y, angle, t);
-      const height = tip - 1.65;
-      const profile = [
-        [0.3, 1.65],
-        [0.64, 1.65 + height * 0.2],
-        [shoulder, 1.65 + height * 0.5],
-        [shoulder - 0.2, 1.65 + height * 0.58],
-        [reach, tip],
-        [0.4, 1.65 + height * 0.48],
-        [0.3, 1.65 + height * 0.22],
-      ];
-      const front = profile.map(([r, y], i) => at(r, y, i === 4 ? 0 : -0.055));
-      const back = profile.map(([r, y], i) => at(r, y, i === 4 ? 0 : 0.055));
-      trace(front, 'outline', true);
-      trace(back, 'component', true);
-      front.forEach((point, i) => line(point, back[i]));
-      // Each blade has a forked seat on the neck, rather than a floating petal.
-      const mounts = ring(0.3, 1.65);
-      const seat = Math.round(degrees / 45) % 8;
-      line(mounts[seat], front[0], 'outline');
-      line(mounts[(seat + 1) % 8], back[0]);
-      const armStart = ring(0.3, 1.82)[seat];
-      trace([armStart, at(0.44, 2.03, -0.055), front[1]], 'outline');
-      trace([armStart, at(0.44, 2.03, 0.055), back[1]]);
-      // A folded inner rail follows the blade; it is not a triangulated mesh.
-      trace([
-        front[0],
-        at(0.48, 1.65 + height * 0.28, -0.055),
-        at(shoulder - 0.15, 1.65 + height * 0.49, -0.055),
-        front[4],
-      ]);
-      for (let rib = 0; rib < 3; rib++) {
-        const y = 1.65 + height * (0.23 + rib * 0.07);
-        const r = 0.48 + rib * 0.075;
-        trace(
-          [
-            at(r, y, -0.055),
-            at(r + 0.13, y + 0.05, -0.055),
-            at(r + 0.14, y + 0.13, -0.055),
-            at(r + 0.01, y + 0.08, -0.055),
-          ],
-          'detail',
-          true
-        );
+    createStaffShells().forEach((shell, shellIndex) => {
+      const { outer, inner, backOuter, backInner } = shell;
+      const kind = shellIndex === 0 ? 'outline' : 'component';
+      trace(outer, kind);
+      trace(inner, kind);
+      trace(backOuter);
+      trace(backInner);
+      // A solid band has a closed root and sparse side-wall edges, not a mesh.
+      trace([outer[0], inner[0], backInner[0], backOuter[0]], kind, true);
+      for (const i of [12, 24, 36]) {
+        line(outer[i], backOuter[i]);
+        line(inner[i], backInner[i]);
       }
-      // Small socket heads stay near the seats, away from the sharp outline.
-      for (const y of [1.83, 2.03]) {
-        const r = 0.33 + (y - 1.83) * 0.6;
-        trace(
-          Array.from({ length: 8 }, (_, i) => {
-            const a = (i * Math.PI) / 4;
-            return at(r + 0.035 * Math.cos(a), y + 0.035 * Math.sin(a), -0.055);
-          }),
-          'detail',
-          true
+      // One recessed curved rib per band, tied by only three short cross-bridges.
+      const rib = outer.map(
+        (p, i) =>
+          p.map((n, axis) => (n + inner[i][axis]) / 2) as unknown as Point3
+      );
+      trace(rib.slice(8, 41));
+      for (const i of [8, 24, 40]) trace([outer[i], rib[i], inner[i]]);
+      const mounts = ring(0.3, 1.25);
+      const nearest = (p: Point3) =>
+        mounts.reduce((best, q) =>
+          Math.hypot(q[0] - p[0], q[2] - p[2]) <
+          Math.hypot(best[0] - p[0], best[2] - p[2])
+            ? q
+            : best
         );
-      }
+      line(nearest(outer[0]), outer[0], kind);
+      line(nearest(backOuter[0]), backOuter[0]);
+      const seat = nearest(inner[0]);
+      // Forks support the curved band from the neck instead of floating beside it.
+      trace([[seat[0], 1.45, seat[2]], inner[12]], kind);
+      trace([[seat[0], 1.45, seat[2]], backInner[12]]);
+      line(inner[12], outer[12], kind);
+      line(backInner[12], backOuter[12]);
     });
   }
 
   function mechanism() {
     part = 'head';
     sleeve([
-      [0.235, 1.82],
+      [0.235, 1.45],
       [0.235, 3.62],
       [0.12, 3.93],
     ]);
-    ring(0.235, 1.82).forEach((p, i) => line(p, ring(0.3, 1.82)[i]));
+    ring(0.235, 1.45).forEach((p, i) => line(p, ring(0.3, 1.45)[i]));
+    // Two raised straight rails contrast with the shells; both ends meet prism edges.
+    const railAngle = (337.5 * Math.PI) / 180;
+    const face = 0.235 * Math.cos(Math.PI / 8);
+    const halfFace = 0.235 * Math.sin(Math.PI / 8);
+    for (const t of [-halfFace, halfFace]) {
+      trace([
+        radial(face, 1.74, railAngle, t),
+        radial(face + 0.12, 1.86, railAngle, t),
+        radial(face + 0.12, 3.36, railAngle, t),
+        radial(face, 3.5, railAngle, t),
+      ]);
+    }
     // Two small split collars tie the axial instrument to its mounting ribs.
     for (const [y, radius] of [
       [2.16, 0.37],
@@ -305,7 +290,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
         const t = i / 10;
         return [
           0.345 * (1 - t) ** 2 + 2 * 0.68 * t * (1 - t) + 0.32 * t ** 2,
-          1.65 + (destination - 1.65) * t,
+          1.25 + (destination - 1.25) * t,
         ] as const;
       });
       for (const [index, name] of [

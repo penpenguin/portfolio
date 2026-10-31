@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createStaffShells } from '../../../src/utils/wireframeStaffShells';
 import { createDeviceGeometry } from '../../../src/utils/wireframeGeometry';
 
 describe('industrial control staff geometry', () => {
@@ -56,12 +57,12 @@ describe('industrial control staff geometry', () => {
     expect(length / diameter).toBeLessThanOrEqual(5.5);
     const headLength =
       Math.max(...head.map((p) => p[1])) - Math.min(...head.map((p) => p[1]));
-    expect(headLength / length).toBeGreaterThanOrEqual(0.3);
-    expect(headLength / length).toBeLessThanOrEqual(0.38);
+    expect(headLength / length).toBeGreaterThanOrEqual(0.35);
+    expect(headLength / length).toBeLessThanOrEqual(0.4);
     const shaft = pointsFor('shaft');
     const shaftLength =
       Math.max(...shaft.map((p) => p[1])) - Math.min(...shaft.map((p) => p[1]));
-    expect(shaftLength / length).toBeGreaterThanOrEqual(0.54);
+    expect(shaftLength / length).toBeGreaterThanOrEqual(0.52);
     expect(
       (2 * Math.max(...shaft.map((p) => Math.hypot(p[0], p[2])))) / length
     ).toBeLessThan(0.04);
@@ -82,42 +83,59 @@ describe('industrial control staff geometry', () => {
     ).toBeLessThan(diameter / 5);
   });
 
-  it('tapers unequal blade outlines to sharp tips in different radial planes with real thickness', () => {
-    const edges = createDeviceGeometry().filter((e) => e.part === 'head');
-    const outline = edges.filter((e) => e.kind === 'outline');
-    const points = [...new Set(outline.flatMap((e) => [e.a, e.b]))];
-    const tips = points.filter(
-      (p) =>
-        p[1] > 3.3 &&
-        outline
-          .filter((e) => e.a === p || e.b === p)
-          .every((e) => (e.a === p ? e.b : e.a)[1] < p[1])
-    );
-    expect(tips.length).toBe(4);
-    expect(new Set(tips.map((p) => p[1])).size).toBe(4);
-    const quadrants = tips.map((p) =>
-      [Math.sign(p[0]), Math.sign(p[2])].join(',')
-    );
-    expect(new Set(quadrants).size).toBe(4);
-    const thicknessEdges = edges.filter(
-      ({ a, b }) =>
-        a[1] === b[1] &&
-        Math.hypot(a[0] - b[0], a[2] - b[2]) >= 0.08 &&
-        Math.hypot(a[0] - b[0], a[2] - b[2]) <= 0.14
-    );
-    expect(thicknessEdges.length).toBeGreaterThanOrEqual(12);
-    for (const tip of tips) {
-      const neighbours = outline
-        .filter((e) => e.a === tip || e.b === tip)
-        .map((e) => (e.a === tip ? e.b : e.a));
-      expect(neighbours.length).toBe(2);
-      expect(
-        Math.hypot(
-          neighbours[0][0] - neighbours[1][0],
-          neighbours[0][2] - neighbours[1][2]
-        )
-      ).toBeGreaterThan(0.15);
+  it('assembles both curved shells with thickness and shared mounting points', () => {
+    const edges = createDeviceGeometry();
+    const head = edges.filter((e) => e.part === 'head');
+    for (const shell of createStaffShells()) {
+      for (const path of [
+        shell.outer,
+        shell.inner,
+        shell.backOuter,
+        shell.backInner,
+      ]) {
+        for (const point of path) {
+          expect(
+            head.some((e) =>
+              [e.a, e.b].some((p) =>
+                p.every((n, i) => Math.abs(n - point[i]) < 1e-7)
+              )
+            )
+          ).toBe(true);
+        }
+      }
     }
+    const headPoints = [...new Set(head.flatMap((e) => [e.a, e.b]))];
+    expect(headPoints.filter((p) => p[1] === 5)).toHaveLength(1);
+  });
+
+  it('braces curved bands with short cross-ribs and keeps a pair of straight axial rails', () => {
+    const edges = createDeviceGeometry().filter((e) => e.part === 'head');
+    const near = (a: readonly number[], b: readonly number[]) =>
+      a.every((n, i) => Math.abs(n - b[i]) < 1e-7);
+    for (const shell of createStaffShells())
+      for (const i of [8, 24, 40]) {
+        const midpoint = shell.outer[i].map(
+          (n, axis) => (n + shell.inner[i][axis]) / 2
+        );
+        const cross = edges.filter((e) =>
+          [e.a, e.b].some((p) => near(p, midpoint))
+        );
+        expect(
+          cross.some((e) => [e.a, e.b].some((p) => near(p, shell.outer[i])))
+        ).toBe(true);
+        expect(
+          cross.some((e) => [e.a, e.b].some((p) => near(p, shell.inner[i])))
+        ).toBe(true);
+      }
+    const rails = edges.filter(
+      ({ a, b, kind }) =>
+        kind === 'component' &&
+        a[0] === b[0] &&
+        a[2] === b[2] &&
+        Math.abs(a[1] - b[1]) > 1.2 &&
+        Math.hypot(a[0], a[2]) > 0.3
+    );
+    expect(rails.length).toBeGreaterThanOrEqual(2);
   });
 
   it('joins the visible shell supports through the neck and shaft to the pommel', () => {
@@ -136,6 +154,19 @@ describe('industrial control staff geometry', () => {
           reached.add(b);
         }
     }
+    // The secondary arm uses component lines; connectivity must include it too.
+    for (const shell of createStaffShells())
+      for (const point of [
+        ...shell.outer,
+        ...shell.inner,
+        ...shell.backOuter,
+        ...shell.backInner,
+      ])
+        expect(
+          [...reached].some((p) =>
+            p.every((n, i) => Math.abs(n - point[i]) < 1e-7)
+          )
+        ).toBe(true);
     for (const part of ['shaft', 'neck', 'head']) {
       const contour = edges.filter(
         (e) => e.part === part && e.kind === 'outline'
@@ -219,7 +250,7 @@ describe('industrial control staff geometry', () => {
     expect(
       wires.every((e) =>
         [e.a, e.b].every(
-          (p) => p[1] >= 1.4 && p[1] <= 3.5 && Math.hypot(p[0], p[2]) < 0.8
+          (p) => p[1] >= 1.25 && p[1] <= 3.5 && Math.hypot(p[0], p[2]) < 0.8
         )
       )
     ).toBe(true);
@@ -241,8 +272,8 @@ describe('industrial control staff geometry', () => {
     // Read the actual lower prism section; a lead may meet a face, not only a wire edge.
     const section = head.filter(
       (e) =>
-        e.a[1] === 1.82 &&
-        e.b[1] === 1.82 &&
+        e.a[1] === 1.45 &&
+        e.b[1] === 1.45 &&
         [e.a, e.b].every((p) => Math.hypot(p[0], p[2]) < 0.24)
     );
     expect(section.length).toBeGreaterThan(0);
