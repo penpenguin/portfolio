@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  /><title>PR #170 — 多層の機械蓮</title
+  ><style>
+    body {
+      max-width: 1180px;
+      margin: 32px auto;
+      padding: 0 20px;
+      font: 16px/1.8 system-ui;
+      background: #f5f5f5;
+      color: #171719;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      margin-top: 36px;
+      font-size: 22px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    td,
+    th {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    code {
+      font-size: 14px;
+    }
+    a {
+      color: #344957;
+    }
+    section {
+      margin: 32px 0;
+    }
+    .meta {
+      font-family: monospace;
+    }
+  </style>
+  <h1>PR #170 — 3層19枚の機械蓮を持つ制御杖</h1>
+  <p class="meta">
+    変更前: 88f709252372bb65a8280b933b78767135e8a6d2 / 実装:
+    bcf3e97610a357a4df7c5dfbf5ac3747f71f1e56
+  </p>
+  <p>
+    丸みのある幅広の花弁を外6・中8・内5枚で重ね、花冠そのものを先端機構にしました。表裏輪郭・中央稜線・花弁裏の2本のリブ・短い橋・3段のカラー・二股支持・萼6本を組み合わせ、中央の直線レール、多角柱、5本のピン、端子、フィン、配管を残しています。通常サイズでも先端の面積と密度を増し、側面で薄い帯へ戻らない構成です。
+  </p>
+  <p>
+    全長10を維持。頭部長 3.75 → <strong>4.218</strong>、全周最大径 2.123 →
+    <strong>3.123</strong
+    >。柄中央の静かな区間は4.02単位。267×258px・初期30度で、軸に直交する花冠幅は43.057
+    → <strong>76.98 CSS px</strong>です。画面X方向の包絡幅とは区別しています。
+  </p>
+  <p>
+    左35度、初期30度、16秒／周、約30fps、DPR上限2、フィット係数0.84、全周固定中心・縮尺を維持。通常PC枠の固定縮尺は25.648
+    → 26.628 CSS
+    px/モデル単位。線幅1.1／0.8／0.5pxと不透明度範囲を維持し、全19枚を主要構造に含めています。塗り面・色・新しいUIは追加していません。
+  </p>
+  <section>
+    <h2>通常設定・同条件の前後比較</h2>
+    <p>
+      上段が変更前88f7092の曲線杖、下段が機械蓮。各モデルの全周から同じ0.84規則で固定フィットしています。角度ラベルは初期30度からの相対角度です。
+    </p>
+    <a href="comparison.png"
+      ><img
+        src="comparison.png"
+        alt="通常設定・同条件の前後比較"
+        loading="lazy"
+    /></a>
+  </section>
+  <section>
+    <h2>同倍率の造形比較</h2>
+    <p>
+      両モデルの全周境界の和集合から共通の固定縮尺・投影中心を設定。通常設定での比較とは別です。
+    </p>
+    <a href="equal-scale-1440.png"
+      ><img src="equal-scale-1440.png" alt="同倍率の造形比較" loading="lazy"
+    /></a>
+  </section>
+  <p>
+    <a href="equal-scale-1024.png">狭いPCの同倍率比較</a> /
+    <a href="fixed-scale.json">共通縮尺の数値・算出条件</a>
+  </p>
+  <section>
+    <h2>機械蓮・8方向 / 標準PC</h2>
+    <p></p>
+    <a href="rotation.png"
+      ><img src="rotation.png" alt="機械蓮・8方向 / 標準PC" loading="lazy"
+    /></a>
+  </section>
+  <section>
+    <h2>機械蓮・8方向 / 狭いPC</h2>
+    <p></p>
+    <a href="narrow.png"
+      ><img src="narrow.png" alt="機械蓮・8方向 / 狭いPC" loading="lazy"
+    /></a>
+  </section>
+  <p>
+    <a href="rotation-dpr2.png">標準PC / DPR 2</a> /
+    <a href="narrow-dpr2.png">狭いPC / DPR 2</a> /
+    <a href="rotation-before.png">変更前の8方向</a>
+  </p>
+  <section>
+    <h2>主要構造と全線表示</h2>
+    <p>
+      主要構造にも外・中・内の全19枚、表裏輪郭、中央稜線、支持と柄を含めます。全線ではリブ・橋・中央機構・端子・配線を追加。表示モードは資料作成用で、本番UIにはありません。
+    </p>
+    <a href="structure-dpr1.png"
+      ><img src="structure-dpr1.png" alt="主要構造と全線表示" loading="lazy"
+    /></a>
+  </section>
+  <p>
+    <a href="structure-dpr2.png">同じ比較 / DPR 2</a> /
+    <a href="structure-eight.png">主要構造8方向</a> /
+    <a href="narrow-structure-eight.png">狭いPCの主要構造8方向</a>
+  </p>
+  <section>
+    <h2>花冠の拡大</h2>
+    <p>通常描画の3倍。実寸確認を補う構造資料です。</p>
+    <a href="crown-detail.png"
+      ><img src="crown-detail.png" alt="花冠の拡大" loading="lazy"
+    /></a>
+  </section>
+  <section>
+    <h2>Home全体</h2>
+    <table>
+      <tr>
+        <th>Viewport</th>
+        <th>実描画領域</th>
+        <th>変更後</th>
+      </tr>
+      <tr>
+        <td>1440px</td>
+        <td>267×258px</td>
+        <td>
+          <a href="home-1440-after.png">DPR 1</a> /
+          <a href="home-1440-dpr2.png">DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>1024px</td>
+        <td>223×258px</td>
+        <td>
+          <a href="home-1024-after.png">DPR 1</a> /
+          <a href="home-1024-dpr2.png">DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>980px</td>
+        <td>914×238px</td>
+        <td>
+          <a href="home-980-after.png">DPR 1</a> /
+          <a href="home-980-dpr2.png">DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>768px</td>
+        <td>726×238px</td>
+        <td>
+          <a href="home-768-after.png">DPR 1</a> /
+          <a href="home-768-dpr2.png">DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>390px</td>
+        <td>348×238px</td>
+        <td>
+          <a href="home-390-after.png">DPR 1</a> /
+          <a href="home-390-dpr2.png">DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>320px</td>
+        <td>278×238px</td>
+        <td>
+          <a href="home-320-after.png">DPR 1</a> /
+          <a href="home-320-dpr2.png">DPR 2</a>
+        </td>
+      </tr>
+    </table>
+    <p>
+      変更前: <a href="home-1440-before.png">1440px</a> /
+      <a href="home-390-before.png">390px</a> /
+      <a href="home-320-before.png">320px</a
+      >。前後12条件の枠座標・寸法は一致。Homeの配置・高さ・3:1・ヘッダー・フッター・スクロールを維持しています。
+    </p>
+    <a href="home-1440-after.png"
+      ><img src="home-1440-after.png" alt="PCのHome全体" loading="lazy"
+    /></a>
+  </section>
+  <section>
+    <h2>投影・形状・描画の検証</h2>
+    <p>
+      10寸法×360角度で線幅込み最小余白18.952 CSS
+      px。軸上2点による35度誤差は3.552713678800501e-14度。花弁は各ベジェ16分割＋正規化アンカー0.2/0.5/0.8で生成し、128分割参照との最大誤差は0.044
+      CSS
+      pxでした。3層19枚、厚み・尖端・輪郭の自己交差・接続・共有頂点・重複辺を検証しました。
+    </p>
+    <p>
+      八角柱の角の中間に来る取付位置は、方位から接続先を決定し、同距離時の丸めを統一しました。NodeとChromiumの全3D辺が一致し、Canvas／SVGの共通経路を保持しています。比較資料の全線描画は、前後×2枠×2
+      DPR×8角度の64条件で、実際のpreview CanvasとPNGバイト一致しています。
+    </p>
+    <p>
+      <a href="geometry.json">寸法・曲線・全周・SHA256</a> /
+      <a href="engine-parity.json">Node／Chromiumの辺一致</a> /
+      <a href="comparison-validation.json">64条件のCanvas一致</a> /
+      <a href="frames-before.json">変更前枠</a> /
+      <a href="frames-after.json">変更後枠</a>
+    </p>
+  </section>
+  <section>
+    <h2>性能と配信サイズ</h2>
+    <p>
+      6.18.54.1-microsoft-standard-WSL2 / AMD Ryzen 5 3600 6-Core Processor /
+      Chromium 156.0.8078.4 / Node
+      v26.12.1。各条件で60実描画のウォームアップ後、480実描画を採取。clearRectから最後のstrokeまでの投影＋Canvas描線のCPU時間で、計測処理を含みます。省略rAFやGPU合成時間は含みません。
+    </p>
+    <table>
+      <tr>
+        <th>条件</th>
+        <th>中央値 前→後</th>
+        <th>p95 前→後</th>
+      </tr>
+      <tr>
+        <td>267×258 / DPR 1</td>
+        <td>0.4 → 1.7 ms</td>
+        <td>0.7 → 2.4 ms</td>
+      </tr>
+      <tr>
+        <td>348×238 / DPR 2</td>
+        <td>0.4 → 1.9 ms</td>
+        <td>0.6 → 2.5 ms</td>
+      </tr>
+    </table>
+    <p>
+      この環境ではp95 8msの目安以内。全端末での保証ではありません。線分1,420 →
+      6,153、共有頂点1,098 →
+      5,378。多数の花弁と補強材の追加により、静止SVGを含む配信量は増えています。
+    </p>
+    <table>
+      <tr>
+        <th>項目</th>
+        <th>変更前</th>
+        <th>変更後</th>
+      </tr>
+      <tr>
+        <td>Home HTML / raw</td>
+        <td>265,750 B</td>
+        <td>1,115,216 B</td>
+      </tr>
+      <tr>
+        <td>Home HTML / gzip</td>
+        <td>25,861 B</td>
+        <td>100,997 B</td>
+      </tr>
+      <tr>
+        <td>静止SVG / raw</td>
+        <td>255,516 B</td>
+        <td>1,104,982 B</td>
+      </tr>
+      <tr>
+        <td>静止SVG / gzip</td>
+        <td>21,645 B</td>
+        <td>96,443 B</td>
+      </tr>
+    </table>
+    <p>
+      <a href="metrics-before.json">変更前の環境・全サンプル</a> /
+      <a href="metrics-after.json">変更後の環境・全サンプル</a>
+    </p>
+  </section>
+  <section>
+    <h2>実行結果・未検証</h2>
+    <ul>
+      <li><code>npm run check</code>: 97 files; 0 errors, warnings or hints</li>
+      <li><code>npm run lint</code>: passed</li>
+      <li><code>npm run test -- --run</code>: 53 files; 327 tests passed</li>
+      <li><code>npm run build</code>: Astro and Pagefind succeeded</li>
+      <li>
+        <code
+          >PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual --
+          --workers=2</code
+        >: 90 Chromium tests passed against this built preview
+      </li>
+      <li>
+        <code>Prettier --check changed TypeScript files; git diff --check</code
+        >: passed
+      </li>
+    </ul>
+    <p>
+      停止／再開、クリック・タップ・Enter・Space、停止後のフォーカス移動、Astro往復、reduced-motion変更、画面外・非表示通知、停止中rAFなし、JS無効・Canvas失敗、検索併用、Bento／archive／共通レイアウト／サムネイルを検証。機能テストの削除・skipなし。
+    </p>
+    <p>
+      Firefox／Safari・実機タッチ・実OSタブ切替・Windowsのテスト起動は未検証。タッチはChromiumエミュレーション、visibilitychangeは合成通知と単体テストです。マージ・公開は行っていません。
+    </p>
+    <p><a href="verification.json">コミット・変更ファイル・TDD・検証一覧</a></p>
+  </section>
+</html>
