@@ -60,7 +60,11 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).not.toContain('shorter C-shaped arm');
     expect(design).toContain('straight internal rails');
     expect(design).not.toContain('four unequal pointed shells');
-    expect(design).toContain('quiet octagonal shaft');
+    expect(design).toContain('upper curved cable');
+    expect(design).toContain('lower auxiliary bar');
+    expect(design).toContain('two long recurved');
+    expect(design).toContain('nine slender pins');
+    expect(design).not.toContain('plain shaft interval of about 40%');
     expect(design).toContain('84%');
     expect(design).not.toContain('segmented cylindrical shell');
     expect(design).toContain('35-degree screen-space left tilt');

@@ -6,7 +6,7 @@ describe('industrial control staff geometry', () => {
   it('mounts a half-sector petal on the higher-angle prism corner deterministically', () => {
     const edges = createDeviceGeometry();
     // The first middle petal sits at 22.5 degrees, exactly between prism corners.
-    const seat = [0.25868627, 1.1, 0.10715136];
+    const seat = [0.21868627, 1.1, 0.16715136];
     const corner = [0.16617009, 1.1, 0.16617009];
     const same = (a: readonly number[], b: readonly number[]) =>
       a.every((n, i) => Math.abs(n - b[i]) < 1e-8);
@@ -91,29 +91,29 @@ describe('industrial control staff geometry', () => {
     const head = pointsFor('head');
     const diameter = 2 * Math.max(...head.map((p) => Math.hypot(p[0], p[2])));
     expect(length).toBeCloseTo(10);
-    expect(diameter).toBeGreaterThanOrEqual(2.8);
-    expect(diameter).toBeLessThanOrEqual(3.2);
+    expect(diameter).toBeGreaterThanOrEqual(3.1);
+    expect(diameter).toBeLessThanOrEqual(3.4);
     const headLength =
       Math.max(...head.map((p) => p[1])) - Math.min(...head.map((p) => p[1]));
-    expect(headLength / length).toBeGreaterThanOrEqual(0.4);
-    expect(headLength / length).toBeLessThanOrEqual(0.45);
+    expect(headLength / length).toBeGreaterThanOrEqual(0.44);
+    expect(headLength / length).toBeLessThanOrEqual(0.46);
     const shaft = pointsFor('shaft');
     const shaftLength =
       Math.max(...shaft.map((p) => p[1])) - Math.min(...shaft.map((p) => p[1]));
     expect(shaftLength / length).toBeGreaterThanOrEqual(0.44);
     expect(
       (2 * Math.max(...shaft.map((p) => Math.hypot(p[0], p[2])))) / length
-    ).toBeLessThan(0.04);
+    ).toBeLessThan(0.06);
     const quiet = edges.filter(
       (e) =>
         e.part === 'shaft' &&
-        Math.min(e.a[1], e.b[1]) < -1 &&
-        Math.max(e.a[1], e.b[1]) > -3.5
+        Math.min(e.a[1], e.b[1]) <= -2.6 &&
+        Math.max(e.a[1], e.b[1]) >= -1.1
     );
     expect(quiet.length).toBeGreaterThanOrEqual(6);
     expect(
       Math.max(...quiet.map((e) => Math.abs(e.a[1] - e.b[1])))
-    ).toBeGreaterThanOrEqual(4);
+    ).toBeGreaterThanOrEqual(1.5);
     expect(
       quiet.every(
         (e) => e.a[0] === e.b[0] && e.a[2] === e.b[2] && e.kind !== 'detail'
@@ -122,6 +122,112 @@ describe('industrial control staff geometry', () => {
     expect(
       Math.max(...pointsFor('pommel').map((p) => Math.hypot(p[0], p[2])))
     ).toBeLessThan(diameter / 5);
+  });
+
+  it('adds a mounted upper cable, a lower straight auxiliary bar and a stepped heel', () => {
+    const edges = createDeviceGeometry();
+    const radius = (p: readonly number[]) => Math.hypot(p[0], p[2]);
+    const cable = edges.filter(
+      (e) => e.part === 'wiring' && Math.min(e.a[1], e.b[1]) < 0
+    );
+    expect(cable.length).toBeGreaterThan(0);
+    expect(
+      Math.max(...cable.flatMap((e) => [radius(e.a), radius(e.b)]))
+    ).toBeGreaterThan(0.3);
+    expect(
+      cable.every((e) =>
+        [e.a, e.b].every((p) => radius(p) <= 0.52 && p[1] >= -0.95)
+      )
+    ).toBe(true);
+    const bar = edges.filter(
+      ({ a, b, part }) =>
+        part === 'shaft' &&
+        a[0] === b[0] &&
+        a[2] === b[2] &&
+        Math.abs(a[1] - b[1]) >= 1 &&
+        radius(a) > 0.22 &&
+        Math.min(a[1], b[1]) >= -3.9 &&
+        Math.max(a[1], b[1]) <= -2.6
+    );
+    expect(bar.length).toBeGreaterThanOrEqual(2);
+    const raised = (low: number, high: number) =>
+      edges.filter(
+        (e) =>
+          e.part === 'shaft' &&
+          [e.a, e.b].every((p) => p[1] >= low && p[1] <= high) &&
+          Math.max(radius(e.a), radius(e.b)) > 0.15
+      );
+    expect(raised(-1, 0.35).length).toBeGreaterThan(0);
+    expect(raised(-4.3, -2.6).length).toBeGreaterThan(0);
+    expect(raised(-2.6, -1.1)).toHaveLength(0);
+    expect(
+      edges.some(
+        (e) =>
+          e.part === 'pommel' &&
+          [e.a, e.b].every((p) => p[1] < -4.4 && radius(p) > 0.17)
+      )
+    ).toBe(true);
+    // New appendages must join the existing physical structure, including both cable ends.
+    const reached = new Set(
+      edges.filter((e) => e.part === 'pommel').flatMap((e) => [e.a, e.b])
+    );
+    let size = 0;
+    while (size !== reached.size) {
+      size = reached.size;
+      for (const { a, b } of edges)
+        if (reached.has(a) || reached.has(b)) {
+          reached.add(a);
+          reached.add(b);
+        }
+    }
+    expect(
+      [...bar, ...cable, ...raised(-1, 0.35)].every(
+        (e) => reached.has(e.a) && reached.has(e.b)
+      )
+    ).toBe(true);
+  });
+
+  it('ties pairs of outer petals together and braces the two main curves with straight struts', () => {
+    const edges = createDeviceGeometry();
+    const outer = createStaffShells().filter((p) => p.layer === 'outer');
+    const near = (a: readonly number[], b: readonly number[]) =>
+      a.every((n, i) => Math.abs(n - b[i]) < 1e-7);
+    for (const petal of outer.filter((p) => p.profile.role === 'primary')) {
+      for (const side of ['backLeft', 'backRight'] as const) {
+        const lower = petal.anchors[0][side],
+          upper = petal.anchors[1][side];
+        expect(
+          edges.some(
+            (e) =>
+              e.kind === 'component' && near(e.a, lower) && near(e.b, upper)
+          )
+        ).toBe(true);
+      }
+    }
+    // A curved yoke leaves each first hinge and reaches the next petal's hinge.
+    for (const i of [0, 2, 4]) {
+      const source = outer[i].anchors[0].backRight;
+      const destination = outer[i + 1].anchors[0].backLeft;
+      const braces = edges.filter(
+        (e) =>
+          e.kind === 'component' &&
+          e.part === 'head' &&
+          [e.a, e.b].every((p) => Math.hypot(p[0], p[2]) > 0.5 && p[1] < 2.1)
+      );
+      const reached = new Set(
+        braces.flatMap((e) => [e.a, e.b]).filter((p) => near(p, source))
+      );
+      let size = 0;
+      while (size !== reached.size) {
+        size = reached.size;
+        for (const e of braces)
+          if (reached.has(e.a) || reached.has(e.b)) {
+            reached.add(e.a);
+            reached.add(e.b);
+          }
+      }
+      expect([...reached].some((p) => near(p, destination))).toBe(true);
+    }
   });
 
   it('assembles all nineteen cupped petals with thickness and shared mounting points', () => {
@@ -180,15 +286,15 @@ describe('industrial control staff geometry', () => {
     const edges = createDeviceGeometry().filter((e) => e.part === 'head');
     const pins = edges.filter(
       ({ a, b, kind }) =>
-        kind === 'component' &&
+        kind === 'detail' &&
         a[0] === b[0] &&
         a[2] === b[2] &&
         Math.min(a[1], b[1]) >= 3.93 &&
         Math.abs(a[1] - b[1]) > 0.25 &&
         Math.max(a[1], b[1]) < 4.8 &&
-        Math.hypot(a[0], a[2]) < 0.2
+        Math.hypot(a[0], a[2]) < 0.4
     );
-    expect(pins.length).toBeGreaterThanOrEqual(10);
+    expect(pins).toHaveLength(18);
   });
 
   it('joins the visible shell supports through the neck and shaft to the pommel', () => {
@@ -222,7 +328,9 @@ describe('industrial control staff geometry', () => {
         ).toBe(true);
     for (const part of ['shaft', 'neck', 'head']) {
       const contour = edges.filter(
-        (e) => e.part === part && e.kind === 'outline'
+        (e) =>
+          e.part === part &&
+          (part === 'shaft' ? e.kind === 'component' : e.kind === 'outline')
       );
       expect(contour.length).toBeGreaterThan(0);
       expect(contour.every((e) => reached.has(e.a) && reached.has(e.b))).toBe(
@@ -230,12 +338,12 @@ describe('industrial control staff geometry', () => {
       );
     }
   });
-  it('concentrates mounted mechanisms and fine detail in the head while leaving the shaft quiet', () => {
+  it('concentrates fine detail in the head above the quieter shaft', () => {
     const edges = createDeviceGeometry();
     const fine = edges.filter((e) => e.kind === 'detail');
     expect(fine.length).toBeGreaterThan(0);
     expect(
-      fine.filter((e) => e.a[1] >= 0.8 && e.b[1] >= 0.8).length / fine.length
+      fine.filter((e) => e.a[1] >= 0.5 && e.b[1] >= 0.5).length / fine.length
     ).toBeGreaterThan(0.9);
     const internal = edges.filter(
       (e) => e.part === 'head' && e.kind === 'component'
@@ -303,7 +411,7 @@ describe('industrial control staff geometry', () => {
     expect(
       wires.every((e) =>
         [e.a, e.b].every(
-          (p) => p[1] >= 0.8 && p[1] <= 3.5 && Math.hypot(p[0], p[2]) < 0.8
+          (p) => p[1] >= -0.95 && p[1] <= 3.5 && Math.hypot(p[0], p[2]) < 0.8
         )
       )
     ).toBe(true);
@@ -325,8 +433,8 @@ describe('industrial control staff geometry', () => {
     // Read the actual lower prism section; a lead may meet a face, not only a wire edge.
     const section = head.filter(
       (e) =>
-        e.a[1] === 0.8 &&
-        e.b[1] === 0.8 &&
+        e.a[1] === 0.5 &&
+        e.b[1] === 0.5 &&
         [e.a, e.b].every((p) => Math.hypot(p[0], p[2]) < 0.24)
     );
     expect(section.length).toBeGreaterThan(0);

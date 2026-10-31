@@ -84,26 +84,36 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
 
   function shaft() {
     part = 'shaft';
-    // One long quiet octagonal span separates the head's machinery from the heel.
-    sleeve(
-      [
-        [0.115, -4.3],
-        [0.115, 0.35],
-      ],
-      'outline'
-    );
+    // Keep a continuous octagonal shaft through the unevenly spaced fittings.
+    sleeve([
+      [0.115, -4.3],
+      [0.115, 0.15],
+    ]);
     sleeve([
       [0.115, -4.3],
       [0.145, -4.18],
       [0.145, -3.9],
       [0.115, -3.82],
     ]);
-    sleeve([
-      [0.115, 0.2],
-      [0.145, 0.26],
-      [0.145, 0.3],
-      [0.115, 0.35],
-    ]);
+    for (const y of [-2.8, -0.95])
+      sleeve([
+        [0.115, y],
+        [0.17, y + 0.035],
+        [0.17, y + 0.105],
+        [0.115, y + 0.14],
+      ]);
+    // A short rigid parallel member closes the lower silhouette. Both ends
+    // return to shaft corners, leaving the middle free of raised machinery.
+    const angle = Math.PI;
+    for (const t of [-0.025, 0.025])
+      trace([
+        radial(0.115, -3.82, angle),
+        radial(0.25, -3.78, angle, t),
+        radial(0.25, -2.7, angle, t),
+        radial(0.115, -2.66, angle),
+      ]);
+    for (const y of [-3.78, -2.7])
+      line(radial(0.25, y, angle, -0.025), radial(0.25, y, angle, 0.025));
   }
   function pommel() {
     part = 'pommel';
@@ -116,15 +126,30 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       ],
       'outline'
     );
+    sleeve([
+      [0.16, -4.76],
+      [0.19, -4.72],
+      [0.19, -4.62],
+      [0.16, -4.58],
+    ]);
+    for (const angle of [0, Math.PI])
+      trace(
+        [
+          radial(0.07, -5, angle),
+          radial(0.1, -4.94, angle),
+          radial(0.16, -4.83, angle),
+        ],
+        'detail'
+      );
   }
   function neck() {
     part = 'neck';
     sleeve(
       [
-        [0.115, 0.35],
-        [0.18, 0.48],
-        [0.18, 0.62],
-        [0.32, 0.8],
+        [0.115, 0.15],
+        [0.18, 0.26],
+        [0.18, 0.36],
+        [0.32, 0.5],
       ],
       'outline'
     );
@@ -178,6 +203,34 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     }
   }
 
+  function petalSupports() {
+    part = 'head';
+    const outer = petals.filter((p) => p.layer === 'outer');
+    for (const i of [0, 2, 4]) {
+      const a = outer[i].anchors[0].backRight;
+      const b = outer[i + 1].anchors[0].backLeft;
+      // A short open yoke joins two hinge forks; it never circles the crown.
+      const middle: Point3 = [
+        (a[0] + b[0]) * 0.62,
+        (a[1] + b[1]) / 2 - 0.1,
+        (a[2] + b[2]) * 0.62,
+      ];
+      const path = Array.from({ length: 9 }, (_, j): Point3 => {
+        const t = j / 8;
+        return a.map(
+          (n, k) =>
+            (1 - t) ** 2 * n + 2 * t * (1 - t) * middle[k] + t ** 2 * b[k]
+        ) as unknown as Point3;
+      });
+      trace(path);
+      line(outer[i].mount, path[4]);
+      line(outer[i + 1].mount, path[4]);
+    }
+    for (const p of outer.filter((p) => p.profile.role === 'primary'))
+      for (const side of ['backLeft', 'backRight'] as const)
+        line(p.anchors[0][side], p.anchors[1][side]);
+  }
+
   function sepals() {
     part = 'neck';
     // Short recurved calyx supports wrap the lower collar, not a second crown.
@@ -186,7 +239,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       const at = (r: number, y: number, t = 0) => radial(r, y, angle, t);
       const root = radial(
         0.115,
-        0.35,
+        0.15,
         (Math.round(angle / (Math.PI / 4)) * Math.PI) / 4
       );
       const left: Point3[] = [],
@@ -194,51 +247,58 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       for (let j = 0; j <= 12; j++) {
         const t = j / 12;
         const radius = 0.19 + 0.58 * Math.sin((t * Math.PI) / 2);
-        const y = 0.48 + 1.04 * t - 0.15 * t * t;
+        const y = 0.28 + (1.05 + (i % 3) * 0.07) * t - 0.15 * t * t;
         const width = 0.035 * (1 - t) + 0.1 * Math.sin(Math.PI * t);
         left.push(at(radius, y, -width));
         right.push(at(radius, y, width));
       }
-      trace([root, ...left, ...right.reverse(), root]);
+      trace([root, ...left, ...right.slice().reverse(), root]);
       const collar = radial(
         0.32,
-        0.8,
+        0.5,
         (Math.round(angle / (Math.PI / 4)) * Math.PI) / 4
       );
       line(collar, left[5]);
+      line(collar, right[5]);
+      line(left[5], right[5], 'detail');
     }
   }
 
   function mechanism() {
     part = 'head';
     sleeve([
-      [0.235, 0.8],
+      [0.235, 0.5],
       [0.235, 3.62],
       [0.12, 3.93],
     ]);
-    ring(0.235, 0.8).forEach((p, i) => line(p, ring(0.32, 0.8)[i]));
-    // Five thin telescoping pins sit inside the inner crown on the prism cap.
+    ring(0.235, 0.5).forEach((p, i) => line(p, ring(0.32, 0.5)[i]));
+    // Two staggered pin groups form a mechanical pistil around an open centre.
     const cap = ring(0.12, 3.93);
-    for (const [index, height] of [
-      [0, 4.46],
-      [2, 4.32],
-      [3, 4.58],
-      [5, 4.38],
-      [6, 4.52],
-    ]) {
-      const seat = cap[index];
-      const angle = (index * Math.PI) / 4;
-      const left = radial(0.12, 3.93, angle, -0.025);
-      const right = radial(0.12, 3.93, angle, 0.025);
-      trace([
-        seat,
-        left,
-        [left[0], height - 0.06, left[2]],
-        radial(0.12, height, angle),
-        [right[0], height - 0.06, right[2]],
-        right,
-        seat,
-      ]);
+    const heights = [4.58, 4.42, 4.72, 4.48, 4.64, 4.36, 4.61, 4.44, 4.68];
+    for (let i = 0; i < heights.length; i++) {
+      const angle = ((i * 40 + 10) * Math.PI) / 180;
+      const radius = i % 2 ? 0.3 : 0.21;
+      const seat = radial(radius, 3.96, angle);
+      const left = radial(radius, 3.96, angle, -0.022);
+      const right = radial(radius, 3.96, angle, 0.022);
+      line(cap[Math.round((i * 40 + 10) / 45) % 8], seat);
+      trace(
+        [
+          seat,
+          left,
+          [left[0], heights[i] - 0.06, left[2]],
+          radial(radius, heights[i], angle),
+          [right[0], heights[i] - 0.06, right[2]],
+          right,
+          seat,
+        ],
+        'detail'
+      );
+    }
+    const pistilCollar = ring(0.3, 3.96, 12);
+    for (const i of [0, 4, 8]) {
+      trace(pistilCollar.slice(i, i + 3));
+      line(cap[Math.round((i * 2) / 3)], pistilCollar[i]);
     }
     // Two raised straight rails contrast with the shells; both ends meet prism edges.
     const railAngle = (337.5 * Math.PI) / 180;
@@ -330,6 +390,45 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     }
   }
 
+  function shaftHarness() {
+    // The upper cable is a narrow outlined conduit, anchored at a head socket
+    // and a shaft clamp. Its bow contrasts with the straight lower auxiliary bar.
+    const angle = Math.PI / 4;
+    const route = Array.from({ length: 17 }, (_, i): Point3 => {
+      const t = i / 16;
+      return radial(
+        0.17 + 0.15 * t + 0.23 * Math.sin(Math.PI * t),
+        -0.88 + 1.38 * t,
+        angle
+      );
+    });
+    const side = (p: Point3, offset: number): Point3 => [
+      p[0] - offset * Math.sin(angle),
+      p[1],
+      p[2] + offset * Math.cos(angle),
+    ];
+    const left = route.map((p) => side(p, -0.025));
+    const right = route.map((p) => side(p, 0.025));
+    part = 'wiring';
+    trace(left);
+    trace(right);
+    for (const index of [0, 16]) {
+      part = index === 0 ? 'shaft' : 'neck';
+      const seat = route[index];
+      trace([
+        seat,
+        left[index],
+        side([seat[0], seat[1] + 0.07, seat[2]], -0.04),
+        side([seat[0], seat[1] + 0.07, seat[2]], 0.04),
+        right[index],
+        seat,
+      ]);
+    }
+    // The lower fitting is on the existing sleeve side; the upper on a neck corner.
+    part = 'shaft';
+    line(radial(0.17, -0.845, angle), route[0]);
+  }
+
   function harnesses() {
     for (const [angle, destination] of [
       [0, 2.85],
@@ -348,7 +447,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
         const t = i / 10;
         return [
           0.345 * (1 - t) ** 2 + 2 * 0.68 * t * (1 - t) + 0.32 * t ** 2,
-          0.8 + (destination - 0.8) * t,
+          0.5 + (destination - 0.5) * t,
         ] as const;
       });
       for (const [index, name] of [
@@ -395,6 +494,8 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
   neck();
   head();
   sepals();
+  petalSupports();
+  shaftHarness();
   petalDetails();
   mechanism();
   cooling();

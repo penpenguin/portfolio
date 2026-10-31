@@ -35,8 +35,34 @@ describe('mechanical lotus petals', () => {
         2
       );
       expect(new Set(layer.map((p) => p.width)).size).toBeGreaterThan(2);
-      expect(new Set(layer.map((p) => p.mount[1])).size).toBe(1);
+      expect(new Set(layer.map((p) => p.mount[1])).size).toBeGreaterThan(2);
     }
+  });
+
+  it('contrasts two long recurved, two short open and two closed outer petals', () => {
+    const petals = createStaffShells().filter((p) => p.layer === 'outer');
+    const tips = petals.map((p) => p.left.at(-1)!);
+    const tall = tips.filter((p) => p[1] > 4.25);
+    const short = tips.filter((p) => p[1] < 3.6);
+    const closed = tips.filter((p) => Math.hypot(p[0], p[2]) < 1.05);
+    expect(tall).toHaveLength(2);
+    expect(short).toHaveLength(2);
+    expect(closed).toHaveLength(2);
+    expect(tall.every((p) => Math.hypot(p[0], p[2]) > 1.25)).toBe(true);
+    expect(short.every((p) => Math.hypot(p[0], p[2]) > 1.25)).toBe(true);
+    // A uniform circular copy cannot provide these unequal azimuth gaps.
+    const gaps = petals.map(
+      (p, i) =>
+        (petals[(i + 1) % petals.length].azimuth - p.azimuth + Math.PI * 2) %
+        (Math.PI * 2)
+    );
+    expect(Math.max(...gaps) - Math.min(...gaps)).toBeGreaterThan(Math.PI / 18);
+    const inner = createStaffShells().filter((p) => p.layer === 'inner');
+    expect(
+      inner.every(
+        (p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 0.22
+      )
+    ).toBe(true);
   });
 
   it('forms broad cupped petals with thin backs, smooth contours and a shared sharp tip', () => {
