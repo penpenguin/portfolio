@@ -9,6 +9,7 @@ const rootDir = fileURLToPath(new URL('..', import.meta.url));
 const host = '127.0.0.1';
 const port = 4324;
 const baseURL = `http://${host}:${port}/portfolio/`;
+const pagefindURL = `${baseURL}pagefind/pagefind-component-ui.js`;
 const isWindows = process.platform === 'win32';
 const targetLocalURLPattern =
   /Local\s+http:\/\/127\.0\.0\.1:4324\/portfolio\/?(?:\s|$)/;
@@ -16,7 +17,8 @@ const anyLocalURLPattern =
   /Local\s+(http:\/\/127\.0\.0\.1:\d+\/portfolio\/?)(?:\s|$)/;
 
 let serverOutput = '';
-let devServer;
+let buildProcess;
+let previewServer;
 
 function localBin(name) {
   const suffix = isWindows ? '.cmd' : '';
@@ -36,10 +38,21 @@ function normalizeURL(url) {
   return url.endsWith('/') ? url : `${url}/`;
 }
 
-function startAstroDevServer() {
+function buildSite() {
+  buildProcess = spawn(isWindows ? 'npm.cmd' : 'npm', ['run', 'build'], {
+    cwd: rootDir,
+    detached: !isWindows,
+    env: process.env,
+    shell: isWindows,
+    stdio: 'inherit',
+  });
+  return waitForExit(buildProcess);
+}
+
+function startAstroPreviewServer() {
   const child = spawn(
     localBin('astro'),
-    ['dev', '--ignore-lock', '--host', host, '--port', String(port)],
+    ['preview', '--ignore-lock', '--host', host, '--port', String(port)],
     {
       cwd: rootDir,
       detached: !isWindows,
@@ -57,7 +70,9 @@ function startAstroDevServer() {
 function waitForAstroReady(child) {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
-      reject(new Error('Timed out waiting for Astro dev server readiness.'));
+      reject(
+        new Error('Timed out waiting for Astro preview server readiness.')
+      );
     }, 30_000);
 
     const cleanup = () => {
@@ -90,7 +105,7 @@ function waitForAstroReady(child) {
         const reportedURL = normalizeURL(localURLMatch[1]);
         fail(
           new Error(
-            `Astro dev server started at ${reportedURL} instead of ${baseURL}. Is port ${port} already in use?`
+            `Astro preview server started at ${reportedURL} instead of ${baseURL}. Is port ${port} already in use?`
           )
         );
       }
@@ -99,7 +114,7 @@ function waitForAstroReady(child) {
     const onExit = (code, signal) => {
       fail(
         new Error(
-          `Astro dev server exited before readiness. code=${code ?? 'null'} signal=${signal ?? 'null'}`
+          `Astro preview server exited before readiness. code=${code ?? 'null'} signal=${signal ?? 'null'}`
         )
       );
     };
@@ -152,17 +167,20 @@ async function waitForHTTP(url) {
 }
 
 function runPlaywright(args) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(localBin('playwright'), ['test', ...args], {
-      cwd: rootDir,
-      env: {
-        ...process.env,
-        PLAYWRIGHT_EXTERNAL_WEB_SERVER: '1',
-      },
-      shell: isWindows,
-      stdio: 'inherit',
-    });
+  const child = spawn(localBin('playwright'), ['test', ...args], {
+    cwd: rootDir,
+    env: {
+      ...process.env,
+      PLAYWRIGHT_EXTERNAL_WEB_SERVER: '1',
+    },
+    shell: isWindows,
+    stdio: 'inherit',
+  });
+  return waitForExit(child);
+}
 
+function waitForExit(child) {
+  return new Promise((resolve, reject) => {
     child.once('error', reject);
     child.once('exit', (code, signal) => {
       if (signal === 'SIGINT') {
@@ -228,24 +246,44 @@ async function stopProcess(child) {
 
 function printServerOutput() {
   if (serverOutput.trim()) {
-    console.error('\nAstro dev server output:\n');
+    console.error('\nAstro preview server output:\n');
     console.error(serverOutput.trim());
   }
 }
 
 async function main() {
   try {
-    if (!process.env.CI && (await requestURL(baseURL, 1_000))) {
-      console.log(`Reusing Astro dev server at ${baseURL}`);
+    if (process.env.PLAYWRIGHT_EXTERNAL_WEB_SERVER === '1') {
+      if (
+        !(await requestURL(baseURL, 1_000)) ||
+        !(await requestURL(pagefindURL, 1_000))
+      ) {
+        throw new Error(
+          `External preview at ${baseURL} must serve Pagefind assets. Run npm run build and start npm run preview first.`
+        );
+      }
+      console.log(`Reusing external preview server at ${baseURL}`);
       const exitCode = await runPlaywright(process.argv.slice(2));
       process.exitCode = exitCode;
       return;
     }
 
-    devServer = startAstroDevServer();
-    await waitForAstroReady(devServer);
+    if (await requestURL(baseURL, 1_000)) {
+      throw new Error(
+        `Port ${port} is already in use. Stop that server, or explicitly supply a built preview with PLAYWRIGHT_EXTERNAL_WEB_SERVER=1.`
+      );
+    }
+
+    const buildCode = await buildSite();
+    if (buildCode !== 0) {
+      process.exitCode = buildCode;
+      return;
+    }
+    previewServer = startAstroPreviewServer();
+    await waitForAstroReady(previewServer);
     await waitForHTTP(baseURL);
-    console.log(`Astro dev server ready at ${baseURL}`);
+    await waitForHTTP(pagefindURL);
+    console.log(`Astro preview server ready at ${baseURL}`);
     const exitCode = await runPlaywright(process.argv.slice(2));
     process.exitCode = exitCode;
   } catch (error) {
@@ -253,17 +291,20 @@ async function main() {
     printServerOutput();
     process.exitCode = 1;
   } finally {
-    await stopProcess(devServer);
+    await stopProcess(buildProcess);
+    await stopProcess(previewServer);
   }
 }
 
 process.once('SIGINT', async () => {
-  await stopProcess(devServer);
+  await stopProcess(buildProcess);
+  await stopProcess(previewServer);
   process.exit(130);
 });
 
 process.once('SIGTERM', async () => {
-  await stopProcess(devServer);
+  await stopProcess(buildProcess);
+  await stopProcess(previewServer);
   process.exit(143);
 });
 

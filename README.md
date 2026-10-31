@@ -21,6 +21,16 @@ npm run dev
 
 依存更新後は `npm audit`、`npm test -- --run`、`npm run lint`、`npm run check`、`npm run build` を実行してください。CI のテストとビルドは Node.js 付属の npm で `npm ci` を実行します。CI でも全依存を監査し、High 以上の脆弱性で停止します。`npm ci` は lockfile の固定バージョンを再現するため、更新時に監査結果と lockfile の差分を確認してください。
 
+## ブラウザーテスト
+
+```sh
+npm run test:visual -- --workers=2
+```
+
+標準コマンドは `npm run build` でPagefindの検索データも生成し、`http://127.0.0.1:4324/portfolio/` のpreviewを起動してからテストします。終了時にpreviewを停止します。Playwrightを直接起動した場合も、既定の設定はビルド済みpreviewを使用します。
+
+古いビルドや開発サーバーを誤って検証しないよう、既存サーバーを自動では再利用しません。4324番ポートを使っているサーバーは停止してから実行してください。自分でビルド済みpreviewを用意する場合だけ、`PLAYWRIGHT_EXTERNAL_WEB_SERVER=1` を指定できます。標準コマンドでは接続先にPagefindのファイルがあることも確認します。
+
 ## 環境変数
 
 `PUBLIC_GITHUB_URL` は任意です。フッターの GitHub リンクと、AI 向けの連絡先情報に使用します。未設定または空文字の場合は `https://github.com/penpenguin` を使用します。
