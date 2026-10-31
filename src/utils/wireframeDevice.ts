@@ -8,7 +8,7 @@ const styles = {
 };
 const maxStroke = Math.max(...Object.values(styles).map(({ width }) => width));
 export const initialAngle = Math.PI / 6;
-export const deviceDescription = '鋭い先端機構と細長い軸を持つSF制御杖の線画';
+export const deviceDescription = '多層の機械蓮と細長い軸を持つSF制御杖の線画';
 const turn = Math.PI * 2;
 const elevation = Math.PI / 9;
 

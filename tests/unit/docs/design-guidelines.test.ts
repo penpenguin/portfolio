@@ -54,8 +54,10 @@ describe('DESIGN.md portfolio design guidance', () => {
   it('describes the sharp control staff and upper-left fixed axis without obsolete core requirements', () => {
     expect(design).toContain('industrial control staff');
     expect(design).not.toContain('industrial computing core');
-    expect(design).toContain('S-shaped main shell');
-    expect(design).toContain('shorter C-shaped arm');
+    expect(design).toContain('three-layer mechanical lotus');
+    expect(design).toContain('six outer, eight middle and five inner petals');
+    expect(design).not.toContain('S-shaped main shell');
+    expect(design).not.toContain('shorter C-shaped arm');
     expect(design).toContain('straight internal rails');
     expect(design).not.toContain('four unequal pointed shells');
     expect(design).toContain('quiet octagonal shaft');

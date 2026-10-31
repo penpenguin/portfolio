@@ -139,7 +139,7 @@ export function mountWireframeDevice(
   stage.disabled = false;
   stage.setAttribute(
     'aria-description',
-    '線画の制御杖。クリック、Enter、Spaceで回転を停止・再開できます。'
+    '機械蓮を持つ線画の制御杖。クリック、Enter、Spaceで回転を停止・再開できます。'
   );
   resize();
   sync();

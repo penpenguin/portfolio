@@ -16,6 +16,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
   const vertices = new Map<string, Point3>();
   let part: DevicePart = 'shaft';
   const rank = { outline: 3, component: 2, detail: 1 };
+  const petals = createStaffShells();
   function vertex(point: Point3) {
     const rounded = point.map(
       (value) => Math.round(value * 1e8) / 1e8
@@ -87,7 +88,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     sleeve(
       [
         [0.115, -4.3],
-        [0.115, 1.05],
+        [0.115, 0.35],
       ],
       'outline'
     );
@@ -98,10 +99,10 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       [0.115, -3.82],
     ]);
     sleeve([
-      [0.115, 0.6],
-      [0.145, 0.68],
-      [0.145, 0.92],
-      [0.115, 1.0],
+      [0.115, 0.2],
+      [0.145, 0.26],
+      [0.145, 0.3],
+      [0.115, 0.35],
     ]);
   }
   function pommel() {
@@ -120,68 +121,125 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     part = 'neck';
     sleeve(
       [
-        [0.115, 1.05],
-        [0.18, 1.14],
-        [0.18, 1.22],
-        [0.3, 1.25],
+        [0.115, 0.35],
+        [0.18, 0.48],
+        [0.18, 0.62],
+        [0.32, 0.8],
       ],
       'outline'
     );
-    sleeve([
-      [0.3, 1.25],
-      [0.3, 1.45],
-    ]);
   }
 
   function head() {
     part = 'head';
-    createStaffShells().forEach((shell, shellIndex) => {
-      const { outer, inner, backOuter, backInner } = shell;
-      const kind = shellIndex === 0 ? 'outline' : 'component';
-      trace(outer, kind);
-      trace(inner, kind);
-      trace(backOuter);
-      trace(backInner);
-      // A solid band has a closed root and sparse side-wall edges, not a mesh.
-      trace([outer[0], inner[0], backInner[0], backOuter[0]], kind, true);
-      for (const i of [12, 24, 36]) {
-        line(outer[i], backOuter[i]);
-        line(inner[i], backInner[i]);
-      }
-      // One recessed curved rib per band, tied by only three short cross-bridges.
-      const rib = outer.map(
-        (p, i) =>
-          p.map((n, axis) => (n + inner[i][axis]) / 2) as unknown as Point3
+    for (const layer of ['outer', 'middle', 'inner'] as const) {
+      const mounted = petals.filter((p) => p.layer === layer);
+      trace(
+        mounted.map((p) => p.mount),
+        'component',
+        true
       );
-      trace(rib.slice(8, 41));
-      for (const i of [8, 24, 40]) trace([outer[i], rib[i], inner[i]]);
-      const mounts = ring(0.3, 1.25);
-      const nearest = (p: Point3) =>
-        mounts.reduce((best, q) =>
-          Math.hypot(q[0] - p[0], q[2] - p[2]) <
-          Math.hypot(best[0] - p[0], best[2] - p[2])
-            ? q
-            : best
-        );
-      line(nearest(outer[0]), outer[0], kind);
-      line(nearest(backOuter[0]), backOuter[0]);
-      const seat = nearest(inner[0]);
-      // Forks support the curved band from the neck instead of floating beside it.
-      trace([[seat[0], 1.45, seat[2]], inner[12]], kind);
-      trace([[seat[0], 1.45, seat[2]], backInner[12]]);
-      line(inner[12], outer[12], kind);
-      line(backInner[12], backOuter[12]);
-    });
+      for (const { mount, azimuth } of mounted) {
+        // Use the configured angle without a round trip through atan2. Resolve
+        // exact half-sector ties consistently across Node and browser engines.
+        const angle =
+          (Math.round(azimuth / (Math.PI / 4) + 1e-10) * Math.PI) / 4;
+        line(radial(0.235, mount[1], angle), mount);
+      }
+    }
+    for (const petal of petals) {
+      const { left, right, backLeft, backRight, spine, mount } = petal;
+      const kind = petal.layer === 'outer' ? 'outline' : 'component';
+      trace(left, kind);
+      trace(right, kind);
+      trace(backLeft);
+      trace(backRight);
+      trace(spine);
+      trace([left[0], right[0], backRight[0], backLeft[0]], kind, true);
+      // A hinge and fork carry each cupped shell into its own staggered collar.
+      line(mount, left[0], kind);
+      line(mount, right[0], kind);
+      const fork = petal.anchors[0];
+      line(mount, fork.backLeft);
+      line(mount, fork.backRight);
+      for (const anchor of petal.anchors) {
+        line(anchor.left, anchor.backLeft);
+        line(anchor.right, anchor.backRight);
+      }
+    }
+  }
+
+  function petalDetails() {
+    part = 'head';
+    for (const petal of petals) {
+      petal.ribs.forEach((rib) => trace(rib, 'detail'));
+      for (const a of petal.anchors)
+        trace([a.backLeft, ...a.ribs, a.backRight], 'detail');
+    }
+  }
+
+  function sepals() {
+    part = 'neck';
+    // Short recurved calyx supports wrap the lower collar, not a second crown.
+    for (let i = 0; i < 6; i++) {
+      const angle = ((i * 60 + 30) * Math.PI) / 180;
+      const at = (r: number, y: number, t = 0) => radial(r, y, angle, t);
+      const root = radial(
+        0.115,
+        0.35,
+        (Math.round(angle / (Math.PI / 4)) * Math.PI) / 4
+      );
+      const left: Point3[] = [],
+        right: Point3[] = [];
+      for (let j = 0; j <= 12; j++) {
+        const t = j / 12;
+        const radius = 0.19 + 0.58 * Math.sin((t * Math.PI) / 2);
+        const y = 0.48 + 1.04 * t - 0.15 * t * t;
+        const width = 0.035 * (1 - t) + 0.1 * Math.sin(Math.PI * t);
+        left.push(at(radius, y, -width));
+        right.push(at(radius, y, width));
+      }
+      trace([root, ...left, ...right.reverse(), root]);
+      const collar = radial(
+        0.32,
+        0.8,
+        (Math.round(angle / (Math.PI / 4)) * Math.PI) / 4
+      );
+      line(collar, left[5]);
+    }
   }
 
   function mechanism() {
     part = 'head';
     sleeve([
-      [0.235, 1.45],
+      [0.235, 0.8],
       [0.235, 3.62],
       [0.12, 3.93],
     ]);
-    ring(0.235, 1.45).forEach((p, i) => line(p, ring(0.3, 1.45)[i]));
+    ring(0.235, 0.8).forEach((p, i) => line(p, ring(0.32, 0.8)[i]));
+    // Five thin telescoping pins sit inside the inner crown on the prism cap.
+    const cap = ring(0.12, 3.93);
+    for (const [index, height] of [
+      [0, 4.46],
+      [2, 4.32],
+      [3, 4.58],
+      [5, 4.38],
+      [6, 4.52],
+    ]) {
+      const seat = cap[index];
+      const angle = (index * Math.PI) / 4;
+      const left = radial(0.12, 3.93, angle, -0.025);
+      const right = radial(0.12, 3.93, angle, 0.025);
+      trace([
+        seat,
+        left,
+        [left[0], height - 0.06, left[2]],
+        radial(0.12, height, angle),
+        [right[0], height - 0.06, right[2]],
+        right,
+        seat,
+      ]);
+    }
     // Two raised straight rails contrast with the shells; both ends meet prism edges.
     const railAngle = (337.5 * Math.PI) / 180;
     const face = 0.235 * Math.cos(Math.PI / 8);
@@ -290,7 +348,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
         const t = i / 10;
         return [
           0.345 * (1 - t) ** 2 + 2 * 0.68 * t * (1 - t) + 0.32 * t ** 2,
-          1.25 + (destination - 1.25) * t,
+          0.8 + (destination - 0.8) * t,
         ] as const;
       });
       for (const [index, name] of [
@@ -304,7 +362,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
         trace(mouth, 'component', true);
         trace(seat, 'component', true);
         for (const i of [0, 2, 4, 6]) line(mouth[i], seat[i]);
-        line(at(name === 'neck' ? 0.3 : 0.235, y), mouth[4]);
+        line(at(name === 'neck' ? 0.32 : 0.235, y), mouth[4]);
       }
       part = 'wiring';
       const sections = route.map(([r, y]) => section(r, y, 0.045));
@@ -336,6 +394,8 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
   pommel();
   neck();
   head();
+  sepals();
+  petalDetails();
   mechanism();
   cooling();
   harnesses();
