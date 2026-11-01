@@ -1,5 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
-import { initialAngle, projectDevice } from '../../src/utils/wireframeDevice';
+import {
+  initialSpinPhase,
+  projectDevice,
+} from '../../src/utils/wireframeDevice';
 
 type DrawnLine = {
   from: number[];
@@ -9,6 +12,7 @@ type DrawnLine = {
 };
 declare global {
   interface Window {
+    stepDeviceFrame: (time: number) => void;
     deviceProbe: {
       draws: number;
       pending: number;
@@ -88,6 +92,52 @@ async function observeDrawing(page: Page) {
 
 const draws = (page: Page) => page.evaluate(() => window.deviceProbe.draws);
 
+test('the built Canvas follows world spin through a complete sixteen-second turn', async ({
+  page,
+}) => {
+  await observeDrawing(page);
+  await page.addInitScript(() => {
+    const callbacks = new Map<number, FrameRequestCallback>();
+    let serial = 0;
+    window.requestAnimationFrame = (callback) => {
+      callbacks.set(++serial, callback);
+      return serial;
+    };
+    window.cancelAnimationFrame = (id) => {
+      callbacks.delete(id);
+    };
+    window.stepDeviceFrame = (time) => {
+      const pending = [...callbacks.values()];
+      callbacks.clear();
+      pending.forEach((callback) => callback(time));
+    };
+  });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./');
+  const stage = page.locator('[data-device-stage]');
+  await expect(stage).toBeEnabled();
+  await stage.scrollIntoViewIfNeeded();
+  await expect.poll(() => draws(page)).toBeGreaterThan(0);
+  await stage.click();
+  for (const time of [0, 4000, 8000, 12000, 16000]) {
+    await page.evaluate((time) => window.stepDeviceFrame(time), time);
+    const { width, height } = (await stage.boundingBox())!;
+    const expected = projectDevice((time / 16000) * Math.PI * 2, width, height);
+    const actual = await page.evaluate(() => window.deviceProbe.lines);
+    expect(actual).toHaveLength(expected.length);
+    const error = Math.max(
+      ...actual.flatMap((line, i) => [
+        Math.abs(line.from[0] - expected[i].from.x),
+        Math.abs(line.from[1] - expected[i].from.y),
+        Math.abs(line.to[0] - expected[i].to.x),
+        Math.abs(line.to[1] - expected[i].to.y),
+        Math.abs(line.opacity - expected[i].opacity),
+      ])
+    );
+    expect(error).toBeLessThan(1e-6);
+  }
+});
+
 for (const dpr of [1, 2]) {
   test.describe(`Canvas at DPR ${dpr}`, () => {
     test.use({ deviceScaleFactor: dpr });
@@ -116,7 +166,11 @@ for (const dpr of [1, 2]) {
           dpr: Math.min(devicePixelRatio, 2),
         };
       });
-      const expected = projectDevice(initialAngle, actual.width, actual.height);
+      const expected = projectDevice(
+        initialSpinPhase,
+        actual.width,
+        actual.height
+      );
       expect(actual.lines).toHaveLength(expected.length);
       expect(actual.backing).toEqual([
         Math.round(actual.width * actual.dpr),

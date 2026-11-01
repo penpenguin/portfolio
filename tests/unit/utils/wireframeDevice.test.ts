@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { createDeviceGeometry } from '../../../src/utils/wireframeGeometry';
 
 import {
-  initialAngle,
+  initialSpinPhase,
+  initialModelYaw,
   advanceAngle,
   projectDevice,
   projectDevicePoint,
@@ -10,8 +11,86 @@ import {
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device projection', () => {
+  it('separates the fixed model yaw from phase and matches the previous initial view', () => {
+    expect(initialModelYaw).toBeCloseTo(Math.PI / 6);
+    expect(initialSpinPhase).toBe(0);
+    const projector = createDeviceProjector(35);
+    const fit = projector.getFit(267, 258);
+    // Normalized view coordinates captured from c25011d at its initial 30° yaw.
+    // Fit and depth shading change with the new sweep; initial pose does not.
+    for (const [point, expected] of [
+      [
+        [1, 0, 0],
+        [0.7234641391638074, 0.6183270922847772, -0.3070362296059259],
+      ],
+      [
+        [0, 1, 0],
+        [-0.5496661281711168, 0.7850045853212367, 0.28571830281941357],
+      ],
+      [
+        [0, 0, 1],
+        [0.4176922154952657, -0.03793953045684389, 0.9077961253185493],
+      ],
+      [
+        [-0.4, 2.8, 0.7],
+        [-1.5360662636979654, 1.9241243306657614, 1.5582830274597128],
+      ],
+    ] as const) {
+      const q = projector.projectDevicePoint(point, 0, 267, 258);
+      const actual = [
+        (q.x - fit.centerX) / fit.scale,
+        (fit.centerY - q.y) / fit.scale,
+        q.depth,
+      ];
+      actual.forEach((n, i) => expect(n).toBeCloseTo(expected[i], 10));
+    }
+  });
+
+  it('preserves world height, orbit radius and pivot while the world axis stays vertical', () => {
+    const projector = createDeviceProjector(35);
+    const point = [0.4, 2.8, -0.7] as const;
+    const posed = projector.transformDevicePoint(point, 0);
+    const upper = projector.projectWorldPoint([0, 0.5, 0], 0, 267, 258);
+    const lower = projector.projectWorldPoint([0, -0.5, 0], 0, 267, 258);
+    expect(upper.x).toBe(lower.x);
+    expect(upper.y).toBeLessThan(lower.y);
+    for (let degree = 0; degree < 360; degree++) {
+      const phase = (degree * Math.PI) / 180;
+      const q = projector.transformDevicePoint(point, phase);
+      expect(q[1]).toBe(posed[1]);
+      expect(Math.hypot(q[0], q[2])).toBeCloseTo(
+        Math.hypot(posed[0], posed[2]),
+        10
+      );
+      expect(
+        projector.transformDevicePoint([0, 0, 0], phase).every((n) => n === 0)
+      ).toBe(true);
+      expect(projector.projectWorldPoint([0, 0.5, 0], phase, 267, 258)).toEqual(
+        upper
+      );
+      expect(
+        projector.projectWorldPoint([0, -0.5, 0], phase, 267, 258)
+      ).toEqual(lower);
+      expect(projector.projectWorldPoint(posed, phase, 267, 258)).toEqual(
+        projector.projectDevicePoint(point, phase, 267, 258)
+      );
+    }
+  });
+  it('turns the inclined staff about world Y instead of spinning around its shaft', () => {
+    const vector = (phase: number) => {
+      const top = projectDevicePoint([0, 0.5, 0], phase, 267, 258);
+      const bottom = projectDevicePoint([0, -0.5, 0], phase, 267, 258);
+      return { x: top.x - bottom.x, y: top.y - bottom.y };
+    };
+    expect(vector(0).x).toBeLessThan(0);
+    expect(vector(Math.PI).x).toBeGreaterThan(0);
+    expect(vector(Math.PI / 2).x).toBeCloseTo(0, 9);
+    expect(vector((Math.PI * 3) / 2).x).toBeCloseTo(0, 9);
+    expect(vector(Math.PI / 2).y).not.toBeCloseTo(vector(0).y);
+    expect(vector(Math.PI / 2).y).not.toBeCloseTo(vector((Math.PI * 3) / 2).y);
+  });
   it('shares three line weights and keeps depth-dependent shading within each hierarchy', () => {
-    const lines = projectDevice(initialAngle, 240, 192);
+    const lines = projectDevice(initialSpinPhase, 240, 192);
     expect(new Set(lines.map((line) => line.width))).toEqual(
       new Set([1.1, 0.8, 0.5])
     );
@@ -44,12 +123,12 @@ describe('wireframe device projection', () => {
     expect((high - low) / 258).toBeLessThan(0.85);
   });
   it('rotates a full turn in 16 seconds regardless of frame intervals', () => {
-    expect(advanceAngle(initialAngle, 16000)).toBeCloseTo(initialAngle);
+    expect(advanceAngle(initialSpinPhase, 16000)).toBeCloseTo(initialSpinPhase);
     expect(advanceAngle(0, 4000)).toBeCloseTo(Math.PI / 2);
     const intervals = [16, 42, 100, 330, 17, 7495];
-    const stepped = intervals.reduce(advanceAngle, initialAngle);
-    expect(stepped).toBeCloseTo(advanceAngle(initialAngle, 8000));
-    expect(advanceAngle(initialAngle, 0)).toBe(initialAngle);
+    const stepped = intervals.reduce(advanceAngle, initialSpinPhase);
+    expect(stepped).toBeCloseTo(advanceAngle(initialSpinPhase, 8000));
+    expect(advanceAngle(initialSpinPhase, 0)).toBe(initialSpinPhase);
   });
 
   it.each(
@@ -106,13 +185,22 @@ describe('wireframe device projection', () => {
               ].every(Number.isFinite)
           )
         ).toBe(true);
+        expect(
+          lines.every(({ from, to }) =>
+            [from.depth, to.depth].every(
+              (depth) =>
+                depth >= projector.bounds.far - 1e-10 &&
+                depth <= projector.bounds.near + 1e-10
+            )
+          )
+        ).toBe(true);
       }
     }
   );
 
   it('projects the complete assembled model with shared vertices and the same reference-point transform', () => {
     const edges = createDeviceGeometry();
-    const lines = projectDevice(initialAngle, 267, 258);
+    const lines = projectDevice(initialSpinPhase, 267, 258);
     expect(lines).toHaveLength(edges.length);
     const projected = new Map<string, (typeof lines)[number]['from']>();
     edges.forEach((edge, index) => {
@@ -121,15 +209,15 @@ describe('wireframe device projection', () => {
         [edge.b, lines[index].to],
       ] as const) {
         expect(result).toEqual(
-          projectDevicePoint(point, initialAngle, 267, 258)
+          projectDevicePoint(point, initialSpinPhase, 267, 258)
         );
         const key = point.join(',');
         if (projected.has(key)) expect(result).toBe(projected.get(key));
         projected.set(key, result);
       }
     });
-    expect(projectDevice(initialAngle, 267, 258)).toEqual(lines);
-    const fullTurn = projectDevice(initialAngle + Math.PI * 2, 267, 258);
+    expect(projectDevice(initialSpinPhase, 267, 258)).toEqual(lines);
+    const fullTurn = projectDevice(initialSpinPhase + Math.PI * 2, 267, 258);
     lines.forEach((line, index) => {
       for (const end of ['from', 'to'] as const)
         for (const axis of ['x', 'y', 'depth'] as const)
@@ -154,12 +242,12 @@ describe('wireframe device projection', () => {
       projectDevicePoint([0, -0.9, 0], angle, 240, 200).y;
     const frontVertical = vertical(0);
     const sideVertical = vertical(Math.PI / 2);
-    expect(frontVertical).toBeCloseTo(sideVertical);
+    expect(frontVertical).not.toBeCloseTo(sideVertical);
   });
 });
 
 it.each([35, 60])(
-  'projects a fixed %i-degree screen tilt without wobble or refitting',
+  'starts at %i degrees then turns about a fixed vertical world axis without refitting',
   (tilt) => {
     const projector = createDeviceProjector(tilt);
     const fit = projector.getFit(278, 260);
@@ -172,7 +260,8 @@ it.each([35, 60])(
         278,
         260
       );
-      expect(top.x).toBeLessThan(bottom.x);
+      if (degree === 0) expect(top.x).toBeLessThan(bottom.x);
+      if (degree === 180) expect(top.x).toBeGreaterThan(bottom.x);
       expect(top.y).toBeLessThan(bottom.y);
       const origin = projector.projectDevicePoint([0, 0, 0], angle, 278, 260);
       expect(origin.x).toBeCloseTo(fit.centerX);
@@ -193,19 +282,20 @@ it.each([35, 60])(
       (Math.atan2(Math.abs(vectors[0].x), Math.abs(vectors[0].y)) * 180) /
       Math.PI;
     expect(angle).toBeCloseTo(tilt, 8);
-    for (const vector of vectors) {
-      expect(vector.x).toBeCloseTo(vectors[0].x);
-      expect(vector.y).toBeCloseTo(vectors[0].y);
-    }
+    expect(vectors[180].x).toBeCloseTo(-vectors[0].x);
+    expect(vectors[180].y).toBeCloseTo(vectors[0].y);
+    expect(vectors[90].x).toBeCloseTo(0);
+    expect(vectors[270].x).toBeCloseTo(0);
+    expect(vectors[90].y).not.toBeCloseTo(vectors[270].y);
   }
 );
 
 it('uses the 35-degree projector for both public projection paths', () => {
   const projector = createDeviceProjector(35);
-  expect(projectDevice(initialAngle, 267, 258)).toEqual(
-    projector.projectDevice(initialAngle, 267, 258)
+  expect(projectDevice(initialSpinPhase, 267, 258)).toEqual(
+    projector.projectDevice(initialSpinPhase, 267, 258)
   );
-  expect(projectDevicePoint([0, 0.5, 0], initialAngle, 267, 258)).toEqual(
-    projector.projectDevicePoint([0, 0.5, 0], initialAngle, 267, 258)
+  expect(projectDevicePoint([0, 0.5, 0], initialSpinPhase, 267, 258)).toEqual(
+    projector.projectDevicePoint([0, 0.5, 0], initialSpinPhase, 267, 258)
   );
 });

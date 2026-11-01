@@ -1,11 +1,11 @@
 ---
 import {
   deviceDescription,
-  initialAngle,
+  initialSpinPhase,
   projectDevice,
 } from '../utils/wireframeDevice';
 
-const lines = projectDevice(initialAngle, 240, 240);
+const lines = projectDevice(initialSpinPhase, 240, 240);
 // Sub-pixel precision avoids shipping long floating-point strings for every edge.
 const precision = (value: number) => Math.round(value * 1000) / 1000;
 ---

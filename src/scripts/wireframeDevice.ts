@@ -1,16 +1,16 @@
 import {
   advanceAngle,
   deviceDescription,
-  initialAngle,
+  initialSpinPhase,
   projectDevice,
 } from '../utils/wireframeDevice';
 
 export type DeviceSession = {
-  angle: number;
+  spinPhase: number;
   paused?: boolean;
   reducedMotion?: boolean;
 };
-const session: DeviceSession = { angle: initialAngle };
+const session: DeviceSession = { spinPhase: initialSpinPhase };
 
 export function mountWireframeDevice(
   root: HTMLElement,
@@ -46,7 +46,7 @@ export function mountWireframeDevice(
     if (!canDraw()) return;
     ctx.clearRect(0, 0, width, height);
     ctx.strokeStyle = '#5B5A60';
-    for (const line of projectDevice(state.angle, width, height)) {
+    for (const line of projectDevice(state.spinPhase, width, height)) {
       ctx.lineWidth = line.width;
       ctx.globalAlpha = line.opacity;
       ctx.beginPath();
@@ -66,7 +66,7 @@ export function mountWireframeDevice(
     frame = undefined;
     if (!canDraw() || state.paused) return;
     if (lastTime !== undefined)
-      state.angle = advanceAngle(state.angle, time - lastTime);
+      state.spinPhase = advanceAngle(state.spinPhase, time - lastTime);
     lastTime = time;
     if (lastDraw === undefined || time - lastDraw >= interval - 0.01) {
       draw();

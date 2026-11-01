@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 import WireframeDevice from '../../../src/components/WireframeDevice.astro';
 import {
-  initialAngle,
+  initialSpinPhase,
   projectDevice,
 } from '../../../src/utils/wireframeDevice';
 
@@ -26,7 +26,7 @@ describe('wireframe device server rendering', () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(WireframeDevice);
     const tags = html.match(/<line\b[^>]*>/g)!;
-    const projected = projectDevice(initialAngle, 240, 240);
+    const projected = projectDevice(initialSpinPhase, 240, 240);
     expect(tags).toHaveLength(projected.length);
     tags.forEach((tag, i) => {
       const attributes = Object.fromEntries(

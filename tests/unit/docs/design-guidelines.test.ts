@@ -51,7 +51,7 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).not.toContain('without a blurred duplicate backdrop');
   });
 
-  it('describes the sharp control staff and upper-left fixed axis without obsolete core requirements', () => {
+  it('describes the sharp control staff and world vertical rotation without obsolete core requirements', () => {
     expect(design).toContain('industrial control staff');
     expect(design).not.toContain('industrial computing core');
     expect(design).toContain('three-layer mechanical lotus');
@@ -67,7 +67,10 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).not.toContain('plain shaft interval of about 40%');
     expect(design).toContain('84%');
     expect(design).not.toContain('segmented cylindrical shell');
-    expect(design).toContain('35-degree screen-space left tilt');
+    expect(design).toContain('initial 35-degree screen-space left tilt');
+    expect(design).toContain('world vertical Y axis');
+    expect(design).toContain('spin phase starts at zero');
+    expect(design).not.toContain('the axis never wobbles');
     expect(design).toContain('upper-left');
     expect(design).not.toContain('-12-degree Z tilt');
     expect(design).not.toContain('+12-degree Z tilt');
