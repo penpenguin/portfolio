@@ -1,0 +1,34 @@
+{
+  "source": "self-contained local review HTML, generated from baseline and production modules",
+  "durationSeconds": 16,
+  "sampledLabels": [
+    "垂直軸位相 / 旧柄軸の相対角度 0.4°",
+    "垂直軸位相 / 旧柄軸の相対角度 45.4°",
+    "垂直軸位相 / 旧柄軸の相対角度 90.4°",
+    "垂直軸位相 / 旧柄軸の相対角度 135.7°",
+    "垂直軸位相 / 旧柄軸の相対角度 180.7°",
+    "垂直軸位相 / 旧柄軸の相対角度 225.7°",
+    "垂直軸位相 / 旧柄軸の相対角度 271.1°",
+    "垂直軸位相 / 旧柄軸の相対角度 316.5°",
+    "垂直軸位相 / 旧柄軸の相対角度 1.9°"
+  ],
+  "errors": [],
+  "turns": [
+    {
+      "deg": 0,
+      "canvasCount": 3
+    },
+    {
+      "deg": 90,
+      "canvasCount": 3
+    },
+    {
+      "deg": 180,
+      "canvasCount": 3
+    },
+    {
+      "deg": 270,
+      "canvasCount": 3
+    }
+  ]
+}

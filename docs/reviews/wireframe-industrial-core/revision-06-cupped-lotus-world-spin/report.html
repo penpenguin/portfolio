@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>
+    PR #170 花弁の面感・ワールド垂直軸回転 検証報告</title
+  ><style>
+    body {
+      max-width: 1180px;
+      margin: 32px auto;
+      padding: 0 20px;
+      color: #25252b;
+      background: #f7f7f7;
+      font: 16px/1.8 system-ui;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 36px;
+    }
+    table {
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    td,
+    th {
+      padding: 8px 14px;
+      border: 1px solid #c7c7cc;
+      text-align: left;
+    }
+    code {
+      font-size: 13px;
+    }
+    a {
+      color: #36394b;
+    }
+    li {
+      margin: 8px 0;
+    }
+  </style>
+  <h1>花弁の面感とワールド垂直軸での回転</h1>
+  <p>
+    PR
+    #170の機械蓮を、幅広い腹・浅いカップ断面・短い尖端が読める19枚の花弁へ変更しました。運動は、初期姿勢として傾けた杖全体を原点のワールドY軸で回す方式へ変更。回転と造形を別コミットに分けています。
+  </p>
+  <ul>
+    <li>
+      比較元：<code>c25011dc444b91549dd1baed565243c3512044e1</code>（今回より前の機械蓮）。旧ラックや二枚外殻は比較元にしていません。
+    </li>
+    <li>回転のみ：<code>c4dd39a8debfdfd844bf5a3c81687024540b7dcf</code></li>
+    <li>
+      最終実装・全検証対象：<code
+        >77da554290f76bff0d45613437ddc668c1a29bae</code
+      >
+    </li>
+    <li>
+      確認先：今回のビルド済みpreview
+      <code>http://127.0.0.1:4324/portfolio/</code
+      >。マージ・公開は行っていません。
+    </li>
+  </ul>
+  <h2>連続する一周を比較</h2>
+  <p>
+    <a href="rotation-comparison.html"><strong>連続比較HTMLを開く</strong></a
+    >。GitHubからはRawを保存してローカルのブラウザーで開いてください。このHTMLは単体で動作し、サーバーや外部アセットは不要です。
+  </p>
+  <p>
+    左：変更前の柄軸回転、中：同じ花冠のワールドY回転、右：花弁も変更した最終案。カメラ、初期モデル方位30°、初期の見かけの左傾斜35°は共通。位相は0°から16秒で一周します。標準では3案の解析的な全周境界の和集合から共通の固定縮尺・中心を算出。通常のモデル別固定フィットにも切り替えられます。濃淡は各方式の全周深度範囲を使用しています。本番Homeへの比較UI追加はありません。
+  </p>
+  <p>
+    <a href="continuous-validation.json"
+      >16秒間の位相採取・実行エラーなしの記録</a
+    >。表示を0°から約45°刻みで採取し、一周後に戻ることを確認しました。実Canvasの16秒一周はブラウザーテストでも検証しています。
+  </p>
+  <img
+    src="axis-comparison.png"
+    alt="同一形状での回転方式比較と最終花弁の4方向"
+  />
+  <h2>花弁の変更</h2>
+  <p>
+    外層6枚は低く外へ開き、中層8枚は椀状、内層5枚は既存の花芯が覗く高さへ短縮しました。広い肩を保って最後の20〜24%で絞り、カップ形状を強めています。左右輪郭を残し、下半分の裏輪郭・短い補強と、外層2本／中層1本の湾曲横リブへ描線を整理。全長に続く裏線と強い中央稜線を減らしました。線の濃さ・太さの数値は従来どおりです。
+  </p>
+  <p>
+    花弁の中心線長／最大幅：外層2.06〜2.43、中層2.84〜3.28、内層3.18〜3.53。内冠を短くしたため全長は10→9.72。最高点は変更していない花芯ピンのy=4.72です。柄を短くしたり、全体を拡大したりしていません。
+  </p>
+  <p>
+    <a href="petal-representative.png">代表花弁の正面・側面（同倍率の拡大）</a>
+    / <a href="layers.png">外層6枚と全3層19枚（Homeと同じ縮尺）</a>
+  </p>
+  <img
+    src="petal-representative.png"
+    alt="幅広い腹と短い尖端へ変えた代表花弁"
+  /><img src="layers.png" alt="外層と全層の開き方・厚みの比較" />
+  <h2>実寸・8方向・描線</h2>
+  <p>
+    各画像の上段は変更前c25011d、下段は変更後。旧画像は「初期30°＋柄軸相対角度」、新画像は「モデル方位30°固定・ワールド垂直軸位相」と区別しています。通常表示は方式ごとに同じ係数0.84で全周固定フィットし、角度別の再フィットはしません。
+  </p>
+  <ul>
+    <li>
+      viewport 1440px：<a href="comparison-1440.png">変更前後8方向 DPR 1</a> /
+      <a href="rotation-1440-dpr2.png">変更後8方向 DPR 2</a> /
+      <a href="structure-1440.png">主要構造・全線</a>
+    </li>
+    <li>
+      viewport 1024px：<a href="comparison-1024.png">変更前後8方向 DPR 1</a> /
+      <a href="rotation-1024-dpr2.png">変更後8方向 DPR 2</a> /
+      <a href="structure-1024.png">主要構造・全線</a>
+    </li>
+    <li>
+      viewport 390px：<a href="comparison-390.png">変更前後8方向 DPR 1</a> /
+      <a href="rotation-390-dpr2.png">変更後8方向 DPR 2</a> /
+      <a href="structure-390.png">主要構造・全線</a>
+    </li>
+    <li>
+      viewport 320px：<a href="comparison-320.png">変更前後8方向 DPR 1</a> /
+      <a href="rotation-320-dpr2.png">変更後8方向 DPR 2</a> /
+      <a href="structure-320.png">主要構造・全線</a>
+    </li>
+  </ul>
+  <img src="comparison-1440.png" alt="標準PC実寸の変更前後8方向" />
+  <table>
+    <tr>
+      <th>モデル</th>
+      <th>全長</th>
+      <th>頭部長</th>
+      <th>全周最大径</th>
+      <th>267×258固定縮尺</th>
+      <th>初期花冠幅・軸直交方向</th>
+    </tr>
+    <tr>
+      <td>変更前 c25011d</td>
+      <td>10</td>
+      <td>4.5</td>
+      <td>3.383</td>
+      <td>25.461 px/単位</td>
+      <td>79.537 px</td>
+    </tr>
+    <tr>
+      <td>同じ形状・回転だけ変更</td>
+      <td>10</td>
+      <td>4.5</td>
+      <td>3.383</td>
+      <td>21.978 px/単位</td>
+      <td>68.656 px</td>
+    </tr>
+    <tr>
+      <td>花弁も変更</td>
+      <td>9.72</td>
+      <td>4.222</td>
+      <td>3.884</td>
+      <td>22.716 px/単位</td>
+      <td>83.757 px</td>
+    </tr>
+  </table>
+  <p>
+    新しい回転だけでは全周範囲が広がり、縮尺が約14%小さくなります。最終形状では外層の広がりを増やしたため、初期花冠幅は79.54→83.76pxになりました。線分数の増加を成果にせず、実寸で花弁の広い腹・層の段差・機械の芯を確認しています。
+  </p>
+  <p>
+    <a href="comparison-validation.json">比較描画と実preview Canvasの照合</a
+    >：前後×4描画枠×2
+    DPR×8方向の<strong>128条件すべてPNGバイト一致</strong>。拡大画像だけで完成判定していません。
+  </p>
+  <h2>回転の数値検証</h2>
+  <p>
+    投影前に初期モデル方位と傾斜を一度だけ適用し、その共有頂点をワールドYで回します。基準点は固定の[0,0,0]。全周のXY境界と深度範囲を新しい変換から再計算しています。全周で左35°を維持する旧期待値は置換しました。
+  </p>
+  <table>
+    <tr>
+      <th>垂直軸位相</th>
+      <th>柄の上端−下端 dx</th>
+      <th>dy</th>
+      <th>見かけの左傾斜</th>
+    </tr>
+    <tr>
+      <td>0°</td>
+      <td>-12.486</td>
+      <td>-17.832</td>
+      <td>35°</td>
+    </tr>
+    <tr>
+      <td>90°</td>
+      <td>0</td>
+      <td>-13.562</td>
+      <td>0°</td>
+    </tr>
+    <tr>
+      <td>180°</td>
+      <td>12.486</td>
+      <td>-17.832</td>
+      <td>-35°</td>
+    </tr>
+    <tr>
+      <td>270°</td>
+      <td>0</td>
+      <td>-22.103</td>
+      <td>0°</td>
+    </tr>
+    <tr>
+      <td>360°</td>
+      <td>-12.486</td>
+      <td>-17.832</td>
+      <td>35°</td>
+    </tr>
+  </table>
+  <p>
+    初期姿勢の旧方式との差は正規化座標で最大6.661338147750939e-16、ワールドYの誤差0、回転半径の最大誤差4.440892098500626e-16。10寸法×360角度で最小余白18.952
+    CSS px。128分割参照との最大曲線誤差0.078 CSS px（目安0.25以内）。<a
+      href="geometry.json"
+      >全数値・設定・ソースSHA256</a
+    >
+  </p>
+  <h2>Home全体と維持した部分</h2>
+  <table>
+    <tr>
+      <th>viewport</th>
+      <th>実描画枠</th>
+      <th>Home全体</th>
+    </tr>
+    <tr>
+      <td>1440×1000px</td>
+      <td>267×258px</td>
+      <td>
+        <a href="home-1440-before.png">変更前</a> /
+        <a href="home-1440-after-dpr1.png">変更後 DPR 1</a> /
+        <a href="home-1440-after-dpr2.png">変更後 DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>1024×1000px</td>
+      <td>223×258px</td>
+      <td>
+        <a href="home-1024-before.png">変更前</a> /
+        <a href="home-1024-after-dpr1.png">変更後 DPR 1</a> /
+        <a href="home-1024-after-dpr2.png">変更後 DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>980×1000px</td>
+      <td>914×238px</td>
+      <td>
+        <a href="home-980-before.png">変更前</a> /
+        <a href="home-980-after-dpr1.png">変更後 DPR 1</a> /
+        <a href="home-980-after-dpr2.png">変更後 DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>768×1000px</td>
+      <td>726×238px</td>
+      <td>
+        <a href="home-768-before.png">変更前</a> /
+        <a href="home-768-after-dpr1.png">変更後 DPR 1</a> /
+        <a href="home-768-after-dpr2.png">変更後 DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>390×1000px</td>
+      <td>348×238px</td>
+      <td>
+        <a href="home-390-before.png">変更前</a> /
+        <a href="home-390-after-dpr1.png">変更後 DPR 1</a> /
+        <a href="home-390-after-dpr2.png">変更後 DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>320×1000px</td>
+      <td>278×238px</td>
+      <td>
+        <a href="home-320-before.png">変更前</a> /
+        <a href="home-320-after-dpr1.png">変更後 DPR 1</a> /
+        <a href="home-320-after-dpr2.png">変更後 DPR 2</a>
+      </td>
+    </tr>
+  </table>
+  <p>
+    前後12条件で枠の座標・寸法が一致しました。首元・柄・石突き・冷却部・配線は線分の座標と線種のハッシュも一致しています。ヘッダー、フッター、Aboutとの配置・表示順・高さ、他ページ、サムネイル、検索、依存、CI、配信設定は変更していません。
+  </p>
+  <h2>性能と配信量</h2>
+  <p>
+    6.18.54.1-microsoft-standard-WSL2 / AMD Ryzen 5 3600 6-Core Processor /
+    Chromium 156.0.8078.4 / Node
+    v26.12.1。各条件60実描画のウォームアップ後、480実描画を採取。clearRect開始から最後のstrokeまでのCPU時間で、計測処理の負荷を含みます。省略rAFは含めず、ブラウザー合成・GPU時間とは区別しています。
+  </p>
+  <table>
+    <tr>
+      <th>条件</th>
+      <th>中央値 前→後</th>
+      <th>p95 前→後</th>
+    </tr>
+    <tr>
+      <td>267×258px / DPR 1</td>
+      <td>1.8 → 1.2 ms</td>
+      <td>2.4 → 1.8 ms</td>
+    </tr>
+    <tr>
+      <td>348×238px / DPR 2</td>
+      <td>2.1 → 1.3 ms</td>
+      <td>2.7 → 1.8 ms</td>
+    </tr>
+  </table>
+  <p>
+    測定環境ではp95
+    8msの目安以内。全端末の保証ではありません。線分6,464→4,784、共有頂点5,562→4,110。19枚を維持し、重なる長手方向の描線を整理したため配信量も減っています。
+  </p>
+  <table>
+    <tr>
+      <th>項目</th>
+      <th>変更前</th>
+      <th>変更後</th>
+    </tr>
+    <tr>
+      <td>Home HTML raw</td>
+      <td>1,173,999 B</td>
+      <td>871,469 B</td>
+    </tr>
+    <tr>
+      <td>Home HTML gzip</td>
+      <td>105,573 B</td>
+      <td>77,745 B</td>
+    </tr>
+    <tr>
+      <td>静止SVG raw</td>
+      <td>1,163,765 B</td>
+      <td>861,235 B</td>
+    </tr>
+    <tr>
+      <td>静止SVG gzip</td>
+      <td>100,979 B</td>
+      <td>73,177 B</td>
+    </tr>
+  </table>
+  <p>
+    <a href="metrics-before.json">変更前・全サンプル</a> /
+    <a href="metrics-after.json">変更後・全サンプル</a> /
+    <a href="frames-before.json">変更前の枠</a> /
+    <a href="frames-after.json">変更後の枠</a>
+  </p>
+  <h2>テストと制限</h2>
+  <ul>
+    <li>
+      <code>npm run check</code>：passed: 97 files; 0 errors, warnings or hints
+    </li>
+    <li><code>npm run lint</code>：passed</li>
+    <li>
+      <code>npm run test -- --run</code>：passed: 53 files, 334 tests, 45.07
+      seconds
+    </li>
+    <li><code>npm run build</code>：passed: Astro and Pagefind</li>
+    <li>
+      <code
+        >PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual --
+        --workers=2</code
+      >：passed: 92 Chromium desktop/mobile tests, 1.2 minutes
+    </li>
+    <li><code>git diff --check</code>：passed</li>
+  </ul>
+  <p>
+    操作、Astro往復の位相と停止保持、reduced-motion、画面外・非表示時停止、rAF/Observer/イベント解除、SVGフォールバック、検索併用、レイアウトの回帰を確認。独立ボタンや可視ラベルを追加していません。
+  </p>
+  <p>
+    Firefox／Safari、実機タッチ、実OSのタブ切替、Windowsでの起動は未検証です。タッチはChromiumエミュレーション、非表示通知は合成イベントと単体テストで確認しました。
+  </p>
+  <p>
+    <a href="verification.json">TDD・変更ファイル・コマンド・未検証事項</a> /
+    <a href="artifact-validation.json">資料の整合性</a>
+  </p>
+</html>
