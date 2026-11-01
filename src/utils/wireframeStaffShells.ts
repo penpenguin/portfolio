@@ -16,6 +16,7 @@ export type PetalProfile = Readonly<{
   flare: number;
   twist: number;
   thickness: number;
+  taperStart: number;
 }>;
 type PetalSetting = Pick<
   PetalProfile,
@@ -30,7 +31,7 @@ type PetalLayerSetting = Readonly<{
   cup: number;
   defaults: Pick<
     PetalProfile,
-    'role' | 'belly' | 'flare' | 'twist' | 'thickness'
+    'role' | 'belly' | 'flare' | 'twist' | 'thickness' | 'taperStart'
   >;
   petals: readonly PetalSetting[];
 }>;
@@ -58,6 +59,11 @@ export type StaffPetal = Readonly<{
   backRight: readonly Point3[];
   spine: readonly Point3[];
   ribs: readonly (readonly Point3[])[];
+  crossRibs: readonly Readonly<{
+    t: number;
+    parameters: readonly number[];
+    points: readonly Point3[];
+  }>[];
   anchors: readonly PetalAnchor[];
 }>;
 
@@ -80,8 +86,9 @@ const layers: readonly PetalLayerSetting[] = [
     phase: 0,
     offset: [0, 0, 0],
     seat: 0.32,
-    cup: 0.1,
+    cup: 0.22,
     defaults: {
+      taperStart: 0.76,
       role: 'open',
       belly: 0.5,
       flare: -0.18,
@@ -90,72 +97,75 @@ const layers: readonly PetalLayerSetting[] = [
     },
     petals: [
       {
+        flare: -0.4,
         azimuth: 20,
         root: 0.52,
-        tip: 3.18,
-        opening: 1.18,
-        tipRadius: 1.48,
-        width: 0.91,
-        belly: 0.43,
+        tip: 2.85,
+        opening: 1.5,
+        tipRadius: 1.83,
+        width: 1.37,
+        belly: 0.48,
       },
       {
+        belly: 0.55,
         azimuth: 75,
         root: 0.68,
-        tip: 3.92,
-        opening: 1.12,
-        tipRadius: 0.82,
-        width: 0.82,
+        tip: 3.25,
+        opening: 1.32,
+        tipRadius: 1.32,
+        width: 1.23,
         role: 'closed',
-        flare: 0.27,
+        flare: 0.08,
         twist: -7,
         thickness: 0.065,
       },
       {
         azimuth: 130,
         root: 0.57,
-        tip: 4.38,
-        opening: 1.43,
-        tipRadius: 1.42,
-        width: 1.05,
+        tip: 3.45,
+        opening: 1.52,
+        tipRadius: 1.68,
+        width: 1.47,
         role: 'primary',
-        belly: 0.59,
-        flare: -0.26,
+        belly: 0.52,
+        flare: -0.32,
         twist: 7,
         thickness: 0.085,
       },
       {
         azimuth: 195,
         root: 0.62,
-        tip: 4.55,
-        opening: 1.46,
-        tipRadius: 1.51,
-        width: 0.99,
+        tip: 3.6,
+        opening: 1.54,
+        tipRadius: 1.75,
+        width: 1.42,
         role: 'primary',
-        belly: 0.56,
-        flare: -0.22,
+        belly: 0.53,
+        flare: -0.35,
         twist: -5,
         thickness: 0.08,
       },
       {
+        flare: -0.4,
         azimuth: 265,
         root: 0.56,
-        tip: 3.48,
-        opening: 1.23,
-        tipRadius: 1.54,
-        width: 0.96,
-        belly: 0.46,
+        tip: 2.65,
+        opening: 1.55,
+        tipRadius: 1.86,
+        width: 1.34,
+        belly: 0.5,
         twist: -8,
       },
       {
         azimuth: 320,
         root: 0.74,
-        tip: 4.08,
-        opening: 1.18,
-        tipRadius: 0.92,
-        width: 0.85,
+        tip: 3.2,
+        opening: 1.36,
+        tipRadius: 1.35,
+        width: 1.25,
         role: 'closed',
-        belly: 0.6,
-        flare: 0.24,
+        belly: 0.56,
+        flare: 0.06,
         thickness: 0.06,
       },
     ],
@@ -165,8 +175,9 @@ const layers: readonly PetalLayerSetting[] = [
     phase: 22.5,
     offset: [-0.04, 0, 0.06],
     seat: 0.28,
-    cup: 0.08,
+    cup: 0.18,
     defaults: {
+      taperStart: 0.8,
       role: 'wrapped',
       belly: 0.53,
       flare: 0.18,
@@ -175,77 +186,87 @@ const layers: readonly PetalLayerSetting[] = [
     },
     petals: [
       {
+        flare: 0.12,
+        belly: 0.52,
         azimuth: 0,
         root: 1.1,
-        tip: 4.42,
-        opening: 1.03,
-        tipRadius: 0.65,
-        width: 0.8,
+        tip: 3.86,
+        opening: 1.18,
+        tipRadius: 0.94,
+        width: 1.08,
       },
       {
+        flare: -0.08,
         azimuth: 50,
         root: 0.92,
-        tip: 4.12,
-        opening: 1.15,
-        tipRadius: 0.88,
-        width: 0.73,
-        belly: 0.46,
+        tip: 3.66,
+        opening: 1.34,
+        tipRadius: 1.15,
+        width: 1.1,
+        belly: 0.5,
         twist: -6,
       },
       {
+        flare: 0.16,
         azimuth: 84,
         root: 1.18,
-        tip: 4.64,
-        opening: 0.95,
-        tipRadius: 0.51,
-        width: 0.68,
-        belly: 0.61,
+        tip: 4.14,
+        opening: 1.14,
+        tipRadius: 0.77,
+        width: 1.03,
+        belly: 0.55,
       },
       {
+        belly: 0.53,
         azimuth: 140,
         root: 1.04,
-        tip: 4.32,
-        opening: 1.18,
-        tipRadius: 0.94,
-        width: 0.81,
+        tip: 3.9,
+        opening: 1.3,
+        tipRadius: 1.1,
+        width: 1.13,
         flare: -0.08,
         twist: -8,
       },
       {
+        flare: 0.12,
         azimuth: 177,
         root: 0.96,
-        tip: 4.72,
-        opening: 1.08,
-        tipRadius: 0.62,
-        width: 0.7,
-        belly: 0.58,
+        tip: 4.28,
+        opening: 1.2,
+        tipRadius: 0.85,
+        width: 1.1,
+        belly: 0.57,
       },
       {
+        flare: 0.06,
+        belly: 0.5,
         azimuth: 234,
         root: 1.22,
-        tip: 4.18,
-        opening: 1.16,
-        tipRadius: 0.89,
-        width: 0.76,
+        tip: 3.76,
+        opening: 1.32,
+        tipRadius: 1.11,
+        width: 1.04,
         twist: -4,
       },
       {
+        flare: 0.12,
         azimuth: 266,
         root: 1.12,
-        tip: 4.56,
-        opening: 1.0,
-        tipRadius: 0.56,
-        width: 0.79,
-        belly: 0.6,
+        tip: 4.06,
+        opening: 1.16,
+        tipRadius: 0.82,
+        width: 1.09,
+        belly: 0.56,
       },
       {
+        flare: 0.08,
         azimuth: 318,
         root: 1.0,
-        tip: 4.35,
-        opening: 1.14,
-        tipRadius: 0.78,
-        width: 0.67,
-        belly: 0.47,
+        tip: 3.91,
+        opening: 1.28,
+        tipRadius: 1.03,
+        width: 1.06,
+        belly: 0.52,
         twist: -7,
       },
     ],
@@ -255,8 +276,9 @@ const layers: readonly PetalLayerSetting[] = [
     phase: 9,
     offset: [0.035, 0, -0.035],
     seat: 0.25,
-    cup: 0.055,
+    cup: 0.13,
     defaults: {
+      taperStart: 0.78,
       role: 'inner',
       belly: 0.55,
       flare: 0.12,
@@ -265,49 +287,56 @@ const layers: readonly PetalLayerSetting[] = [
     },
     petals: [
       {
+        flare: 0.08,
+        belly: 0.55,
         azimuth: 0,
         root: 1.38,
-        tip: 5,
-        opening: 0.64,
-        tipRadius: 0.31,
-        width: 0.46,
+        tip: 4.62,
+        opening: 0.75,
+        tipRadius: 0.48,
+        width: 0.95,
       },
       {
+        flare: 0.08,
         azimuth: 79,
         root: 1.52,
-        tip: 4.68,
-        opening: 0.74,
-        tipRadius: 0.44,
-        width: 0.43,
-        belly: 0.46,
+        tip: 4.32,
+        opening: 0.82,
+        tipRadius: 0.57,
+        width: 0.88,
+        belly: 0.5,
         twist: -7,
       },
       {
+        flare: 0.1,
         azimuth: 137,
         root: 1.44,
-        tip: 4.9,
-        opening: 0.62,
-        tipRadius: 0.28,
-        width: 0.49,
-        belly: 0.61,
+        tip: 4.5,
+        opening: 0.76,
+        tipRadius: 0.45,
+        width: 0.93,
+        belly: 0.57,
       },
       {
+        flare: 0.06,
+        belly: 0.52,
         azimuth: 224,
         root: 1.6,
-        tip: 4.56,
-        opening: 0.72,
-        tipRadius: 0.42,
-        width: 0.42,
+        tip: 4.16,
+        opening: 0.84,
+        tipRadius: 0.59,
+        width: 0.86,
         twist: -5,
       },
       {
+        flare: 0.08,
         azimuth: 286,
         root: 1.48,
-        tip: 4.8,
-        opening: 0.66,
-        tipRadius: 0.32,
-        width: 0.47,
-        belly: 0.59,
+        tip: 4.4,
+        opening: 0.8,
+        tipRadius: 0.5,
+        width: 0.9,
+        belly: 0.55,
       },
     ],
   },
@@ -316,7 +345,7 @@ const layers: readonly PetalLayerSetting[] = [
 // Sample only contours and reinforcing ribs of a cupped surface, never its mesh.
 // All attachment parameters join the same sample set, independently of resolution.
 export function createStaffShells(steps = 16): readonly StaffPetal[] {
-  const parameters = [
+  const baseParameters = [
     ...new Set([
       ...Array.from({ length: 2 * steps + 1 }, (_, i) => i / (2 * steps)),
       0.2,
@@ -342,6 +371,9 @@ export function createStaffShells(steps = 16): readonly StaffPetal[] {
         tipRadius,
         thickness,
       } = profile;
+      const parameters = [
+        ...new Set([...baseParameters, 0.42, 0.75, profile.taperStart]),
+      ].sort((a, b) => a - b);
       const length = tip - root;
       const rootRadius = layer.seat + 0.06;
       const middle: ProfilePoint = [opening, root + length * profile.belly];
@@ -386,7 +418,20 @@ export function createStaffShells(steps = 16): readonly StaffPetal[] {
         const normalR = derivative[1] / magnitude,
           normalY = -derivative[0] / magnitude;
         const angle = azimuth + twist * t * t;
-        const halfWidth = 0.055 * (1 - t) + (width / 2) * Math.sin(Math.PI * t);
+        // Hold a broad shoulder, then converge quickly to a sharp shared tip.
+        // Smooth joins keep the shoulder rounded without a long blade-like taper.
+        const smooth = (u: number) => u * u * (3 - 2 * u);
+        let breadth: number;
+        if (t <= 0.42) breadth = 0.11 + (width - 0.11) * smooth(t / 0.42);
+        else if (t <= profile.taperStart)
+          breadth =
+            width *
+            (1 - 0.04 * smooth((t - 0.42) / (profile.taperStart - 0.42)));
+        else {
+          const u = (t - profile.taperStart) / (1 - profile.taperStart);
+          breadth = width * 0.96 * (1 - u * u);
+        }
+        const halfWidth = breadth / 2;
         const cup = layer.cup * Math.sin(Math.PI * t) * across * across;
         const offset = cup + ((side * thickness) / 2) * (1 - t * t);
         const radial = r + normalR * offset;
@@ -424,6 +469,29 @@ export function createStaffShells(steps = 16): readonly StaffPetal[] {
         backRight,
         spine: path(0, 1),
         ribs,
+        crossRibs: (layer.name === 'outer'
+          ? [0.5, 0.75]
+          : layer.name === 'middle'
+            ? [0.5]
+            : []
+        ).map((t) => {
+          const divisions = Math.max(4, Math.ceil(steps / 2));
+          const parameters = [
+            ...new Set([
+              ...Array.from(
+                { length: divisions + 1 },
+                (_, i) => -1 + (2 * i) / divisions
+              ),
+              -0.45,
+              0.45,
+            ]),
+          ].sort((a, b) => a - b);
+          return {
+            t,
+            parameters,
+            points: parameters.map((across) => point(t, across, -1)),
+          };
+        }),
         anchors: [0.2, 0.5, 0.8].map((t) => {
           const i = parameters.indexOf(t);
           return {

@@ -173,13 +173,14 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       }
     }
     for (const petal of petals) {
-      const { left, right, backLeft, backRight, spine, mount } = petal;
+      const { left, right, backLeft, backRight, mount } = petal;
       const kind = petal.layer === 'outer' ? 'outline' : 'component';
       trace(left, kind);
       trace(right, kind);
-      trace(backLeft);
-      trace(backRight);
-      trace(spine);
+      // The lower back carries the hinge and ribs. Avoid duplicating both front
+      // contours all the way to the tip at sub-pixel separation.
+      trace(backLeft.filter((_, i) => petal.parameters[i] <= 0.5));
+      trace(backRight.filter((_, i) => petal.parameters[i] <= 0.5));
       trace([left[0], right[0], backRight[0], backLeft[0]], kind, true);
       // A hinge and fork carry each cupped shell into its own staggered collar.
       line(mount, left[0], kind);
@@ -187,7 +188,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       const fork = petal.anchors[0];
       line(mount, fork.backLeft);
       line(mount, fork.backRight);
-      for (const anchor of petal.anchors) {
+      for (const anchor of petal.anchors.filter((a) => a.t <= 0.5)) {
         line(anchor.left, anchor.backLeft);
         line(anchor.right, anchor.backRight);
       }
@@ -197,9 +198,25 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
   function petalDetails() {
     part = 'head';
     for (const petal of petals) {
-      petal.ribs.forEach((rib) => trace(rib, 'detail'));
-      for (const a of petal.anchors)
-        trace([a.backLeft, ...a.ribs, a.backRight], 'detail');
+      if (petal.layer !== 'inner') {
+        trace(petal.spine, 'detail');
+        petal.ribs.forEach((rib) =>
+          trace(
+            rib.filter(
+              (_, i) => petal.parameters[i] >= 0.2 && petal.parameters[i] <= 0.5
+            ),
+            'detail'
+          )
+        );
+        const fork = petal.anchors[0];
+        trace([fork.backLeft, ...fork.ribs, fork.backRight], 'detail');
+      }
+      for (const rib of petal.crossRibs) {
+        trace(rib.points, 'detail');
+        const i = petal.parameters.indexOf(rib.t);
+        line(petal.left[i], rib.points[0], 'detail');
+        line(petal.right[i], rib.points[rib.points.length - 1], 'detail');
+      }
     }
   }
 

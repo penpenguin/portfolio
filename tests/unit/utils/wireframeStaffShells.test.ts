@@ -39,30 +39,52 @@ describe('mechanical lotus petals', () => {
     }
   });
 
-  it('contrasts two long recurved, two short open and two closed outer petals', () => {
-    const petals = createStaffShells().filter((p) => p.layer === 'outer');
-    const tips = petals.map((p) => p.left.at(-1)!);
-    const tall = tips.filter((p) => p[1] > 4.25);
-    const short = tips.filter((p) => p[1] < 3.6);
-    const closed = tips.filter((p) => Math.hypot(p[0], p[2]) < 1.05);
-    expect(tall).toHaveLength(2);
-    expect(short).toHaveLength(2);
-    expect(closed).toHaveLength(2);
-    expect(tall.every((p) => Math.hypot(p[0], p[2]) > 1.25)).toBe(true);
-    expect(short.every((p) => Math.hypot(p[0], p[2]) > 1.25)).toBe(true);
-    // A uniform circular copy cannot provide these unequal azimuth gaps.
-    const gaps = petals.map(
-      (p, i) =>
-        (petals[(i + 1) % petals.length].azimuth - p.azimuth + Math.PI * 2) %
-        (Math.PI * 2)
-    );
-    expect(Math.max(...gaps) - Math.min(...gaps)).toBeGreaterThan(Math.PI / 18);
-    const inner = createStaffShells().filter((p) => p.layer === 'inner');
+  it('opens broad lower petals around a cupped middle and a shorter half-open inner crown', () => {
+    const petals = createStaffShells(128);
+    const ratios = { outer: [2, 2.8], middle: [2.5, 3.5], inner: [2.5, 4] };
+    for (const petal of petals) {
+      const length = petal.spine
+        .slice(1)
+        .reduce((sum, p, i) => sum + distance(p, petal.spine[i]), 0);
+      const widths = petal.left.map((p, i) => distance(p, petal.right[i]));
+      const maximum = Math.max(...widths);
+      expect(length / maximum).toBeGreaterThanOrEqual(ratios[petal.layer][0]);
+      expect(length / maximum).toBeLessThanOrEqual(ratios[petal.layer][1]);
+      // A broad shoulder stays open before the short, sharp terminal taper.
+      for (let i = 0; i < widths.length; i++)
+        if (petal.parameters[i] >= 0.4 && petal.parameters[i] <= 0.75)
+          expect(widths[i]).toBeGreaterThan(maximum * 0.9);
+    }
+    const outer = petals.filter((p) => p.layer === 'outer');
+    expect(Math.max(...outer.map((p) => p.left.at(-1)![1]))).toBeLessThan(3.7);
     expect(
-      inner.every(
-        (p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 0.22
-      )
+      outer.filter(
+        (p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 1.6
+      ).length
+    ).toBeGreaterThanOrEqual(3);
+    const inner = petals.filter((p) => p.layer === 'inner');
+    expect(Math.max(...inner.map((p) => p.left.at(-1)![1]))).toBeLessThan(4.7);
+    expect(
+      inner.every((p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 0.4)
     ).toBe(true);
+  });
+
+  it('uses a few curved transverse ribs to expose the spoon-shaped section', () => {
+    for (const p of createStaffShells()) {
+      expect(p.crossRibs).toHaveLength(
+        p.layer === 'outer' ? 2 : p.layer === 'middle' ? 1 : 0
+      );
+      for (const rib of p.crossRibs) {
+        const i = p.parameters.indexOf(rib.t);
+        expect(rib.points[0]).toEqual(p.backLeft[i]);
+        expect(rib.points.at(-1)).toEqual(p.backRight[i]);
+        const middle = rib.points[Math.floor(rib.points.length / 2)];
+        const chord = rib.points[0].map(
+          (n, k) => (n + rib.points.at(-1)![k]) / 2
+        );
+        expect(distance(middle, chord)).toBeGreaterThan(0.1);
+      }
+    }
   });
 
   it('forms broad cupped petals with thin backs, smooth contours and a shared sharp tip', () => {
@@ -146,24 +168,33 @@ describe('mechanical lotus petals', () => {
       [267, 258],
       [223, 258],
       [348, 238],
+      [278, 238],
     ])
       for (let degrees = 0; degrees < 360; degrees += 15)
         coarse.forEach((petal, index) => {
-          const paths = [...contours.map((key) => petal[key]), ...petal.ribs];
+          const paths = [
+            ...[...contours.map((key) => petal[key]), ...petal.ribs].map(
+              (points) => ({ points, parameters: petal.parameters })
+            ),
+            ...petal.crossRibs,
+          ];
           const fine = reference[index];
           const referencePaths = [
-            ...contours.map((key) => fine[key]),
-            ...fine.ribs,
+            ...[...contours.map((key) => fine[key]), ...fine.ribs].map(
+              (points) => ({ points, parameters: fine.parameters })
+            ),
+            ...fine.crossRibs,
           ];
           paths.forEach((path, pathIndex) => {
-            const points = path.map((p) =>
+            const points = path.points.map((p) =>
               projectDevicePoint(p, (degrees * Math.PI) / 180, width, height)
             );
             let interval = 0;
-            referencePaths[pathIndex].forEach((p, sample) => {
+            referencePaths[pathIndex].points.forEach((p, sample) => {
               while (
                 interval < points.length - 2 &&
-                petal.parameters[interval + 1] < fine.parameters[sample]
+                path.parameters[interval + 1] <
+                  referencePaths[pathIndex].parameters[sample]
               )
                 interval++;
               const a = points[interval],

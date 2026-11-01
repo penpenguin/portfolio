@@ -90,12 +90,13 @@ describe('industrial control staff geometry', () => {
       Math.max(...all.map((p) => p[1])) - Math.min(...all.map((p) => p[1]));
     const head = pointsFor('head');
     const diameter = 2 * Math.max(...head.map((p) => Math.hypot(p[0], p[2])));
-    expect(length).toBeCloseTo(10);
-    expect(diameter).toBeGreaterThanOrEqual(3.1);
-    expect(diameter).toBeLessThanOrEqual(3.4);
+    expect(length).toBeGreaterThanOrEqual(9.7);
+    expect(length).toBeLessThanOrEqual(10);
+    expect(diameter).toBeGreaterThanOrEqual(3.4);
+    expect(diameter).toBeLessThanOrEqual(4.1);
     const headLength =
       Math.max(...head.map((p) => p[1])) - Math.min(...head.map((p) => p[1]));
-    expect(headLength / length).toBeGreaterThanOrEqual(0.44);
+    expect(headLength / length).toBeGreaterThanOrEqual(0.43);
     expect(headLength / length).toBeLessThanOrEqual(0.46);
     const shaft = pointsFor('shaft');
     const shaftLength =
@@ -237,8 +238,8 @@ describe('industrial control staff geometry', () => {
       for (const path of [
         shell.left,
         shell.right,
-        shell.backLeft,
-        shell.backRight,
+        shell.backLeft.filter((_, i) => shell.parameters[i] <= 0.5),
+        shell.backRight.filter((_, i) => shell.parameters[i] <= 0.5),
       ]) {
         for (const point of path) {
           expect(
@@ -252,25 +253,44 @@ describe('industrial control staff geometry', () => {
       }
     }
     const headPoints = [...new Set(head.flatMap((e) => [e.a, e.b]))];
-    expect(headPoints.filter((p) => p[1] === 5)).toHaveLength(1);
+    expect(Math.max(...headPoints.map((p) => p[1]))).toBeCloseTo(4.72);
   });
 
   it('braces every petal with short cross-ribs and keeps a pair of straight axial rails', () => {
     const edges = createDeviceGeometry().filter((e) => e.part === 'head');
     const near = (a: readonly number[], b: readonly number[]) =>
       a.every((n, i) => Math.abs(n - b[i]) < 1e-7);
-    for (const petal of createStaffShells())
-      for (const anchor of petal.anchors) {
-        const path = [anchor.backLeft, ...anchor.ribs, anchor.backRight];
-        for (let i = 1; i < path.length; i++)
+    for (const petal of createStaffShells()) {
+      for (const rib of petal.crossRibs) {
+        for (let i = 1; i < rib.points.length; i++)
           expect(
             edges.some(
               (e) =>
-                (near(e.a, path[i - 1]) && near(e.b, path[i])) ||
-                (near(e.b, path[i - 1]) && near(e.a, path[i]))
+                e.kind === 'detail' &&
+                near(e.a, rib.points[i - 1]) &&
+                near(e.b, rib.points[i])
             )
           ).toBe(true);
       }
+      for (let i = 1; i < petal.spine.length; i++)
+        expect(
+          edges.some(
+            (e) =>
+              e.kind !== 'detail' &&
+              near(e.a, petal.spine[i - 1]) &&
+              near(e.b, petal.spine[i])
+          )
+        ).toBe(false);
+      // The upper back is not another pair of uninterrupted parallel contours.
+      const index = petal.parameters.findIndex((t) => t >= 0.8);
+      for (const side of ['backLeft', 'backRight'] as const)
+        expect(
+          edges.some(
+            (e) =>
+              near(e.a, petal[side][index]) && near(e.b, petal[side][index + 1])
+          )
+        ).toBe(false);
+    }
     const rails = edges.filter(
       ({ a, b, kind }) =>
         kind === 'component' &&
@@ -318,8 +338,8 @@ describe('industrial control staff geometry', () => {
       for (const point of [
         ...shell.left,
         ...shell.right,
-        ...shell.backLeft,
-        ...shell.backRight,
+        ...shell.backLeft.filter((_, i) => shell.parameters[i] <= 0.5),
+        ...shell.backRight.filter((_, i) => shell.parameters[i] <= 0.5),
       ])
         expect(
           [...reached].some((p) =>
