@@ -17,12 +17,14 @@ describe('mechanical lotus petals', () => {
     );
     expect(layers.map((layer) => layer.length)).toEqual([6, 8, 5]);
     expect(new Set(layers.map((layer) => layer[0].azimuth)).size).toBe(3);
-    const tipHeights = layers.map(
-      (layer) =>
-        layer.reduce((sum, p) => sum + p.left.at(-1)![1], 0) / layer.length
-    );
-    expect(tipHeights[0]).toBeLessThan(tipHeights[1]);
-    expect(tipHeights[1]).toBeLessThan(tipHeights[2]);
+    const tipHeights = layers
+      .slice(0, 2)
+      .map((layer) =>
+        layer
+          .filter((p) => p.profile.role !== 'primary')
+          .map((p) => p.profile.tip)
+      );
+    expect(Math.max(...tipHeights[0])).toBeLessThan(Math.max(...tipHeights[1]));
     const openings = layers.map((layer) =>
       Math.max(
         ...layer.flatMap((p) => p.left.map(([x, , z]) => Math.hypot(x, z)))
@@ -39,7 +41,7 @@ describe('mechanical lotus petals', () => {
     }
   });
 
-  it('opens broad lower petals around a cupped middle and a shorter half-open inner crown', () => {
+  it('raises two distinct main petals above a broad half-open supporting crown', () => {
     const petals = createStaffShells(128);
     const ratios = { outer: [2, 2.8], middle: [2.5, 3.5], inner: [2.5, 4] };
     for (const petal of petals) {
@@ -48,22 +50,36 @@ describe('mechanical lotus petals', () => {
         .reduce((sum, p, i) => sum + distance(p, petal.spine[i]), 0);
       const widths = petal.left.map((p, i) => distance(p, petal.right[i]));
       const maximum = Math.max(...widths);
-      expect(length / maximum).toBeGreaterThanOrEqual(ratios[petal.layer][0]);
-      expect(length / maximum).toBeLessThanOrEqual(ratios[petal.layer][1]);
+      const range =
+        petal.profile.role === 'primary' ? [2.8, 3.8] : ratios[petal.layer];
+      expect(length / maximum).toBeGreaterThanOrEqual(range[0]);
+      expect(length / maximum).toBeLessThanOrEqual(range[1]);
       // A broad shoulder stays open before the short, sharp terminal taper.
       for (let i = 0; i < widths.length; i++)
         if (petal.parameters[i] >= 0.4 && petal.parameters[i] <= 0.75)
           expect(widths[i]).toBeGreaterThan(maximum * 0.9);
     }
     const outer = petals.filter((p) => p.layer === 'outer');
-    expect(Math.max(...outer.map((p) => p.left.at(-1)![1]))).toBeLessThan(3.7);
+    const primary = outer.filter((p) => p.profile.role === 'primary');
+    expect(primary.map((p) => p.id)).toEqual(['outer-3', 'outer-4']);
     expect(
-      outer.filter(
-        (p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 1.6
-      ).length
-    ).toBeGreaterThanOrEqual(3);
+      primary[1].profile.tip - primary[0].profile.tip
+    ).toBeGreaterThanOrEqual(0.3);
+    const supporting = outer.filter((p) => p.profile.role !== 'primary');
+    expect(
+      Math.min(...primary.map((p) => p.profile.tip)) -
+        Math.max(...supporting.map((p) => p.profile.tip))
+    ).toBeGreaterThanOrEqual(0.6);
+    for (const phase of [0, Math.PI / 2, (3 * Math.PI) / 2]) {
+      const tips = primary.map((p) =>
+        projectDevicePoint(p.left.at(-1)!, phase, 223, 258)
+      );
+      expect(
+        Math.hypot(tips[0].x - tips[1].x, tips[0].y - tips[1].y)
+      ).toBeGreaterThan(6);
+    }
     const inner = petals.filter((p) => p.layer === 'inner');
-    expect(Math.max(...inner.map((p) => p.left.at(-1)![1]))).toBeLessThan(4.7);
+    expect(Math.max(...inner.map((p) => p.left.at(-1)![1]))).toBeLessThan(4.1);
     expect(
       inner.every((p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 0.4)
     ).toBe(true);
@@ -85,6 +101,16 @@ describe('mechanical lotus petals', () => {
         expect(distance(middle, chord)).toBeGreaterThan(0.1);
       }
     }
+  });
+
+  it('keeps the leading tip visibly above its broad shoulder in the foreshortened front view', () => {
+    const main = createStaffShells().find((p) => p.id === 'outer-4')!;
+    const i = main.parameters.indexOf(0.75);
+    const tip = projectDevicePoint(main.left.at(-1)!, Math.PI / 2, 223, 258);
+    for (const shoulder of [main.left[i], main.right[i]])
+      expect(
+        projectDevicePoint(shoulder, Math.PI / 2, 223, 258).y - tip.y
+      ).toBeGreaterThan(6);
   });
 
   it('forms broad cupped petals with thin backs, smooth contours and a shared sharp tip', () => {

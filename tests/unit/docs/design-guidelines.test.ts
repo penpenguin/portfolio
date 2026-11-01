@@ -62,10 +62,12 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).not.toContain('four unequal pointed shells');
     expect(design).toContain('upper curved cable');
     expect(design).toContain('lower auxiliary bar');
-    expect(design).toContain('low outward-opening petals');
+    expect(design).toContain('two leading petals');
+    expect(design).toContain('three slender columns');
+    expect(design).toContain('open guards');
+    expect(design).toContain('offset clamp');
     expect(design).toContain('broad shoulder');
     expect(design).toContain('transverse ribs');
-    expect(design).not.toContain('crown length 4.4–4.6');
     expect(design).toContain('nine slender pins');
     expect(design).not.toContain('plain shaft interval of about 40%');
     expect(design).toContain('84%');
