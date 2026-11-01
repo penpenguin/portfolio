@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width"
+  /><title>PR170 主花弁と拘束機構の検証</title
+  ><style>
+    body {
+      max-width: 1180px;
+      margin: 32px auto;
+      padding: 0 20px;
+      color: #242428;
+      background: #f7f7f7;
+      font: 16px/1.7 system-ui;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    h2 {
+      margin-top: 2em;
+      font-size: 22px;
+    }
+    figure {
+      margin: 24px 0;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    figcaption,
+    small {
+      font-size: 13px;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    td,
+    th {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+    a {
+      color: #414159;
+    }
+    .home {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+  </style>
+  <h1>機械蓮：主花弁・縦の芯・開いた拘束機構</h1>
+  <p>
+    比較元 <code>c973d289f1f8c125669d750d0e9bec198738f3f6</code>、実装
+    <code>7132c5fae6c02fee8bc0636b990f5e3743bb177b</code
+    >。両案ともワールド垂直Y軸回転。前の二枚外殻や柄軸回転は比較元に使っていません。実装ブランチをビルドしたpreviewで確認しました。
+  </p>
+  <h2>最終形状</h2>
+  <p>
+    19枚・外6／中8／内5を維持し、outer-4（高さ4.9）とouter-3（4.5）を主輪郭へ。脇役の開きと高さを締め、最長花弁を初期姿勢と90°で読める方位へ移しました。幅広い腹とカップ断面を保ち、先端だけを鋭く絞ります。中央は選択された「花弁の間から見える支柱」とし、3本を4.12〜4.35まで伸ばし、短い内冠と9本のピンの上へ見せています。花弁を超える槍状の中芯は追加していません。
+  </p>
+  <p>
+    外層の隣接ペアを結ぶ段付きヨーク、主花弁のソケット・開いたガード・二節リンクを組み立てました。柄は下寄り1か所の片締めクランプ、副軸の小さな逃げ、石突きの段差と短いスリットを調整。主花弁と主要リンクをoutline、他の花弁と支柱・ガードをcomponent、微細部をdetailへ配分し、線幅・不透明度の既存値は維持しています。
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>変更前</th>
+        <th>変更後</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>線分</td>
+        <td>4784</td>
+        <td>4874</td>
+      </tr>
+      <tr>
+        <td>共有頂点</td>
+        <td>4110</td>
+        <td>4154</td>
+      </tr>
+      <tr>
+        <td>全長</td>
+        <td>9.720</td>
+        <td>9.900</td>
+      </tr>
+      <tr>
+        <td>花冠長</td>
+        <td>4.222</td>
+        <td>4.427</td>
+      </tr>
+      <tr>
+        <td>全周最大径</td>
+        <td>3.884</td>
+        <td>3.539</td>
+      </tr>
+      <tr>
+        <td>267×258の固定縮尺</td>
+        <td>22.716</td>
+        <td>21.591</td>
+      </tr>
+      <tr>
+        <td>フィット係数</td>
+        <td>0.84</td>
+        <td>0.84</td>
+      </tr>
+      <tr>
+        <td>90°花冠の高さ／幅</td>
+        <td>0.971</td>
+        <td>1.364</td>
+      </tr>
+      <tr>
+        <td>270°花冠の高さ／幅</td>
+        <td>1.120</td>
+        <td>1.460</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    線分の増加はガード・リンク・支柱・クランプなど実部品の追加によるものです。曲線分割数は16／区間を維持。形状調整に伴って全周境界から固定縮尺と中心が再算出されますが、角度ごとの再フィットや中心追尾はありません。<a
+      href="geometry.json"
+      >全周・形状・投影・曲線誤差・ソースSHA256</a
+    >
+  </p>
+  <h2>連続回転</h2>
+  <p>
+    <a href="rotation-comparison.html">自己完結の前後比較HTML</a
+    >を保存してローカルで開けます。16秒／周・約30fps・DPR上限2。初期モデル方位30°、初期画面傾斜左35°、垂直軸位相0°開始。標準は全周境界の和集合による共通固定縮尺・中心、チェックを外すと各案の通常固定フィットです。実寸の比較画像は通常設定です。<a
+      href="continuous-validation.json"
+      >1周の連続実行記録</a
+    >。
+  </p>
+  <h2>実寸8方向と主要構造</h2>
+  <p>
+    上段がc973d28、下段が今回の造形。すべての角度ラベルはワールド垂直Y軸位相です。DPR
+    2画像は高解像度のため、拡大率100%とCSS寸法を区別してください。
+  </p>
+  <h3>viewport 1440×1000 / 実描画 267×258</h3>
+  <figure>
+    <a href="comparison-1440.png"
+      ><img loading="lazy" src="comparison-1440.png" alt="変更前後8方向・DPR 1"
+    /></a>
+    <figcaption>変更前後8方向・DPR 1</figcaption>
+  </figure>
+  <p>
+    <a href="rotation-1440-dpr2.png">変更後8方向・DPR 2</a> /
+    <a href="structure-1440.png">変更前後・主要構造／全線</a>
+  </p>
+  <h3>viewport 1024×1000 / 実描画 223×258</h3>
+  <figure>
+    <a href="comparison-1024.png"
+      ><img loading="lazy" src="comparison-1024.png" alt="変更前後8方向・DPR 1"
+    /></a>
+    <figcaption>変更前後8方向・DPR 1</figcaption>
+  </figure>
+  <p>
+    <a href="rotation-1024-dpr2.png">変更後8方向・DPR 2</a> /
+    <a href="structure-1024.png">変更前後・主要構造／全線</a>
+  </p>
+  <h3>viewport 390×1000 / 実描画 348×238</h3>
+  <figure>
+    <a href="comparison-390.png"
+      ><img loading="lazy" src="comparison-390.png" alt="変更前後8方向・DPR 1"
+    /></a>
+    <figcaption>変更前後8方向・DPR 1</figcaption>
+  </figure>
+  <p>
+    <a href="rotation-390-dpr2.png">変更後8方向・DPR 2</a> /
+    <a href="structure-390.png">変更前後・主要構造／全線</a>
+  </p>
+  <h3>viewport 320×1000 / 実描画 278×238</h3>
+  <figure>
+    <a href="comparison-320.png"
+      ><img loading="lazy" src="comparison-320.png" alt="変更前後8方向・DPR 1"
+    /></a>
+    <figcaption>変更前後8方向・DPR 1</figcaption>
+  </figure>
+  <p>
+    <a href="rotation-320-dpr2.png">変更後8方向・DPR 2</a> /
+    <a href="structure-320.png">変更前後・主要構造／全線</a>
+  </p>
+  <h2>花弁と接続部</h2>
+  <figure>
+    <a href="petal-representative.png"
+      ><img
+        loading="lazy"
+        src="petal-representative.png"
+        alt="主花弁2枚の単独表示・共通倍率50 CSS px／単位"
+    /></a>
+    <figcaption>主花弁2枚の単独表示・共通倍率50 CSS px／単位</figcaption>
+  </figure>
+  <figure>
+    <a href="layers.png"
+      ><img
+        loading="lazy"
+        src="layers.png"
+        alt="外層6枚と全3層19枚・通常固定縮尺"
+    /></a>
+    <figcaption>外層6枚と全3層19枚・通常固定縮尺</figcaption>
+  </figure>
+  <figure>
+    <a href="restraints.png"
+      ><img
+        loading="lazy"
+        src="restraints.png"
+        alt="首元・ガード・ヨーク・リンク・中央機構を同じ縮尺で抽出"
+    /></a>
+    <figcaption>
+      首元・ガード・ヨーク・リンク・中央機構を同じ縮尺で抽出
+    </figcaption>
+  </figure>
+  <h2>Home全体とレイアウト</h2>
+  <p>
+    前後とも同じviewport、DPR、初期位相。パネルの位置・寸法を12条件で照合しています。比較描画は実preview
+    Canvasと128条件でPNGバイト照合します。
+  </p>
+  <p>
+    <a href="frames-before.json">変更前の実描画枠</a> /
+    <a href="frames-after.json">変更後の実描画枠</a> /
+    <a href="comparison-validation.json">描画照合</a>
+  </p>
+  <h3>viewport 1440px</h3>
+  <div class="home">
+    <figure>
+      <a href="home-1440-before.png"
+        ><img loading="lazy" src="home-1440-before.png" alt="変更前・DPR 1"
+      /></a>
+      <figcaption>変更前・DPR 1</figcaption>
+    </figure>
+    <figure>
+      <a href="home-1440-after-dpr1.png"
+        ><img loading="lazy" src="home-1440-after-dpr1.png" alt="変更後・DPR 1"
+      /></a>
+      <figcaption>変更後・DPR 1</figcaption>
+    </figure>
+  </div>
+  <p><a href="home-1440-after-dpr2.png">変更後・DPR 2</a></p>
+  <h3>viewport 1024px</h3>
+  <div class="home">
+    <figure>
+      <a href="home-1024-before.png"
+        ><img loading="lazy" src="home-1024-before.png" alt="変更前・DPR 1"
+      /></a>
+      <figcaption>変更前・DPR 1</figcaption>
+    </figure>
+    <figure>
+      <a href="home-1024-after-dpr1.png"
+        ><img loading="lazy" src="home-1024-after-dpr1.png" alt="変更後・DPR 1"
+      /></a>
+      <figcaption>変更後・DPR 1</figcaption>
+    </figure>
+  </div>
+  <p><a href="home-1024-after-dpr2.png">変更後・DPR 2</a></p>
+  <h3>viewport 980px</h3>
+  <div class="home">
+    <figure>
+      <a href="home-980-before.png"
+        ><img loading="lazy" src="home-980-before.png" alt="変更前・DPR 1"
+      /></a>
+      <figcaption>変更前・DPR 1</figcaption>
+    </figure>
+    <figure>
+      <a href="home-980-after-dpr1.png"
+        ><img loading="lazy" src="home-980-after-dpr1.png" alt="変更後・DPR 1"
+      /></a>
+      <figcaption>変更後・DPR 1</figcaption>
+    </figure>
+  </div>
+  <p><a href="home-980-after-dpr2.png">変更後・DPR 2</a></p>
+  <h3>viewport 768px</h3>
+  <div class="home">
+    <figure>
+      <a href="home-768-before.png"
+        ><img loading="lazy" src="home-768-before.png" alt="変更前・DPR 1"
+      /></a>
+      <figcaption>変更前・DPR 1</figcaption>
+    </figure>
+    <figure>
+      <a href="home-768-after-dpr1.png"
+        ><img loading="lazy" src="home-768-after-dpr1.png" alt="変更後・DPR 1"
+      /></a>
+      <figcaption>変更後・DPR 1</figcaption>
+    </figure>
+  </div>
+  <p><a href="home-768-after-dpr2.png">変更後・DPR 2</a></p>
+  <h3>viewport 390px</h3>
+  <div class="home">
+    <figure>
+      <a href="home-390-before.png"
+        ><img loading="lazy" src="home-390-before.png" alt="変更前・DPR 1"
+      /></a>
+      <figcaption>変更前・DPR 1</figcaption>
+    </figure>
+    <figure>
+      <a href="home-390-after-dpr1.png"
+        ><img loading="lazy" src="home-390-after-dpr1.png" alt="変更後・DPR 1"
+      /></a>
+      <figcaption>変更後・DPR 1</figcaption>
+    </figure>
+  </div>
+  <p><a href="home-390-after-dpr2.png">変更後・DPR 2</a></p>
+  <h3>viewport 320px</h3>
+  <div class="home">
+    <figure>
+      <a href="home-320-before.png"
+        ><img loading="lazy" src="home-320-before.png" alt="変更前・DPR 1"
+      /></a>
+      <figcaption>変更前・DPR 1</figcaption>
+    </figure>
+    <figure>
+      <a href="home-320-after-dpr1.png"
+        ><img loading="lazy" src="home-320-after-dpr1.png" alt="変更後・DPR 1"
+      /></a>
+      <figcaption>変更後・DPR 1</figcaption>
+    </figure>
+  </div>
+  <p><a href="home-320-after-dpr2.png">変更後・DPR 2</a></p>
+  <h2>性能と配信量</h2>
+  <p>
+    6.18.54.1-microsoft-standard-WSL2 / AMD Ryzen 5 3600 6-Core Processor /
+    Chromium 156.0.8078.4 / Node
+    v26.12.1。60実描画をウォームアップ後480実描画を採取。clearRect開始〜最後のstrokeのCPU時間で、投影・線描画と計測負荷を含み、描画を省略したrAFやGPU合成は含みません。
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>条件</th>
+        <th>中央値 前→後</th>
+        <th>p95 前→後</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>267×258 / DPR 1</td>
+        <td>1.2 → 1.3 ms</td>
+        <td>1.9 → 2.0 ms</td>
+      </tr>
+      <tr>
+        <td>348×238 / DPR 2</td>
+        <td>1.2 → 1.4 ms</td>
+        <td>1.9 → 2.2 ms</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    この環境では目安の8ms以内。全端末保証ではありません。<a
+      href="metrics-before.json"
+      >変更前の全480サンプル×2条件</a
+    >
+    / <a href="metrics-after.json">変更後の全480サンプル×2条件</a>
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>配信量</th>
+        <th>変更前</th>
+        <th>変更後</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Home HTML raw</td>
+        <td>871469 B</td>
+        <td>888420 B</td>
+      </tr>
+      <tr>
+        <td>Home HTML gzip</td>
+        <td>77745 B</td>
+        <td>78536 B</td>
+      </tr>
+      <tr>
+        <td>静止SVG raw</td>
+        <td>861235 B</td>
+        <td>878186 B</td>
+      </tr>
+      <tr>
+        <td>静止SVG gzip</td>
+        <td>73177 B</td>
+        <td>73932 B</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>検証</h2>
+  <p>
+    checkは97ファイル・エラー／警告／ヒント0。lint、53ファイル338単体テスト、Astro＋Pagefindビルド成功。ブラウザーテストは最終再実行で92件通過。初回はBlogアーカイブの戻る直後の年選択が1件失敗し、個別3回と全体再実行では再現しませんでした。原因は独立確定しておらず、アーカイブのソース・テストを変更せず記録しています。
+  </p>
+  <p>
+    10寸法×360角度の最小余白は18.952 CSS
+    px（線幅込み）。高密度参照点列との最大曲線誤差は0.074 CSS
+    px。停止・再開、キーボード／タップ、停止後のフォーカス移動、Astro往復、reduced-motion、画面外／合成の非表示通知、後始末、JS無効／Canvas失敗時SVG、検索、既存レイアウトを回帰確認しました。
+  </p>
+  <p>
+    <a href="verification.json">TDD・変更ファイル・コマンドと結果</a> /
+    <a href="artifact-validation.json">資料・ソース・レイアウトの整合性</a>
+  </p>
+  <p>
+    Firefox／Safari・実機タッチ・実OSタブ切替・Windows起動は未検証。タッチはChromiumエミュレーション、非表示は合成通知と単体検証。回転・描画制御、共通レイアウト、他ページ、依存・CI・公開設定は変更していません。マージ・公開は行っていません。
+  </p>
+</html>

@@ -1,0 +1,92 @@
+{
+  "baseline": "c973d289f1f8c125669d750d0e9bec198738f3f6",
+  "implementationCommit": "7132c5fae6c02fee8bc0636b990f5e3743bb177b",
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "changedFiles": [
+    "DESIGN.md",
+    "src/utils/wireframeGeometry.ts",
+    "src/utils/wireframeStaffShells.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts"
+  ],
+  "checks": {
+    "check": {
+      "file": "check-final.log",
+      "sha256": "f9290dd86c8013bb8fd48cc5bc50c097a7145e8a5a8cf2718223214d8d6059e3"
+    },
+    "lint": {
+      "file": "lint-final.log",
+      "sha256": "75151499d5b0620a9a9f3a0923dc11b6aaa2a19fdbaead817da47a46a8c5e7d5"
+    },
+    "unit": {
+      "file": "unit-final.log",
+      "sha256": "10377a1d43b7021fbfa172e726c64b01caca12e19da01b8ad4f8010fcfcb50dc"
+    },
+    "build": {
+      "file": "build-final.log",
+      "sha256": "db525a848f837803e92a9ba1dc613041cb18ed150a46570bcf41f33ad3431370"
+    },
+    "browser": {
+      "file": "visual-rerun.log",
+      "sha256": "57dd94c530e88584dddfa461b3d12e9d8d552c8f37ed05416432512fa39ce4ca"
+    },
+    "archiveRepeat": {
+      "file": "archive-repeat.log",
+      "sha256": "db2f2aa50a377e55909e36182f8d2043229390bb939ca16ab4fd297ae07acd05"
+    }
+  },
+  "commands": [
+    "npm run check",
+    "npm run lint",
+    "npm run test -- --run",
+    "npm run build",
+    "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- --workers=2",
+    "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- tests/visual/blog-archive.spec.ts --project=mobile --grep \"selects years locally\" --repeat-each=3 --workers=1"
+  ],
+  "tdd": [
+    {
+      "red": "red-petals.log",
+      "green": "green-petals.log",
+      "behavior": "Two leading petals, shorter inner crown, broad shoulders and separated tips"
+    },
+    {
+      "red": "red-structure.log",
+      "green": "green-shaft.log",
+      "behavior": "Contour hierarchy, open guards, exposed columns and vertical front silhouette"
+    },
+    {
+      "red": "red-shaft.log",
+      "green": "green-shaft.log",
+      "behavior": "Connected offset clamp, lower auxiliary bar and terminal accents"
+    },
+    {
+      "red": "red-tip.log",
+      "green": "green-tip.log",
+      "behavior": "Leading tip remains at least 6 CSS px above both shoulder edges at the narrow 90-degree view"
+    },
+    {
+      "red": "red-docs.log",
+      "green": "unit-final.log",
+      "behavior": "Design guidance describes the chosen hierarchy and restraints"
+    }
+  ],
+  "initialBrowserFailure": {
+    "test": "mobile blog-archive.spec.ts:146, selects years locally and preserves month navigation through ClientRouter and back",
+    "result": "91 passed, 1 failed: after browser back, 2025 December was not visible and the year remained 2026",
+    "followup": "The same test passed 3 isolated repetitions without any source or test changes. The full suite then passed 92/92 without concurrent capture processes. Exact race cause not independently established; no unrelated fix or skip.",
+    "logSha256": "0f9a6be4d5639b54eb93efe90503de2d471cc32ccb8df63d061892c562d45ccd"
+  },
+  "unverified": [
+    "Firefox",
+    "Safari",
+    "Physical touch devices",
+    "Actual operating-system tab switches",
+    "Windows test runner"
+  ],
+  "notes": [
+    "Touch uses Chromium emulation. Hidden-tab notifications are synthetic browser events plus unit coverage.",
+    "No production layout, projection, lifecycle, dependencies, search, CI or deployment settings changed.",
+    "No merge or production deployment."
+  ]
+}
