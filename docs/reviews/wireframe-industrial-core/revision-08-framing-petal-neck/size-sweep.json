@@ -1,0 +1,230 @@
+{
+  "baseline": "0803619d5f1ead685ac86dbcdcc3e5c7301dca46",
+  "method": "unchanged geometry, conservative half maximum stroke 0.55 CSS px, every degree, fixed base origin",
+  "rows": [
+    {
+      "width": 267,
+      "height": 258,
+      "multiplier": 1,
+      "fit": {
+        "scale": 21.590919390341387,
+        "centerX": 133.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": 20.5521934253463,
+      "maxOverflow": 0,
+      "worstPhase": 284,
+      "completeFrames": 360
+    },
+    {
+      "width": 267,
+      "height": 258,
+      "multiplier": 1.25,
+      "fit": {
+        "scale": 26.988649237926733,
+        "centerX": 133.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": -7.052416341540737,
+      "maxOverflow": 7.052416341540737,
+      "worstPhase": 284,
+      "completeFrames": 241
+    },
+    {
+      "width": 267,
+      "height": 258,
+      "multiplier": 1.3,
+      "fit": {
+        "scale": 28.068195207443804,
+        "centerX": 133.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": -12.573338294918148,
+      "maxOverflow": 12.573338294918148,
+      "worstPhase": 284,
+      "completeFrames": 198
+    },
+    {
+      "width": 267,
+      "height": 258,
+      "multiplier": 1.35,
+      "fit": {
+        "scale": 29.147741176960874,
+        "centerX": 133.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": -18.09426024829556,
+      "maxOverflow": 18.09426024829556,
+      "worstPhase": 284,
+      "completeFrames": 160
+    },
+    {
+      "width": 223,
+      "height": 258,
+      "multiplier": 1,
+      "fit": {
+        "scale": 21.590919390341387,
+        "centerX": 111.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": 20.5521934253463,
+      "maxOverflow": 0,
+      "worstPhase": 284,
+      "completeFrames": 360
+    },
+    {
+      "width": 223,
+      "height": 258,
+      "multiplier": 1.25,
+      "fit": {
+        "scale": 26.988649237926733,
+        "centerX": 111.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": -7.052416341540737,
+      "maxOverflow": 7.052416341540737,
+      "worstPhase": 284,
+      "completeFrames": 241
+    },
+    {
+      "width": 223,
+      "height": 258,
+      "multiplier": 1.3,
+      "fit": {
+        "scale": 28.068195207443804,
+        "centerX": 111.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": -12.573338294918148,
+      "maxOverflow": 12.573338294918148,
+      "worstPhase": 284,
+      "completeFrames": 198
+    },
+    {
+      "width": 223,
+      "height": 258,
+      "multiplier": 1.35,
+      "fit": {
+        "scale": 29.147741176960874,
+        "centerX": 111.5,
+        "centerY": 131.5206324928944
+      },
+      "minimumClearance": -18.09426024829556,
+      "maxOverflow": 18.09426024829556,
+      "worstPhase": 284,
+      "completeFrames": 160
+    },
+    {
+      "width": 348,
+      "height": 238,
+      "multiplier": 1,
+      "fit": {
+        "scale": 19.91003816104272,
+        "centerX": 174,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": 18.952178366930877,
+      "maxOverflow": 0,
+      "worstPhase": 284,
+      "completeFrames": 360
+    },
+    {
+      "width": 348,
+      "height": 238,
+      "multiplier": 1.25,
+      "fit": {
+        "scale": 24.8875477013034,
+        "centerX": 174,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": -6.5033765329349675,
+      "maxOverflow": 6.5033765329349675,
+      "worstPhase": 284,
+      "completeFrames": 241
+    },
+    {
+      "width": 348,
+      "height": 238,
+      "multiplier": 1.3,
+      "fit": {
+        "scale": 25.883049609355538,
+        "centerX": 174,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": -11.594487512908135,
+      "maxOverflow": 11.594487512908135,
+      "worstPhase": 284,
+      "completeFrames": 198
+    },
+    {
+      "width": 348,
+      "height": 238,
+      "multiplier": 1.35,
+      "fit": {
+        "scale": 26.878551517407676,
+        "centerX": 174,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": -16.68559849288133,
+      "maxOverflow": 16.68559849288133,
+      "worstPhase": 284,
+      "completeFrames": 160
+    },
+    {
+      "width": 278,
+      "height": 238,
+      "multiplier": 1,
+      "fit": {
+        "scale": 19.91003816104272,
+        "centerX": 139,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": 18.952178366930877,
+      "maxOverflow": 0,
+      "worstPhase": 284,
+      "completeFrames": 360
+    },
+    {
+      "width": 278,
+      "height": 238,
+      "multiplier": 1.25,
+      "fit": {
+        "scale": 24.8875477013034,
+        "centerX": 139,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": -6.5033765329349675,
+      "maxOverflow": 6.5033765329349675,
+      "worstPhase": 284,
+      "completeFrames": 241
+    },
+    {
+      "width": 278,
+      "height": 238,
+      "multiplier": 1.3,
+      "fit": {
+        "scale": 25.883049609355538,
+        "centerX": 139,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": -11.594487512908135,
+      "maxOverflow": 11.594487512908135,
+      "worstPhase": 284,
+      "completeFrames": 198
+    },
+    {
+      "width": 278,
+      "height": 238,
+      "multiplier": 1.35,
+      "fit": {
+        "scale": 26.878551517407676,
+        "centerX": 139,
+        "centerY": 121.32439796639427
+      },
+      "minimumClearance": -16.68559849288133,
+      "maxOverflow": 16.68559849288133,
+      "worstPhase": 284,
+      "completeFrames": 160
+    }
+  ]
+}

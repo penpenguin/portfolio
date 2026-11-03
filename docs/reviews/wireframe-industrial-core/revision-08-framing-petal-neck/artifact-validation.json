@@ -1,0 +1,161 @@
+{
+  "baseline": "0803619d5f1ead685ac86dbcdcc3e5c7301dca46",
+  "implementationCommit": "c0114896bf4ffb5fc8a4ab5fa93389131ca024a1",
+  "boxes": [
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 980,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 768,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 980,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 768,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "identical": true
+    }
+  ],
+  "hashes": [
+    {
+      "file": "src/utils/wireframeDevice.ts",
+      "identical": true
+    },
+    {
+      "file": "src/utils/wireframeStaffShells.ts",
+      "identical": true
+    },
+    {
+      "file": "src/utils/wireframeGeometry.ts",
+      "identical": true
+    },
+    {
+      "file": "src/scripts/wireframeDevice.ts",
+      "identical": true
+    },
+    {
+      "file": "src/components/WireframeDevice.astro",
+      "identical": true
+    },
+    {
+      "file": "dist/index.html",
+      "identical": true
+    }
+  ],
+  "continuous": [
+    {
+      "name": "size",
+      "durationMs": 16074.399999976158,
+      "errors": [],
+      "samples": 9
+    },
+    {
+      "name": "shape",
+      "durationMs": 16056,
+      "errors": [],
+      "samples": 9
+    }
+  ],
+  "samples": [
+    {
+      "label": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "samples": 480,
+      "valid": true
+    },
+    {
+      "label": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "samples": 480,
+      "valid": true
+    },
+    {
+      "label": "after",
+      "viewport": 1440,
+      "dpr": 1,
+      "samples": 480,
+      "valid": true
+    },
+    {
+      "label": "after",
+      "viewport": 390,
+      "dpr": 2,
+      "samples": 480,
+      "valid": true
+    }
+  ],
+  "comparisons": {
+    "total": 128,
+    "identical": 128
+  },
+  "links": 57,
+  "missing": [],
+  "unchangedParts": [
+    {
+      "part": "shaft",
+      "identical": true
+    },
+    {
+      "part": "pommel",
+      "identical": true
+    },
+    {
+      "part": "cooling",
+      "identical": true
+    },
+    {
+      "part": "wiring",
+      "identical": true
+    }
+  ],
+  "valid": true
+}

@@ -1,0 +1,90 @@
+{
+  "baseline": "0803619d5f1ead685ac86dbcdcc3e5c7301dca46",
+  "implementationCommit": "c0114896bf4ffb5fc8a4ab5fa93389131ca024a1",
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "commands": [
+    {
+      "command": "npm run check",
+      "result": "pass; 97 files; 0 errors, warnings and hints"
+    },
+    {
+      "command": "npm run lint",
+      "result": "pass"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "pass; 53 files, 357 tests, no skipped tests"
+    },
+    {
+      "command": "npm run build",
+      "result": "pass; Astro static build and Pagefind"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- --workers=2",
+      "result": "pass; 96 Chromium desktop/mobile tests, first full run"
+    },
+    {
+      "command": "prettier --check (changed source and test files)",
+      "result": "pass"
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    }
+  ],
+  "tdd": [
+    {
+      "red": "scale ratio 1 instead of 1.30; new argument rejected by check",
+      "green": "fixed magnification without moving base origin or changing line width/opacity"
+    },
+    {
+      "red": "protected landmark API missing",
+      "green": "semantic landmarks are actual shared geometry vertices"
+    },
+    {
+      "red": "responsive SVG projection API missing",
+      "green": "Canvas/SVG transforms agree across four stage sizes"
+    },
+    {
+      "red": "old tip height 4.9, belly width 1.352, root span 0.22",
+      "green": "shorter broad leading petals and stepped mounts"
+    },
+    {
+      "red": "calyx supports converge on the low shaft joint",
+      "green": "supports seat on three existing sleeve levels"
+    },
+    {
+      "red": "foreshortened tip gap 21.552 CSS px",
+      "green": "inward tip follows the adjacent middle crown within 18 CSS px"
+    },
+    {
+      "red": "documentation lacks fixed magnification/protected clipping policy",
+      "green": "updated DESIGN policy and document tests"
+    }
+  ],
+  "changes": [
+    "DESIGN.md",
+    "src/components/WireframeDevice.astro",
+    "src/utils/wireframeDevice.ts",
+    "src/utils/wireframeGeometry.ts",
+    "src/utils/wireframeStaffShells.ts",
+    "tests/unit/components/WireframeDevice.test.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "tests/unit/utils/wireframeDevice.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts",
+    "tests/visual/wireframe-device.spec.ts"
+  ],
+  "unverified": [
+    "Firefox",
+    "Safari",
+    "physical touch devices",
+    "real OS tab switching (synthetic visibility notifications and unit lifecycle coverage were used)",
+    "Windows runner"
+  ],
+  "environmentNotes": [
+    "Sandbox could not bind the local port or launch Chromium; both were rerun with approved sandbox escalation.",
+    "No functional test was removed or skipped.",
+    "No merge or deployment performed."
+  ]
+}

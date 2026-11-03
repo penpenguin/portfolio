@@ -1,0 +1,1256 @@
+{
+  "baseline": "0803619d5f1ead685ac86dbcdcc3e5c7301dca46",
+  "fitFactor": 0.84,
+  "models": {
+    "before": {
+      "edges": 4874,
+      "vertices": 4154,
+      "parts": {
+        "head": {
+          "edges": 3928,
+          "sha256": "a79e7640dae4c9aa615d658cc3d21c52b0f2c17e9cdd19f7b2652a89f0fa75c1"
+        },
+        "neck": {
+          "edges": 287,
+          "sha256": "2836a5f2b0ff7c9094ede4d395a552dbcfee4fe22fbf04e2ba53b6da7b8c835e"
+        },
+        "shaft": {
+          "edges": 241,
+          "sha256": "8182821a5c995939291c755804484deb98e4052cb2ddd4c06b7f7a2ab3dc4ca2"
+        },
+        "pommel": {
+          "edges": 136,
+          "sha256": "6ed5b649f8f5b572dbd58eb437158553ba2ac2e9d1b0554e360c8fd3c10d6e2a"
+        },
+        "cooling": {
+          "edges": 114,
+          "sha256": "7dcc7346f3a3ee57fd97cd031df6f4e06aadfa38cf7ddbd0099be5420409b24d"
+        },
+        "wiring": {
+          "edges": 168,
+          "sha256": "b7c230c2937863381a143c94d47f2e4e4ce210faa3d4abd51b370dc5ff174477"
+        }
+      },
+      "length": 9.9,
+      "headLength": 4.42680886,
+      "diameter": 3.538997182730649,
+      "bounds": {
+        "left": -3.0697441862981383,
+        "right": 3.0697441862981383,
+        "bottom": -4.880633640559361,
+        "top": 5.114123696941306,
+        "far": -4.051599077605925,
+        "near": 3.841773544801043
+      },
+      "headViews": [
+        {
+          "degree": 0,
+          "width": 70.71963493073189,
+          "height": 102.55978463744694,
+          "ratio": 1.4502306854086802
+        },
+        {
+          "degree": 45,
+          "width": 69.38830736249233,
+          "height": 98.40502999472945,
+          "ratio": 1.4181788508062387
+        },
+        {
+          "degree": 90,
+          "width": 69.58357084983473,
+          "height": 94.91499492890104,
+          "ratio": 1.3640431752738438
+        },
+        {
+          "degree": 135,
+          "width": 71.4156302563651,
+          "height": 95.28169621624508,
+          "ratio": 1.3341854699623386
+        },
+        {
+          "degree": 180,
+          "width": 70.7196349307319,
+          "height": 95.22978525103868,
+          "ratio": 1.3465819689866025
+        },
+        {
+          "degree": 225,
+          "width": 69.38830736249233,
+          "height": 97.99018327446612,
+          "ratio": 1.412200225068964
+        },
+        {
+          "degree": 270,
+          "width": 69.58357084983476,
+          "height": 101.59805060779611,
+          "ratio": 1.460086761385822
+        },
+        {
+          "degree": 315,
+          "width": 71.41563025636512,
+          "height": 102.57203575250598,
+          "ratio": 1.4362687185465812
+        }
+      ],
+      "stages": [
+        {
+          "width": 224,
+          "height": 240,
+          "minimumClearance": 19.112179872772412,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 20.078126283972587,
+            "centerX": 112,
+            "centerY": 122.34402141904428
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 65.29065688096358
+        },
+        {
+          "width": 278,
+          "height": 240,
+          "minimumClearance": 19.112179872772412,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 20.078126283972587,
+            "centerX": 139,
+            "centerY": 122.34402141904428
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 65.29065688096358
+        },
+        {
+          "width": 348,
+          "height": 240,
+          "minimumClearance": 19.112179872772412,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 20.078126283972587,
+            "centerX": 174,
+            "centerY": 122.34402141904428
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 65.29065688096355
+        },
+        {
+          "width": 938,
+          "height": 240,
+          "minimumClearance": 19.112179872772412,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 20.078126283972587,
+            "centerX": 469,
+            "centerY": 122.34402141904428
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 65.29065688096364
+        },
+        {
+          "width": 267,
+          "height": 258,
+          "minimumClearance": 20.5521934253463,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 21.590919390341387,
+            "centerX": 133.5,
+            "centerY": 131.5206324928944
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 70.21000315077248
+        },
+        {
+          "width": 223,
+          "height": 258,
+          "minimumClearance": 20.5521934253463,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 21.590919390341387,
+            "centerX": 111.5,
+            "centerY": 131.5206324928944
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 70.21000315077247
+        },
+        {
+          "width": 348,
+          "height": 238,
+          "minimumClearance": 18.952178366930877,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 19.91003816104272,
+            "centerX": 174,
+            "centerY": 121.32439796639427
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 64.74406285098482
+        },
+        {
+          "width": 278,
+          "height": 238,
+          "minimumClearance": 18.952178366930877,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 19.91003816104272,
+            "centerX": 139,
+            "centerY": 121.32439796639427
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 64.74406285098482
+        },
+        {
+          "width": 914,
+          "height": 238,
+          "minimumClearance": 18.952178366930877,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 19.91003816104272,
+            "centerX": 457,
+            "centerY": 121.32439796639427
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 64.74406285098473
+        },
+        {
+          "width": 726,
+          "height": 238,
+          "minimumClearance": 18.952178366930877,
+          "minimumProtectedClearance": null,
+          "protectedByGroup": {},
+          "completeFrames": 360,
+          "pommelCompleteFrames": 360,
+          "fit": {
+            "scale": 19.91003816104272,
+            "centerX": 363,
+            "centerY": 121.32439796639427
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.841735995939842
+          ],
+          "initialHeadTransverseWidth": 64.74406285098476
+        }
+      ],
+      "directions": [
+        {
+          "degree": 0,
+          "dx": -11.867797064943659,
+          "dy": -16.948970722719196,
+          "leftTiltDegrees": 35.000000000000014
+        },
+        {
+          "degree": 90,
+          "dx": 0,
+          "dy": -12.889945069607222,
+          "leftTiltDegrees": 0
+        },
+        {
+          "degree": 180,
+          "dx": 11.867797064943659,
+          "dy": -16.948970722719196,
+          "leftTiltDegrees": -35.000000000000014
+        },
+        {
+          "degree": 270,
+          "dx": 0,
+          "dy": -21.00799637583117,
+          "leftTiltDegrees": 0
+        },
+        {
+          "degree": 360,
+          "dx": -11.867797064943659,
+          "dy": -16.948970722719196,
+          "leftTiltDegrees": 35.000000000000014
+        }
+      ]
+    },
+    "after": {
+      "edges": 4874,
+      "vertices": 4154,
+      "parts": {
+        "head": {
+          "edges": 3928,
+          "sha256": "10894db31bb123089e96561fe7ede7bad6d082a5a1a6745920fe4399cf113602"
+        },
+        "neck": {
+          "edges": 287,
+          "sha256": "5429431df6e358a38d700b401ab3aebaeb36d075795ff0fd00451e526ee86460"
+        },
+        "shaft": {
+          "edges": 241,
+          "sha256": "8182821a5c995939291c755804484deb98e4052cb2ddd4c06b7f7a2ab3dc4ca2"
+        },
+        "pommel": {
+          "edges": 136,
+          "sha256": "6ed5b649f8f5b572dbd58eb437158553ba2ac2e9d1b0554e360c8fd3c10d6e2a"
+        },
+        "cooling": {
+          "edges": 114,
+          "sha256": "7dcc7346f3a3ee57fd97cd031df6f4e06aadfa38cf7ddbd0099be5420409b24d"
+        },
+        "wiring": {
+          "edges": 168,
+          "sha256": "b7c230c2937863381a143c94d47f2e4e4ce210faa3d4abd51b370dc5ff174477"
+        }
+      },
+      "length": 9.65,
+      "headLength": 4.15,
+      "diameter": 3.7705543808141275,
+      "bounds": {
+        "left": -3.0697441862981383,
+        "right": 3.0697441862981383,
+        "bottom": -4.880633640559361,
+        "top": 4.730148869028916,
+        "far": -4.051599077605925,
+        "near": 3.795321061351186
+      },
+      "headViews": [
+        {
+          "degree": 0,
+          "width": 95.16149446858108,
+          "height": 119.5833402520189,
+          "ratio": 1.2566357949695823
+        },
+        {
+          "degree": 45,
+          "width": 94.66241164535589,
+          "height": 112.62916399317879,
+          "ratio": 1.189798168412756
+        },
+        {
+          "degree": 90,
+          "width": 95.88515709930547,
+          "height": 110.51130035240625,
+          "ratio": 1.1525381372421688
+        },
+        {
+          "degree": 135,
+          "width": 101.19488815881982,
+          "height": 112.61461503230903,
+          "ratio": 1.1128488511748398
+        },
+        {
+          "degree": 180,
+          "width": 95.16149446858107,
+          "height": 113.08322245322371,
+          "ratio": 1.1883296188728916
+        },
+        {
+          "degree": 225,
+          "width": 94.66241164535589,
+          "height": 120.95700922532308,
+          "ratio": 1.2777723187370031
+        },
+        {
+          "degree": 270,
+          "width": 95.88515709930547,
+          "height": 125.805274502827,
+          "ratio": 1.3120411783080683
+        },
+        {
+          "degree": 315,
+          "width": 101.19488815881982,
+          "height": 124.49412594777073,
+          "ratio": 1.230241252427534
+        }
+      ],
+      "stages": [
+        {
+          "width": 224,
+          "height": 240,
+          "minimumClearance": -11.460159000279123,
+          "minimumProtectedClearance": 0.8103821028138156,
+          "protectedByGroup": {
+            "core": 0.8103821028138156,
+            "neck": 77.12948569378155,
+            "petalBellies": 28.487972149637624,
+            "petalMounts": 66.12556881885858,
+            "shaftConnection": 94.7373778065721,
+            "supports": 27.016093093735517
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 27.14438701944739,
+            "centerX": 112,
+            "centerY": 118.42891658501712
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 89.26685561963453
+        },
+        {
+          "width": 278,
+          "height": 240,
+          "minimumClearance": -11.460159000279123,
+          "minimumProtectedClearance": 0.8103821028138156,
+          "protectedByGroup": {
+            "core": 0.8103821028138156,
+            "neck": 78.78583697636996,
+            "petalBellies": 28.487972149637624,
+            "petalMounts": 66.12556881885858,
+            "shaftConnection": 95.22465252624421,
+            "supports": 27.016093093735517
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 27.14438701944739,
+            "centerX": 139,
+            "centerY": 118.42891658501712
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 89.26685561963453
+        },
+        {
+          "width": 348,
+          "height": 240,
+          "minimumClearance": -11.460159000279123,
+          "minimumProtectedClearance": 0.8103821028138156,
+          "protectedByGroup": {
+            "core": 0.8103821028138156,
+            "neck": 78.78583697636996,
+            "petalBellies": 28.487972149637624,
+            "petalMounts": 66.12556881885858,
+            "shaftConnection": 95.22465252624421,
+            "supports": 27.016093093735517
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 27.14438701944739,
+            "centerX": 174,
+            "centerY": 118.42891658501712
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 89.26685561963453
+        },
+        {
+          "width": 938,
+          "height": 240,
+          "minimumClearance": -11.460159000279123,
+          "minimumProtectedClearance": 0.8103821028138156,
+          "protectedByGroup": {
+            "core": 0.8103821028138156,
+            "neck": 78.78583697636996,
+            "petalBellies": 28.487972149637624,
+            "petalMounts": 66.12556881885858,
+            "shaftConnection": 95.22465252624421,
+            "supports": 27.016093093735517
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 27.14438701944739,
+            "centerX": 469,
+            "centerY": 118.42891658501712
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 89.26685561963455
+        },
+        {
+          "width": 267,
+          "height": 258,
+          "minimumClearance": -12.323628493812055,
+          "minimumProtectedClearance": 0.871440612025421,
+          "protectedByGroup": {
+            "core": 0.871440612025421,
+            "neck": 84.72198208132876,
+            "petalBellies": 30.63440789134327,
+            "petalMounts": 71.10782180646618,
+            "shaftConnection": 102.39938565923875,
+            "supports": 29.05162961816934
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 29.189589892407007,
+            "centerX": 133.5,
+            "centerY": 127.3105427822976
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 95.99269656209339
+        },
+        {
+          "width": 223,
+          "height": 258,
+          "minimumClearance": -12.323628493812055,
+          "minimumProtectedClearance": 0.871440612025421,
+          "protectedByGroup": {
+            "core": 0.871440612025421,
+            "neck": 74.04359512236283,
+            "petalBellies": 30.63440789134327,
+            "petalMounts": 71.10782180646618,
+            "shaftConnection": 92.97815972586174,
+            "supports": 29.05162961816934
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 29.189589892407007,
+            "centerX": 111.5,
+            "centerY": 127.3105427822976
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 95.99269656209339
+        },
+        {
+          "width": 348,
+          "height": 238,
+          "minimumClearance": -11.364217945442125,
+          "minimumProtectedClearance": 0.8035978240125388,
+          "protectedByGroup": {
+            "core": 0.8035978240125388,
+            "neck": 78.1262652980412,
+            "petalBellies": 28.249479289448114,
+            "petalMounts": 65.57198515356886,
+            "shaftConnection": 94.42745995591149,
+            "supports": 26.78992236879844
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 26.91714225578521,
+            "centerX": 174,
+            "centerY": 117.44206922976373
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 88.51953995936131
+        },
+        {
+          "width": 278,
+          "height": 238,
+          "minimumClearance": -11.364217945442125,
+          "minimumProtectedClearance": 0.8035978240125388,
+          "protectedByGroup": {
+            "core": 0.8035978240125388,
+            "neck": 78.1262652980412,
+            "petalBellies": 28.249479289448114,
+            "petalMounts": 65.57198515356886,
+            "shaftConnection": 94.42745995591149,
+            "supports": 26.78992236879844
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 26.91714225578521,
+            "centerX": 139,
+            "centerY": 117.44206922976373
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 88.51953995936131
+        },
+        {
+          "width": 914,
+          "height": 238,
+          "minimumClearance": -11.364217945442125,
+          "minimumProtectedClearance": 0.8035978240125388,
+          "protectedByGroup": {
+            "core": 0.8035978240125388,
+            "neck": 78.1262652980412,
+            "petalBellies": 28.249479289448114,
+            "petalMounts": 65.57198515356886,
+            "shaftConnection": 94.42745995591149,
+            "supports": 26.78992236879844
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 26.91714225578521,
+            "centerX": 457,
+            "centerY": 117.44206922976373
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 88.51953995936134
+        },
+        {
+          "width": 726,
+          "height": 238,
+          "minimumClearance": -11.364217945442125,
+          "minimumProtectedClearance": 0.8035978240125388,
+          "protectedByGroup": {
+            "core": 0.8035978240125388,
+            "neck": 78.1262652980412,
+            "petalBellies": 28.249479289448114,
+            "petalMounts": 65.57198515356886,
+            "shaftConnection": 94.42745995591149,
+            "supports": 26.78992236879844
+          },
+          "completeFrames": 225,
+          "pommelCompleteFrames": 245,
+          "fit": {
+            "scale": 26.91714225578521,
+            "centerX": 363,
+            "centerY": 117.44206922976373
+          },
+          "sampledDepth": [
+            -4.05154409370739,
+            3.7953195172538265
+          ],
+          "initialHeadTransverseWidth": 88.51953995936131
+        }
+      ],
+      "directions": [
+        {
+          "degree": 0,
+          "dx": -16.044528859062154,
+          "dy": -22.913961909185915,
+          "leftTiltDegrees": 35.00000000000004
+        },
+        {
+          "degree": 90,
+          "dx": 0,
+          "dy": -17.426409849216668,
+          "leftTiltDegrees": 0
+        },
+        {
+          "degree": 180,
+          "dx": 16.044528859062154,
+          "dy": -22.913961909185915,
+          "leftTiltDegrees": -35.00000000000004
+        },
+        {
+          "degree": 270,
+          "dx": 0,
+          "dy": -28.40151396915519,
+          "leftTiltDegrees": 0
+        },
+        {
+          "degree": 360,
+          "dx": -16.044528859062154,
+          "dy": -22.913961909185915,
+          "leftTiltDegrees": 35.00000000000004
+        }
+      ]
+    }
+  },
+  "transformChecks": {
+    "maxWorldYError": 0,
+    "maxRadiusError": 4.440892098500626e-16,
+    "maxInitialPoseError": 8.881784197001252e-16,
+    "initialModelYawDegrees": 30,
+    "initialScreenTiltDegrees": 35,
+    "initialSpinPhaseDegrees": 0,
+    "pivot": [
+      0,
+      0,
+      0
+    ]
+  },
+  "curves": {
+    "maxErrorCssPx": 0.09991530860532517,
+    "segmentsPerCubic": 16,
+    "referencePerCubic": 128,
+    "transverseSegments": 8,
+    "sharedAcrossAnchors": [
+      -0.45,
+      0.45
+    ]
+  },
+  "petals": [
+    {
+      "id": "outer-1",
+      "layer": "outer",
+      "length": 2.996184679737654,
+      "maxWidth": 1.2000000000000002,
+      "ratio": 2.496820566448045,
+      "tip": [
+        -1.3907450787631446,
+        3.35,
+        -0.506189812121989
+      ],
+      "profile": {
+        "taperStart": 0.76,
+        "role": "open",
+        "belly": 0.52,
+        "flare": -0.2,
+        "twist": 0.08726646259971647,
+        "thickness": 0.075,
+        "azimuth": 3.4033920413889422,
+        "root": 0.7,
+        "tip": 3.35,
+        "opening": 1.32,
+        "tipRadius": 1.48,
+        "width": 1.2
+      }
+    },
+    {
+      "id": "outer-2",
+      "layer": "outer",
+      "length": 2.775985819801006,
+      "maxWidth": 1.1,
+      "ratio": 2.523623472546369,
+      "tip": [
+        0.344638065942639,
+        3.45,
+        0.8530091462014444
+      ],
+      "profile": {
+        "taperStart": 0.76,
+        "role": "closed",
+        "belly": 0.56,
+        "flare": 0.14,
+        "twist": -0.12217304763960307,
+        "thickness": 0.065,
+        "azimuth": 1.3089969389957472,
+        "root": 0.95,
+        "tip": 3.45,
+        "opening": 1.13,
+        "tipRadius": 0.92,
+        "width": 1.1
+      }
+    },
+    {
+      "id": "outer-3",
+      "layer": "outer",
+      "length": 3.840881316723019,
+      "maxWidth": 1.54,
+      "ratio": 2.494078777092869,
+      "tip": [
+        -0.5723128053718612,
+        4.4,
+        0.9158919438489402
+      ],
+      "profile": {
+        "taperStart": 0.76,
+        "role": "primary",
+        "belly": 0.5,
+        "flare": -0.12,
+        "twist": 0.12217304763960307,
+        "thickness": 0.085,
+        "azimuth": 2.007128639793479,
+        "root": 0.86,
+        "tip": 4.4,
+        "opening": 1.3,
+        "tipRadius": 1.08,
+        "width": 1.54
+      }
+    },
+    {
+      "id": "outer-4",
+      "layer": "outer",
+      "length": 4.222273167177527,
+      "maxWidth": 1.6199999999999997,
+      "ratio": 2.6063414612206963,
+      "tip": [
+        0.8693332436601615,
+        4.65,
+        0.23293714059226867
+      ],
+      "profile": {
+        "taperStart": 0.76,
+        "role": "primary",
+        "belly": 0.52,
+        "flare": 0.06,
+        "twist": -0.08726646259971647,
+        "thickness": 0.08,
+        "azimuth": 0.3490658503988659,
+        "root": 0.78,
+        "tip": 4.65,
+        "opening": 1.36,
+        "tipRadius": 0.9,
+        "width": 1.62
+      }
+    },
+    {
+      "id": "outer-5",
+      "layer": "outer",
+      "length": 2.460247631353802,
+      "maxWidth": 1.12,
+      "ratio": 2.196649670851609,
+      "tip": [
+        -0.34867413423299115,
+        3,
+        -1.5102736004171144
+      ],
+      "profile": {
+        "taperStart": 0.76,
+        "role": "open",
+        "belly": 0.5,
+        "flare": -0.24,
+        "twist": -0.13962634015954636,
+        "thickness": 0.075,
+        "azimuth": 4.625122517784973,
+        "root": 1.03,
+        "tip": 3,
+        "opening": 1.36,
+        "tipRadius": 1.55,
+        "width": 1.12
+      }
+    },
+    {
+      "id": "outer-6",
+      "layer": "outer",
+      "length": 2.7021052981065523,
+      "maxWidth": 1.1199999999999999,
+      "ratio": 2.412594016166565,
+      "tip": [
+        0.7536198807458723,
+        3.55,
+        -0.5276903214429628
+      ],
+      "profile": {
+        "taperStart": 0.76,
+        "role": "closed",
+        "belly": 0.56,
+        "flare": 0.1,
+        "twist": 0.08726646259971647,
+        "thickness": 0.06,
+        "azimuth": 5.585053606381854,
+        "root": 1.15,
+        "tip": 3.55,
+        "opening": 1.16,
+        "tipRadius": 0.92,
+        "width": 1.12
+      }
+    },
+    {
+      "id": "middle-1",
+      "layer": "middle",
+      "length": 3.0281618499853025,
+      "maxWidth": 1.02,
+      "ratio": 2.9687861274365708,
+      "tip": [
+        0.5809075832247551,
+        4.18,
+        0.3832240292645237
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.52,
+        "flare": 0.12,
+        "twist": 0.08726646259971647,
+        "thickness": 0.06,
+        "azimuth": 0.39269908169872414,
+        "root": 1.4,
+        "tip": 4.18,
+        "opening": 1.02,
+        "tipRadius": 0.7,
+        "width": 1.02
+      }
+    },
+    {
+      "id": "middle-2",
+      "layer": "middle",
+      "length": 2.628277060474268,
+      "maxWidth": 0.9899999999999999,
+      "ratio": 2.654825313610372,
+      "tip": [
+        0.32286165272197415,
+        3.52,
+        0.894524667690463
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.5,
+        "flare": -0.08,
+        "twist": -0.10471975511965977,
+        "thickness": 0.06,
+        "azimuth": 1.2653637076958888,
+        "root": 1.26,
+        "tip": 3.52,
+        "opening": 1.16,
+        "tipRadius": 0.91,
+        "width": 0.99
+      }
+    },
+    {
+      "id": "middle-3",
+      "layer": "middle",
+      "length": 3.0464486839239364,
+      "maxWidth": 1.01,
+      "ratio": 3.0162858256672638,
+      "tip": [
+        -0.24157567469836347,
+        4.25,
+        0.5717296623901136
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.55,
+        "flare": 0.16,
+        "twist": 0.08726646259971647,
+        "thickness": 0.06,
+        "azimuth": 1.858775653373961,
+        "root": 1.48,
+        "tip": 4.25,
+        "opening": 0.99,
+        "tipRadius": 0.55,
+        "width": 1.01
+      }
+    },
+    {
+      "id": "middle-4",
+      "layer": "middle",
+      "length": 2.6970319157818547,
+      "maxWidth": 1.03,
+      "ratio": 2.618477588137723,
+      "tip": [
+        -0.771094080323387,
+        3.72,
+        0.4087139884147194
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.53,
+        "flare": -0.08,
+        "twist": -0.13962634015954636,
+        "thickness": 0.06,
+        "azimuth": 2.8361600344907854,
+        "root": 1.38,
+        "tip": 3.72,
+        "opening": 1.13,
+        "tipRadius": 0.81,
+        "width": 1.03
+      }
+    },
+    {
+      "id": "middle-5",
+      "layer": "middle",
+      "length": 3.0854298068728405,
+      "maxWidth": 1.04,
+      "ratio": 2.9667594296854234,
+      "tip": [
+        -0.604175987943457,
+        4.1,
+        -0.19710981044686793
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.57,
+        "flare": 0.12,
+        "twist": 0.08726646259971647,
+        "thickness": 0.06,
+        "azimuth": 3.481931857728687,
+        "root": 1.3,
+        "tip": 4.1,
+        "opening": 1.04,
+        "tipRadius": 0.62,
+        "width": 1.04
+      }
+    },
+    {
+      "id": "middle-6",
+      "layer": "middle",
+      "length": 2.4183943944634416,
+      "maxWidth": 0.9599999999999999,
+      "ratio": 2.5191608275660853,
+      "tip": [
+        -0.30462110356376015,
+        3.65,
+        -0.7792709166584397
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.5,
+        "flare": 0.06,
+        "twist": -0.06981317007977318,
+        "thickness": 0.06,
+        "azimuth": 4.476769531365456,
+        "root": 1.62,
+        "tip": 3.65,
+        "opening": 1.15,
+        "tipRadius": 0.88,
+        "width": 0.96
+      }
+    },
+    {
+      "id": "middle-7",
+      "layer": "middle",
+      "length": 2.724598985488901,
+      "maxWidth": 1.01,
+      "ratio": 2.697622757909803,
+      "tip": [
+        0.19924944135514774,
+        3.93,
+        -0.49023604463107445
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.56,
+        "flare": 0.12,
+        "twist": 0.08726646259971647,
+        "thickness": 0.06,
+        "azimuth": 5.035274892003641,
+        "root": 1.5,
+        "tip": 3.93,
+        "opening": 1,
+        "tipRadius": 0.6,
+        "width": 1.01
+      }
+    },
+    {
+      "id": "middle-8",
+      "layer": "middle",
+      "length": 2.7957313191676363,
+      "maxWidth": 0.9899999999999999,
+      "ratio": 2.823971029462259,
+      "tip": [
+        0.6133020839694779,
+        3.8,
+        -0.2657244035701609
+      ],
+      "profile": {
+        "taperStart": 0.8,
+        "role": "wrapped",
+        "belly": 0.52,
+        "flare": 0.08,
+        "twist": -0.12217304763960307,
+        "thickness": 0.06,
+        "azimuth": 5.942846103040692,
+        "root": 1.34,
+        "tip": 3.8,
+        "opening": 1.1,
+        "tipRadius": 0.73,
+        "width": 0.99
+      }
+    },
+    {
+      "id": "inner-1",
+      "layer": "inner",
+      "length": 2.26293033996102,
+      "maxWidth": 0.8199999999999998,
+      "ratio": 2.7596711462939276,
+      "tip": [
+        0.4986443966187528,
+        3.95,
+        0.08923314164920995
+      ],
+      "profile": {
+        "taperStart": 0.78,
+        "role": "inner",
+        "belly": 0.55,
+        "flare": 0.08,
+        "twist": 0.10471975511965977,
+        "thickness": 0.045,
+        "azimuth": 0.15707963267948966,
+        "root": 1.78,
+        "tip": 3.95,
+        "opening": 0.62,
+        "tipRadius": 0.48,
+        "width": 0.82
+      }
+    },
+    {
+      "id": "inner-2",
+      "layer": "inner",
+      "length": 1.9276405534673775,
+      "maxWidth": 0.7800000000000001,
+      "ratio": 2.4713340429068937,
+      "tip": [
+        0.11947461112172471,
+        3.7,
+        0.4983517039213744
+      ],
+      "profile": {
+        "taperStart": 0.78,
+        "role": "inner",
+        "belly": 0.5,
+        "flare": 0.08,
+        "twist": -0.12217304763960307,
+        "thickness": 0.045,
+        "azimuth": 1.53588974175501,
+        "root": 1.92,
+        "tip": 3.7,
+        "opening": 0.7,
+        "tipRadius": 0.54,
+        "width": 0.78
+      }
+    },
+    {
+      "id": "inner-3",
+      "layer": "inner",
+      "length": 2.1174205867957303,
+      "maxWidth": 0.8000000000000002,
+      "ratio": 2.646775733494662,
+      "tip": [
+        -0.3799853686436957,
+        3.85,
+        0.1856516345093686
+      ],
+      "profile": {
+        "taperStart": 0.78,
+        "role": "inner",
+        "belly": 0.57,
+        "flare": 0.1,
+        "twist": 0.10471975511965977,
+        "thickness": 0.045,
+        "azimuth": 2.548180707911721,
+        "root": 1.84,
+        "tip": 3.85,
+        "opening": 0.63,
+        "tipRadius": 0.47,
+        "width": 0.8
+      }
+    },
+    {
+      "id": "inner-4",
+      "layer": "inner",
+      "length": 1.7878105059458167,
+      "maxWidth": 0.76,
+      "ratio": 2.3523822446655482,
+      "tip": [
+        -0.3464044456245491,
+        3.62,
+        -0.4585925505221148
+      ],
+      "profile": {
+        "taperStart": 0.78,
+        "role": "inner",
+        "belly": 0.52,
+        "flare": 0.06,
+        "twist": -0.08726646259971647,
+        "thickness": 0.045,
+        "azimuth": 4.066617157146788,
+        "root": 2,
+        "tip": 3.62,
+        "opening": 0.73,
+        "tipRadius": 0.57,
+        "width": 0.76
+      }
+    },
+    {
+      "id": "inner-5",
+      "layer": "inner",
+      "length": 2.0480366574772573,
+      "maxWidth": 0.7800000000000001,
+      "ratio": 2.62568802240674,
+      "tip": [
+        0.2873686567059265,
+        3.8,
+        -0.4550119773440351
+      ],
+      "profile": {
+        "taperStart": 0.78,
+        "role": "inner",
+        "belly": 0.55,
+        "flare": 0.08,
+        "twist": 0.10471975511965977,
+        "thickness": 0.045,
+        "azimuth": 5.1487212933832724,
+        "root": 1.88,
+        "tip": 3.8,
+        "opening": 0.67,
+        "tipRadius": 0.49,
+        "width": 0.78
+      }
+    }
+  ],
+  "unchangedParts": [
+    {
+      "part": "shaft",
+      "identical": true
+    },
+    {
+      "part": "pommel",
+      "identical": true
+    },
+    {
+      "part": "cooling",
+      "identical": true
+    },
+    {
+      "part": "wiring",
+      "identical": true
+    }
+  ],
+  "sha256": {
+    "src/utils/wireframeDevice.ts": "1267b57000d43477c97eebd3f7c1f7fb9649fa6b4ee061937ab6c17e1aded660",
+    "src/utils/wireframeStaffShells.ts": "eb1c5d5799bfd0a6735552c0d3db2dbcbebdfe6bec4021e4635827a10038aaee",
+    "src/utils/wireframeGeometry.ts": "554647d65fc080496384fec3532c4e17183f5d68ba413d951e7f6006dc9b143a",
+    "src/scripts/wireframeDevice.ts": "986e392ee5c60798a602091d77c340ea5f3012d83715f554782e1d3a8299a4a9",
+    "src/components/WireframeDevice.astro": "36525da909a8311b7c66f8ed06778ee6f9b3b3020c113ff353188c3039ebd3a5",
+    "dist/index.html": "876411b68454316406795020f942209a5d7cfd97c9390fc3eeae6f3f00cbfa80"
+  },
+  "implementationCommit": "c0114896bf4ffb5fc8a4ab5fa93389131ca024a1",
+  "magnification": {
+    "before": 1,
+    "after": 1.3
+  }
+}
