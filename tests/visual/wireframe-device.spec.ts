@@ -317,3 +317,83 @@ test('a throwing Canvas context keeps the SVG disabled and outside keyboard navi
     await expect(stage).not.toBeFocused();
   }
 });
+
+for (const dpr of [1, 2]) {
+  test.describe(`cropped static exhibition at DPR ${dpr}`, () => {
+    test.use({ deviceScaleFactor: dpr, javaScriptEnabled: false });
+    test('the SVG matches Canvas framing and clips only at the panel across stage sizes', async ({
+      page,
+    }) => {
+      await page.goto('./');
+      await page.evaluate(() => document.fonts.ready);
+      const stage = page.locator('[data-device-stage]');
+      for (const width of [1440, 1024, 390, 320]) {
+        await page.setViewportSize({ width, height: 1000 });
+        await stage.scrollIntoViewIfNeeded();
+        await expect(stage).toBeDisabled();
+        const box = (await stage.boundingBox())!;
+        const projected = projectDevice(
+          initialSpinPhase,
+          box.width,
+          box.height
+        );
+        const result = await page.evaluate((expected) => {
+          const root = document.querySelector('wireframe-device')!;
+          const stage = root.querySelector('[data-device-stage]')!;
+          const svg = root.querySelector('svg')!;
+          const rect = stage.getBoundingClientRect();
+          const matrix = svg.getScreenCTM()!;
+          let error = 0;
+          [...svg.querySelectorAll('line')].forEach((line, i) => {
+            for (const [x, y, point] of [
+              [line.x1.baseVal.value, line.y1.baseVal.value, expected[i].from],
+              [line.x2.baseVal.value, line.y2.baseVal.value, expected[i].to],
+            ] as const) {
+              const screen = new DOMPoint(x, y).matrixTransform(matrix);
+              error = Math.max(
+                error,
+                Math.abs(screen.x - rect.x - point.x),
+                Math.abs(screen.y - rect.y - point.y)
+              );
+            }
+          });
+          return {
+            error,
+            clip: getComputedStyle(root).overflow,
+            svgOverflow: getComputedStyle(svg).overflow,
+            strokeFixed: [...svg.querySelectorAll('line')].every(
+              (line) =>
+                line.getAttribute('vector-effect') === 'non-scaling-stroke'
+            ),
+            horizontalOverflow:
+              document.documentElement.scrollWidth > innerWidth,
+          };
+        }, projected);
+        expect(result.error).toBeLessThan(0.03);
+        expect(result.clip).toBe('hidden');
+        expect(result.svgOverflow).toBe('visible');
+        expect(result.strokeFixed).toBe(true);
+        expect(result.horizontalOverflow).toBe(false);
+        // Pixels immediately outside the stage must be identical when the
+        // overflowing SVG is hidden. The panel owns clipping, not its viewBox.
+        const strips = [
+          { x: box.x - 4, y: box.y, width: 3, height: box.height },
+          { x: box.x, y: box.y - 4, width: box.width, height: 3 },
+        ];
+        const shown = await Promise.all(
+          strips.map((clip) => page.screenshot({ clip }))
+        );
+        await stage.locator('svg').evaluate((svg) => {
+          svg.style.visibility = 'hidden';
+        });
+        for (let i = 0; i < strips.length; i++)
+          expect(
+            (await page.screenshot({ clip: strips[i] })).equals(shown[i])
+          ).toBe(true);
+        await stage.locator('svg').evaluate((svg) => {
+          svg.style.visibility = '';
+        });
+      }
+    });
+  });
+}

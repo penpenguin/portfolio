@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { createDeviceGeometry } from '../../../src/utils/wireframeGeometry';
+import {
+  createDeviceGeometry,
+  createDeviceModel,
+} from '../../../src/utils/wireframeGeometry';
 
 import {
   initialSpinPhase,
@@ -11,6 +14,34 @@ import {
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device projection', () => {
+  it('magnifies about the base-fit origin without scaling strokes or depth shading', () => {
+    const base = createDeviceProjector(35, { magnification: 1 });
+    const display = createDeviceProjector(35);
+    const baseFit = base.getFit(267, 258);
+    const displayFit = display.getFit(267, 258);
+    expect(displayFit.scale / baseFit.scale).toBeCloseTo(1.3, 12);
+    expect(displayFit.centerX).toBe(baseFit.centerX);
+    expect(displayFit.centerY).toBe(baseFit.centerY);
+    for (const phase of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
+      const before = base.projectDevice(phase, 267, 258);
+      const after = display.projectDevice(phase, 267, 258);
+      after.forEach((line, i) => {
+        expect(line.width).toBe(before[i].width);
+        expect(line.opacity).toBe(before[i].opacity);
+        for (const end of ['from', 'to'] as const) {
+          expect(line[end].x).toBeCloseTo(
+            baseFit.centerX + (before[i][end].x - baseFit.centerX) * 1.3,
+            9
+          );
+          expect(line[end].y).toBeCloseTo(
+            baseFit.centerY + (before[i][end].y - baseFit.centerY) * 1.3,
+            9
+          );
+        }
+      });
+    }
+  });
+
   it('separates the fixed model yaw from phase and matches the previous initial view', () => {
     expect(initialModelYaw).toBeCloseTo(Math.PI / 6);
     expect(initialSpinPhase).toBe(0);
@@ -107,20 +138,20 @@ describe('wireframe device projection', () => {
       expect(Math.max(...opacities)).toBeLessThanOrEqual(front);
     }
   });
-  it('uses enough of the small Home stage for the long staff without changing fit per angle', () => {
+  it('uses a fixed exhibition scale extending past the stage without angle-dependent zoom', () => {
     const ys: number[] = [];
     for (let degree = 0; degree < 360; degree++)
       for (const line of projectDevice((degree * Math.PI) / 180, 267, 258))
         ys.push(line.from.y, line.to.y);
-    // Full-turn height, not a per-frame zoom: the staff should use over 82%.
+    // The 0.84 base fit is magnified 1.3 times; the window intentionally crops tips.
     let low = Infinity,
       high = -Infinity;
     for (const y of ys) {
       low = Math.min(low, y);
       high = Math.max(high, y);
     }
-    expect((high - low) / 258).toBeGreaterThan(0.82);
-    expect((high - low) / 258).toBeLessThan(0.85);
+    expect((high - low) / 258).toBeGreaterThan(1.08);
+    expect((high - low) / 258).toBeLessThan(1.1);
   });
   it('rotates a full turn in 16 seconds regardless of frame intervals', () => {
     expect(advanceAngle(initialSpinPhase, 16000)).toBeCloseTo(initialSpinPhase);
@@ -147,7 +178,7 @@ describe('wireframe device projection', () => {
       [35, 60].map((tilt) => [width, height, tilt])
     )
   )(
-    'keeps all edges inside the %i × %i stage at %i degrees throughout a full rotation',
+    'keeps finite projections and valid depth in the %i × %i stage at %i degrees',
     (width, height, tilt) => {
       const projector = createDeviceProjector(tilt);
       for (let degree = 0; degree < 360; degree++) {
@@ -157,20 +188,6 @@ describe('wireframe device projection', () => {
           height
         );
         expect(lines.length).toBeGreaterThan(100);
-        const points = lines.flatMap((line) =>
-          [line.from, line.to].flatMap((point) => [
-            { x: point.x - line.width / 2, y: point.y - line.width / 2 },
-            { x: point.x + line.width / 2, y: point.y + line.width / 2 },
-          ])
-        );
-        expect(Math.min(...points.map((p) => p.x))).toBeGreaterThanOrEqual(15);
-        expect(Math.max(...points.map((p) => p.x))).toBeLessThanOrEqual(
-          width - 15
-        );
-        expect(Math.min(...points.map((p) => p.y))).toBeGreaterThanOrEqual(15);
-        expect(Math.max(...points.map((p) => p.y))).toBeLessThanOrEqual(
-          height - 15
-        );
         expect(
           lines.every(
             (line) =>
@@ -195,6 +212,51 @@ describe('wireframe device projection', () => {
           )
         ).toBe(true);
       }
+    }
+  );
+
+  it.each([
+    [224, 240],
+    [278, 240],
+    [348, 240],
+    [938, 240],
+    [267, 258],
+    [223, 258],
+    [348, 238],
+    [278, 238],
+    [914, 238],
+    [726, 238],
+  ])(
+    'protects the crown, supports and neck while tips may leave the %i × %i window',
+    (width, height) => {
+      const { edges, landmarks } = createDeviceModel();
+      const protectedPoints = [...new Set(Object.values(landmarks).flat())];
+      const pommel = [
+        ...new Set(
+          edges.filter((e) => e.part === 'pommel').flatMap((e) => [e.a, e.b])
+        ),
+      ];
+      let croppedFrames = 0,
+        completeFrames = 0,
+        visiblePommelFrames = 0;
+      const margin = (p: { x: number; y: number }) =>
+        Math.min(p.x, p.y, width - p.x, height - p.y) - 0.55;
+      const points = [...new Set(edges.flatMap((e) => [e.a, e.b]))];
+      for (let degrees = 0; degrees < 360; degrees++) {
+        const phase = (degrees * Math.PI) / 180;
+        const project = (p: readonly [number, number, number]) =>
+          projectDevicePoint(p, phase, width, height);
+        expect(
+          Math.min(...protectedPoints.map((p) => margin(project(p))))
+        ).toBeGreaterThanOrEqual(0);
+        if (points.some((p) => margin(project(p)) < 0)) croppedFrames++;
+        else completeFrames++;
+        if (pommel.every((p) => margin(project(p)) >= 0)) visiblePommelFrames++;
+      }
+      expect(croppedFrames).toBeGreaterThan(0);
+      expect(completeFrames).toBeGreaterThan(0);
+      expect(visiblePommelFrames).toBeGreaterThan(0);
+      expect(visiblePommelFrames).toBeLessThan(360);
     }
   );
 

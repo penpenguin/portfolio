@@ -70,7 +70,11 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).toContain('transverse ribs');
     expect(design).toContain('nine slender pins');
     expect(design).not.toContain('plain shaft interval of about 40%');
-    expect(design).toContain('84%');
+    expect(design).toContain('base fit of 84%');
+    expect(design).toContain('fixed magnification of 1.30');
+    expect(design).toContain('intentional clipping');
+    expect(design).toContain('protected landmarks');
+    expect(design).not.toContain('at least 15px clearance');
     expect(design).not.toContain('segmented cylindrical shell');
     expect(design).toContain('initial 35-degree screen-space left tilt');
     expect(design).toContain('world vertical Y axis');

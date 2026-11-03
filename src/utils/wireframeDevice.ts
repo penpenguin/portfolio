@@ -7,6 +7,8 @@ const styles = {
   detail: { width: 0.5, back: 0.14, front: 0.28 },
 };
 const maxStroke = Math.max(...Object.values(styles).map(({ width }) => width));
+export const baseFitFactor = 0.84;
+export const displayMagnification = 1.3;
 export const initialModelYaw = Math.PI / 6;
 export const initialSpinPhase = 0;
 export const deviceDescription = '多層の機械蓮と細長い軸を持つSF制御杖の線画';
@@ -29,7 +31,10 @@ export function advanceAngle(angle: number, elapsedMs: number): number {
 
 // Screen tilt describes the initial pose only; time rotates the whole inclined
 // staff around the world Y axis through the fixed model origin.
-export function createDeviceProjector(screenTiltDegrees: number) {
+export function createDeviceProjector(
+  screenTiltDegrees: number,
+  { magnification = displayMagnification }: { magnification?: number } = {}
+) {
   const tilt = Math.atan(
     Math.tan((screenTiltDegrees * Math.PI) / 180) * Math.cos(elevation)
   );
@@ -73,10 +78,10 @@ export function createDeviceProjector(screenTiltDegrees: number) {
     bounds.near = Math.max(bounds.near, centerDepth + rangeDepth);
   }
 
-  function getFit(width: number, height: number) {
+  function getBaseFit(width: number, height: number) {
     const scale = Math.max(
       0,
-      0.84 *
+      baseFitFactor *
         Math.min(
           (width - maxStroke) / (bounds.right - bounds.left),
           (height - maxStroke) / (bounds.top - bounds.bottom)
@@ -87,6 +92,13 @@ export function createDeviceProjector(screenTiltDegrees: number) {
       centerX: width / 2 - ((bounds.left + bounds.right) / 2) * scale,
       centerY: height / 2 + ((bounds.bottom + bounds.top) / 2) * scale,
     };
+  }
+
+  function getFit(width: number, height: number) {
+    const base = getBaseFit(width, height);
+    // Enlarge the model about the original projection origin. Keep the window,
+    // CSS stroke widths and depth shading independent of this exhibition scale.
+    return { ...base, scale: base.scale * magnification };
   }
 
   function createWorldRotation(spinPhase: number) {
@@ -162,8 +174,28 @@ export function createDeviceProjector(screenTiltDegrees: number) {
     projectWorldPoint,
     transformDevicePoint,
     getFit,
+    getBaseFit,
     bounds: Object.freeze(bounds),
   };
 }
 
-export const { projectDevice, projectDevicePoint } = createDeviceProjector(35);
+const defaultProjector = createDeviceProjector(35);
+export const { projectDevice, projectDevicePoint } = defaultProjector;
+
+export function createDeviceSvgProjection() {
+  // Match Canvas's min(width - stroke, height - stroke) fitting in a responsive
+  // SVG. The viewBox follows the full-turn aspect ratio, not a square window.
+  const { bounds } = defaultProjector;
+  const width = (bounds.right - bounds.left) / baseFitFactor;
+  const height = (bounds.top - bounds.bottom) / baseFitFactor;
+  const inset = maxStroke / 2;
+  return {
+    viewBox: { x: inset, y: inset, width, height },
+    inset,
+    lines: projectDevice(
+      initialSpinPhase,
+      width + maxStroke,
+      height + maxStroke
+    ),
+  };
+}

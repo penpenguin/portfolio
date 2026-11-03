@@ -3,10 +3,44 @@ import { describe, expect, it } from 'vitest';
 import WireframeDevice from '../../../src/components/WireframeDevice.astro';
 import {
   initialSpinPhase,
+  createDeviceSvgProjection,
   projectDevice,
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device server rendering', () => {
+  it.each([
+    [267, 258],
+    [223, 258],
+    [348, 238],
+    [278, 238],
+  ])(
+    'matches the Canvas fixed framing in a %i × %i SVG viewport',
+    (width, height) => {
+      const svg = createDeviceSvgProjection();
+      const scale = Math.min(
+        (width - svg.inset * 2) / svg.viewBox.width,
+        (height - svg.inset * 2) / svg.viewBox.height
+      );
+      const left = (width - svg.viewBox.width * scale) / 2;
+      const top = (height - svg.viewBox.height * scale) / 2;
+      const canvas = projectDevice(initialSpinPhase, width, height);
+      svg.lines.forEach((line, i) => {
+        for (const end of ['from', 'to'] as const) {
+          expect(left + (line[end].x - svg.viewBox.x) * scale).toBeCloseTo(
+            canvas[i][end].x,
+            8
+          );
+          expect(top + (line[end].y - svg.viewBox.y) * scale).toBeCloseTo(
+            canvas[i][end].y,
+            8
+          );
+        }
+        expect(line.width).toBe(canvas[i].width);
+        expect(line.opacity).toBe(canvas[i].opacity);
+      });
+    }
+  );
+
   it('provides a disabled full-stage control with a named static drawing until Canvas is ready', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(WireframeDevice);
@@ -26,7 +60,10 @@ describe('wireframe device server rendering', () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(WireframeDevice);
     const tags = html.match(/<line\b[^>]*>/g)!;
-    const projected = projectDevice(initialSpinPhase, 240, 240);
+    const { lines: projected, viewBox } = createDeviceSvgProjection();
+    expect(html).toContain(
+      `viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}"`
+    );
     expect(tags).toHaveLength(projected.length);
     tags.forEach((tag, i) => {
       const attributes = Object.fromEntries(

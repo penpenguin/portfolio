@@ -43,7 +43,7 @@ describe('mechanical lotus petals', () => {
 
   it('raises two distinct main petals above a broad half-open supporting crown', () => {
     const petals = createStaffShells(128);
-    const ratios = { outer: [2, 2.8], middle: [2.5, 3.5], inner: [2.5, 4] };
+    const ratios = { outer: [1.8, 2.8], middle: [2, 3.5], inner: [2, 4] };
     for (const petal of petals) {
       const length = petal.spine
         .slice(1)
@@ -51,7 +51,7 @@ describe('mechanical lotus petals', () => {
       const widths = petal.left.map((p, i) => distance(p, petal.right[i]));
       const maximum = Math.max(...widths);
       const range =
-        petal.profile.role === 'primary' ? [2.8, 3.8] : ratios[petal.layer];
+        petal.profile.role === 'primary' ? [2.3, 3.2] : ratios[petal.layer];
       expect(length / maximum).toBeGreaterThanOrEqual(range[0]);
       expect(length / maximum).toBeLessThanOrEqual(range[1]);
       // A broad shoulder stays open before the short, sharp terminal taper.
@@ -64,7 +64,7 @@ describe('mechanical lotus petals', () => {
     expect(primary.map((p) => p.id)).toEqual(['outer-3', 'outer-4']);
     expect(
       primary[1].profile.tip - primary[0].profile.tip
-    ).toBeGreaterThanOrEqual(0.3);
+    ).toBeGreaterThanOrEqual(0.2);
     const supporting = outer.filter((p) => p.profile.role !== 'primary');
     expect(
       Math.min(...primary.map((p) => p.profile.tip)) -
@@ -103,14 +103,51 @@ describe('mechanical lotus petals', () => {
     }
   });
 
-  it('keeps the leading tip visibly above its broad shoulder in the foreshortened front view', () => {
-    const main = createStaffShells().find((p) => p.id === 'outer-4')!;
-    const i = main.parameters.indexOf(0.75);
-    const tip = projectDevicePoint(main.left.at(-1)!, Math.PI / 2, 223, 258);
-    for (const shoulder of [main.left[i], main.right[i]])
+  it('integrates the broad main petal bellies into a stepped middle crown', () => {
+    const petals = createStaffShells();
+    const middle = petals.filter((p) => p.layer === 'middle');
+    for (const main of petals.filter((p) => p.profile.role === 'primary')) {
+      expect(main.profile.tip).toBeLessThanOrEqual(4.7);
+      const belly = main.anchors.find((a) => a.t === 0.5)!;
+      expect(distance(belly.left, belly.right)).toBeGreaterThan(1.5);
+      const neighbour = [...middle].sort(
+        (a, b) =>
+          Math.abs(a.azimuth - main.azimuth) -
+          Math.abs(b.azimuth - main.azimuth)
+      )[0];
+      expect(main.profile.tip - neighbour.profile.tip).toBeGreaterThan(0);
+      expect(main.profile.tip - neighbour.profile.tip).toBeLessThan(0.55);
+      expect(belly.left[1]).toBeGreaterThan(neighbour.profile.root);
+      expect(belly.right[1]).toBeLessThan(neighbour.profile.tip);
+    }
+  });
+
+  it('keeps the foreshortened leading tip close to the neighbouring middle crown', () => {
+    const petals = createStaffShells();
+    const tip = (id: string) =>
+      projectDevicePoint(
+        petals.find((p) => p.id === id)!.left.at(-1)!,
+        Math.PI / 2,
+        267,
+        258
+      );
+    const gap = tip('middle-1').y - tip('outer-4').y;
+    expect(gap).toBeGreaterThan(0);
+    expect(gap).toBeLessThan(18);
+  });
+
+  it('separates the petal mounting tiers along the neck instead of a single root knot', () => {
+    const petals = createStaffShells();
+    const mounts = ['outer', 'middle', 'inner'].map((layer) =>
+      petals.filter((p) => p.layer === layer).map((p) => p.mount[1])
+    );
+    expect(Math.max(...mounts[0]) - Math.min(...mounts[0])).toBeGreaterThan(
+      0.35
+    );
+    for (let i = 1; i < mounts.length; i++)
       expect(
-        projectDevicePoint(shoulder, Math.PI / 2, 223, 258).y - tip.y
-      ).toBeGreaterThan(6);
+        Math.min(...mounts[i]) - Math.max(...mounts[i - 1])
+      ).toBeGreaterThan(0.08);
   });
 
   it('forms broad cupped petals with thin backs, smooth contours and a shared sharp tip', () => {

@@ -1,14 +1,43 @@
 import { describe, expect, it } from 'vitest';
 import { createStaffShells } from '../../../src/utils/wireframeStaffShells';
-import { createDeviceGeometry } from '../../../src/utils/wireframeGeometry';
+import {
+  createDeviceGeometry,
+  createDeviceModel,
+} from '../../../src/utils/wireframeGeometry';
 import { projectDevicePoint } from '../../../src/utils/wireframeDevice';
 
 describe('industrial control staff geometry', () => {
+  it('exposes protected landmarks from actual shared geometry, not edge indices', () => {
+    const { edges, landmarks } = createDeviceModel();
+    expect(edges).toEqual(createDeviceGeometry());
+    const vertices = new Set(edges.flatMap(({ a, b }) => [a, b]));
+    expect(Object.keys(landmarks).sort()).toEqual([
+      'core',
+      'neck',
+      'petalBellies',
+      'petalMounts',
+      'shaftConnection',
+      'supports',
+    ]);
+    for (const points of Object.values(landmarks)) {
+      expect(points.length).toBeGreaterThan(0);
+      for (const point of points) expect(vertices.has(point)).toBe(true);
+    }
+    expect(landmarks.petalMounts).toHaveLength(19);
+    expect(landmarks.petalBellies).toHaveLength(38);
+    expect(Math.max(...landmarks.core.map((p) => p[1]))).toBeGreaterThan(4);
+    expect(
+      Math.min(...landmarks.shaftConnection.map((p) => p[1]))
+    ).toBeLessThan(-0.8);
+  });
+
   it('mounts a half-sector petal on the higher-angle prism corner deterministically', () => {
     const edges = createDeviceGeometry();
     // The first middle petal sits at 22.5 degrees, exactly between prism corners.
-    const seat = [0.21868627, 1.1, 0.16715136];
-    const corner = [0.16617009, 1.1, 0.16617009];
+    const height = createStaffShells().find((p) => p.id === 'middle-1')!
+      .mount[1];
+    const seat = [0.21868627, height, 0.16715136];
+    const corner = [0.16617009, height, 0.16617009];
     const same = (a: readonly number[], b: readonly number[]) =>
       a.every((n, i) => Math.abs(n - b[i]) < 1e-8);
     expect(
@@ -19,6 +48,17 @@ describe('industrial control staff geometry', () => {
       )
     ).toBe(true);
   });
+  it('lands the calyx supports above the narrow shaft-to-neck joint', () => {
+    const rootEdges = createDeviceGeometry().filter(
+      (e) =>
+        e.part === 'neck' &&
+        Math.min(e.a[1], e.b[1]) <= 0.150001 &&
+        Math.max(e.a[1], e.b[1]) > 0.2
+    );
+    // Only the eight sleeve risers reach the lowest joint; calyx forks seat higher.
+    expect(rootEdges).toHaveLength(8);
+  });
+
   it('draws shared mounting spans only once, including partially overlapping edges', () => {
     const edges = createDeviceGeometry();
     let overlaps = 0;
@@ -91,10 +131,11 @@ describe('industrial control staff geometry', () => {
       Math.max(...all.map((p) => p[1])) - Math.min(...all.map((p) => p[1]));
     const head = pointsFor('head');
     const diameter = 2 * Math.max(...head.map((p) => Math.hypot(p[0], p[2])));
-    expect(length).toBeGreaterThanOrEqual(9.7);
+    expect(length).toBeGreaterThanOrEqual(9.5);
     expect(length).toBeLessThanOrEqual(10);
     expect(diameter).toBeGreaterThanOrEqual(3.2);
-    expect(diameter).toBeLessThanOrEqual(3.6);
+    // The wider leading bellies also carry their attached open guards.
+    expect(diameter).toBeLessThanOrEqual(3.85);
     const headLength =
       Math.max(...head.map((p) => p[1])) - Math.min(...head.map((p) => p[1]));
     expect(headLength / length).toBeGreaterThanOrEqual(0.43);
@@ -302,7 +343,8 @@ describe('industrial control staff geometry', () => {
       }
     }
     const headPoints = [...new Set(head.flatMap((e) => [e.a, e.b]))];
-    expect(Math.max(...headPoints.map((p) => p[1]))).toBeCloseTo(4.9);
+    expect(Math.max(...headPoints.map((p) => p[1]))).toBeGreaterThan(4.5);
+    expect(Math.max(...headPoints.map((p) => p[1]))).toBeLessThanOrEqual(4.7);
   });
 
   it('gives the main petals a distinct contour weight and an elongated quarter-turn silhouette', () => {

@@ -11,9 +11,39 @@ export type DeviceEdge = Readonly<{
   part: DevicePart;
 }>;
 
+export type DeviceLandmarks = Readonly<
+  Record<
+    | 'core'
+    | 'neck'
+    | 'petalBellies'
+    | 'petalMounts'
+    | 'shaftConnection'
+    | 'supports',
+    readonly Point3[]
+  >
+>;
+
 export function createDeviceGeometry(): readonly DeviceEdge[] {
+  return createDeviceModel().edges;
+}
+
+export function createDeviceModel() {
   const edges = new Map<string, DeviceEdge>();
   const vertices = new Map<string, Point3>();
+  const landmarks: Record<keyof DeviceLandmarks, Point3[]> = {
+    core: [],
+    neck: [],
+    petalBellies: [],
+    petalMounts: [],
+    shaftConnection: [],
+    supports: [],
+  };
+  let protectedGroup: keyof DeviceLandmarks | undefined;
+  function protect(group: keyof DeviceLandmarks, assemble: () => void) {
+    protectedGroup = group;
+    assemble();
+    protectedGroup = undefined;
+  }
   let part: DevicePart = 'shaft';
   const rank = { outline: 3, component: 2, detail: 1 };
   const petals = createStaffShells();
@@ -29,6 +59,7 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     const a = vertex(from),
       b = vertex(to);
     if (a === b) return;
+    if (protectedGroup) landmarks[protectedGroup].push(a, b);
     const key = [a.join(','), b.join(',')].sort().join('|');
     const previous = edges.get(key);
     if (!previous || rank[kind] > rank[previous.kind])
@@ -101,6 +132,10 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
       [0.17, -0.845],
       [0.115, -0.81],
     ]);
+    landmarks.shaftConnection.push(
+      ...ring(0.115, 0.15).map(vertex),
+      ...ring(0.115, -0.95).map(vertex)
+    );
     sleeve([
       [0.115, -2.8],
       [0.16, -2.78],
@@ -202,6 +237,9 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     }
     for (const petal of petals) {
       const { left, right, backLeft, backRight, mount } = petal;
+      landmarks.petalMounts.push(vertex(mount));
+      const belly = petal.anchors.find(({ t }) => t === 0.5)!;
+      landmarks.petalBellies.push(vertex(belly.left), vertex(belly.right));
       const kind = petal.profile.role === 'primary' ? 'outline' : 'component';
       trace(left, kind);
       trace(right, kind);
@@ -302,17 +340,26 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     for (let i = 0; i < 6; i++) {
       const angle = ((i * 60 + 30) * Math.PI) / 180;
       const at = (r: number, y: number, t = 0) => radial(r, y, angle, t);
+      // Distribute calyx loads over the existing sleeve levels. They no longer
+      // all converge on the narrow shaft joint beneath the head collars.
+      const [seatRadius, seatY] = [
+        [0.18, 0.26],
+        [0.18, 0.36],
+        [0.32, 0.5],
+      ][i % 3];
       const root = radial(
-        0.115,
-        0.15,
+        seatRadius,
+        seatY,
         (Math.round(angle / (Math.PI / 4)) * Math.PI) / 4
       );
       const left: Point3[] = [],
         right: Point3[] = [];
       for (let j = 0; j <= 12; j++) {
         const t = j / 12;
-        const radius = 0.19 + 0.58 * Math.sin((t * Math.PI) / 2);
-        const y = 0.28 + (1.05 + (i % 3) * 0.07) * t - 0.15 * t * t;
+        const radius =
+          seatRadius + 0.04 + (0.73 - seatRadius) * Math.sin((t * Math.PI) / 2);
+        const y =
+          seatY + 0.08 + (1.2 - seatY + (i % 3) * 0.06) * t - 0.15 * t * t;
         const width = 0.035 * (1 - t) + 0.1 * Math.sin(Math.PI * t);
         left.push(at(radius, y, -width));
         right.push(at(radius, y, width));
@@ -570,13 +617,13 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
 
   shaft();
   pommel();
-  neck();
+  protect('neck', neck);
   head();
-  sepals();
-  petalSupports();
+  protect('neck', sepals);
+  protect('supports', petalSupports);
   shaftHarness();
   petalDetails();
-  mechanism();
+  protect('core', mechanism);
   cooling();
   harnesses();
 
@@ -629,5 +676,15 @@ export function createDeviceGeometry(): readonly DeviceEdge[] {
     for (let i = 1; i < splits.length; i++)
       line(splits[i - 1].point, splits[i].point, edge.kind);
   }
-  return Object.freeze([...edges.values()]);
+  return Object.freeze({
+    edges: Object.freeze([...edges.values()]),
+    landmarks: Object.freeze(
+      Object.fromEntries(
+        Object.entries(landmarks).map(([name, points]) => [
+          name,
+          Object.freeze([...new Set(points)]),
+        ])
+      )
+    ) as DeviceLandmarks,
+  });
 }
