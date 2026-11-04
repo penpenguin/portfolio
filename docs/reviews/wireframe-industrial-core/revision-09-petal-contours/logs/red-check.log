@@ -1,0 +1,35 @@
+npm notice run portfolio@1.0.0 check
+npm notice run astro check && tsc
+17:28:15 [content] Syncing content
+17:28:15 [content] Synced content
+17:28:15 [types] Generated 752ms
+17:28:15 [check] Getting diagnostics for Astro files in /home/user/repository/portfolio...
+[96mtests/unit/utils/wireframeGeometry.test.ts[0m:[93m38[0m:[93m67[0m - [91merror[0m[90m ts(2339): [0mProperty 'petal' does not exist on type 'Readonly<{ a: Point3; b: Point3; kind: LineKind; part: DevicePart; }>'.
+
+[7m38[0m     expect(edges.filter((e) => e.part !== 'head').every((e) => !e.petal)).toBe(true);
+[7m  [0m [91m                                                                  ~~~~~[0m
+[96mtests/unit/utils/wireframeGeometry.test.ts[0m:[93m34[0m:[93m22[0m - [91merror[0m[90m ts(2339): [0mProperty 'petal' does not exist on type 'Readonly<{ a: Point3; b: Point3; kind: LineKind; part: DevicePart; }>'.
+
+[7m34[0m             (e) => e.petal!.role === 'front' && near(e.b, path.at(-1)!)
+[7m  [0m [91m                     ~~~~~[0m
+[96mtests/unit/utils/wireframeGeometry.test.ts[0m:[93m25[0m:[93m18[0m - [91merror[0m[90m ts(2339): [0mProperty 'petal' does not exist on type 'Readonly<{ a: Point3; b: Point3; kind: LineKind; part: DevicePart; }>'.
+
+[7m25[0m         expect(e.petal!.radial).toEqual([
+[7m  [0m [91m                 ~~~~~[0m
+[96mtests/unit/utils/wireframeGeometry.test.ts[0m:[93m24[0m:[93m18[0m - [91merror[0m[90m ts(2339): [0mProperty 'petal' does not exist on type 'Readonly<{ a: Point3; b: Point3; kind: LineKind; part: DevicePart; }>'.
+
+[7m24[0m         expect(e.petal!.primary).toBe(p.profile.role === 'primary');
+[7m  [0m [91m                 ~~~~~[0m
+[96mtests/unit/utils/wireframeGeometry.test.ts[0m:[93m18[0m:[93m41[0m - [91merror[0m[90m ts(2339): [0mProperty 'petal' does not exist on type 'Readonly<{ a: Point3; b: Point3; kind: LineKind; part: DevicePart; }>'.
+
+[7m18[0m       expect(new Set(inked.map((e) => e.petal!.role))).toEqual(
+[7m  [0m [91m                                        ~~~~~[0m
+[96mtests/unit/utils/wireframeGeometry.test.ts[0m:[93m16[0m:[93m43[0m - [91merror[0m[90m ts(2339): [0mProperty 'petal' does not exist on type 'Readonly<{ a: Point3; b: Point3; kind: LineKind; part: DevicePart; }>'.
+
+[7m16[0m       const inked = edges.filter((e) => e.petal?.id === p.id);
+[7m  [0m [91m                                          ~~~~~[0m
+
+Result (97 files):
+- 6 errors
+- 0 warnings
+- 0 hints

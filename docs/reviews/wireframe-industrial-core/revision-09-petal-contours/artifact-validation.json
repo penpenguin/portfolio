@@ -1,0 +1,411 @@
+{
+  "valid": true,
+  "checks": [
+    {
+      "name": "committed implementation",
+      "pass": true
+    },
+    {
+      "name": "source hash: src/utils/wireframeDevice.ts",
+      "pass": true
+    },
+    {
+      "name": "source hash: src/utils/wireframeStaffShells.ts",
+      "pass": true
+    },
+    {
+      "name": "source hash: src/utils/wireframeGeometry.ts",
+      "pass": true
+    },
+    {
+      "name": "source hash: src/scripts/wireframeDevice.ts",
+      "pass": true
+    },
+    {
+      "name": "source hash: src/components/WireframeDevice.astro",
+      "pass": true
+    },
+    {
+      "name": "source hash: dist/index.html",
+      "pass": true
+    },
+    {
+      "name": "layout 1440 DPR 1",
+      "pass": true,
+      "detail": {
+        "x": 1020,
+        "y": 98,
+        "width": 267,
+        "height": 258
+      }
+    },
+    {
+      "name": "layout 1024 DPR 1",
+      "pass": true,
+      "detail": {
+        "x": 768,
+        "y": 98,
+        "width": 223,
+        "height": 258
+      }
+    },
+    {
+      "name": "layout 980 DPR 1",
+      "pass": true,
+      "detail": {
+        "x": 33,
+        "y": 378,
+        "width": 914,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 768 DPR 1",
+      "pass": true,
+      "detail": {
+        "x": 21,
+        "y": 378,
+        "width": 726,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 390 DPR 1",
+      "pass": true,
+      "detail": {
+        "x": 21,
+        "y": 378,
+        "width": 348,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 320 DPR 1",
+      "pass": true,
+      "detail": {
+        "x": 21,
+        "y": 378,
+        "width": 278,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 1440 DPR 2",
+      "pass": true,
+      "detail": {
+        "x": 1020,
+        "y": 98,
+        "width": 267,
+        "height": 258
+      }
+    },
+    {
+      "name": "layout 1024 DPR 2",
+      "pass": true,
+      "detail": {
+        "x": 768,
+        "y": 98,
+        "width": 223,
+        "height": 258
+      }
+    },
+    {
+      "name": "layout 980 DPR 2",
+      "pass": true,
+      "detail": {
+        "x": 33,
+        "y": 378,
+        "width": 914,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 768 DPR 2",
+      "pass": true,
+      "detail": {
+        "x": 21,
+        "y": 378,
+        "width": 726,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 390 DPR 2",
+      "pass": true,
+      "detail": {
+        "x": 21,
+        "y": 378,
+        "width": 348,
+        "height": 238
+      }
+    },
+    {
+      "name": "layout 320 DPR 2",
+      "pass": true,
+      "detail": {
+        "x": 21,
+        "y": 378,
+        "width": 278,
+        "height": 238
+      }
+    },
+    {
+      "name": "review render equals built preview",
+      "pass": true,
+      "detail": "192/192"
+    },
+    {
+      "name": "before actual draw samples DPR 1",
+      "pass": true,
+      "detail": {
+        "median": 1.2000000178813934,
+        "p95": 1.9000000059604645
+      }
+    },
+    {
+      "name": "before actual draw samples DPR 2",
+      "pass": true,
+      "detail": {
+        "median": 1.4000000059604645,
+        "p95": 2.4000000059604645
+      }
+    },
+    {
+      "name": "after actual draw samples DPR 1",
+      "pass": true,
+      "detail": {
+        "median": 1.199999988079071,
+        "p95": 2
+      }
+    },
+    {
+      "name": "after actual draw samples DPR 2",
+      "pass": true,
+      "detail": {
+        "median": 1.2000000178813934,
+        "p95": 2.0999999940395355
+      }
+    },
+    {
+      "name": "unchanged neck, shaft, pommel, wiring and cooling",
+      "pass": true
+    },
+    {
+      "name": "protected regions remain in frame",
+      "pass": true
+    },
+    {
+      "name": "continuous full turn",
+      "pass": true
+    },
+    {
+      "name": "curve approximation",
+      "pass": true,
+      "detail": 0.112301105561523
+    },
+    {
+      "name": "report link comparison-1440.png",
+      "pass": true
+    },
+    {
+      "name": "report link shading-1440.png",
+      "pass": true
+    },
+    {
+      "name": "report link rotation-comparison.html",
+      "pass": true
+    },
+    {
+      "name": "report link rotation-continuous.json",
+      "pass": true
+    },
+    {
+      "name": "report link rotation-1440-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link size-1440.png",
+      "pass": true
+    },
+    {
+      "name": "report link shape-common-1440.png",
+      "pass": true
+    },
+    {
+      "name": "report link structure-1440.png",
+      "pass": true
+    },
+    {
+      "name": "report link comparison-1024.png",
+      "pass": true
+    },
+    {
+      "name": "report link rotation-1024-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link size-1024.png",
+      "pass": true
+    },
+    {
+      "name": "report link shape-common-1024.png",
+      "pass": true
+    },
+    {
+      "name": "report link structure-1024.png",
+      "pass": true
+    },
+    {
+      "name": "report link comparison-390.png",
+      "pass": true
+    },
+    {
+      "name": "report link rotation-390-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link size-390.png",
+      "pass": true
+    },
+    {
+      "name": "report link shape-common-390.png",
+      "pass": true
+    },
+    {
+      "name": "report link structure-390.png",
+      "pass": true
+    },
+    {
+      "name": "report link comparison-320.png",
+      "pass": true
+    },
+    {
+      "name": "report link rotation-320-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link size-320.png",
+      "pass": true
+    },
+    {
+      "name": "report link shape-common-320.png",
+      "pass": true
+    },
+    {
+      "name": "report link structure-320.png",
+      "pass": true
+    },
+    {
+      "name": "report link isolated-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link isolated-after.png",
+      "pass": true
+    },
+    {
+      "name": "report link geometry.json",
+      "pass": true
+    },
+    {
+      "name": "report link ink-metrics.json",
+      "pass": true
+    },
+    {
+      "name": "report link home-1440-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-1440-after-dpr1.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-1440-after-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-1024-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-1024-after-dpr1.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-1024-after-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-980-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-980-after-dpr1.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-980-after-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-768-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-768-after-dpr1.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-768-after-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-390-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-390-after-dpr1.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-390-after-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-320-before.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-320-after-dpr1.png",
+      "pass": true
+    },
+    {
+      "name": "report link home-320-after-dpr2.png",
+      "pass": true
+    },
+    {
+      "name": "report link metrics-before.json",
+      "pass": true
+    },
+    {
+      "name": "report link metrics-after.json",
+      "pass": true
+    },
+    {
+      "name": "report link verification.json",
+      "pass": true
+    },
+    {
+      "name": "report link archive-race.json",
+      "pass": true
+    },
+    {
+      "name": "report link archive-race-trace.zip",
+      "pass": true
+    },
+    {
+      "name": "report link comparison-validation.json",
+      "pass": true
+    }
+  ]
+}

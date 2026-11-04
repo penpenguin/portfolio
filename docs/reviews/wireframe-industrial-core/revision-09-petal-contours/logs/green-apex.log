@@ -1,0 +1,10 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeStaffShells.test.ts
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  17:36:51
+   Duration  1.96s (tests 84%, import 12%, transform 5%)

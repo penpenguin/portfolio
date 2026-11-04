@@ -1,0 +1,142 @@
+{
+  "baseline": "5d3583a3d44bd77ffa16b431707ef77d8d7b240d",
+  "implementationCommit": "332edb18a2bed7ab34338baae21fdaccf3297bfd",
+  "date": "2026-11-04",
+  "branch": "feat/wireframe-industrial-core",
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "build": "Final source built with npm run build; dist SHA256 matches the captured preview and geometry.json.",
+  "commands": [
+    {
+      "command": "npm run check",
+      "result": "97 Astro files; 0 errors, 0 warnings, 0 hints; tsc passed",
+      "log": "logs/check-final.log"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "log": "logs/lint-final.log"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "53 files / 362 tests passed",
+      "log": "logs/unit-final.log"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed; static pages and Pagefind search index built",
+      "log": "logs/build-final.log"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- --workers=2",
+      "result": "96 / 96 passed on final built preview, Chromium desktop/mobile projects",
+      "log": "logs/visual-final.log"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 ./node_modules/.bin/playwright test tests/visual/blog-archive.spec.ts --project=desktop --grep \"selects years locally\" --repeat-each=5 --workers=1",
+      "result": "Before wait fix: 3 failed / 2 passed; after wait fix: 5 passed",
+      "log": "logs/archive-green.log"
+    },
+    {
+      "command": "./node_modules/.bin/prettier --check <changed source, tests and DESIGN.md>",
+      "result": "passed",
+      "log": "logs/format-final.log"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "tdd": [
+    {
+      "step": "Geometry metadata",
+      "red": "Petal ink information missing: expected 0 to be greater than 0",
+      "green": "19 geometry tests passed",
+      "redLog": "logs/red-ink.log",
+      "greenLog": "logs/green-ink.log"
+    },
+    {
+      "step": "Per-petal front/back hierarchy",
+      "red": "Contour alpha range 0.04888 instead of continuous; front weaker than its back",
+      "green": "3 targeted projection tests passed; final full unit suite passed",
+      "redLog": "logs/red-shading.log",
+      "greenLog": "logs/green-shading.log"
+    },
+    {
+      "step": "Rounded primary bellies and protected contours",
+      "red": "Peak at 0.42 outside the revised rounded belly range; semantic landmarks missing",
+      "green": "79 relevant tests passed",
+      "redLog": "logs/red-shape.log",
+      "greenLog": "logs/green-shape.log"
+    },
+    {
+      "step": "Quarter-turn pointed silhouette",
+      "red": "First shape trial tip only 0.066px above shoulders; required more than 3px",
+      "green": "11 shell tests passed; final tip separation 4.136px",
+      "redLog": "logs/red-apex.log",
+      "greenLog": "logs/green-apex.log"
+    },
+    {
+      "step": "Design documentation",
+      "red": "Missing continuous petal-relative depth description",
+      "green": "Full 362-test suite passed",
+      "redLog": "logs/red-docs.log"
+    },
+    {
+      "step": "Refactor",
+      "change": "Use the profile taper anchor instead of duplicate primary parameter; keep 16 curve segments",
+      "green": "30 geometry/shell tests, then all 362 passed",
+      "greenLog": "logs/green-refactor.log"
+    },
+    {
+      "step": "Archive browser test race",
+      "red": "Final full run 95 passed / 1 failed; focused repeat 3 failed / 2 passed. Trace shows URL changes before the DOM swap.",
+      "green": "Wait for index DOM before selecting year; 5 repeats and final 96-test suite pass",
+      "redLog": "logs/archive-repeat.log",
+      "greenLog": "logs/archive-green.log"
+    }
+  ],
+  "changedFiles": [
+    "DESIGN.md",
+    "src/utils/wireframeDevice.ts",
+    "src/utils/wireframeGeometry.ts",
+    "src/utils/wireframeStaffShells.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "tests/unit/utils/wireframeDevice.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts",
+    "tests/visual/blog-archive.spec.ts"
+  ],
+  "preservation": [
+    "19 petals in 3 layers",
+    "base fit 0.84 × fixed 1.30 magnification",
+    "initial model yaw 30°, initial screen tilt 35°, initial spin phase 0",
+    "world vertical Y spin / 16 seconds / approximately 30fps / DPR cap 2",
+    "neck, shaft, pommel, cooling and wiring geometry identical",
+    "production renderer, component, Home CSS and layout unchanged",
+    "no dependencies, routes, search production or deployment changes"
+  ],
+  "review": [
+    "Built-preview actual Home screenshots: six widths, DPR 1/2",
+    "Eight phases at four actual stage sizes",
+    "Same-scale/origin geometry comparison separated from production fitting",
+    "Shading-only comparison with unchanged baseline geometry",
+    "1.00 vs 1.30 magnification with fixed origin and line widths",
+    "Both primary petals isolated in eight views",
+    "Local comparison HTML recorded over a full continuous turn"
+  ],
+  "performance": "60 actual drawn warmup frames + 480 actual drawn samples per condition; skipped rAF excluded; projection plus Canvas draw CPU time, not GPU composition.",
+  "unverified": [
+    "Firefox",
+    "Safari",
+    "実機のタッチ操作",
+    "実OSのタブ切替",
+    "Windows runner"
+  ],
+  "notes": [
+    "No merge or deployment performed.",
+    "Targeted TDD commands use test-name filtering; skipped counts in those logs are filters, not skipped test declarations.",
+    "Archive waiting change is test-only; URL alone was insufficient to identify the replacement DOM.",
+    "Existing tiered neck geometry is preserved; weaker petal back contours reduce the visual knot without removing supports.",
+    "Stored command logs preserve their output content; only trailing whitespace and excess final blank lines were normalized for repository whitespace checks."
+  ]
+}

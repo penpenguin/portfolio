@@ -1,0 +1,58 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeStaffShells.test.ts tests/unit/utils/wireframeGeometry.test.ts -t rounds the two|protected landmarks
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+ ❯ tests/unit/utils/wireframeGeometry.test.ts (19 tests | 1 failed | 18 skipped) 374ms
+   ❯ industrial control staff geometry (19)
+     × exposes protected landmarks from actual shared geometry, not edge indices 372ms
+ ❯ tests/unit/utils/wireframeStaffShells.test.ts (10 tests | 1 failed | 9 skipped) 41ms
+   ❯ mechanical lotus petals (10)
+     × rounds the two leading bellies into progressively narrowing pointed tips 41ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/utils/wireframeGeometry.test.ts > industrial control staff geometry > exposes protected landmarks from actual shared geometry, not edge indices
+AssertionError: expected [ Array(6) ] to deeply equal [ Array(8) ]
+
+- Expected
++ Received
+
+  [
+    "core",
+    "neck",
+    "petalBellies",
+    "petalMounts",
+-   "primaryContours",
+-   "shaft",
+    "shaftConnection",
+    "supports",
+  ]
+
+ ❯ tests/unit/utils/wireframeGeometry.test.ts:49:43
+     47|     expect(edges).toEqual(createDeviceGeometry());
+     48|     const vertices = new Set(edges.flatMap(({ a, b }) => [a, b]));
+     49|     expect(Object.keys(landmarks).sort()).toEqual([
+       |                                           ^
+     50|       'core',
+     51|       'neck',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/unit/utils/wireframeStaffShells.test.ts > mechanical lotus petals > rounds the two leading bellies into progressively narrowing pointed tips
+AssertionError: expected 0.42 to be greater than 0.44
+ ❯ tests/unit/utils/wireframeStaffShells.test.ts:97:38
+     95|       const maximum = Math.max(...widths);
+     96|       const peak = widths.indexOf(maximum);
+     97|       expect(petal.parameters[peak]).toBeGreaterThan(0.44);
+       |                                      ^
+     98|       expect(petal.parameters[peak]).toBeLessThan(0.55);
+     99|       for (let i = peak + 1; i < widths.length; i++)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 27 skipped (29)
+   Start at  17:31:53
+   Duration  821ms (tests 59%, import 30%, transform 11%, worker 1%)

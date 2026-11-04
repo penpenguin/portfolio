@@ -1,0 +1,10 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeDevice.test.ts -t petal contour|petal fronts|three line weights
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed | 41 skipped (44)
+   Start at  17:30:29
+   Duration  1.31s (tests 73%, import 19%, transform 8%)

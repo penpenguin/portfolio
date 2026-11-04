@@ -1,0 +1,23 @@
+npm notice run portfolio@1.0.0 test:visual
+npm notice run node scripts/run-playwright-visual.mjs tests/visual/blog-archive.spec.ts -g selects years locally --project=desktop --workers=1 --repeat-each=5 --trace=on
+Reusing external preview server at http://127.0.0.1:4324/portfolio/
+
+Running 5 tests using 1 worker
+
+(node:850488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.9s)
+(node:850654) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.8s)
+(node:850786) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (2.0s)
+(node:850923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.9s)
+(node:851058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.9s)
+
+  5 passed (13.6s)

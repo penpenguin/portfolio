@@ -1,0 +1,139 @@
+npm notice run portfolio@1.0.0 test:visual
+npm notice run node scripts/run-playwright-visual.mjs tests/visual/blog-archive.spec.ts -g selects years locally --project=desktop --workers=1 --repeat-each=5 --trace=on
+Reusing external preview server at http://127.0.0.1:4324/portfolio/
+
+Running 5 tests using 1 worker
+
+(node:848017) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (6.9s)
+(node:848311) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (6.7s)
+(node:848553) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (6.8s)
+(node:848786) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.9s)
+(node:848930) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.8s)
+
+
+  1) [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true }) with timeout 5000ms
+      - waiting for locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+
+
+      183 |   await expect(
+      184 |     archive.getByRole('link', { name: '2025年12月', exact: true })
+    > 185 |   ).toBeVisible();
+          |     ^
+      186 | });
+      187 |
+      188 | test.describe('without JavaScript', () => {
+        at /home/user/repository/portfolio/tests/visual/blog-archive.spec.ts:185:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true }) with timeout 5000ms
+      - waiting for locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+
+
+      183 |   await expect(
+      184 |     archive.getByRole('link', { name: '2025年12月', exact: true })
+    > 185 |   ).toBeVisible();
+          |     ^
+      186 | });
+      187 |
+      188 | test.describe('without JavaScript', () => {
+        at /home/user/repository/portfolio/tests/visual/blog-archive.spec.ts:185:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true }) with timeout 5000ms
+      - waiting for locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+
+
+      183 |   await expect(
+      184 |     archive.getByRole('link', { name: '2025年12月', exact: true })
+    > 185 |   ).toBeVisible();
+          |     ^
+      186 | });
+      187 |
+      188 | test.describe('without JavaScript', () => {
+        at /home/user/repository/portfolio/tests/visual/blog-archive.spec.ts:185:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat2/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat2/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+    [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+    [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+  2 passed (28.2s)
