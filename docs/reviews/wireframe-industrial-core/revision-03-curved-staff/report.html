@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>PR #170 — 曲線外殻の制御杖</title
+  ><style>
+    body {
+      max-width: 1180px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #171719;
+      background: #fafafa;
+      font:
+        16px/1.75 system-ui,
+        sans-serif;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 40px;
+    }
+    h3 {
+      font-size: 18px;
+    }
+    a {
+      color: #33577a;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    figure {
+      margin: 24px 0;
+    }
+    figcaption {
+      font-size: 14px;
+      color: #5b5a60;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 9px;
+      text-align: left;
+    }
+    code {
+      font-size: 14px;
+    }
+    ul {
+      padding-left: 24px;
+    }
+  </style>
+  <h1>曲線の外殻と直線の内部機構を持つ制御杖</h1>
+  <p>
+    PR
+    #170の角張った4枚羽根を、細身で大きく反るS字の主外殻と短いC字アームへ変更しました。主軸を直線のまま残し、曲線の内側には直線レール・多角柱の機構・端子・短いフィンを配置しています。
+  </p>
+  <p>
+    変更前: <code>f60eb17a3896cef7f9a050462813ee4e18c867c1</code>（着手時PR
+    head）。実装:
+    <code>50696fb3cd166b86c03fdc75440b6913b396a219</code>。確認した古い参照
+    <code>93428d7</code>
+    以降の検索テスト起動修正も保持しています。今回の比較元は角張った杖であり、以前のラック／塊状コアではありません。
+  </p>
+  <h2>造形と実寸の前後比較</h2>
+  <p>
+    S字・C字の外殻は異なる方位に配置し、それぞれに内外周と尖端へ薄くなる側壁を持たせました。曲線を沿うリブと3か所の短い橋、首元の支持アームで固定。細部を消した表示でも曲線と長い柄が読み取れ、全線表示では端子やフィンが内側に集まります。側面寄りの+45／90／225度でも、短いアームと主外殻の隙間・厚みを確認しています。
+  </p>
+  <p>
+    全長10。頭部長3.35 →
+    <strong>3.75</strong
+    >（37.5%）、最大回転径2.123（ほぼ同じ）、長さ:幅は約4.71:1。柄の中央4.42単位は装飾を増やしていません。
+  </p>
+  <figure>
+    <a href="comparison.png"
+      ><img
+        src="comparison.png"
+        width="1164"
+        alt="上段: 変更前 f60eb17 / 下段: 曲線外殻の制御杖。初期30°から相対0／90／180／270°。"
+        loading="lazy"
+    /></a>
+    <figcaption>
+      上段: 変更前 f60eb17 / 下段:
+      曲線外殻の制御杖。初期30°から相対0／90／180／270°。
+    </figcaption>
+  </figure>
+  <p>
+    全画像は画面上の左35°・初期30°・全周の解析境界から一度決めた固定フィット0.84。267×258px枠の縮尺は前
+    26.426203 → 後 25.647920 CSS
+    px/モデル単位。回転角に応じた再フィットや中心追従はありません。線幅1.1／0.8／0.5px、alpha範囲とカメラも同じです。
+  </p>
+  <h2>主要構造と全線、8方向</h2>
+  <p>
+    主要構造表示には、主外殻だけでなくcomponent階層のC字アーム・曲線リブ・首元・支持・柄も含めています。微細線・内部計器・冷却・配線を除く比較専用の抽出で、本番UIには追加していません。全周境界と投影は全線モデルのまま固定しています。
+  </p>
+  <figure>
+    <a href="structure-dpr1.png"
+      ><img
+        src="structure-dpr1.png"
+        width="1164"
+        alt="DPR 1: 各viewportで変更前→変更後、主要構造→全線。画像内のラベル参照。"
+        loading="lazy"
+    /></a>
+    <figcaption>
+      DPR 1: 各viewportで変更前→変更後、主要構造→全線。画像内のラベル参照。
+    </figcaption>
+  </figure>
+  <p>
+    <a href="structure-dpr2.png">同じ比較・DPR 2</a> /
+    <a href="structure-eight.png">主要構造8方向・267×258</a> /
+    <a href="narrow-structure-eight.png">主要構造8方向・223×258</a> /
+    <a href="rotation-before.png">変更前の8方向</a>
+  </p>
+  <figure>
+    <a href="rotation.png"
+      ><img
+        src="rotation.png"
+        width="1164"
+        alt="変更後の8方向・267×258px・DPR 1。初期30°から45°刻み。"
+        loading="lazy"
+    /></a>
+    <figcaption>
+      変更後の8方向・267×258px・DPR 1。初期30°から45°刻み。
+    </figcaption>
+  </figure>
+  <figure>
+    <a href="narrow.png"
+      ><img
+        src="narrow.png"
+        width="1164"
+        alt="変更後の8方向・223×258px・DPR 1。通常の狭いPC枠でも収まる。"
+        loading="lazy"
+    /></a>
+    <figcaption>
+      変更後の8方向・223×258px・DPR 1。通常の狭いPC枠でも収まる。
+    </figcaption>
+  </figure>
+  <p>
+    <a href="rotation-dpr2.png">267×258・DPR 2の8方向</a> /
+    <a href="narrow-dpr2.png">223×258・DPR 2の8方向</a
+    >。曲線は両DPRで確認しました。表示比較の全線出力と実際のpreview
+    Canvasは、前後×2枠×2
+    DPR×8角度の<strong>64条件</strong>でPNGバイト一致しています（<a
+      href="comparison-validation.json"
+      >一致記録</a
+    >）。
+  </p>
+  <h2>Home全体と枠の実測</h2>
+  <p>
+    PCの3:1、モバイル外枠240px、About・カード・ヘッダー・フッター・自然なスクロールを維持。viewportと実描画領域は次のとおりです。各幅をDPR
+    1/2で保存しました。
+  </p>
+  <table>
+    <tr>
+      <th>viewport</th>
+      <th>実描画領域</th>
+      <th>Home全体</th>
+    </tr>
+    <tr>
+      <td>1440px</td>
+      <td>267×258px</td>
+      <td>
+        <a href="home-1440-after.png">DPR 1</a> /
+        <a href="home-1440-dpr2.png">DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>1024px</td>
+      <td>223×258px</td>
+      <td>
+        <a href="home-1024-after.png">DPR 1</a> /
+        <a href="home-1024-dpr2.png">DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>980px</td>
+      <td>914×238px</td>
+      <td>
+        <a href="home-980-after.png">DPR 1</a> /
+        <a href="home-980-dpr2.png">DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>768px</td>
+      <td>726×238px</td>
+      <td>
+        <a href="home-768-after.png">DPR 1</a> /
+        <a href="home-768-dpr2.png">DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>390px</td>
+      <td>348×238px</td>
+      <td>
+        <a href="home-390-after.png">DPR 1</a> /
+        <a href="home-390-dpr2.png">DPR 2</a>
+      </td>
+    </tr>
+    <tr>
+      <td>320px</td>
+      <td>278×238px</td>
+      <td>
+        <a href="home-320-after.png">DPR 1</a> /
+        <a href="home-320-dpr2.png">DPR 2</a>
+      </td>
+    </tr>
+  </table>
+  <figure>
+    <a href="home-1440-after.png"
+      ><img
+        src="home-1440-after.png"
+        width="1440"
+        alt="1440px / DPR 1 / Home全体"
+        loading="lazy"
+    /></a>
+    <figcaption>1440px / DPR 1 / Home全体</figcaption>
+  </figure>
+  <figure>
+    <a href="home-390-after.png"
+      ><img
+        src="home-390-after.png"
+        width="390"
+        alt="390px / DPR 1 / Home全体"
+        loading="lazy"
+    /></a>
+    <figcaption>390px / DPR 1 / Home全体</figcaption>
+  </figure>
+  <p>
+    変更前のHome: <a href="home-1440-before.png">1440px</a> /
+    <a href="home-390-before.png">390px</a> /
+    <a href="home-320-before.png">320px</a>。<a href="frames-before.json"
+      >変更前の実測</a
+    >
+    / <a href="frames-after.json">変更後の実測</a>。
+  </p>
+  <h2>性能と配信サイズ</h2>
+  <p>
+    AMD Ryzen 5 3600 6-Core Processor / Linux 6.18.54.1-microsoft-standard-WSL2
+    / Chromium 156.0.8078.4 / Node
+    v26.12.1。各条件で60実描画のウォームアップ後、480実描画を採取。clearRectから投影と最後のCanvas
+    strokeまでのCPU時間（計測オーバーヘッドを含む）。省略rAF、GPU・合成時間は含みません。
+  </p>
+  <table>
+    <tr>
+      <th>条件</th>
+      <th>中央値 前→後</th>
+      <th>p95 前→後</th>
+    </tr>
+    <tr>
+      <td>267×258 / DPR 1</td>
+      <td>0.3 → 0.4 ms</td>
+      <td>0.6 → 0.7 ms</td>
+    </tr>
+    <tr>
+      <td>348×238 / DPR 2</td>
+      <td>0.4 → 0.4 ms</td>
+      <td>0.7 → 0.7 ms</td>
+    </tr>
+  </table>
+  <p>
+    この環境でp95
+    8msの作業目安を満たしました。全端末への保証ではありません。線分
+    <strong>1,144 → 1,420</strong>、共有頂点
+    <strong>818 → 1,098</strong>。曲線境界の追加に伴いSVGとHTMLは増えています。
+  </p>
+  <table>
+    <tr>
+      <th>配信サイズ</th>
+      <th>変更前</th>
+      <th>変更後</th>
+    </tr>
+    <tr>
+      <td>Home HTML</td>
+      <td>215,678 B</td>
+      <td>265,750 B</td>
+    </tr>
+    <tr>
+      <td>Home HTML gzip</td>
+      <td>21,014 B</td>
+      <td>25,861 B</td>
+    </tr>
+    <tr>
+      <td>静止SVG</td>
+      <td>205,444 B</td>
+      <td>255,516 B</td>
+    </tr>
+    <tr>
+      <td>静止SVG gzip</td>
+      <td>16,914 B</td>
+      <td>21,645 B</td>
+    </tr>
+  </table>
+  <p>
+    <a href="metrics-before.json">変更前の環境・生480サンプル×2条件</a> /
+    <a href="metrics-after.json">変更後の環境・生480サンプル×2条件</a>。
+  </p>
+  <h2>検証</h2>
+  <ul>
+    <li>
+      Red → Green:
+      曲線生成、長い頭部、外殻組立て、接続位置、リブ・直線レール、DESIGNの順に失敗を確認して実装。
+    </li>
+    <li>
+      <code>npm run check</code>: 97ファイル、エラー・警告・ヒント0。<code
+        >npm run lint</code
+      >、Prettier、<code>git diff --check</code>通過。
+    </li>
+    <li>
+      <code>npm run test -- --run</code>:
+      53ファイル・<strong>324テスト通過</strong>。旧4枚羽根専用の期待値を置換し、既存操作テストの削除・skipなし。
+    </li>
+    <li>
+      <code>npm run build</code>: AstroとPagefind生成成功。<code
+        >npm run test:visual -- --workers=2</code
+      >:
+      ビルド済みpreviewを標準手順で起動して<strong>90テスト通過</strong>。接続先は
+      <code>http://127.0.0.1:4324/portfolio/</code>。
+    </li>
+    <li>
+      0〜359°×10寸法、線幅込み最小余白
+      <strong>18.952037px</strong
+      >。有限座標・alpha・固定中心／縮尺・16秒回転・投影軸の左35°を検証。
+    </li>
+    <li>
+      各曲線区間24分割。192分割参照との最大画面誤差
+      <strong>0.023287 CSS px</strong
+      >。境界の高さが単調増加し内周が外周の内側にあること、尖端以外の正の厚み、共有尖端、接続部の接線、共通頂点・重複／部分重複の除去、支持・配管端点も確認。
+    </li>
+    <li>
+      クリック／タップ／Enter／Space、フォーカスを外しても停止、reduced-motion、画面外、非表示通知、Astro往復とループ解放、停止中rAFなし、JS無効／Canvas失敗のSVG、検索併用を維持。
+    </li>
+  </ul>
+  <p>
+    未検証:
+    Firefox／Safari、実機タッチ、実タブ由来の非表示通知、Windowsでのテスト起動。タッチはChromiumエミュレーション、visibilitychangeは合成イベントと単体テストで確認しました。マージ・サイト公開は行っていません。
+  </p>
+  <p>
+    変更ファイル:
+    <code>DESIGN.md</code
+    >、<code>src/utils/wireframeGeometry.ts</code>、<code>src/utils/wireframeStaffShells.ts</code>、<code>tests/unit/docs/design-guidelines.test.ts</code>、<code>tests/unit/utils/wireframeGeometry.test.ts</code>、<code>tests/unit/utils/wireframeStaffShells.test.ts</code>。
+  </p>
+  <p>
+    <a href="verification.json">対象コミット・SHA256・コマンド・未検証項目</a> /
+    <a href="geometry.json">全周・寸法・曲線・部位別の数値記録</a>。
+  </p>
+</html>

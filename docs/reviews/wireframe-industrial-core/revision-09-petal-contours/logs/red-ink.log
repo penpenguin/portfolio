@@ -1,0 +1,28 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeGeometry.test.ts -t retains petal ink
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+ ❯ tests/unit/utils/wireframeGeometry.test.ts (19 tests | 1 failed | 18 skipped) 182ms
+   ❯ industrial control staff geometry (19)
+     × retains petal ink roles and one radial reference through edge splitting 180ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/utils/wireframeGeometry.test.ts > industrial control staff geometry > retains petal ink roles and one radial reference through edge splitting
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/unit/utils/wireframeGeometry.test.ts:17:28
+     15|     for (const p of petals) {
+     16|       const inked = edges.filter((e) => e.petal?.id === p.id);
+     17|       expect(inked.length).toBeGreaterThan(0);
+       |                            ^
+     18|       expect(new Set(inked.map((e) => e.petal!.role))).toEqual(
+     19|         new Set(p.layer === 'inner' ? ['front', 'back'] : ['front', 'b…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 18 skipped (19)
+   Start at  17:28:13
+   Duration  632ms (import 47%, tests 37%, transform 15%, worker 1%)

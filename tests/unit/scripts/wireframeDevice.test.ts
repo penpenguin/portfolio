@@ -5,7 +5,7 @@ import {
   type DeviceSession,
 } from '../../../src/scripts/wireframeDevice';
 import {
-  initialAngle,
+  initialSpinPhase,
   projectDevice,
 } from '../../../src/utils/wireframeDevice';
 
@@ -81,7 +81,7 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-function mount(session: DeviceSession = { angle: initialAngle }) {
+function mount(session: DeviceSession = { spinPhase: initialSpinPhase }) {
   const root = document.createElement('div');
   root.innerHTML =
     '<button data-device-stage disabled><svg></svg><canvas></canvas></button>';
@@ -103,6 +103,15 @@ function tick(elapsed: number) {
 }
 
 describe('wireframe device lifecycle', () => {
+  it('describes the staff controls without replacing Canvas or SVG children', () => {
+    const { button } = mount();
+    expect(button.getAttribute('aria-description')).toBe(
+      '機械蓮を持つ線画の制御杖。クリック、Enter、Spaceで回転を停止・再開できます。'
+    );
+    expect(button.querySelector('canvas')).not.toBeNull();
+    expect(button.querySelector('svg')).not.toBeNull();
+  });
+
   it('holds the displayed angle when paused between scheduled draws', () => {
     const { session, button } = mount();
     intersect(true);
@@ -110,37 +119,60 @@ describe('wireframe device lifecycle', () => {
     tick(16);
     context.moveTo.mockClear();
     button.click();
-    const expected = projectDevice(session.angle, 240, 180)[0].from;
+    const expected = projectDevice(session.spinPhase, 240, 180)[0].from;
     expect(context.moveTo.mock.calls[0]).toEqual([expected.x, expected.y]);
     expect(frames.size).toBe(0);
   });
 
-  it('draws at about 30fps and stops scheduling work when paused', () => {
-    const { session, button } = mount();
+  it.each([60, 120, 144])(
+    'draws at about 30fps on a %iHz display and stops scheduling work when paused',
+    (refreshRate) => {
+      const { session, button } = mount();
+      intersect(true);
+      tick(0);
+      const firstDraws = context.clearRect.mock.calls.length;
+      for (let i = 0; i < refreshRate; i++) tick(1000 / refreshRate);
+      expect(session.spinPhase).toBeCloseTo(initialSpinPhase + Math.PI / 8);
+      expect(
+        context.clearRect.mock.calls.length - firstDraws
+      ).toBeGreaterThanOrEqual(29);
+      expect(
+        context.clearRect.mock.calls.length - firstDraws
+      ).toBeLessThanOrEqual(30);
+      expect(frames.size).toBe(1);
+      button.click();
+      expect(button.querySelector('canvas')).not.toBeNull();
+      expect(button.querySelector('svg')).not.toBeNull();
+      expect(button.getAttribute('aria-label')).toBe('回転を再生');
+      expect(frames.size).toBe(0);
+      const pausedAngle = session.spinPhase;
+      tick(10000);
+      expect(session.spinPhase).toBe(pausedAngle);
+      button.click();
+      tick(0);
+      tick(1000);
+      expect(session.spinPhase).toBeCloseTo(pausedAngle + Math.PI / 8);
+    }
+  );
+
+  it('caps DPR at two without changing CSS coordinates and only redraws once on a paused resize', () => {
+    vi.stubGlobal('devicePixelRatio', 3);
+    const { root, button, session } = mount();
     intersect(true);
-    tick(0);
-    const firstDraws = context.clearRect.mock.calls.length;
-    for (let i = 0; i < 60; i++) tick(1000 / 60);
-    expect(session.angle).toBeCloseTo(initialAngle + Math.PI / 8);
-    expect(
-      context.clearRect.mock.calls.length - firstDraws
-    ).toBeGreaterThanOrEqual(29);
-    expect(
-      context.clearRect.mock.calls.length - firstDraws
-    ).toBeLessThanOrEqual(30);
-    expect(frames.size).toBe(1);
+    const canvas = root.querySelector('canvas')!;
+    expect([canvas.width, canvas.height]).toEqual([480, 360]);
+    expect(context.setTransform).toHaveBeenLastCalledWith(2, 0, 0, 2, 0, 0);
+    const expected = projectDevice(session.spinPhase, 240, 180);
+    expect(context.moveTo.mock.calls.slice(-expected.length)).toEqual(
+      expected.map(({ from }) => [from.x, from.y])
+    );
     button.click();
-    expect(button.querySelector('canvas')).not.toBeNull();
-    expect(button.querySelector('svg')).not.toBeNull();
-    expect(button.getAttribute('aria-label')).toBe('回転を再生');
+    const draws = context.clearRect.mock.calls.length;
+    resize();
+    expect(context.clearRect).toHaveBeenCalledTimes(draws + 1);
     expect(frames.size).toBe(0);
-    const pausedAngle = session.angle;
     tick(10000);
-    expect(session.angle).toBe(pausedAngle);
-    button.click();
-    tick(0);
-    tick(1000);
-    expect(session.angle).toBeCloseTo(pausedAngle + Math.PI / 8);
+    expect(context.clearRect).toHaveBeenCalledTimes(draws + 1);
   });
 
   it('suspends offscreen and in hidden tabs without advancing hidden time', () => {
@@ -150,14 +182,14 @@ describe('wireframe device lifecycle', () => {
     tick(500);
     intersect(false);
     expect(frames.size).toBe(0);
-    const angle = session.angle;
+    const angle = session.spinPhase;
     const draws = context.clearRect.mock.calls.length;
     resize();
     tick(10000);
     expect(context.clearRect).toHaveBeenCalledTimes(draws);
     intersect(true);
     tick(0);
-    expect(session.angle).toBe(angle);
+    expect(session.spinPhase).toBe(angle);
     hidden = true;
     document.dispatchEvent(new Event('visibilitychange'));
     expect(frames.size).toBe(0);
@@ -165,7 +197,7 @@ describe('wireframe device lifecycle', () => {
     hidden = false;
     document.dispatchEvent(new Event('visibilitychange'));
     tick(0);
-    expect(session.angle).toBe(angle);
+    expect(session.spinPhase).toBe(angle);
     expect(frames.size).toBe(1);
   });
 
@@ -186,7 +218,7 @@ describe('wireframe device lifecycle', () => {
   });
 
   it('retains explicit pause and angle across page replacements and releases all work', () => {
-    const session: DeviceSession = { angle: initialAngle };
+    const session: DeviceSession = { spinPhase: initialSpinPhase };
     for (let i = 0; i < 3; i++) {
       const current = mount(session);
       intersect(true);
@@ -196,7 +228,7 @@ describe('wireframe device lifecycle', () => {
         current.button.click();
       }
       expect(current.button.getAttribute('aria-label')).toBe('回転を再生');
-      const angle = session.angle;
+      const angle = session.spinPhase;
       current.cleanup();
       current.root.remove();
       expect(frames.size).toBe(0);
@@ -208,13 +240,13 @@ describe('wireframe device lifecycle', () => {
       intersect(true);
       resize();
       tick(1000);
-      expect(session.angle).toBe(angle);
+      expect(session.spinPhase).toBe(angle);
       expect(frames.size).toBe(0);
     }
   });
 
   it('respects reduced motion enabled while away, but keeps an explicit reduced-motion play choice', () => {
-    const session: DeviceSession = { angle: initialAngle };
+    const session: DeviceSession = { spinPhase: initialSpinPhase };
     const first = mount(session);
     intersect(true);
     expect(frames.size).toBe(1);

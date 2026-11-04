@@ -1,0 +1,146 @@
+npm notice run portfolio@1.0.0 test:visual
+npm notice run node scripts/run-playwright-visual.mjs --workers=2
+Reusing external preview server at http://127.0.0.1:4324/portfolio/
+
+Running 96 tests using 2 workers
+
+(node:842854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:842853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/visual/blog-archive.spec.ts:49:1 › archive does not stretch the featured row at tablet width (601ms)
+  ✓   2 [desktop] › tests/visual/bento-layout.spec.ts:11:5 › Bento layout › ./ has stable responsive framing (664ms)
+  ✓   4 [desktop] › tests/visual/bento-layout.spec.ts:11:5 › Bento layout › projects/ has stable responsive framing (419ms)
+  ✓   3 [desktop] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 390px (980ms)
+  ✓   5 [desktop] › tests/visual/bento-layout.spec.ts:11:5 › Bento layout › blog/ has stable responsive framing (555ms)
+  ✓   6 [desktop] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 820px (966ms)
+  ✓   7 [desktop] › tests/visual/bento-layout.spec.ts:42:3 › Bento layout › keeps About dark through hover and focus without darkening list heroes (1.1s)
+  ✓   8 [desktop] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 1024px (965ms)
+  ✓   9 [desktop] › tests/visual/bento-layout.spec.ts:79:3 › Bento layout › detail pages and media remain readable at 320px (1.6s)
+  ✓  10 [desktop] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 1440px (1.0s)
+  ✓  12 [desktop] › tests/visual/blog-archive.spec.ts:126:1 › supports keyboard year selection and skips months without posts (810ms)
+  ✓  11 [desktop] › tests/visual/bento-layout.spec.ts:139:3 › Bento layout › font fallback and long preview content fit without animation (2.1s)
+  ✓  14 [desktop] › tests/visual/bento-layout.spec.ts:179:3 › Bento layout › mobile key bento cards keep readable width (647ms)
+  ✓  15 [desktop] › tests/visual/bento-layout.spec.ts:198:3 › Bento layout › home keeps the device beside About with the original desktop proportions (642ms)
+  ✓  16 [desktop] › tests/visual/bento-layout.spec.ts:245:3 › Bento layout › home stacks all four cards with a 240px device on smaller screens (1.4s)
+  ✘  13 [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (6.4s)
+(node:843630) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [desktop] › tests/visual/bento-layout.spec.ts:285:3 › Bento layout › home retains pause across repeated ClientRouter visits and resumes with the keyboard (3.7s)
+  ✓  18 [desktop] › tests/visual/blog-archive.spec.ts:191:3 › without JavaScript › keeps all archive links accessible (857ms)
+  ✓  20 [desktop] › tests/visual/blog-thumbnail.spec.ts:3:1 › original tone keeps both layers neutral and featured images load eagerly (772ms)
+  ✓  19 [desktop] › tests/visual/bento-layout.spec.ts:338:3 › Bento layout › device stays still under reduced motion and suspends offscreen (1.5s)
+  ✓  21 [desktop] › tests/visual/blog-thumbnail.spec.ts:29:1 › passive cards stay still while article links remain accessible (885ms)
+  ✓  22 [desktop] › tests/visual/bento-layout.spec.ts:368:3 › Bento layout › Canvas failure retains the static drawing without a nonfunctional control (611ms)
+  ✓  24 [desktop] › tests/visual/bento-layout.spec.ts:383:3 › device without JavaScript › keeps the static wireframe visible (437ms)
+  ✓  23 [desktop] › tests/visual/blog-thumbnail.spec.ts:63:1 › foreground stays sharp while the expanded backdrop fills different aspect ratios (1.9s)
+  ✓  25 [desktop] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 320px (2.0s)
+  ✓  26 [desktop] › tests/visual/blog-thumbnail.spec.ts:132:1 › NO IMAGE is static, decorative and keeps the same frame heights in both lists (1.7s)
+  ✓  27 [desktop] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 390px (1.8s)
+  ✓  28 [desktop] › tests/visual/blog-thumbnail.spec.ts:159:1 › failed images hide both layers without changing height and recover on a later visit (1.7s)
+  ✓  30 [desktop] › tests/visual/blog-thumbnail.spec.ts:194:3 › thumbnails without JavaScript › renders original images and missing-image fallbacks on the server (504ms)
+  ✓  29 [desktop] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 768px (1.9s)
+  ✓  31 [desktop] › tests/visual/project-thumbnail.spec.ts:18:1 › project lists share Blog framing and tone without changing card heights (775ms)
+  ✓  33 [desktop] › tests/visual/project-thumbnail.spec.ts:57:1 › details reserve their ratio, retain image metadata, and keep image-less details single-column (1.2s)
+  ✓  32 [desktop] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 980px (2.2s)
+  ✓  34 [desktop] › tests/visual/project-thumbnail.spec.ts:104:1 › failed detail images keep their frame and recover after Astro navigation (2.2s)
+  ✓  36 [desktop] › tests/visual/project-thumbnail.spec.ts:147:3 › project images without JavaScript › renders both layers and NO IMAGE on the server (592ms)
+  ✓  35 [desktop] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 1024px (2.2s)
+  ✓  37 [desktop] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 1440px (2.1s)
+  ✓  38 [desktop] › tests/visual/wireframe-device.spec.ts:95:1 › the built Canvas follows world spin through a complete sixteen-second turn (2.8s)
+  ✓  40 [desktop] › tests/visual/wireframe-device.spec.ts:144:5 › Canvas at DPR 1 › Canvas draws the shared initial geometry and respects the DPR cap (1.1s)
+  ✓  39 [desktop] › tests/visual/layout-polish.spec.ts:56:1 › Home uses available height without forcing scroll and keeps natural overflow (2.3s)
+  ✓  41 [desktop] › tests/visual/wireframe-device.spec.ts:144:5 › Canvas at DPR 2 › Canvas draws the shared initial geometry and respects the DPR cap (1.2s)
+  ✓  42 [desktop] › tests/visual/layout-polish.spec.ts:91:1 › fallback fonts, zoom and long descriptions expand heroes without clipping (1.1s)
+(node:844641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  43 [desktop] › tests/visual/wireframe-device.spec.ts:194:1 › tap/click, live reduced-motion changes and paused resize leave no continuous work (1.2s)
+  ✓  44 [mobile] › tests/visual/bento-layout.spec.ts:11:5 › Bento layout › ./ has stable responsive framing (637ms)
+  ✓  46 [mobile] › tests/visual/bento-layout.spec.ts:11:5 › Bento layout › projects/ has stable responsive framing (381ms)
+  ✓  47 [mobile] › tests/visual/bento-layout.spec.ts:11:5 › Bento layout › blog/ has stable responsive framing (484ms)
+  ✓  48 [mobile] › tests/visual/bento-layout.spec.ts:42:3 › Bento layout › keeps About dark through hover and focus without darkening list heroes (1.1s)
+  ✓  45 [desktop] › tests/visual/wireframe-device.spec.ts:236:1 › hidden-tab notifications and repeated navigation stop work without multiplying loops (3.3s)
+  ✓  49 [mobile] › tests/visual/bento-layout.spec.ts:79:3 › Bento layout › detail pages and media remain readable at 320px (1.6s)
+  ✓  50 [desktop] › tests/visual/wireframe-device.spec.ts:282:1 › production search remains usable while the core rotates (1.8s)
+  ✓  51 [mobile] › tests/visual/bento-layout.spec.ts:139:3 › Bento layout › font fallback and long preview content fit without animation (1.8s)
+  ✓  52 [desktop] › tests/visual/wireframe-device.spec.ts:302:1 › a throwing Canvas context keeps the SVG disabled and outside keyboard navigation (675ms)
+  ✓  53 [mobile] › tests/visual/bento-layout.spec.ts:179:3 › Bento layout › mobile key bento cards keep readable width (611ms)
+  ✓  55 [mobile] › tests/visual/bento-layout.spec.ts:198:3 › Bento layout › home keeps the device beside About with the original desktop proportions (650ms)
+  ✓  56 [mobile] › tests/visual/bento-layout.spec.ts:245:3 › Bento layout › home stacks all four cards with a 240px device on smaller screens (1.5s)
+  ✓  54 [desktop] › tests/visual/wireframe-device.spec.ts:324:5 › cropped static exhibition at DPR 1 › the SVG matches Canvas framing and clips only at the panel across stage sizes (3.4s)
+  ✓  57 [mobile] › tests/visual/bento-layout.spec.ts:285:3 › Bento layout › home retains pause across repeated ClientRouter visits and resumes with the keyboard (3.4s)
+  ✓  58 [desktop] › tests/visual/wireframe-device.spec.ts:324:5 › cropped static exhibition at DPR 2 › the SVG matches Canvas framing and clips only at the panel across stage sizes (3.3s)
+(node:845342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  59 [mobile] › tests/visual/bento-layout.spec.ts:338:3 › Bento layout › device stays still under reduced motion and suspends offscreen (1.4s)
+  ✓  60 [mobile] › tests/visual/blog-archive.spec.ts:49:1 › archive does not stretch the featured row at tablet width (603ms)
+  ✓  61 [mobile] › tests/visual/bento-layout.spec.ts:368:3 › Bento layout › Canvas failure retains the static drawing without a nonfunctional control (545ms)
+  ✓  63 [mobile] › tests/visual/bento-layout.spec.ts:383:3 › device without JavaScript › keeps the static wireframe visible (360ms)
+  ✓  62 [mobile] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 390px (975ms)
+  ✓  64 [mobile] › tests/visual/blog-thumbnail.spec.ts:3:1 › original tone keeps both layers neutral and featured images load eagerly (694ms)
+  ✓  65 [mobile] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 820px (981ms)
+  ✓  66 [mobile] › tests/visual/blog-thumbnail.spec.ts:29:1 › passive cards stay still while article links remain accessible (772ms)
+  ✓  67 [mobile] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 1024px (961ms)
+  ✓  68 [mobile] › tests/visual/blog-thumbnail.spec.ts:63:1 › foreground stays sharp while the expanded backdrop fills different aspect ratios (1.8s)
+  ✓  69 [mobile] › tests/visual/blog-archive.spec.ts:64:3 › archive remains a three by four grid as months grow at 1440px (1.0s)
+  ✓  71 [mobile] › tests/visual/blog-archive.spec.ts:126:1 › supports keyboard year selection and skips months without posts (614ms)
+  ✓  70 [mobile] › tests/visual/blog-thumbnail.spec.ts:132:1 › NO IMAGE is static, decorative and keeps the same frame heights in both lists (1.3s)
+  ✓  72 [mobile] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back (1.2s)
+  ✓  74 [mobile] › tests/visual/blog-archive.spec.ts:191:3 › without JavaScript › keeps all archive links accessible (606ms)
+  ✓  73 [mobile] › tests/visual/blog-thumbnail.spec.ts:159:1 › failed images hide both layers without changing height and recover on a later visit (1.5s)
+  ✓  76 [mobile] › tests/visual/blog-thumbnail.spec.ts:194:3 › thumbnails without JavaScript › renders original images and missing-image fallbacks on the server (467ms)
+  ✓  77 [mobile] › tests/visual/project-thumbnail.spec.ts:18:1 › project lists share Blog framing and tone without changing card heights (808ms)
+  ✓  75 [mobile] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 320px (2.0s)
+  ✓  78 [mobile] › tests/visual/project-thumbnail.spec.ts:57:1 › details reserve their ratio, retain image metadata, and keep image-less details single-column (1.1s)
+  ✓  79 [mobile] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 390px (1.9s)
+  ✓  80 [mobile] › tests/visual/project-thumbnail.spec.ts:104:1 › failed detail images keep their frame and recover after Astro navigation (1.8s)
+  ✓  82 [mobile] › tests/visual/project-thumbnail.spec.ts:147:3 › project images without JavaScript › renders both layers and NO IMAGE on the server (495ms)
+  ✓  81 [mobile] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 768px (1.9s)
+  ✓  84 [mobile] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 980px (1.9s)
+  ✓  83 [mobile] › tests/visual/wireframe-device.spec.ts:95:1 › the built Canvas follows world spin through a complete sixteen-second turn (2.7s)
+  ✓  86 [mobile] › tests/visual/wireframe-device.spec.ts:144:5 › Canvas at DPR 1 › Canvas draws the shared initial geometry and respects the DPR cap (982ms)
+  ✓  85 [mobile] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 1024px (1.9s)
+  ✓  87 [mobile] › tests/visual/wireframe-device.spec.ts:144:5 › Canvas at DPR 2 › Canvas draws the shared initial geometry and respects the DPR cap (1.0s)
+  ✓  89 [mobile] › tests/visual/wireframe-device.spec.ts:194:1 › tap/click, live reduced-motion changes and paused resize leave no continuous work (1.3s)
+  ✓  88 [mobile] › tests/visual/layout-polish.spec.ts:7:3 › sticky shell and equal introduction heights at 1440px (1.9s)
+  ✓  91 [mobile] › tests/visual/layout-polish.spec.ts:56:1 › Home uses available height without forcing scroll and keeps natural overflow (2.2s)
+  ✓  90 [mobile] › tests/visual/wireframe-device.spec.ts:236:1 › hidden-tab notifications and repeated navigation stop work without multiplying loops (3.3s)
+  ✓  92 [mobile] › tests/visual/layout-polish.spec.ts:91:1 › fallback fonts, zoom and long descriptions expand heroes without clipping (1.2s)
+  ✓  93 [mobile] › tests/visual/wireframe-device.spec.ts:282:1 › production search remains usable while the core rotates (1.7s)
+  ✓  94 [mobile] › tests/visual/wireframe-device.spec.ts:302:1 › a throwing Canvas context keeps the SVG disabled and outside keyboard navigation (572ms)
+  ✓  95 [mobile] › tests/visual/wireframe-device.spec.ts:324:5 › cropped static exhibition at DPR 1 › the SVG matches Canvas framing and clips only at the panel across stage sizes (3.1s)
+  ✓  96 [mobile] › tests/visual/wireframe-device.spec.ts:324:5 › cropped static exhibition at DPR 2 › the SVG matches Canvas framing and clips only at the panel across stage sizes (3.2s)
+
+
+  1) [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true }) with timeout 5000ms
+      - waiting for locator('.archive-panel').getByRole('link', { name: '2025年12月', exact: true })
+
+
+      183 |   await expect(
+      184 |     archive.getByRole('link', { name: '2025年12月', exact: true })
+    > 185 |   ).toBeVisible();
+          |     ^
+      186 | });
+      187 |
+      188 | test.describe('without JavaScript', () => {
+        at /home/user/repository/portfolio/tests/visual/blog-archive.spec.ts:185:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/blog-archive-selects-years-37a0f-rough-ClientRouter-and-back-desktop/error-context.md
+
+  1 failed
+    [desktop] › tests/visual/blog-archive.spec.ts:146:1 › selects years locally and preserves month navigation through ClientRouter and back
+  95 passed (1.3m)

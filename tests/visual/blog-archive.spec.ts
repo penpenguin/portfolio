@@ -178,6 +178,9 @@ test('selects years locally and preserves month navigation through ClientRouter 
   ).toBeVisible();
   await page.goBack();
   await expect(page).toHaveURL(/\/blog\/?$/);
+  // popstate updates the URL before ClientRouter swaps the month page's DOM.
+  // Wait for the archive index before selecting a year on its replacement control.
+  await expect(archive.locator('[aria-current="page"]')).toHaveCount(0);
   await expect(year).toHaveValue('2026');
   await year.selectOption('2025');
   await expect(

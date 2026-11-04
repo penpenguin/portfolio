@@ -1,0 +1,36 @@
+{
+  "test": "tests/visual/blog-archive.spec.ts: selects years locally and preserves month navigation through ClientRouter and back",
+  "initialFullRun": {
+    "passed": 95,
+    "failed": 1
+  },
+  "reproduction": {
+    "runs": 5,
+    "passed": 2,
+    "failed": 3,
+    "trace": "archive-race-trace.zip"
+  },
+  "evidence": [
+    {
+      "timeMs": 2580.41,
+      "event": "goBack returned; URL changed to /portfolio/blog while the month DOM was still retained"
+    },
+    {
+      "timeMs": 2615.153,
+      "event": "selectOption returned values=[2025] on the old control"
+    },
+    {
+      "timeMs": 2636.782,
+      "event": "replacement archive index DOM had the 2026 default option selected"
+    }
+  ],
+  "fix": "After checking the history URL, wait for .archive-panel [aria-current=page] count zero, indicating the archive index DOM, before selecting the year.",
+  "productionArchiveChanged": false,
+  "assertionsRemoved": false,
+  "fixedDelayAdded": false,
+  "afterFixRepeated": {
+    "runs": 5,
+    "passed": 5,
+    "failed": 0
+  }
+}

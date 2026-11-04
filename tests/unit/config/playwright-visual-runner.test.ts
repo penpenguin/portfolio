@@ -19,7 +19,7 @@ const visualRunnerScript = readFileSync(
 );
 
 describe('Playwright visual test runner', () => {
-  it('uses a wrapper that starts Astro before Playwright checks availability', () => {
+  it('uses a wrapper that starts a built preview before Playwright checks availability', () => {
     expect(packageJson.scripts['test:visual']).toBe(
       'node scripts/run-playwright-visual.mjs'
     );
@@ -58,21 +58,22 @@ describe('Playwright visual test runner', () => {
     expect(visualRunnerScript).toContain("'/f'");
   });
 
-  it('reuses a healthy visual server before starting Astro', () => {
-    expect(visualRunnerScript).toMatch(
-      /if\s*\(\s*!process\.env\.CI\s*&&\s*\(?\s*await requestURL\(baseURL,\s*1_000\)\s*\)?\s*\)[\s\S]*Reusing Astro dev server[\s\S]*runPlaywright\(process\.argv\.slice\(2\)\)[\s\S]*return[\s\S]*devServer = startAstroDevServer\(\)/
+  it('only reuses a server when the caller explicitly supplies a preview', () => {
+    expect(visualRunnerScript).toContain(
+      "process.env.PLAYWRIGHT_EXTERNAL_WEB_SERVER === '1'"
     );
+    expect(visualRunnerScript).toContain('Reusing external preview server');
+    expect(visualRunnerScript).not.toContain('!process.env.CI');
   });
 
-  it('does not reuse an existing visual server in CI', () => {
-    expect(visualRunnerScript).toMatch(
-      /if\s*\(\s*!process\.env\.CI\s*&&\s*\(?\s*await requestURL\(baseURL,\s*1_000\)\s*\)?\s*\)/
-    );
+  it('builds and serves production assets for direct Playwright invocations without implicit reuse', () => {
+    expect(playwrightConfig).toContain('npm run build && npm run preview');
+    expect(playwrightConfig).toContain('reuseExistingServer: false');
   });
 
   it('fails fast when Astro reports a different local URL', () => {
     expect(visualRunnerScript).toContain(
-      'Astro dev server started at ${reportedURL} instead of ${baseURL}'
+      'Astro preview server started at ${reportedURL} instead of ${baseURL}'
     );
     expect(visualRunnerScript).toContain('Is port ${port} already in use?');
   });

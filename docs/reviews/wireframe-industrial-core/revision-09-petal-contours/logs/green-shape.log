@@ -1,0 +1,10 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeStaffShells.test.ts tests/unit/utils/wireframeGeometry.test.ts tests/unit/utils/wireframeDevice.test.ts tests/unit/components/WireframeDevice.test.ts
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+
+ Test Files  4 passed (4)
+      Tests  79 passed (79)
+   Start at  17:32:23
+   Duration  24.39s (tests 96%, transform 2%, import 2%)

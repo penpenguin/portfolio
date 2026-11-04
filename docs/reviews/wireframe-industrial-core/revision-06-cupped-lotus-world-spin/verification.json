@@ -1,0 +1,64 @@
+{
+  "baseline": "c25011dc444b91549dd1baed565243c3512044e1",
+  "rotationCommit": "c4dd39a8debfdfd844bf5a3c81687024540b7dcf",
+  "implementationCommit": "77da554290f76bff0d45613437ddc668c1a29bae",
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "viewportHeight": 1000,
+  "commands": [
+    {
+      "command": "npm run check",
+      "result": "passed: 97 files; 0 errors, warnings or hints"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "passed: 53 files, 334 tests, 45.07 seconds"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed: Astro and Pagefind"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- --workers=2",
+      "result": "passed: 92 Chromium desktop/mobile tests, 1.2 minutes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "tdd": [
+    "Rotation: new half-turn direction test failed on c25011d; 46 projection, script and component tests passed after transformation and phase changes.",
+    "Rotation document expectation failed before DESIGN update; 7 document tests passed.",
+    "New full-turn browser test failed against the baseline build on desktop/mobile; all 14 device browser tests passed against rotation-only build.",
+    "Petal breadth/tier and transverse rib tests failed before geometry changes; all 6 shell tests passed.",
+    "Assembly cross-rib/line-role and attachment expectations failed before line assembly update; all 19 geometry and shell tests passed afterwards.",
+    "New broad-shoulder document expectation failed before DESIGN update; final complete suite passed without removed or skipped tests."
+  ],
+  "changedFiles": [
+    "DESIGN.md",
+    "src/components/WireframeDevice.astro",
+    "src/scripts/wireframeDevice.ts",
+    "src/utils/wireframeDevice.ts",
+    "src/utils/wireframeGeometry.ts",
+    "src/utils/wireframeStaffShells.ts",
+    "tests/unit/components/WireframeDevice.test.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "tests/unit/scripts/wireframeDevice.test.ts",
+    "tests/unit/utils/wireframeDevice.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts",
+    "tests/visual/wireframe-device.spec.ts"
+  ],
+  "preserved": "Neutral lines only; fixed camera and pivot; 16 seconds/turn, ~30fps and DPR cap 2; full-stage input, reduced motion, pause/phase retention, visibility/lifecycle cleanup, SVG fallback; all Home/shared layout and search/thumbnail behavior.",
+  "unverified": [
+    "Firefox and Safari",
+    "Physical touch devices",
+    "Real OS tab switching (synthetic visibility notifications and unit tests passed)",
+    "Windows test runner"
+  ],
+  "visualReview": "Inspected actual Home at 1440/1024/980/768/390/320px, 8 directions in standard/narrow stages, DPR 1/2, major/full views and an isolated representative petal. Full-turn local comparison was observed and sampled over 16 seconds. Geometry quality is judged from these images, not segment count."
+}

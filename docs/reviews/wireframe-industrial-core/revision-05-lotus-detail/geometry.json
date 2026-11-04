@@ -1,0 +1,738 @@
+{
+  "baseline": "5fef8b4bab482f372cce5a5864e1bfa4a0397499",
+  "fitFactor": 0.84,
+  "before": {
+    "edges": 6153,
+    "vertices": 5378,
+    "parts": {
+      "shaft": 136,
+      "pommel": 48,
+      "neck": 262,
+      "head": 5457,
+      "cooling": 114,
+      "wiring": 136
+    },
+    "length": 10,
+    "headLength": 4.21842454,
+    "sweptHeadDiameter": 3.1229685985437303,
+    "quietShaftLength": 4.02,
+    "minMargin": 18.95203875368828,
+    "maxAxisErrorDegrees": 3.552713678800501e-14,
+    "stages": [
+      {
+        "width": 224,
+        "height": 240,
+        "minMargin": 19.11203908086169,
+        "fit": {
+          "scale": 24.76273592188531,
+          "centerX": 119.2590466486186,
+          "centerY": 122.06987515441747
+        },
+        "initialHeadWidthScreenX": 80.13651069798543,
+        "initialHeadWidthPerpendicularToAxis": 71.58616631570303
+      },
+      {
+        "width": 278,
+        "height": 240,
+        "minMargin": 19.11203908086169,
+        "fit": {
+          "scale": 24.76273592188531,
+          "centerX": 146.2590466486186,
+          "centerY": 122.06987515441747
+        },
+        "initialHeadWidthScreenX": 80.13651069798544,
+        "initialHeadWidthPerpendicularToAxis": 71.58616631570303
+      },
+      {
+        "width": 348,
+        "height": 240,
+        "minMargin": 19.11203908086169,
+        "fit": {
+          "scale": 24.76273592188531,
+          "centerX": 181.2590466486186,
+          "centerY": 122.06987515441747
+        },
+        "initialHeadWidthScreenX": 80.13651069798544,
+        "initialHeadWidthPerpendicularToAxis": 71.58616631570301
+      },
+      {
+        "width": 938,
+        "height": 240,
+        "minMargin": 19.11203908086169,
+        "fit": {
+          "scale": 24.76273592188531,
+          "centerX": 476.2590466486186,
+          "centerY": 122.06987515441747
+        },
+        "initialHeadWidthScreenX": 80.13651069798539,
+        "initialHeadWidthPerpendicularToAxis": 71.58616631570311
+      },
+      {
+        "width": 267,
+        "height": 258,
+        "minMargin": 20.552042025422235,
+        "fit": {
+          "scale": 26.628492500344638,
+          "centerX": 141.3059819339896,
+          "centerY": 131.2258305867302
+        },
+        "initialHeadWidthScreenX": 86.1744227639701,
+        "initialHeadWidthPerpendicularToAxis": 76.97984983886187
+      },
+      {
+        "width": 223,
+        "height": 258,
+        "minMargin": 20.552042025422235,
+        "fit": {
+          "scale": 26.628492500344638,
+          "centerX": 119.30598193398961,
+          "centerY": 131.2258305867302
+        },
+        "initialHeadWidthScreenX": 86.17442276397009,
+        "initialHeadWidthPerpendicularToAxis": 76.97984983886187
+      },
+      {
+        "width": 348,
+        "height": 238,
+        "minMargin": 18.95203875368828,
+        "fit": {
+          "scale": 24.555429635389824,
+          "centerX": 181.19827606135516,
+          "centerY": 121.0525467730494
+        },
+        "initialHeadWidthScreenX": 79.46563157954267,
+        "initialHeadWidthPerpendicularToAxis": 70.98686814646317
+      },
+      {
+        "width": 278,
+        "height": 238,
+        "minMargin": 18.95203875368828,
+        "fit": {
+          "scale": 24.555429635389824,
+          "centerX": 146.19827606135516,
+          "centerY": 121.0525467730494
+        },
+        "initialHeadWidthScreenX": 79.46563157954267,
+        "initialHeadWidthPerpendicularToAxis": 70.98686814646315
+      },
+      {
+        "width": 914,
+        "height": 238,
+        "minMargin": 18.95203875368828,
+        "fit": {
+          "scale": 24.555429635389824,
+          "centerX": 464.19827606135516,
+          "centerY": 121.0525467730494
+        },
+        "initialHeadWidthScreenX": 79.46563157954267,
+        "initialHeadWidthPerpendicularToAxis": 70.98686814646311
+      },
+      {
+        "width": 726,
+        "height": 238,
+        "minMargin": 18.95203875368828,
+        "fit": {
+          "scale": 24.555429635389824,
+          "centerX": 370.19827606135516,
+          "centerY": 121.0525467730494
+        },
+        "initialHeadWidthScreenX": 79.46563157954267,
+        "initialHeadWidthPerpendicularToAxis": 70.98686814646311
+      }
+    ]
+  },
+  "after": {
+    "edges": 6464,
+    "vertices": 5562,
+    "parts": {
+      "pommel": 132,
+      "neck": 287,
+      "shaft": 222,
+      "head": 5541,
+      "wiring": 168,
+      "cooling": 114
+    },
+    "length": 10,
+    "headLength": 4.50012928,
+    "sweptHeadDiameter": 3.382923460045458,
+    "quietShaftLength": 1.7100000000000002,
+    "minMargin": 18.952037054419872,
+    "maxAxisErrorDegrees": 1.1368683772161603e-13,
+    "stages": [
+      {
+        "width": 224,
+        "height": 240,
+        "minMargin": 19.11203736724742,
+        "fit": {
+          "scale": 23.676941585382913,
+          "centerX": 123.31288797907571,
+          "centerY": 126.37872752649089
+        },
+        "initialHeadWidthScreenX": 95.25995560808374,
+        "initialHeadWidthPerpendicularToAxis": 73.96406242338564
+      },
+      {
+        "width": 278,
+        "height": 240,
+        "minMargin": 19.11203736724742,
+        "fit": {
+          "scale": 23.676941585382913,
+          "centerX": 150.3128879790757,
+          "centerY": 126.37872752649089
+        },
+        "initialHeadWidthScreenX": 95.25995560808373,
+        "initialHeadWidthPerpendicularToAxis": 73.96406242338566
+      },
+      {
+        "width": 348,
+        "height": 240,
+        "minMargin": 19.11203736724742,
+        "fit": {
+          "scale": 23.676941585382913,
+          "centerX": 185.3128879790757,
+          "centerY": 126.37872752649089
+        },
+        "initialHeadWidthScreenX": 95.25995560808373,
+        "initialHeadWidthPerpendicularToAxis": 73.96406242338566
+      },
+      {
+        "width": 938,
+        "height": 240,
+        "minMargin": 19.11203736724742,
+        "fit": {
+          "scale": 23.676941585382913,
+          "centerX": 480.3128879790757,
+          "centerY": 126.37872752649089
+        },
+        "initialHeadWidthScreenX": 95.25995560808377,
+        "initialHeadWidthPerpendicularToAxis": 73.9640624233856
+      },
+      {
+        "width": 267,
+        "height": 258,
+        "minMargin": 20.552040182695077,
+        "fit": {
+          "scale": 25.460888628233025,
+          "centerX": 145.66526128850796,
+          "centerY": 135.8593348746568
+        },
+        "initialHeadWidthScreenX": 102.43734866352746,
+        "initialHeadWidthPerpendicularToAxis": 79.53690932008274
+      },
+      {
+        "width": 223,
+        "height": 258,
+        "minMargin": 20.552040182695077,
+        "fit": {
+          "scale": 25.460888628233025,
+          "centerX": 123.66526128850795,
+          "centerY": 135.8593348746568
+        },
+        "initialHeadWidthScreenX": 102.43734866352747,
+        "initialHeadWidthPerpendicularToAxis": 79.53690932008274
+      },
+      {
+        "width": 348,
+        "height": 238,
+        "minMargin": 18.952037054419872,
+        "fit": {
+          "scale": 23.478725247288455,
+          "centerX": 185.21817983358324,
+          "centerY": 125.32532671002802
+        },
+        "initialHeadWidthScreenX": 94.4624674908122,
+        "initialHeadWidthPerpendicularToAxis": 73.34485721264153
+      },
+      {
+        "width": 278,
+        "height": 238,
+        "minMargin": 18.952037054419872,
+        "fit": {
+          "scale": 23.478725247288455,
+          "centerX": 150.21817983358324,
+          "centerY": 125.32532671002802
+        },
+        "initialHeadWidthScreenX": 94.4624674908122,
+        "initialHeadWidthPerpendicularToAxis": 73.34485721264153
+      },
+      {
+        "width": 914,
+        "height": 238,
+        "minMargin": 18.952037054419872,
+        "fit": {
+          "scale": 23.478725247288455,
+          "centerX": 468.21817983358324,
+          "centerY": 125.32532671002802
+        },
+        "initialHeadWidthScreenX": 94.46246749081217,
+        "initialHeadWidthPerpendicularToAxis": 73.34485721264156
+      },
+      {
+        "width": 726,
+        "height": 238,
+        "minMargin": 18.952037054419872,
+        "fit": {
+          "scale": 23.478725247288455,
+          "centerX": 374.21817983358324,
+          "centerY": 125.32532671002802
+        },
+        "initialHeadWidthScreenX": 94.46246749081217,
+        "initialHeadWidthPerpendicularToAxis": 73.34485721264153
+      }
+    ],
+    "curves": {
+      "segmentsPerCubic": 16,
+      "referenceSegmentsPerCubic": 128,
+      "anchorParameters": [0.2, 0.5, 0.8],
+      "maxApproximationErrorCssPx": 0.05298054639938103,
+      "minSampledJoinTangentCosine": 0.996246533387187
+    },
+    "petals": [
+      {
+        "id": "outer-1",
+        "layer": "outer",
+        "profile": {
+          "role": "open",
+          "belly": 0.43,
+          "flare": -0.18,
+          "twist": 0.08726646259971647,
+          "thickness": 0.075,
+          "azimuth": 0.3490658503988659,
+          "root": 0.52,
+          "tip": 3.18,
+          "opening": 1.18,
+          "tipRadius": 1.48,
+          "width": 0.91
+        },
+        "azimuth": 0.3490658503988659,
+        "width": 0.91,
+        "opening": 1.18,
+        "twist": 0.08726646259971647,
+        "mount": [0.3007016386514907, 0.52, 0.109446445864214],
+        "tip": [1.3413355248142418, 3.18, 0.6254750273762352]
+      },
+      {
+        "id": "outer-2",
+        "layer": "outer",
+        "profile": {
+          "role": "closed",
+          "belly": 0.5,
+          "flare": 0.27,
+          "twist": -0.12217304763960307,
+          "thickness": 0.065,
+          "azimuth": 1.3089969389957472,
+          "root": 0.68,
+          "tip": 3.92,
+          "opening": 1.12,
+          "tipRadius": 0.82,
+          "width": 0.82
+        },
+        "azimuth": 1.3089969389957472,
+        "width": 0.82,
+        "opening": 1.12,
+        "twist": -0.12217304763960307,
+        "mount": [0.08282209443280664, 0.68, 0.3090962644125019],
+        "tip": [0.3071774066010478, 3.92, 0.7602907607447656]
+      },
+      {
+        "id": "outer-3",
+        "layer": "outer",
+        "profile": {
+          "role": "primary",
+          "belly": 0.59,
+          "flare": -0.26,
+          "twist": 0.12217304763960307,
+          "thickness": 0.085,
+          "azimuth": 2.2689280275926285,
+          "root": 0.57,
+          "tip": 4.38,
+          "opening": 1.43,
+          "tipRadius": 1.42,
+          "width": 1.05
+        },
+        "azimuth": 2.2689280275926285,
+        "width": 1.05,
+        "opening": 1.43,
+        "twist": 0.12217304763960307,
+        "mount": [-0.2056920350996926, 0.57, 0.24513422179807298],
+        "tip": [-1.038522256299222, 4.38, 0.9684376712887479]
+      },
+      {
+        "id": "outer-4",
+        "layer": "outer",
+        "profile": {
+          "role": "primary",
+          "belly": 0.56,
+          "flare": -0.22,
+          "twist": -0.08726646259971647,
+          "thickness": 0.08,
+          "azimuth": 3.4033920413889422,
+          "root": 0.62,
+          "tip": 4.55,
+          "opening": 1.46,
+          "tipRadius": 1.51,
+          "width": 0.99
+        },
+        "azimuth": 3.4033920413889422,
+        "width": 0.99,
+        "opening": 1.46,
+        "twist": -0.08726646259971647,
+        "mount": [-0.3090962644125019, 0.62, -0.08282209443280651],
+        "tip": [-1.4870597070484344, 4.55, -0.26220874827706436]
+      },
+      {
+        "id": "outer-5",
+        "layer": "outer",
+        "profile": {
+          "role": "open",
+          "belly": 0.46,
+          "flare": -0.18,
+          "twist": -0.13962634015954636,
+          "thickness": 0.075,
+          "azimuth": 4.625122517784973,
+          "root": 0.56,
+          "tip": 3.48,
+          "opening": 1.23,
+          "tipRadius": 1.54,
+          "width": 0.96
+        },
+        "azimuth": 4.625122517784973,
+        "width": 0.96,
+        "opening": 1.23,
+        "twist": -0.13962634015954636,
+        "mount": [-0.02788983767925064, 0.56, -0.3187823033893586],
+        "tip": [-0.3464246236895525, 3.48, -1.5005298997692622]
+      },
+      {
+        "id": "outer-6",
+        "layer": "outer",
+        "profile": {
+          "role": "closed",
+          "belly": 0.6,
+          "flare": 0.24,
+          "twist": 0.08726646259971647,
+          "thickness": 0.06,
+          "azimuth": 5.585053606381854,
+          "root": 0.74,
+          "tip": 4.08,
+          "opening": 1.18,
+          "tipRadius": 0.92,
+          "width": 0.85
+        },
+        "azimuth": 5.585053606381854,
+        "width": 0.85,
+        "opening": 1.18,
+        "twist": 0.08726646259971647,
+        "mount": [0.2451342217980729, 0.74, -0.20569203509969267],
+        "tip": [0.7536198807458723, 4.08, -0.5276903214429628]
+      },
+      {
+        "id": "middle-1",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.53,
+          "flare": 0.18,
+          "twist": 0.08726646259971647,
+          "thickness": 0.06,
+          "azimuth": 0.39269908169872414,
+          "root": 1.1,
+          "tip": 4.42,
+          "opening": 1.03,
+          "tipRadius": 0.65,
+          "width": 0.8
+        },
+        "azimuth": 0.39269908169872414,
+        "width": 0.8,
+        "opening": 1.03,
+        "twist": 0.08726646259971647,
+        "mount": [0.21868626910316033, 1.1, 0.16715136106222514],
+        "tip": [0.536557041565844, 4.42, 0.36013659860277203]
+      },
+      {
+        "id": "middle-2",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.46,
+          "flare": 0.18,
+          "twist": -0.10471975511965977,
+          "thickness": 0.06,
+          "azimuth": 1.2653637076958888,
+          "root": 0.92,
+          "tip": 4.12,
+          "opening": 1.15,
+          "tipRadius": 0.88,
+          "width": 0.73
+        },
+        "azimuth": 1.2653637076958888,
+        "width": 0.73,
+        "opening": 1.15,
+        "twist": -0.10471975511965977,
+        "mount": [0.04419762386119653, 0.92, 0.3270407462095035],
+        "tip": [0.31089918065421673, 4.12, 0.8670128654589091]
+      },
+      {
+        "id": "middle-3",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.61,
+          "flare": 0.18,
+          "twist": 0.08726646259971647,
+          "thickness": 0.06,
+          "azimuth": 1.858775653373961,
+          "root": 1.18,
+          "tip": 4.64,
+          "opening": 0.95,
+          "tipRadius": 0.51,
+          "width": 0.68
+        },
+        "azimuth": 1.858775653373961,
+        "width": 0.68,
+        "opening": 0.95,
+        "twist": 0.08726646259971647,
+        "mount": [-0.11952429651709834, 1.18, 0.3284695257630941],
+        "tip": [-0.22691562562939158, 4.64, 0.5345129596708326]
+      },
+      {
+        "id": "middle-4",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.53,
+          "flare": -0.08,
+          "twist": -0.13962634015954636,
+          "thickness": 0.06,
+          "azimuth": 2.8361600344907854,
+          "root": 1.04,
+          "tip": 4.32,
+          "opening": 1.18,
+          "tipRadius": 0.94,
+          "width": 0.81
+        },
+        "azimuth": 2.8361600344907854,
+        "width": 0.81,
+        "opening": 1.18,
+        "twist": -0.13962634015954636,
+        "mount": [-0.3070407462095035, 1.04, 0.14419762386119656],
+        "tip": [-0.8884301672888688, 4.32, 0.4646804309997978]
+      },
+      {
+        "id": "middle-5",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.58,
+          "flare": 0.18,
+          "twist": 0.08726646259971647,
+          "thickness": 0.06,
+          "azimuth": 3.481931857728687,
+          "root": 0.96,
+          "tip": 4.72,
+          "opening": 1.08,
+          "tipRadius": 0.62,
+          "width": 0.7
+        },
+        "azimuth": 3.481931857728687,
+        "width": 0.7,
+        "opening": 1.08,
+        "twist": 0.08726646259971647,
+        "mount": [-0.30393961750581, 0.96, -0.03346592058545575],
+        "tip": [-0.604175987943457, 4.72, -0.19710981044686793]
+      },
+      {
+        "id": "middle-6",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.53,
+          "flare": 0.18,
+          "twist": -0.06981317007977318,
+          "thickness": 0.06,
+          "azimuth": 4.476769531365456,
+          "root": 1.22,
+          "tip": 4.18,
+          "opening": 1.16,
+          "tipRadius": 0.89,
+          "width": 0.76
+        },
+        "azimuth": 4.476769531365456,
+        "width": 0.76,
+        "opening": 1.16,
+        "twist": -0.06981317007977318,
+        "mount": [-0.10536470187965344, 1.22, -0.21226357771134952],
+        "tip": [-0.3076281615588029, 4.18, -0.7888080861659219]
+      },
+      {
+        "id": "middle-7",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.6,
+          "flare": 0.18,
+          "twist": 0.08726646259971647,
+          "thickness": 0.06,
+          "azimuth": 5.035274892003641,
+          "root": 1.12,
+          "tip": 4.56,
+          "opening": 1,
+          "tipRadius": 0.56,
+          "width": 0.79
+        },
+        "azimuth": 5.035274892003641,
+        "width": 0.79,
+        "opening": 1,
+        "twist": 0.08726646259971647,
+        "mount": [0.04884530379342584, 1.12, -0.20553062345773582],
+        "tip": [0.18329947859813792, 4.56, -0.4535536416556695]
+      },
+      {
+        "id": "middle-8",
+        "layer": "middle",
+        "profile": {
+          "role": "wrapped",
+          "belly": 0.47,
+          "flare": 0.18,
+          "twist": -0.12217304763960307,
+          "thickness": 0.06,
+          "azimuth": 5.942846103040692,
+          "root": 1,
+          "tip": 4.35,
+          "opening": 1.14,
+          "tipRadius": 0.78,
+          "width": 0.67
+        },
+        "azimuth": 5.942846103040692,
+        "width": 0.67,
+        "opening": 1.14,
+        "twist": -0.12217304763960307,
+        "mount": [0.22393961750580996, 1, -0.03346592058545597],
+        "tip": [0.6580488020495793, 4.35, -0.2880342942256514]
+      },
+      {
+        "id": "inner-1",
+        "layer": "inner",
+        "profile": {
+          "role": "inner",
+          "belly": 0.55,
+          "flare": 0.12,
+          "twist": 0.10471975511965977,
+          "thickness": 0.045,
+          "azimuth": 0.15707963267948966,
+          "root": 1.38,
+          "tip": 5,
+          "opening": 0.64,
+          "tipRadius": 0.31,
+          "width": 0.46
+        },
+        "azimuth": 0.15707963267948966,
+        "width": 0.46,
+        "opening": 0.64,
+        "twist": 0.10471975511965977,
+        "mount": [0.2819220851487845, 1.38, 0.004108616260057714],
+        "tip": [0.33443700614961114, 5, 0.045233903981781426]
+      },
+      {
+        "id": "inner-2",
+        "layer": "inner",
+        "profile": {
+          "role": "inner",
+          "belly": 0.46,
+          "flare": 0.12,
+          "twist": -0.12217304763960307,
+          "thickness": 0.045,
+          "azimuth": 1.53588974175501,
+          "root": 1.52,
+          "tip": 4.68,
+          "opening": 0.74,
+          "tipRadius": 0.44,
+          "width": 0.43
+        },
+        "azimuth": 1.53588974175501,
+        "width": 0.43,
+        "opening": 0.74,
+        "twist": -0.12217304763960307,
+        "mount": [0.043724874175625275, 1.52, 0.21484770675477394],
+        "tip": [0.10383116461770162, 4.68, 0.39958286986186065]
+      },
+      {
+        "id": "inner-3",
+        "layer": "inner",
+        "profile": {
+          "role": "inner",
+          "belly": 0.61,
+          "flare": 0.12,
+          "twist": 0.10471975511965977,
+          "thickness": 0.045,
+          "azimuth": 2.548180707911721,
+          "root": 1.44,
+          "tip": 4.9,
+          "opening": 0.62,
+          "tipRadius": 0.28,
+          "width": 0.49
+        },
+        "azimuth": 2.548180707911721,
+        "width": 0.49,
+        "opening": 0.62,
+        "twist": 0.10471975511965977,
+        "mount": [-0.1722593931387604, 1.44, 0.10479822586768672],
+        "tip": [-0.21222532600049956, 4.9, 0.09645203758004942]
+      },
+      {
+        "id": "inner-4",
+        "layer": "inner",
+        "profile": {
+          "role": "inner",
+          "belly": 0.55,
+          "flare": 0.12,
+          "twist": -0.08726646259971647,
+          "thickness": 0.045,
+          "azimuth": 4.066617157146788,
+          "root": 1.6,
+          "tip": 4.56,
+          "opening": 0.72,
+          "tipRadius": 0.42,
+          "width": 0.42
+        },
+        "azimuth": 4.066617157146788,
+        "width": 0.42,
+        "opening": 0.72,
+        "twist": -0.08726646259971647,
+        "mount": [-0.11545375578801206, 1.6, -0.2346588775118232],
+        "tip": [-0.24603485467072042, 4.56, -0.3471208267005056]
+      },
+      {
+        "id": "inner-5",
+        "layer": "inner",
+        "profile": {
+          "role": "inner",
+          "belly": 0.59,
+          "flare": 0.12,
+          "twist": 0.10471975511965977,
+          "thickness": 0.045,
+          "azimuth": 5.1487212933832724,
+          "root": 1.48,
+          "tip": 4.8,
+          "opening": 0.66,
+          "tipRadius": 0.32,
+          "width": 0.47
+        },
+        "azimuth": 5.1487212933832724,
+        "width": 0.47,
+        "opening": 0.66,
+        "twist": 0.10471975511965977,
+        "mount": [0.1406545654351749, 1.48, -0.26157694675916243],
+        "tip": [0.19981218397121733, 4.8, -0.3092935362246759]
+      }
+    ]
+  },
+  "sha256": {
+    "src/utils/wireframeGeometry.ts": "acb51abf45aff749bb147f0b2124786207ec31e9100f62a657eea703dbd3125d",
+    "src/utils/wireframeStaffShells.ts": "a8fe3e4537d452cfc5511edeb1b43a6a790a6593b5630e47a5791a91e01090f5",
+    "src/utils/wireframeDevice.ts": "10d6a37f17015946d309e473c6dc4d22f4415762306242248d3d4ac449291039",
+    "src/scripts/wireframeDevice.ts": "993a6b9fe36f512345ba43ab81625fb55e09cdd1537a95a48ef0c1dd3e99741b",
+    "src/components/WireframeDevice.astro": "7a4a397cc58d424a14fa459b0614b63d6ac090b2d107e672f0fe909bbbecffd0",
+    "dist/index.html": "7aa2a2a590b6e9ea1878cf6d1d6ebcea5b831cecd6e116b11679f3eacce63e91"
+  }
+}

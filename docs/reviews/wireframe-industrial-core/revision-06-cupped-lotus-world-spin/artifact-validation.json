@@ -1,0 +1,162 @@
+{
+  "passed": true,
+  "sourceHashes": [
+    {
+      "file": "src/utils/wireframeDevice.ts",
+      "matches": true
+    },
+    {
+      "file": "src/utils/wireframeStaffShells.ts",
+      "matches": true
+    },
+    {
+      "file": "src/utils/wireframeGeometry.ts",
+      "matches": true
+    },
+    {
+      "file": "src/scripts/wireframeDevice.ts",
+      "matches": true
+    },
+    {
+      "file": "src/components/WireframeDevice.astro",
+      "matches": true
+    },
+    {
+      "file": "dist/index.html",
+      "matches": true
+    }
+  ],
+  "layout": {
+    "sameBoxes": true,
+    "conditions": 12
+  },
+  "linkedFiles": {
+    "checked": 46,
+    "missing": []
+  },
+  "samples": [
+    {
+      "label": "before",
+      "width": 267,
+      "height": 258,
+      "dpr": 1,
+      "n": 480,
+      "valid": true
+    },
+    {
+      "label": "before",
+      "width": 348,
+      "height": 238,
+      "dpr": 2,
+      "n": 480,
+      "valid": true
+    },
+    {
+      "label": "after",
+      "width": 267,
+      "height": 258,
+      "dpr": 1,
+      "n": 480,
+      "valid": true
+    },
+    {
+      "label": "after",
+      "width": 348,
+      "height": 238,
+      "dpr": 2,
+      "n": 480,
+      "valid": true
+    }
+  ],
+  "sizesMatch": true,
+  "minimumClearance": 18.952436807393962,
+  "curveErrorCssPx": 0.07784770863305877,
+  "comparison": {
+    "matched": 128,
+    "total": 128
+  },
+  "localHtml": {
+    "errors": [],
+    "models": [
+      {
+        "label": "変更前 c25011d / 柄軸で自転",
+        "edges": 6464,
+        "directions": [
+          {
+            "degree": 0,
+            "dx": -13.994988072076865,
+            "dy": -19.986914319516245
+          },
+          {
+            "degree": 90,
+            "dx": -13.994988072076865,
+            "dy": -19.986914319516245
+          },
+          {
+            "degree": 180,
+            "dx": -13.994988072076865,
+            "dy": -19.986914319516245
+          },
+          {
+            "degree": 270,
+            "dx": -13.994988072076865,
+            "dy": -19.986914319516245
+          }
+        ]
+      },
+      {
+        "label": "同じ花冠 / ワールドY軸で回転",
+        "edges": 6464,
+        "directions": [
+          {
+            "degree": 0,
+            "dx": -12.080431657887061,
+            "dy": -17.252644392795744
+          },
+          {
+            "degree": 90,
+            "dx": 0,
+            "dy": -13.120893425729264
+          },
+          {
+            "degree": 180,
+            "dx": 12.080431657887061,
+            "dy": -17.252644392795744
+          },
+          {
+            "degree": 270,
+            "dx": 0,
+            "dy": -21.38439535986224
+          }
+        ]
+      },
+      {
+        "label": "花弁調整後 / ワールドY軸で回転",
+        "edges": 4784,
+        "directions": [
+          {
+            "degree": 0,
+            "dx": -12.48627878330312,
+            "dy": -17.832254156000687
+          },
+          {
+            "degree": 90,
+            "dx": 0,
+            "dy": -13.561695296931106
+          },
+          {
+            "degree": 180,
+            "dx": 12.48627878330312,
+            "dy": -17.832254156000687
+          },
+          {
+            "degree": 270,
+            "dx": 0,
+            "dy": -22.102813015070282
+          }
+        ]
+      }
+    ]
+  },
+  "files": 44
+}

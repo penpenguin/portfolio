@@ -1,0 +1,41 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeDevice.test.ts -t petal contour|petal fronts
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+ ❯ tests/unit/utils/wireframeDevice.test.ts (44 tests | 2 failed | 42 skipped) 366ms
+   ❯ wireframe device projection (41)
+     × keeps each petal contour continuous and makes the nearer petal side stronger 207ms
+     × separates petal fronts, backs and ribs without fading the other mechanisms 157ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/utils/wireframeDevice.test.ts > wireframe device projection > keeps each petal contour continuous and makes the nearer petal side stronger
+AssertionError: expected 0.04887964244272003 to be less than 1e-12
+ ❯ tests/unit/utils/wireframeDevice.test.ts:26:71
+     24|     const back = projectDevice(Math.PI / 2, 267, 258);
+     25|     const opacity = (lines: typeof front) => indices.map((i) => lines[…
+     26|     expect(Math.max(...opacity(front)) - Math.min(...opacity(front))).…
+       |                                                                       ^
+     27|     expect(Math.min(...opacity(front)) - Math.max(...opacity(back))).t…
+     28|     const after = projectDevice(Math.PI * 1.5 + 0.001, 267, 258);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/unit/utils/wireframeDevice.test.ts > wireframe device projection > separates petal fronts, backs and ribs without fading the other mechanisms
+AssertionError: expected 0.43251179835612485 to be greater than 0.47398643510762484
+ ❯ tests/unit/utils/wireframeDevice.test.ts:40:46
+     38|           e.petal?.id === id && e.petal.role === role ? [lines[i].opac…
+     39|         );
+     40|         expect(Math.min(...alphas('front'))).toBeGreaterThan(Math.max(…
+       |                                              ^
+     41|         if (alphas('rib').length)
+     42|           expect(Math.min(...alphas('back'))).toBeGreaterThan(Math.max…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 42 skipped (44)
+   Start at  17:29:51
+   Duration  795ms (tests 55%, import 36%, transform 9%, worker 1%)

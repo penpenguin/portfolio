@@ -1,15 +1,16 @@
 import {
   advanceAngle,
-  initialAngle,
+  deviceDescription,
+  initialSpinPhase,
   projectDevice,
 } from '../utils/wireframeDevice';
 
 export type DeviceSession = {
-  angle: number;
+  spinPhase: number;
   paused?: boolean;
   reducedMotion?: boolean;
 };
-const session: DeviceSession = { angle: initialAngle };
+const session: DeviceSession = { spinPhase: initialSpinPhase };
 
 export function mountWireframeDevice(
   root: HTMLElement,
@@ -45,7 +46,7 @@ export function mountWireframeDevice(
     if (!canDraw()) return;
     ctx.clearRect(0, 0, width, height);
     ctx.strokeStyle = '#5B5A60';
-    for (const line of projectDevice(state.angle, width, height)) {
+    for (const line of projectDevice(state.spinPhase, width, height)) {
       ctx.lineWidth = line.width;
       ctx.globalAlpha = line.opacity;
       ctx.beginPath();
@@ -65,7 +66,7 @@ export function mountWireframeDevice(
     frame = undefined;
     if (!canDraw() || state.paused) return;
     if (lastTime !== undefined)
-      state.angle = advanceAngle(state.angle, time - lastTime);
+      state.spinPhase = advanceAngle(state.spinPhase, time - lastTime);
     lastTime = time;
     if (lastDraw === undefined || time - lastDraw >= interval - 0.01) {
       draw();
@@ -138,7 +139,7 @@ export function mountWireframeDevice(
   stage.disabled = false;
   stage.setAttribute(
     'aria-description',
-    '線画の計算装置。クリック、Enter、Spaceで回転を停止・再開できます。'
+    '機械蓮を持つ線画の制御杖。クリック、Enter、Spaceで回転を停止・再開できます。'
   );
   resize();
   sync();
@@ -159,10 +160,7 @@ export function mountWireframeDevice(
     root.removeAttribute('data-enhanced');
     stage.disabled = true;
     stage.removeAttribute('aria-description');
-    stage.setAttribute(
-      'aria-label',
-      '基板、支持柱、ヒートシンク、端子を持つ装置の線画'
-    );
+    stage.setAttribute('aria-label', deviceDescription);
   };
 }
 

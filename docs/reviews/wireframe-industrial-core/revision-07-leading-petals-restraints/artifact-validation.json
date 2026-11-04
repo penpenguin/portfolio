@@ -1,0 +1,157 @@
+{
+  "sourceChecks": [
+    {
+      "file": "src/utils/wireframeDevice.ts",
+      "identical": true
+    },
+    {
+      "file": "src/utils/wireframeStaffShells.ts",
+      "identical": true
+    },
+    {
+      "file": "src/utils/wireframeGeometry.ts",
+      "identical": true
+    },
+    {
+      "file": "src/scripts/wireframeDevice.ts",
+      "identical": true
+    },
+    {
+      "file": "src/components/WireframeDevice.astro",
+      "identical": true
+    },
+    {
+      "file": "dist/index.html",
+      "identical": true
+    }
+  ],
+  "layouts": [
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 980,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 768,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "identical": true
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 980,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 768,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "identical": true
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "identical": true
+    }
+  ],
+  "sampleChecks": [
+    {
+      "label": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "count": 480,
+      "valid": true
+    },
+    {
+      "label": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "count": 480,
+      "valid": true
+    },
+    {
+      "label": "after",
+      "viewport": 1440,
+      "dpr": 1,
+      "count": 480,
+      "valid": true
+    },
+    {
+      "label": "after",
+      "viewport": 390,
+      "dpr": 2,
+      "count": 480,
+      "valid": true
+    }
+  ],
+  "sizeMatch": true,
+  "previewPngs": {
+    "compared": 128,
+    "identical": 128
+  },
+  "localLinks": {
+    "count": 43,
+    "missing": []
+  },
+  "selfContainedHtml": {
+    "models": [
+      {
+        "label": "変更前 c973d28",
+        "lines": 4784,
+        "fit": {
+          "scale": 22.716114643716953,
+          "centerX": 133.5,
+          "centerY": 126.0289666870719
+        }
+      },
+      {
+        "label": "主花弁・拘束機構の調整後",
+        "lines": 4874,
+        "fit": {
+          "scale": 21.590919390341387,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        }
+      }
+    ],
+    "errors": []
+  },
+  "geometry": {
+    "minimumClearance": 18.952178366930877,
+    "curveErrorCssPx": 0.07394717233818153
+  },
+  "passed": true
+}

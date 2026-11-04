@@ -1,0 +1,30 @@
+[
+  {
+    "width": 267,
+    "height": 258,
+    "method": "Union of both models over 360 one-degree samples; same scale and projected origin for both",
+    "scale": 25.64798252200657,
+    "centerX": 141.74898121866124,
+    "centerY": 135.11691433502332,
+    "bounds": {
+      "left": -3.45005356162895,
+      "right": 2.806807551024924,
+      "top": -4.445375547070645,
+      "bottom": 3.9683856450559456
+    }
+  },
+  {
+    "width": 223,
+    "height": 258,
+    "method": "Union of both models over 360 one-degree samples; same scale and projected origin for both",
+    "scale": 25.64798252200657,
+    "centerX": 119.74898121866126,
+    "centerY": 135.11691433502332,
+    "bounds": {
+      "left": -3.45005356162895,
+      "right": 2.806807551024924,
+      "top": -4.445375547070645,
+      "bottom": 3.9683856450559456
+    }
+  }
+]

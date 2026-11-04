@@ -18,9 +18,9 @@ export default defineConfig({
     ? undefined
     : {
         command:
-          'npm run dev -- --ignore-lock --host 127.0.0.1 --port 4324 --strictPort',
+          'npm run build && npm run preview -- --ignore-lock --host 127.0.0.1 --port 4324',
         url: 'http://127.0.0.1:4324/portfolio/',
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: false,
         timeout: 120_000,
       },
   projects: [

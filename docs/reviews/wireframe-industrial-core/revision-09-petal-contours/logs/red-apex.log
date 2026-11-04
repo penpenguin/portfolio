@@ -1,0 +1,28 @@
+npm notice run portfolio@1.0.0 test
+npm notice run vitest --run tests/unit/utils/wireframeStaffShells.test.ts -t above its rounded
+
+ RUN  v5.0.5 /home/user/repository/portfolio
+
+ ❯ tests/unit/utils/wireframeStaffShells.test.ts (11 tests | 1 failed | 10 skipped) 80ms
+   ❯ mechanical lotus petals (11)
+     × shows the leading tip above its rounded shoulders in the quarter-turn front view 78ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/utils/wireframeStaffShells.test.ts > mechanical lotus petals > shows the leading tip above its rounded shoulders in the quarter-turn front view
+AssertionError: expected 0.06601558935561513 to be greater than 3
+ ❯ tests/unit/utils/wireframeStaffShells.test.ts:171:66
+    169|       path.filter((_, i) => petal.parameters[i] >= 0.5 && petal.parame…
+    170|     );
+    171|     expect(Math.min(...shoulder.map(p => project(p).y)) - tip.y).toBeG…
+       |                                                                  ^
+    172|   });
+    173|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 skipped (11)
+   Start at  17:36:36
+   Duration  418ms (import 59%, tests 25%, transform 15%, worker 1%)

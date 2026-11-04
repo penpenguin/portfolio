@@ -1,0 +1,66 @@
+{
+  "baselineCommit": "88f709252372bb65a8280b933b78767135e8a6d2",
+  "implementationCommit": "bcf3e97610a357a4df7c5dfbf5ac3747f71f1e56",
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "commands": [
+    {
+      "command": "npm run check",
+      "result": "97 files; 0 errors, warnings or hints"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "53 files; 327 tests passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "Astro and Pagefind succeeded"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual -- --workers=2",
+      "result": "90 Chromium tests passed against this built preview"
+    },
+    {
+      "command": "Prettier --check changed TypeScript files; git diff --check",
+      "result": "passed"
+    }
+  ],
+  "tdd": [
+    "Red: the two-profile generator fails three-layer/nineteen-petal requirements and new assembled geometry expectations.",
+    "Red: missing five-pin cluster and old accessible/design descriptions.",
+    "Red: built Chromium Canvas and Node geometry differed by one edge; the 22.5-degree mounting fixture fails.",
+    "Green: configured azimuth and explicit half-sector rounding make all Node and Chromium edges identical.",
+    "Green: final geometry, projection, component, lifecycle, design, full unit and browser regressions pass."
+  ],
+  "changedFiles": [
+    "DESIGN.md",
+    "src/scripts/wireframeDevice.ts",
+    "src/utils/wireframeDevice.ts",
+    "src/utils/wireframeGeometry.ts",
+    "src/utils/wireframeStaffShells.ts",
+    "tests/unit/components/WireframeDevice.test.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "tests/unit/scripts/wireframeDevice.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts"
+  ],
+  "sha256": {
+    "src/utils/wireframeGeometry.ts": "30ecb0812f4ce731a21f175324568f017da94a874ac7c11f7b95dcff74f8b865",
+    "src/utils/wireframeStaffShells.ts": "eb19010c5317093ab5e090205b80ec4ae884cca2fe7121e87599d698997c1591",
+    "src/utils/wireframeDevice.ts": "10d6a37f17015946d309e473c6dc4d22f4415762306242248d3d4ac449291039",
+    "src/scripts/wireframeDevice.ts": "993a6b9fe36f512345ba43ab81625fb55e09cdd1537a95a48ef0c1dd3e99741b",
+    "src/components/WireframeDevice.astro": "7a4a397cc58d424a14fa459b0614b63d6ac090b2d107e672f0fe909bbbecffd0",
+    "dist/index.html": "9d51d0a8c5a0f226df8a5626f3f677335ad266c747c4f4996c87313dbfa860ff"
+  },
+  "unverified": [
+    "Firefox",
+    "Safari",
+    "Physical touch devices",
+    "Native operating-system tab visibility events (synthetic notifications and unit coverage tested)",
+    "Windows test runner"
+  ],
+  "mergeOrDeployment": false
+}

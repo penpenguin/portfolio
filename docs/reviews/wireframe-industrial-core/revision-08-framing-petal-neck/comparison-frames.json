@@ -1,0 +1,306 @@
+[
+  {
+    "viewport": 1440,
+    "dpr": 1,
+    "box": {
+      "x": 1020,
+      "y": 98,
+      "width": 267,
+      "height": 258
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 28.068195207443804,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 29.189589892407007,
+          "centerX": 133.5,
+          "centerY": 127.3105427822976
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 1024,
+    "dpr": 1,
+    "box": {
+      "x": 768,
+      "y": 98,
+      "width": 223,
+      "height": 258
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 28.068195207443804,
+          "centerX": 111.5,
+          "centerY": 131.5206324928944
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 111.5,
+          "centerY": 131.5206324928944
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 29.189589892407007,
+          "centerX": 111.5,
+          "centerY": 127.3105427822976
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 111.5,
+          "centerY": 131.5206324928944
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 390,
+    "dpr": 1,
+    "box": {
+      "x": 21,
+      "y": 378,
+      "width": 348,
+      "height": 238
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 25.883049609355538,
+          "centerX": 174,
+          "centerY": 121.32439796639427
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 174,
+          "centerY": 121.32439796639427
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 26.91714225578521,
+          "centerX": 174,
+          "centerY": 117.44206922976373
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 174,
+          "centerY": 121.32439796639427
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 320,
+    "dpr": 1,
+    "box": {
+      "x": 21,
+      "y": 378,
+      "width": 278,
+      "height": 238
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 25.883049609355538,
+          "centerX": 139,
+          "centerY": 121.32439796639427
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 139,
+          "centerY": 121.32439796639427
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 26.91714225578521,
+          "centerX": 139,
+          "centerY": 117.44206922976373
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 139,
+          "centerY": 121.32439796639427
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 1440,
+    "dpr": 2,
+    "box": {
+      "x": 1020,
+      "y": 98,
+      "width": 267,
+      "height": 258
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 28.068195207443804,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 29.189589892407007,
+          "centerX": 133.5,
+          "centerY": 127.3105427822976
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 133.5,
+          "centerY": 131.5206324928944
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 1024,
+    "dpr": 2,
+    "box": {
+      "x": 768,
+      "y": 98,
+      "width": 223,
+      "height": 258
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 28.068195207443804,
+          "centerX": 111.5,
+          "centerY": 131.5206324928944
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 111.5,
+          "centerY": 131.5206324928944
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 29.189589892407007,
+          "centerX": 111.5,
+          "centerY": 127.3105427822976
+        },
+        "common": {
+          "scale": 28.068195207443804,
+          "centerX": 111.5,
+          "centerY": 131.5206324928944
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 390,
+    "dpr": 2,
+    "box": {
+      "x": 21,
+      "y": 378,
+      "width": 348,
+      "height": 238
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 25.883049609355538,
+          "centerX": 174,
+          "centerY": 121.32439796639427
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 174,
+          "centerY": 121.32439796639427
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 26.91714225578521,
+          "centerX": 174,
+          "centerY": 117.44206922976373
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 174,
+          "centerY": 121.32439796639427
+        }
+      }
+    ]
+  },
+  {
+    "viewport": 320,
+    "dpr": 2,
+    "box": {
+      "x": 21,
+      "y": 378,
+      "width": 278,
+      "height": 238
+    },
+    "fits": [
+      {
+        "id": "before",
+        "normal": {
+          "scale": 25.883049609355538,
+          "centerX": 139,
+          "centerY": 121.32439796639427
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 139,
+          "centerY": 121.32439796639427
+        }
+      },
+      {
+        "id": "after",
+        "normal": {
+          "scale": 26.91714225578521,
+          "centerX": 139,
+          "centerY": 117.44206922976373
+        },
+        "common": {
+          "scale": 25.883049609355538,
+          "centerX": 139,
+          "centerY": 121.32439796639427
+        }
+      }
+    ]
+  }
+]

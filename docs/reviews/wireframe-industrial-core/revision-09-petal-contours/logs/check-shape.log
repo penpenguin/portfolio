@@ -1,0 +1,10 @@
+npm notice run portfolio@1.0.0 check
+npm notice run astro check && tsc
+17:32:25 [content] Syncing content
+17:32:25 [content] Synced content
+17:32:25 [types] Generated 1.09s
+17:32:25 [check] Getting diagnostics for Astro files in /home/user/repository/portfolio...
+Result (97 files):
+- 0 errors
+- 0 warnings
+- 0 hints

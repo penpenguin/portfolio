@@ -1,0 +1,903 @@
+{
+  "method": "PNG byte equality between the built-preview Canvas and source-based normal-fit review frames",
+  "compared": 128,
+  "identical": 128,
+  "checks": [
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true,
+      "model": "after"
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1440,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 1024,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 390,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 1,
+      "phase": 315,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 0,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 45,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 90,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 135,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 180,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 225,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 270,
+      "identical": true
+    },
+    {
+      "model": "before",
+      "viewport": 320,
+      "dpr": 2,
+      "phase": 315,
+      "identical": true
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "before": {
+    "edges": 1144,
+    "vertices": 818,
+    "parts": {
+      "shaft": 152,
+      "pommel": 48,
+      "neck": 116,
+      "head": 578,
+      "cooling": 114,
+      "wiring": 136
+    },
+    "length": 10,
+    "headLength": 3.35,
+    "sweptHeadDiameter": 2.1228518617810193,
+    "minMargin": 18.952038459287547,
+    "maxAxisErrorDegrees": 6.394884621840902e-14,
+    "stages": [
+      {
+        "width": 224,
+        "height": 240,
+        "minMargin": 19.112038783975503,
+        "fit": {
+          "scale": 24.57462046308431,
+          "centerX": 115.79791224015264,
+          "centerY": 122.81639013762265
+        }
+      },
+      {
+        "width": 278,
+        "height": 240,
+        "minMargin": 19.112038783975503,
+        "fit": {
+          "scale": 24.57462046308431,
+          "centerX": 142.79791224015264,
+          "centerY": 122.81639013762265
+        }
+      },
+      {
+        "width": 348,
+        "height": 240,
+        "minMargin": 19.112038783975503,
+        "fit": {
+          "scale": 24.57462046308431,
+          "centerX": 177.79791224015264,
+          "centerY": 122.81639013762265
+        }
+      },
+      {
+        "width": 938,
+        "height": 240,
+        "minMargin": 19.112038783975503,
+        "fit": {
+          "scale": 24.57462046308431,
+          "centerX": 472.79791224015264,
+          "centerY": 122.81639013762265
+        }
+      },
+      {
+        "width": 267,
+        "height": 258,
+        "minMargin": 20.552041706167028,
+        "fit": {
+          "scale": 26.42620341970012,
+          "centerX": 137.58406720173804,
+          "centerY": 132.02859198976668
+        }
+      },
+      {
+        "width": 223,
+        "height": 258,
+        "minMargin": 20.552041706167028,
+        "fit": {
+          "scale": 26.42620341970012,
+          "centerX": 115.58406720173802,
+          "centerY": 132.02859198976668
+        }
+      },
+      {
+        "width": 348,
+        "height": 238,
+        "minMargin": 18.952038459287547,
+        "fit": {
+          "scale": 24.36888902346033,
+          "centerX": 177.76611724442094,
+          "centerY": 121.79281215405109
+        }
+      },
+      {
+        "width": 278,
+        "height": 238,
+        "minMargin": 18.952038459287547,
+        "fit": {
+          "scale": 24.36888902346033,
+          "centerX": 142.76611724442094,
+          "centerY": 121.79281215405109
+        }
+      },
+      {
+        "width": 914,
+        "height": 238,
+        "minMargin": 18.952038459287547,
+        "fit": {
+          "scale": 24.36888902346033,
+          "centerX": 460.7661172444209,
+          "centerY": 121.79281215405109
+        }
+      },
+      {
+        "width": 726,
+        "height": 238,
+        "minMargin": 18.952038459287547,
+        "fit": {
+          "scale": 24.36888902346033,
+          "centerX": 366.7661172444209,
+          "centerY": 121.79281215405109
+        }
+      }
+    ]
+  },
+  "after": {
+    "edges": 1420,
+    "vertices": 1098,
+    "parts": {
+      "shaft": 152,
+      "pommel": 48,
+      "neck": 116,
+      "head": 854,
+      "cooling": 114,
+      "wiring": 136
+    },
+    "length": 10,
+    "headLength": 3.75,
+    "sweptHeadDiameter": 2.123055702644658,
+    "minMargin": 18.952037326615322,
+    "maxAxisErrorDegrees": 6.394884621840902e-14,
+    "stages": [
+      {
+        "width": 224,
+        "height": 240,
+        "minMargin": 19.112037641740823,
+        "fit": {
+          "scale": 23.850868366120746,
+          "centerX": 119.67098796297448,
+          "centerY": 125.68851871202666
+        }
+      },
+      {
+        "width": 278,
+        "height": 240,
+        "minMargin": 19.112037641740823,
+        "fit": {
+          "scale": 23.850868366120746,
+          "centerX": 146.67098796297446,
+          "centerY": 125.68851871202666
+        }
+      },
+      {
+        "width": 348,
+        "height": 240,
+        "minMargin": 19.112037641740823,
+        "fit": {
+          "scale": 23.850868366120746,
+          "centerX": 181.67098796297446,
+          "centerY": 125.68851871202666
+        }
+      },
+      {
+        "width": 938,
+        "height": 240,
+        "minMargin": 19.112037641740823,
+        "fit": {
+          "scale": 23.850868366120746,
+          "centerX": 476.6709879629745,
+          "centerY": 125.68851871202666
+        }
+      },
+      {
+        "width": 267,
+        "height": 258,
+        "minMargin": 20.55204047787033,
+        "fit": {
+          "scale": 25.64791998014407,
+          "centerX": 141.74896110375948,
+          "centerY": 135.11712204738237
+        }
+      },
+      {
+        "width": 223,
+        "height": 258,
+        "minMargin": 20.55204047787033,
+        "fit": {
+          "scale": 25.64791998014407,
+          "centerX": 119.74896110375948,
+          "centerY": 135.11712204738237
+        }
+      },
+      {
+        "width": 348,
+        "height": 238,
+        "minMargin": 18.952037326615322,
+        "fit": {
+          "scale": 23.651195964562596,
+          "centerX": 181.60676872510948,
+          "centerY": 124.64089611920936
+        }
+      },
+      {
+        "width": 278,
+        "height": 238,
+        "minMargin": 18.952037326615322,
+        "fit": {
+          "scale": 23.651195964562596,
+          "centerX": 146.60676872510948,
+          "centerY": 124.64089611920936
+        }
+      },
+      {
+        "width": 914,
+        "height": 238,
+        "minMargin": 18.952037326615322,
+        "fit": {
+          "scale": 23.651195964562596,
+          "centerX": 464.6067687251095,
+          "centerY": 124.64089611920936
+        }
+      },
+      {
+        "width": 726,
+        "height": 238,
+        "minMargin": 18.952037326615322,
+        "fit": {
+          "scale": 23.651195964562596,
+          "centerX": 370.6067687251095,
+          "centerY": 124.64089611920936
+        }
+      }
+    ],
+    "curves": {
+      "segmentsPerCubic": 24,
+      "referenceSegmentsPerCubic": 192,
+      "maxApproximationErrorCssPx": 0.02328724776149344,
+      "minSampledJoinTangentCosine": 0.9990866170997083
+    }
+  },
+  "sha256": {
+    "src/utils/wireframeGeometry.ts": "f689184d74f5095592d37e27aaee4fa3f101d2091a26445dd7a3a57f4043cdb3",
+    "src/utils/wireframeStaffShells.ts": "7a36a2911679429c1f0dc913fc74c609dc4f8b3661a9cf4a5cf9ed666593730e",
+    "src/utils/wireframeDevice.ts": "06b3c63c4dfc33198e972c8ce5ae539b732ad7af6f95de4dbf3ab466f8576e47",
+    "src/scripts/wireframeDevice.ts": "d1bbe18a489a2f40dc83082a40c84b8e5f07641a22d90db17cdc84abe76fe6e2",
+    "src/components/WireframeDevice.astro": "7a4a397cc58d424a14fa459b0614b63d6ac090b2d107e672f0fe909bbbecffd0",
+    "dist/index.html": "fa929b21c5896b9126798c80dd28c3b693bc1a4d36723d7f37e97b5e3c8625b1"
+  }
+}

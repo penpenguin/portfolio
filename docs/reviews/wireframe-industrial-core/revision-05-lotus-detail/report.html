@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  /><title>PR #170 機械蓮の追加調整</title
+  ><style>
+    body {
+      margin: 32px auto;
+      padding: 0 24px;
+      max-width: 1200px;
+      font: 16px/1.75 sans-serif;
+      color: #171719;
+      background: #f7f7f7;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      margin-top: 44px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th,
+    td {
+      border: 1px solid #c6c5c9;
+      text-align: left;
+      padding: 8px;
+    }
+    figure {
+      margin: 24px 0;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    code {
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+    a {
+      color: #34343b;
+    }
+  </style>
+  <h1>PR #170：機械蓮の花弁差と柄の構造</h1>
+  <p>
+    変更前は
+    <code>5fef8b4bab482f372cce5a5864e1bfa4a0397499</code>
+    の3層19枚の機械蓮。今回の実装は
+    <code>f483a2b3ceec20bce991e67f64fc8efc582ba0b1</code
+    >。旧曲線杖や旧mainとの比較ではありません。
+  </p>
+  <h2>造形の変更</h2>
+  <p>
+    19枚を維持し、外層を長く反る2枚・短く開く2枚・閉じ気味2枚へ変更。各花弁の取付高さ、方位、反りと膨らみ位置、厚みを個別指定しました。中・内層を前後にずらし、内冠の隙間から9本の花芯ピンが覗く構成です。3組の支持リング片、主花弁の直線補強、萼の両側支持を追加しています。
+  </p>
+  <p>
+    ユーザーが選んだ上部の湾曲ケーブルと下部の短い副軸を採用。クランプ、間隔の異なる節、石突きの段差を加え、上部の密度・中腹の静けさ・下端の小さなまとまりを作りました。全て取付点で本体に接続しています。
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>変更前 → 変更後</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>全長</td>
+        <td>10 → 10</td>
+      </tr>
+      <tr>
+        <td>頭部長</td>
+        <td>4.218 → 4.5</td>
+      </tr>
+      <tr>
+        <td>全周最大径</td>
+        <td>3.123 → 3.383</td>
+      </tr>
+      <tr>
+        <td>柄の連続する静かな区間</td>
+        <td>4.02 → 1.71</td>
+      </tr>
+      <tr>
+        <td>線分</td>
+        <td>6153 → 6464</td>
+      </tr>
+      <tr>
+        <td>共有頂点</td>
+        <td>5378 → 5562</td>
+      </tr>
+      <tr>
+        <td>267×258px 固定縮尺（CSS px / モデル単位）</td>
+        <td>26.628 → 25.461</td>
+      </tr>
+      <tr>
+        <td>初期角度の軸に直交する花冠幅（CSS px）</td>
+        <td>76.98 → 79.537</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    フィット係数0.84・初期30°・左35°・線幅1.1/0.8/0.5 CSS
+    pxと各階層の不透明度は維持。柄をcomponent、花芯をdetailへ割り当てました。固定縮尺は形状ごとに全周境界から算出するため値が異なり、変更後は少し小さい縮尺です。頭部の占有感は部品の形と張り出しで増やしています。
+  </p>
+  <h2>同条件の前後比較</h2>
+  <figure>
+    <img
+      src="comparison-1440.png"
+      alt="標準PC実寸：上段が変更前、下段が変更後。各枠267×258px、DPR 1。"
+    />
+    <figcaption>
+      標準PC実寸：上段が変更前、下段が変更後。各枠267×258px、DPR 1。
+    </figcaption>
+  </figure>
+  <p>
+    <a href="comparison-1024.png">狭いPC 223×258px</a> /
+    <a href="comparison-390.png">390px viewport・348×238px</a
+    >。すべて初期30°から相対0/90/180/270°。
+  </p>
+  <p>
+    <a href="equal-scale-1440.png">同倍率の造形比較</a> /
+    <a href="equal-scale-1024.png">狭いPCの同倍率比較</a> /
+    <a href="fixed-scale.json">共通縮尺と原点</a
+    >。両モデルの全周境界の和集合から同じ縮尺・原点を算出した資料で、通常設定の比較と区別しています。
+  </p>
+  <h2>8方向・主要構造・花冠</h2>
+  <figure>
+    <img
+      src="rotation-1440-dpr1.png"
+      alt="変更後の8方向。初期30°から45°刻み。"
+    />
+    <figcaption>変更後の8方向。初期30°から45°刻み。</figcaption>
+  </figure>
+  <p>
+    <a href="rotation-1024-dpr1.png">狭いPC 8方向</a> /
+    <a href="rotation-1440-dpr2.png">標準PC DPR 2</a> /
+    <a href="rotation-1024-dpr2.png">狭いPC DPR 2</a>
+  </p>
+  <p>
+    <a href="structure-1440.png">主要構造／全線 標準PC</a> /
+    <a href="structure-1024.png">主要構造／全線 狭いPC</a> /
+    <a href="structure-390.png">主要構造／全線 モバイル</a> /
+    <a href="crown-detail.png">花冠3倍拡大</a>
+  </p>
+  <p>
+    主要構造は全19枚の表裏輪郭・稜線・支持・柄・外部ケーブルを含み、内部機器・ピン・フィン・細いリブなどを全線で追加。開発用資料で、本番に表示切替はありません。前後×3枠×2
+    DPR×8方向の96条件を実preview Canvasと照合しています（<a
+      href="comparison-validation.json"
+      >PNG一致記録</a
+    >）。
+  </p>
+  <h2>Home全体・レイアウト</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>viewport</th>
+        <th>実描画領域</th>
+        <th>Home比較</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1440</td>
+        <td>267×258</td>
+        <td>
+          <a href="home-1440-before.png">変更前</a> /
+          <a href="home-1440-after.png">変更後 DPR 1</a> /
+          <a href="home-1440-dpr2.png">変更後 DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>1024</td>
+        <td>223×258</td>
+        <td>
+          <a href="home-1024-before.png">変更前</a> /
+          <a href="home-1024-after.png">変更後 DPR 1</a> /
+          <a href="home-1024-dpr2.png">変更後 DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>980</td>
+        <td>914×238</td>
+        <td>
+          <a href="home-980-before.png">変更前</a> /
+          <a href="home-980-after.png">変更後 DPR 1</a> /
+          <a href="home-980-dpr2.png">変更後 DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>768</td>
+        <td>726×238</td>
+        <td>
+          <a href="home-768-before.png">変更前</a> /
+          <a href="home-768-after.png">変更後 DPR 1</a> /
+          <a href="home-768-dpr2.png">変更後 DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>390</td>
+        <td>348×238</td>
+        <td>
+          <a href="home-390-before.png">変更前</a> /
+          <a href="home-390-after.png">変更後 DPR 1</a> /
+          <a href="home-390-dpr2.png">変更後 DPR 2</a>
+        </td>
+      </tr>
+      <tr>
+        <td>320</td>
+        <td>278×238</td>
+        <td>
+          <a href="home-320-before.png">変更前</a> /
+          <a href="home-320-after.png">変更後 DPR 1</a> /
+          <a href="home-320-dpr2.png">変更後 DPR 2</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    前後12条件のパネル座標・寸法は一致。Homeの配置、導入高、ヘッダー、フッター、他ページ、サムネイル、検索、描画ライフサイクルは変更していません。
+  </p>
+  <h2>性能・配信量</h2>
+  <p>
+    6.18.54.1-microsoft-standard-WSL2 / AMD Ryzen 5 3600 6-Core Processor /
+    Chromium 156.0.8078.4 / Node
+    v26.12.1。各条件60実描画のウォームアップ後に480実描画を採取。clearRectから最後のstrokeまでの投影＋線描画CPU時間で、計測処理を含み、描画を省略したrAFとGPU合成は含みません。
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>実描画枠 / DPR</th>
+        <th>中央値 前→後 ms</th>
+        <th>p95 前→後 ms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>267×258 / 1</td>
+        <td>1.85 → 1.9</td>
+        <td>2.9 → 2.5</td>
+      </tr>
+      <tr>
+        <td>348×238 / 2</td>
+        <td>1.8 → 2</td>
+        <td>2.6 → 2.6</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>この環境ではp95 8msの目安以内。全端末の保証ではありません。</p>
+  <table>
+    <thead>
+      <tr>
+        <th>配信量</th>
+        <th>変更前 B</th>
+        <th>変更後 B</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Home HTML raw</td>
+        <td>1,115,216</td>
+        <td>1,173,999</td>
+      </tr>
+      <tr>
+        <td>Home HTML gzip</td>
+        <td>100,997</td>
+        <td>105,573</td>
+      </tr>
+      <tr>
+        <td>静止SVG raw</td>
+        <td>1,104,982</td>
+        <td>1,163,765</td>
+      </tr>
+      <tr>
+        <td>静止SVG gzip</td>
+        <td>96,443</td>
+        <td>100,979</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    線分と配信量の増加は、花芯ピン、支持片・補強、ケーブル・副軸・節・終端の追加によるものです。花弁枚数・曲線分割数を増やして本数を合わせる変更はありません。形状は初期化時に生成し、共有頂点と重複辺除去を維持しています。
+  </p>
+  <p>
+    <a href="metrics-before.json">変更前の全サンプル</a> /
+    <a href="metrics-after.json">変更後の全サンプル</a>
+  </p>
+  <h2>検証</h2>
+  <ul>
+    <li><code>npm run check</code>：97 files; 0 errors, warnings, hints</li>
+    <li><code>npm run lint</code>：passed</li>
+    <li><code>npm run test -- --run</code>：53 files; 330 tests passed</li>
+    <li><code>npm run build</code>：Astro and Pagefind passed</li>
+    <li>
+      <code
+        >PLAYWRIGHT_EXTERNAL_WEB_SERVER=1 npm run test:visual --
+        --workers=2</code
+      >：90 tests passed; Chromium desktop and mobile; built preview at
+      http://127.0.0.1:4324/portfolio/
+    </li>
+    <li>
+      <code>Prettier --check changed TypeScript; git diff --check</code>：passed
+    </li>
+  </ul>
+  <p>
+    10寸法×360角度で最小余白 18.952 CSS px。軸誤差 1.1368683772161603e-13
+    度。128分割参照に対する最大曲線誤差 0.053 CSS
+    px。有限性、alpha、固定縮尺・中心、接続、重複辺、Canvas/SVG共通経路を検証しました。
+  </p>
+  <p>
+    クリック／タップ／Enter／Space、停止後のフォーカス移動、Astro往復、省動作設定変更、画面外・非表示時の停止、停止中rAFなし、JS無効／Canvas取得失敗、検索併用、Bento／archive／レイアウト／サムネイルの既存回帰を維持しています。
+  </p>
+  <p>
+    <a href="geometry.json">寸法・全周・曲線・ソースとビルドのSHA256</a> /
+    <a href="verification.json"
+      >対象コミット・変更ファイル・TDD・実行コマンド</a
+    >
+    / <a href="artifact-validation.json">資料の整合性検証</a>
+  </p>
+  <p>
+    Firefox／Safari・実機タッチ・実OSのタブ切替・Windowsでのテスト起動は未検証。タッチはChromiumエミュレーション、非表示通知は合成イベントと単体テストで確認しています。マージ・公開は行っていません。
+  </p>
+</html>

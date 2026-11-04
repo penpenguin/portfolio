@@ -1,0 +1,450 @@
+[
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "before",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 1,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1440,
+    "dpr": 2,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 1,
+    "angle": 315,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 0,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 45,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 90,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 135,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 180,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 225,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 270,
+    "pngByteIdentical": true
+  },
+  {
+    "label": "after",
+    "viewport": 1024,
+    "dpr": 2,
+    "angle": 315,
+    "pngByteIdentical": true
+  }
+]

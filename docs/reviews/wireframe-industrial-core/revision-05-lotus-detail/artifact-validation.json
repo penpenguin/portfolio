@@ -1,0 +1,31 @@
+[
+  {
+    "check": "source and built HTML SHA256",
+    "passed": true,
+    "files": 6
+  },
+  {
+    "check": "comparison render equals actual preview Canvas",
+    "passed": true,
+    "conditions": 96
+  },
+  {
+    "check": "stage position and size unchanged",
+    "passed": true,
+    "conditions": 12
+  },
+  {
+    "check": "actual drawing samples, fixed conditions and p95 <= 8 ms",
+    "passed": true,
+    "samples": 1920
+  },
+  {
+    "check": "report links",
+    "passed": true,
+    "links": 38
+  },
+  {
+    "check": "full-turn clearance, curve error and proportions",
+    "passed": true
+  }
+]

@@ -1,0 +1,168 @@
+{
+  "durationMs": 16066.100000023842,
+  "errors": [],
+  "samples": [
+    {
+      "time": 983.0999999940395,
+      "phase": "ワールド垂直軸位相 1.1°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 2987.800000011921,
+      "phase": "ワールド垂直軸位相 46.1°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 4992.4000000059605,
+      "phase": "ワールド垂直軸位相 90.7°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 7001.0999999940395,
+      "phase": "ワールド垂直軸位相 136.5°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 9006.200000017881,
+      "phase": "ワールド垂直軸位相 181.1°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 11021,
+      "phase": "ワールド垂直軸位相 226.9°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 13028,
+      "phase": "ワールド垂直軸位相 272.2°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 15044.5,
+      "phase": "ワールド垂直軸位相 317.6°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    },
+    {
+      "time": 17049.20000001788,
+      "phase": "ワールド垂直軸位相 2.6°",
+      "canvases": [
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        },
+        {
+          "width": 267,
+          "height": 258
+        }
+      ]
+    }
+  ]
+}

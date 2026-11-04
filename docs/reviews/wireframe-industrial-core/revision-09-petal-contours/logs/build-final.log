@@ -1,0 +1,187 @@
+npm notice run portfolio@1.0.0 build
+npm notice run astro build && pagefind --site dist
+18:00:00 [content] Syncing content
+18:00:01 [content] Synced content
+18:00:01 [types] Generated 738ms
+18:00:01 [build] output: "static"
+18:00:01 [build] mode: "static"
+18:00:01 [build] directory: /home/user/repository/portfolio/dist/
+18:00:01 [build] Collecting build info...
+18:00:01 [build] ✓ Completed in 762ms.
+18:00:01 [build] Building static entrypoints...
+18:00:01 [vite] ✓ built in 419ms
+18:00:01 [vite] ✓ built in 79ms
+18:00:01 [build] Rearranging server assets...
+
+ generating static routes
+18:00:01   ├─ /agent-index.json (+10ms)
+18:00:01   ├─ /blog/2025/11/antigravity-overview/index.html (+14ms)
+18:00:01   ├─ /blog/2025/11/git-worktree-runner/index.html (+4ms)
+18:00:01   ├─ /blog/2025/11/godot-vs-unity/index.html (+3ms)
+18:00:01   ├─ /blog/2025/11/llm-zero-trust/index.html (+3ms)
+18:00:01   ├─ /blog/2025/11/prolog-intro-logic-llm/index.html (+3ms)
+18:00:01   ├─ /blog/2025/11/typescript-zod-valibot-scope/index.html (+3ms)
+18:00:01   ├─ /blog/2025/12/chatgpt-pulse-compact-summary/index.html (+4ms)
+18:00:01   ├─ /blog/2025/12/comfyui-node-workflow/index.html (+3ms)
+18:00:01   ├─ /blog/2025/12/devin-deepwiki-gemini-codewiki/index.html (+3ms)
+18:00:01   ├─ /blog/2025/12/git-worktree-vscode-peacock-crystal/index.html (+3ms)
+18:00:01   ├─ /blog/2025/12/spec-kit-spec-driven-development/index.html (+9ms)
+18:00:01   ├─ /blog/2026/01/agent-browser-cli/index.html (+4ms)
+18:00:01   ├─ /blog/2026/02/openai-codex-app-command-center/index.html (+3ms)
+18:00:01   ├─ /blog/2026/02/openclaw/index.html (+3ms)
+18:00:01   ├─ /blog/2026/02/pptxgenjs-javascript-powerpoint-automation/index.html (+2ms)
+18:00:01   ├─ /blog/2026/02/sprites-dev-openclaw/index.html (+2ms)
+18:00:01   ├─ /blog/2026/03/codex-spark-too-fast/index.html (+3ms)
+18:00:01   ├─ /blog/2026/03/react-doctor-cli-overview/index.html (+2ms)
+18:00:01   ├─ /blog/2026/04/microsoft-apm-ai-dependency-management/index.html (+4ms)
+18:00:01   ├─ /blog/2026/04/microsoft-apm-multi-project-agent-management/index.html (+2ms)
+18:00:01   ├─ /blog/2026/04/pierre-trees-react-file-tree-ui/index.html (+3ms)
+18:00:01   ├─ /blog/2026/05/codex-goal-how-to-use/index.html (+4ms)
+18:00:01   ├─ /blog/2026/05/ogp-link-preview-basics/index.html (+2ms)
+18:00:01   ├─ /blog/2026/05/prompt-design-constrained-ai-chat/index.html (+2ms)
+18:00:01   ├─ /blog/2026/05/uvx-npx-npm-exec-security/index.html (+2ms)
+18:00:01   ├─ /blog/2026/05/webmcp-basics/index.html (+3ms)
+18:00:01   ├─ /blog/2026/06/astryx-agent-ready-design-system/index.html (+3ms)
+18:00:01   ├─ /blog/2026/06/gittoskill-github-profile-to-agent-skill/index.html (+2ms)
+18:00:01   ├─ /blog/2026/06/issueops-github-issues-actions/index.html (+2ms)
+18:00:01   ├─ /blog/2026/06/timesfm-time-series-foundation-model/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/agents-a1-long-horizon/index.html (+3ms)
+18:00:01   ├─ /blog/2026/07/ai-driven-quality-evaluation/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/apple-design-fluid-interfaces/index.html (+3ms)
+18:00:01   ├─ /blog/2026/07/apple-design-interaction-continuity/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/apple-hig-design-principles/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/ax-agent-web-extraction/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/bonsai-27b-low-bit-webgpu/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/clapet-architecture-diagrams/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/cognitive-rhythm-writing/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/colibri-glm-disk-streaming/index.html (+3ms)
+18:00:01   ├─ /blog/2026/07/cycle-double-cover-prompt/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/deno-desktop-apps/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/driverjs-feature-hints/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/exo-local-ai-cluster/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/exploitarium-disclosure-boundary/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/google-xls-hardware-synthesis/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/gpt-live-full-duplex-voice/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/herdr-agent-multiplexer/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/hugging-face-agent-intrusion/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/login-with-chatgpt-sdk/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/multi-agent-system-design/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/only-you-frontier-agent-skill/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/openmontage-agentic-video-production/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/reicon-svg-icon-library/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/suika3-portable-vn-engine/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/taste-skill-frontend-design/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/ternlight-browser-embeddings/index.html (+3ms)
+18:00:01   ├─ /blog/2026/07/thinkingcap-qwen36-nvfp4/index.html (+2ms)
+18:00:01   ├─ /blog/2026/07/tirith-terminal-security/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/agent-plugins-portable-extensions/index.html (+3ms)
+18:00:01   ├─ /blog/2026/08/anti-slop-oxlint-rules/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/azukiazusa-writing-skills/index.html (+4ms)
+18:00:01   ├─ /blog/2026/08/blobatar-deterministic-avatars/index.html (+3ms)
+18:00:01   ├─ /blog/2026/08/cloudflare-kitesurf-agent-browser/index.html (+3ms)
+18:00:01   ├─ /blog/2026/08/copilot-excel-workbook-rules/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/cordis-spatiotemporal-composability/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/fireworks-tech-graph/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/hi3d-v3-image-to-3d/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/ip-as-logo-agent-skill/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/natural-japanese-reading-load/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/openwiki-codebase-docs/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/ornith-1-5-self-improvement/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/qwen38-abliterated-mixed-gguf/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/reverse-skill-security-router/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/suiko-japanese-writing-linter/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/tabler-icons-svg-library/index.html (+2ms)
+18:00:01   ├─ /blog/2026/08/yjs-collaborative-editing/index.html (+3ms)
+18:00:01   ├─ /blog/2026/09/ai-debug-review-exit-criteria/index.html (+4ms)
+18:00:01   ├─ /blog/2026/09/artifact-share-preview-agent-wakeup/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/blender-geometry-nodes-generator-checks/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/canary-designer-persona-skills/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/chatgpt-work-data-agent/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/dads-powerpoint-design-guidance/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/diagram-design-html-svg/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/edge0-35b-ssd-streaming/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/fly-brain-connectome-benchmarks/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/github-copilot-work-surfaces/index.html (+6ms)
+18:00:01   ├─ /blog/2026/09/i-have-adhd-action-first-output/index.html (+3ms)
+18:00:01   ├─ /blog/2026/09/jev-typed-decisions/index.html (+3ms)
+18:00:01   ├─ /blog/2026/09/minorun-marp-slide-review/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/opusfived-change-scope/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/pixel-refiner-ai-pixel-art/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/psdmaker-editable-layers/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/qwen-image-21-gguf-memory-license/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/tanstack-redact-sync-rendering/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/teamai-cli-shared-agent-config/index.html (+2ms)
+18:00:01   ├─ /blog/2026/09/tripo-blender-character-workflow/index.html (+3ms)
+18:00:01   ├─ /blog/2026/09/well-known-change-password-url/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/ai-ambition-outcomes-validation/index.html (+3ms)
+18:00:01   ├─ /blog/2026/10/ai-writing-concrete-review/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/clef-typed-decisions/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/crafting-apps-photocraft-compatibility/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/deno-cloudflare-runtime-transition/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/formal-methods-counterexamples/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/haro-background-development-environment/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/imozuru-source-first-research/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/opendots-agent-workspace/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/piyolog-security-source-reading/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/speech-cpp-first-audio/index.html (+2ms)
+18:00:01   ├─ /blog/2026/10/uf-flow-react-composition/index.html (+3ms)
+18:00:01   ├─ /blog/2026/10/webapp-security-build-break-verify/index.html (+2ms)
+18:00:02   ├─ /blog/2026/10/yomiyasu-structure-meaning/index.html (+2ms)
+18:00:02   ├─ /blog/2025/11/index.html (+5ms)
+18:00:02   ├─ /blog/2025/12/index.html (+3ms)
+18:00:02   ├─ /blog/2026/01/index.html (+2ms)
+18:00:02   ├─ /blog/2026/02/index.html (+2ms)
+18:00:02   ├─ /blog/2026/03/index.html (+3ms)
+18:00:02   ├─ /blog/2026/04/index.html (+3ms)
+18:00:02   ├─ /blog/2026/05/index.html (+3ms)
+18:00:02   ├─ /blog/2026/06/index.html (+2ms)
+18:00:02   ├─ /blog/2026/07/index.html (+5ms)
+18:00:02   ├─ /blog/2026/08/index.html (+4ms)
+18:00:02   ├─ /blog/2026/09/index.html (+4ms)
+18:00:02   ├─ /blog/2026/10/index.html (+4ms)
+18:00:02   ├─ /blog/index.html (+5ms)
+18:00:02   ├─ /projects/index.html (+5ms)
+18:00:02   ├─ /projects/bonsai-box/index.html (+4ms)
+18:00:02   ├─ /projects/bookmarklet-exporter/index.html (+2ms)
+18:00:02   ├─ /projects/cadenzio/index.html (+2ms)
+18:00:02   ├─ /projects/card-lighting-demo/index.html (+2ms)
+18:00:02   ├─ /projects/fake-kirdy/index.html (+2ms)
+18:00:02   ├─ /projects/meaningless/index.html (+2ms)
+18:00:02   ├─ /projects/pdf-redactor/index.html (+2ms)
+18:00:02   ├─ /projects/petatas/index.html (+2ms)
+18:00:02   ├─ /projects/todo-pwa/index.html (+2ms)
+18:00:02   ├─ /index.html (+247ms)
+18:00:02 ✓ Completed in 658ms.
+
+18:00:02 [build] ✓ Completed in 1.21s.
+18:00:02 [build] 136 page(s) built in 2.00s
+18:00:02 [build] Complete!
+
+Running Pagefind v1.5.2 (Extended)
+Running from: "/home/user/repository/portfolio"
+Source:       "dist"
+Output:       "dist/pagefind"
+
+[Walking source directory]
+Found 136 files matching **/*.{html}
+
+[Parsing files]
+Found a data-pagefind-body element on the site.
+↳ Ignoring pages without this tag.
+
+[Reading languages]
+Discovered 1 language: ja
+
+[Building search indexes]
+Total:
+  Indexed 1 language
+  Indexed 121 pages
+  Indexed 8771 words
+  Indexed 2 filters
+  Indexed 0 sorts
+Note: Pagefind doesn't support stemming for the language ja.
+Search will still work, but will not match across root words.
+Note: Pagefind doesn't support stemming for the language ja.
+Search will still work, but will not match across root words.
+
+Finished in 1.375 seconds

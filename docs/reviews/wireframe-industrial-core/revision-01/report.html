@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>PR #170 追補検証 — 厚い演算コア</title
+  ><style>
+    body {
+      max-width: 1164px;
+      margin: 24px auto;
+      padding: 0 24px;
+      color: #171719;
+      background: #f7f7f7;
+      font: 16px/1.8 system-ui;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    h2 {
+      font-size: 22px;
+      margin: 32px 0 12px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    figure {
+      margin: 16px 0;
+    }
+    figcaption {
+      font-size: 13px;
+      color: #555;
+    }
+    .homes {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .mobile {
+      width: 390px;
+    }
+    .small {
+      width: 320px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    code {
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+    a {
+      color: #343b70;
+    }
+  </style>
+  <body>
+    <h1>PR #170 追補：厚みと接続が読める演算コア</h1>
+    <p>
+      比較基準：<code>2fd459edf548a08cd0bcc2b88f356242a58d00d2</code>（PR
+      #170の現行案）。実装：<code>14837f875bcfb63c2c2cd9de43da3fed30e059b3</code>。後続コミットはこの検証資料のみ。
+    </p>
+    <p>
+      大きな囲いと棚板を、背面の短い支持梁と下部からのアームへ再構成しました。中央は4分割の円筒外殻・前後をつなぐリブ・開いた内部・ハブで構成し、スポークを外殻とハブの実際の辺へ接続しています。側面に放熱部と2本の配管、反対側と背面に3枚の制御基板、下部に電源・端子群をまとめました。
+    </p>
+    <p>
+      線幅は主要輪郭／部品／細部が1.1／0.8／0.5 CSS
+      px、奥→手前のalphaは0.58–0.88／0.30–0.56／0.14–0.28です。全周で固定した奥行き範囲を使います。取付点で線を分割し、部分的な重複描画も除去しました。線分
+      1733→1883、共有頂点 1404→1466。線分数を完成条件にはしていません。
+    </p>
+    <h2>同じ枠・回転角度での前後比較</h2>
+    <p>
+      上段は追補前のPR案、下段は追補後です。1440px
+      viewport、描画領域267×258px、DPR
+      1。初期30度からの相対角度を表示しています。
+    </p>
+    <img src="comparison.png" alt="追補前後の4方向比較" />
+    <h2>追補後の8方向</h2>
+    <img src="rotation.png" alt="初期30度から45度刻みの8方向" />
+    <p>
+      <a href="narrow.png">狭いPC枠223×258pxの8方向</a
+      >。+45／+90／+225度を含め、側面の厚みと部位間の空間を確認しました。
+    </p>
+    <h2>左35度と左60度</h2>
+    <p>
+      角度は画面の垂直上方向から左へ測ります。今回の採用は確認いただいた35度です。コアと下部電源の上下関係を追いやすい向きを残し、時計の10時方向に当たる60度も同条件で比較しました。カメラ俯角20度に対してZ傾斜を逆算し、投影した軸で検証しています。
+    </p>
+    <img src="tilt-comparison.png" alt="左35度と左60度の同条件比較" />
+    <p>
+      固定縮尺はPC枠で35度=101.617、60度=101.406 CSS
+      px/unit。双方とも同じ78%の全周フィット規則です。比較用Canvasは共通の投影関数から描き、35度の初期画像が本番描画とピクセル単位で一致することを確認しました。本番に切替UIはありません。<a
+        href="tilts.json"
+        >各枠・DPRでの角度と縮尺</a
+      >
+    </p>
+    <h2>実際のHome</h2>
+    <figure>
+      <img src="home-1440-after.png" alt="PC Home全体" />
+      <figcaption>
+        1440px / DPR 1 · <a href="home-1440-before.png">追補前</a>
+      </figcaption>
+    </figure>
+    <div class="homes">
+      <figure class="mobile">
+        <img src="home-390-after.png" alt="390px Home全体" />
+        <figcaption>
+          390px / DPR 1 · <a href="home-390-before.png">追補前</a> ·
+          <a href="home-390-dpr2.png">DPR 2</a>
+        </figcaption>
+      </figure>
+      <figure class="small">
+        <img src="home-320-after.png" alt="320px Home全体" />
+        <figcaption>
+          320px / DPR 1 · <a href="home-320-before.png">追補前</a>
+        </figcaption>
+      </figure>
+    </div>
+    <p>
+      <a href="home-1024-after.png">1024px</a> /
+      <a href="home-980-after.png">980px</a> /
+      <a href="home-768-after.png">768px</a
+      >。ページ配置と共通CSSは変更していません。描画制御とSVGコンポーネントも今回の追補では変更せず、共有データ経路を維持しています。
+    </p>
+    <figure>
+      <img
+        src="side-dpr2.png"
+        width="267"
+        height="258"
+        alt="DPR 2での側面寄りの描画"
+      />
+      <figcaption>267×258 CSS px / DPR 2 / 初期30° + 45°</figcaption>
+    </figure>
+    <h2>CPU描画時間とサイズ</h2>
+    <p>
+      linux 6.18.54.1-microsoft-standard-WSL2 / AMD Ryzen 5 3600 6-Core
+      Processor / Chromium 156.0.8078.4 / Node
+      v26.12.1。各条件で60描画をウォームアップ後、実描画480回を採取。clearRect直前から最後のstroke直後までの投影＋Canvas線描画の時間で、計測処理を含みます。描画を省略したrAFとGPU合成は含めません。
+    </p>
+    <table>
+      <tr>
+        <th>条件</th>
+        <th>追補前 中央値 / p95 (ms)</th>
+        <th>追補後 中央値 / p95 (ms)</th>
+      </tr>
+      <tr>
+        <td>267×258px / DPR 1</td>
+        <td>0.50 / 0.80</td>
+        <td>0.50 / 0.80</td>
+      </tr>
+      <tr>
+        <td>348×238px / DPR 2</td>
+        <td>0.50 / 0.80</td>
+        <td>0.50 / 0.90</td>
+      </tr>
+    </table>
+    <p>
+      この環境ではp95
+      8ms以内の目安を満たしました。全端末の性能保証ではありません。
+    </p>
+    <table>
+      <tr>
+        <th>項目</th>
+        <th>追補前 (B)</th>
+        <th>追補後 (B)</th>
+      </tr>
+      <tr>
+        <td>Home HTML</td>
+        <td>324,460</td>
+        <td>351,794</td>
+      </tr>
+      <tr>
+        <td>Home HTML gzip</td>
+        <td>31,405</td>
+        <td>33,197</td>
+      </tr>
+      <tr>
+        <td>静止SVG</td>
+        <td>314,216</td>
+        <td>341,550</td>
+      </tr>
+      <tr>
+        <td>静止SVG gzip</td>
+        <td>27,249</td>
+        <td>28,961</td>
+      </tr>
+    </table>
+    <p>
+      <a href="metrics-before.json">追補前の測定値・480サンプル</a> /
+      <a href="metrics-after.json">追補後の測定値・480サンプル</a>
+    </p>
+    <h2>テストと数値検証</h2>
+    <ul>
+      <li>
+        check：94ファイル、エラー・警告・ヒント0。lint、変更ファイルのPrettier確認、git
+        diff --check、production buildとPagefind生成：通過。
+      </li>
+      <li>
+        全単体テスト：51ファイル・315件通過。ビルドしたpreviewへのChromium
+        desktop/mobile：70件通過。
+      </li>
+      <li>
+        35度／60度の各10寸法×360角度を検査。線幅込み最小余白は24.559px／24.560px。方向・軸長・縮尺・中心の固定、数値の有限性、alpha範囲、共有投影、16秒回転を確認。
+      </li>
+      <li>
+        クリック・タップ・Enter・Space、停止後のフォーカス移動、Astro往復、省動作設定の変更、画面外停止、visibilitychange通知、停止時rAF予約なし、JS無効・Canvas失敗、検索、ヘッダー・フッター・共通高・スクロールの回帰検証を維持。
+      </li>
+      <li>
+        TDDで旧約12.75度、外殻・支持接続の不足、細部・配管の不足、部分重複線、未接続スポーク、旧文書のRedを確認して修正。無関係なテストの削除・skipなし。
+      </li>
+    </ul>
+    <p>
+      <a href="geometry.json">全周検証の数値</a> /
+      <a href="verification.json">実行コマンド・対象コミット・ソースSHA256</a>
+    </p>
+    <h2>追補の変更ファイル</h2>
+    <ul>
+      <li><code>DESIGN.md</code></li>
+      <li><code>src/utils/wireframeDevice.ts</code></li>
+      <li><code>src/utils/wireframeGeometry.ts</code></li>
+      <li><code>tests/unit/docs/design-guidelines.test.ts</code></li>
+      <li><code>tests/unit/utils/wireframeDevice.test.ts</code></li>
+      <li><code>tests/unit/utils/wireframeGeometry.test.ts</code></li>
+      <li><code>tests/visual/wireframe-device.spec.ts</code></li>
+    </ul>
+    <h2>未検証</h2>
+    <p>
+      Firefox／Safari、実機タッチ、実タブからの非表示通知は今回未検証です。タッチはChromiumエミュレーション、visibilitychange通知への停止・復帰は単体・ブラウザーテストで確認しています。既存PRへの追補であり、マージ・サイト公開は行いません。
+    </p>
+  </body>
+</html>

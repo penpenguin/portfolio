@@ -1,0 +1,76 @@
+{
+  "baseline": "f60eb17a3896cef7f9a050462813ee4e18c867c1",
+  "implementation": "50696fb3cd166b86c03fdc75440b6913b396a219",
+  "generatedAt": "2026-10-31T17:07:15.185Z",
+  "preview": "http://127.0.0.1:4324/portfolio/",
+  "files": [
+    "DESIGN.md",
+    "src/utils/wireframeGeometry.ts",
+    "src/utils/wireframeStaffShells.ts",
+    "tests/unit/docs/design-guidelines.test.ts",
+    "tests/unit/utils/wireframeGeometry.test.ts",
+    "tests/unit/utils/wireframeStaffShells.test.ts"
+  ],
+  "sha256": {
+    "DESIGN.md": "2151d20298a3636d12eb59b1b1bca354e0838230dfd95e49fe053007a76e21bf",
+    "src/utils/wireframeGeometry.ts": "f689184d74f5095592d37e27aaee4fa3f101d2091a26445dd7a3a57f4043cdb3",
+    "src/utils/wireframeStaffShells.ts": "7a36a2911679429c1f0dc913fc74c609dc4f8b3661a9cf4a5cf9ed666593730e",
+    "tests/unit/docs/design-guidelines.test.ts": "645d2b722a821f8df164647e6ba786684c137635e83774abb14fb646b965a2e0",
+    "tests/unit/utils/wireframeGeometry.test.ts": "c18909849b41d117c9267d88c03f7f355e3ad9c9dc760c3b5e5229b8719cfb2e",
+    "tests/unit/utils/wireframeStaffShells.test.ts": "508ae9f59674aae3c47b0f3e49653e6e30f92d6c5468d77663c7fe165eb91c4e",
+    "src/utils/wireframeDevice.ts": "06b3c63c4dfc33198e972c8ce5ae539b732ad7af6f95de4dbf3ab466f8576e47",
+    "src/scripts/wireframeDevice.ts": "d1bbe18a489a2f40dc83082a40c84b8e5f07641a22d90db17cdc84abe76fe6e2",
+    "src/components/WireframeDevice.astro": "7a4a397cc58d424a14fa459b0614b63d6ac090b2d107e672f0fe909bbbecffd0",
+    "dist/index.html": "fa929b21c5896b9126798c80dd28c3b693bc1a4d36723d7f37e97b5e3c8625b1"
+  },
+  "commands": [
+    {
+      "command": "npm run check",
+      "result": "97 files; 0 errors, warnings or hints"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test -- --run",
+      "result": "53 files, 324 tests passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "Astro + Pagefind passed"
+    },
+    {
+      "command": "npm run test:visual -- --workers=2",
+      "result": "90 tests passed, Chromium desktop/mobile; built preview"
+    },
+    {
+      "command": "Prettier --check changed files; git diff --check",
+      "result": "passed"
+    }
+  ],
+  "tdd": {
+    "red": [
+      "New curve module missing",
+      "Longer head and curved-shell assembly absent; prism mount at the old height",
+      "Cross-ribs and rails absent; DESIGN still requires four angular shells"
+    ],
+    "green": "Curve, geometry, projection and documentation specs pass; all 324 unit tests pass"
+  },
+  "measurement": {
+    "warmupDraws": 60,
+    "measuredDraws": 480,
+    "conditions": 2,
+    "includes": "clearRect → projection → final Canvas stroke, including probe overhead",
+    "excludes": "skipped rAF callbacks, GPU/compositing time",
+    "targetP95Ms": 8
+  },
+  "unverified": [
+    "Firefox",
+    "Safari",
+    "physical touch devices",
+    "native tab visibility (synthetic visibilitychange covered)",
+    "Windows test runner"
+  ],
+  "noMergeOrDeployment": true
+}
