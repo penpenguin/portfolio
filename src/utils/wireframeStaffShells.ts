@@ -127,6 +127,7 @@ const layers: readonly PetalLayerSetting[] = [
         tipRadius: 1.08,
         width: 1.54,
         role: 'primary',
+        taperStart: 0.48,
         belly: 0.5,
         flare: -0.12,
         twist: 7,
@@ -137,11 +138,12 @@ const layers: readonly PetalLayerSetting[] = [
         root: 0.78,
         tip: 4.65,
         opening: 1.36,
-        tipRadius: 0.9,
+        tipRadius: 1.0,
         width: 1.62,
         role: 'primary',
+        taperStart: 0.48,
         belly: 0.52,
-        flare: 0.06,
+        flare: -0.12,
         twist: -5,
         thickness: 0.08,
       },
@@ -378,7 +380,11 @@ export function createStaffShells(steps = 16): readonly StaffPetal[] {
       const rootRadius = layer.seat + 0.06;
       const middle: ProfilePoint = [opening, root + length * profile.belly];
       const tangent: ProfilePoint = [
-        layer.name === 'outer' ? 0.12 : 0.025,
+        profile.role === 'primary'
+          ? -0.1
+          : layer.name === 'outer'
+            ? 0.12
+            : 0.025,
         length * 0.23,
       ];
       const placed = (point: Point3): Point3 =>
@@ -418,11 +424,19 @@ export function createStaffShells(steps = 16): readonly StaffPetal[] {
         const normalR = derivative[1] / magnitude,
           normalY = -derivative[0] / magnitude;
         const angle = azimuth + twist * t * t;
-        // Hold a broad shoulder, then converge quickly to a sharp shared tip.
-        // Smooth joins keep the shoulder rounded without a long blade-like taper.
+        // Leading petals round off from the belly: parallel upper edges would
+        // foreshorten into a rectangular cover. The other layers keep their cups.
         const smooth = (u: number) => u * u * (3 - 2 * u);
         let breadth: number;
-        if (t <= 0.42) breadth = 0.11 + (width - 0.11) * smooth(t / 0.42);
+        if (profile.role === 'primary') {
+          if (t <= profile.taperStart)
+            breadth = 0.11 + (width - 0.11) * smooth(t / profile.taperStart);
+          else {
+            const u = (t - profile.taperStart) / (1 - profile.taperStart);
+            breadth = width * (1 - 2 * u * u + u * u * u);
+          }
+        } else if (t <= 0.42)
+          breadth = 0.11 + (width - 0.11) * smooth(t / 0.42);
         else if (t <= profile.taperStart)
           breadth =
             width *

@@ -1,4 +1,4 @@
-import { createStaffShells } from './wireframeStaffShells';
+import { createStaffShells, type StaffPetal } from './wireframeStaffShells';
 
 export type Point3 = readonly [number, number, number];
 export type LineKind = 'outline' | 'component' | 'detail';
@@ -9,6 +9,13 @@ export type DeviceEdge = Readonly<{
   b: Point3;
   kind: LineKind;
   part: DevicePart;
+  petal?: Readonly<{
+    id: string;
+    layer: StaffPetal['layer'];
+    primary: boolean;
+    radial: Point3;
+    role: 'front' | 'back' | 'rib';
+  }>;
 }>;
 
 export type DeviceLandmarks = Readonly<
@@ -17,6 +24,8 @@ export type DeviceLandmarks = Readonly<
     | 'neck'
     | 'petalBellies'
     | 'petalMounts'
+    | 'primaryContours'
+    | 'shaft'
     | 'shaftConnection'
     | 'supports',
     readonly Point3[]
@@ -35,6 +44,8 @@ export function createDeviceModel() {
     neck: [],
     petalBellies: [],
     petalMounts: [],
+    primaryContours: [],
+    shaft: [],
     shaftConnection: [],
     supports: [],
   };
@@ -47,6 +58,29 @@ export function createDeviceModel() {
   let part: DevicePart = 'shaft';
   const rank = { outline: 3, component: 2, detail: 1 };
   const petals = createStaffShells();
+  let petalInk: DeviceEdge['petal'];
+  function inkPetal(
+    petal: StaffPetal,
+    role: NonNullable<DeviceEdge['petal']>['role'],
+    assemble: () => void
+  ) {
+    const belly = petal.anchors.find((a) => a.t === 0.5)!;
+    petalInk = Object.freeze({
+      id: petal.id,
+      layer: petal.layer,
+      primary: petal.profile.role === 'primary',
+      // Subtract the same-height point on the staff axis. Shading reflects the
+      // petal's side of the crown, independently of the whole staff's orbit.
+      radial: Object.freeze([
+        (belly.left[0] + belly.right[0]) / 2,
+        0,
+        (belly.left[2] + belly.right[2]) / 2,
+      ]) as Point3,
+      role,
+    });
+    assemble();
+    petalInk = undefined;
+  }
   function vertex(point: Point3) {
     const rounded = point.map(
       (value) => Math.round(value * 1e8) / 1e8
@@ -63,7 +97,16 @@ export function createDeviceModel() {
     const key = [a.join(','), b.join(',')].sort().join('|');
     const previous = edges.get(key);
     if (!previous || rank[kind] > rank[previous.kind])
-      edges.set(key, Object.freeze({ a, b, kind, part }));
+      edges.set(
+        key,
+        Object.freeze({
+          a,
+          b,
+          kind,
+          part,
+          ...(petalInk && { petal: petalInk }),
+        })
+      );
   }
   function trace(
     points: readonly Point3[],
@@ -240,13 +283,22 @@ export function createDeviceModel() {
       landmarks.petalMounts.push(vertex(mount));
       const belly = petal.anchors.find(({ t }) => t === 0.5)!;
       landmarks.petalBellies.push(vertex(belly.left), vertex(belly.right));
+      if (petal.profile.role === 'primary')
+        for (const path of [left, right])
+          landmarks.primaryContours.push(
+            ...path.filter((_, i) => petal.parameters[i] <= 0.8).map(vertex)
+          );
       const kind = petal.profile.role === 'primary' ? 'outline' : 'component';
-      trace(left, kind);
-      trace(right, kind);
+      inkPetal(petal, 'front', () => {
+        trace(left, kind);
+        trace(right, kind);
+      });
       // The lower back carries the hinge and ribs. Avoid duplicating both front
       // contours all the way to the tip at sub-pixel separation.
-      trace(backLeft.filter((_, i) => petal.parameters[i] <= 0.5));
-      trace(backRight.filter((_, i) => petal.parameters[i] <= 0.5));
+      inkPetal(petal, 'back', () => {
+        trace(backLeft.filter((_, i) => petal.parameters[i] <= 0.5));
+        trace(backRight.filter((_, i) => petal.parameters[i] <= 0.5));
+      });
       trace([left[0], right[0], backRight[0], backLeft[0]], kind, true);
       // A hinge and fork carry each cupped shell into its own staggered collar.
       line(mount, left[0], kind);
@@ -264,25 +316,28 @@ export function createDeviceModel() {
   function petalDetails() {
     part = 'head';
     for (const petal of petals) {
-      if (petal.layer !== 'inner') {
-        trace(petal.spine, 'detail');
-        petal.ribs.forEach((rib) =>
-          trace(
-            rib.filter(
-              (_, i) => petal.parameters[i] >= 0.2 && petal.parameters[i] <= 0.5
-            ),
-            'detail'
-          )
-        );
-        const fork = petal.anchors[0];
-        trace([fork.backLeft, ...fork.ribs, fork.backRight], 'detail');
-      }
-      for (const rib of petal.crossRibs) {
-        trace(rib.points, 'detail');
-        const i = petal.parameters.indexOf(rib.t);
-        line(petal.left[i], rib.points[0], 'detail');
-        line(petal.right[i], rib.points[rib.points.length - 1], 'detail');
-      }
+      inkPetal(petal, 'rib', () => {
+        if (petal.layer !== 'inner') {
+          trace(petal.spine, 'detail');
+          petal.ribs.forEach((rib) =>
+            trace(
+              rib.filter(
+                (_, i) =>
+                  petal.parameters[i] >= 0.2 && petal.parameters[i] <= 0.5
+              ),
+              'detail'
+            )
+          );
+          const fork = petal.anchors[0];
+          trace([fork.backLeft, ...fork.ribs, fork.backRight], 'detail');
+        }
+        for (const rib of petal.crossRibs) {
+          trace(rib.points, 'detail');
+          const i = petal.parameters.indexOf(rib.t);
+          line(petal.left[i], rib.points[0], 'detail');
+          line(petal.right[i], rib.points[rib.points.length - 1], 'detail');
+        }
+      });
     }
   }
 
@@ -615,7 +670,7 @@ export function createDeviceModel() {
     }
   }
 
-  shaft();
+  protect('shaft', shaft);
   pommel();
   protect('neck', neck);
   head();
@@ -673,6 +728,7 @@ export function createDeviceModel() {
     }
     splits.sort((a, b) => a.t - b.t);
     part = edge.part;
+    petalInk = edge.petal;
     for (let i = 1; i < splits.length; i++)
       line(splits[i - 1].point, splits[i].point, edge.kind);
   }

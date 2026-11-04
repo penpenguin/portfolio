@@ -19,11 +19,24 @@ const elevation = Math.PI / 9;
 const edges = createDeviceGeometry();
 const vertices = [...new Set(edges.flatMap(({ a, b }) => [a, b]))];
 const indices = new Map(vertices.map((point, index) => [point, index]));
-const indexedEdges = edges.map(({ a, b, kind }) => ({
-  a: indices.get(a)!,
-  b: indices.get(b)!,
-  ...styles[kind],
-}));
+const petals = [
+  ...new Map(
+    edges.flatMap(({ petal }) => (petal ? [[petal.id, petal] as const] : []))
+  ).values(),
+];
+const petalIndices = new Map(petals.map((petal, i) => [petal.id, i]));
+const indexedEdges = edges.map(({ a, b, kind, petal }) => {
+  const style = { ...styles[kind] };
+  if (petal?.role === 'back') Object.assign(style, { back: 0.22, front: 0.38 });
+  else if (petal?.role === 'front' && !petal.primary && petal.layer !== 'inner')
+    style.front = 0.66;
+  return {
+    a: indices.get(a)!,
+    b: indices.get(b)!,
+    petal: petal ? petalIndices.get(petal.id)! : -1,
+    ...style,
+  };
+});
 
 export function advanceAngle(angle: number, elapsedMs: number): number {
   return (angle + (elapsedMs / 16000) * turn) % turn;
@@ -56,6 +69,10 @@ export function createDeviceProjector(
   }
   // Bake the fixed pose once, not for every frame or elapsed-time increment.
   const posedVertices = vertices.map(initialPose);
+  const petalDirections = petals.map(({ radial }) => {
+    const length = Math.hypot(...radial);
+    return initialPose(radial).map((n) => n / length) as unknown as Point3;
+  });
   const bounds = {
     left: Infinity,
     right: -Infinity,
@@ -149,17 +166,30 @@ export function createDeviceProjector(
   function projectDevice(spinPhase: number, width: number, height: number) {
     const project = createProjection(spinPhase, width, height);
     const points = posedVertices.map(project);
-    return indexedEdges.map(({ a, b, width, back, front }) => {
+    const rotate = createWorldRotation(spinPhase);
+    // One continuous weight per petal keeps its entire edge readable. The
+    // same-height radial reference removes the staff orbit from this shading.
+    const petalDepths = petalDirections.map((direction) => {
+      const [, y, z] = rotate(direction);
+      return Math.max(
+        0,
+        Math.min(1, (1 + y * sinElevation + z * cosElevation) / 2)
+      );
+    });
+    return indexedEdges.map(({ a, b, width, back, front, petal }) => {
       const from = points[a],
         to = points[b];
-      const depth = Math.max(
-        0,
-        Math.min(
-          1,
-          ((from.depth + to.depth) / 2 - bounds.far) /
-            (bounds.near - bounds.far)
-        )
-      );
+      const depth =
+        petal >= 0
+          ? petalDepths[petal]
+          : Math.max(
+              0,
+              Math.min(
+                1,
+                ((from.depth + to.depth) / 2 - bounds.far) /
+                  (bounds.near - bounds.far)
+              )
+            );
       return {
         from,
         to,

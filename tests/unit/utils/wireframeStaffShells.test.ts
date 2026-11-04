@@ -54,9 +54,14 @@ describe('mechanical lotus petals', () => {
         petal.profile.role === 'primary' ? [2.3, 3.2] : ratios[petal.layer];
       expect(length / maximum).toBeGreaterThanOrEqual(range[0]);
       expect(length / maximum).toBeLessThanOrEqual(range[1]);
-      // A broad shoulder stays open before the short, sharp terminal taper.
+      // Supporting petals retain their shorter shoulders. Leading petals round
+      // off progressively from the belly instead of holding a rectangular cap.
       for (let i = 0; i < widths.length; i++)
-        if (petal.parameters[i] >= 0.4 && petal.parameters[i] <= 0.75)
+        if (
+          petal.profile.role !== 'primary' &&
+          petal.parameters[i] >= 0.4 &&
+          petal.parameters[i] <= 0.75
+        )
           expect(widths[i]).toBeGreaterThan(maximum * 0.9);
     }
     const outer = petals.filter((p) => p.layer === 'outer');
@@ -83,6 +88,25 @@ describe('mechanical lotus petals', () => {
     expect(
       inner.every((p) => Math.hypot(p.left.at(-1)![0], p.left.at(-1)![2]) > 0.4)
     ).toBe(true);
+  });
+
+  it('rounds the two leading bellies into progressively narrowing pointed tips', () => {
+    for (const petal of createStaffShells(128).filter(
+      (p) => p.profile.role === 'primary'
+    )) {
+      const widths = petal.left.map((p, i) => distance(p, petal.right[i]));
+      const maximum = Math.max(...widths);
+      const peak = widths.indexOf(maximum);
+      expect(petal.parameters[peak]).toBeGreaterThan(0.44);
+      expect(petal.parameters[peak]).toBeLessThan(0.55);
+      for (let i = peak + 1; i < widths.length; i++)
+        expect(widths[i]).toBeLessThanOrEqual(widths[i - 1] + 1e-10);
+      const shoulder = widths[petal.parameters.indexOf(0.8)];
+      expect(shoulder / maximum).toBeGreaterThan(0.4);
+      expect(shoulder / maximum).toBeLessThan(0.55);
+      expect(maximum).toBeGreaterThan(1.5);
+      expect(widths.at(-1)).toBe(0);
+    }
   });
 
   it('uses a few curved transverse ribs to expose the spoon-shaped section', () => {
@@ -134,6 +158,21 @@ describe('mechanical lotus petals', () => {
     const gap = tip('middle-1').y - tip('outer-4').y;
     expect(gap).toBeGreaterThan(0);
     expect(gap).toBeLessThan(18);
+  });
+
+  it('shows the leading tip above its rounded shoulders in the quarter-turn front view', () => {
+    const petal = createStaffShells(128).find((p) => p.id === 'outer-4')!;
+    const project = (p: readonly [number, number, number]) =>
+      projectDevicePoint(p, Math.PI / 2, 267, 258);
+    const tip = project(petal.left.at(-1)!);
+    const shoulder = [petal.left, petal.right].flatMap((path) =>
+      path.filter(
+        (_, i) => petal.parameters[i] >= 0.5 && petal.parameters[i] <= 0.85
+      )
+    );
+    expect(
+      Math.min(...shoulder.map((p) => project(p).y)) - tip.y
+    ).toBeGreaterThan(3);
   });
 
   it('separates the petal mounting tiers along the neck instead of a single root knot', () => {

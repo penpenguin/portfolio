@@ -7,6 +7,41 @@ import {
 import { projectDevicePoint } from '../../../src/utils/wireframeDevice';
 
 describe('industrial control staff geometry', () => {
+  it('retains petal ink roles and one radial reference through edge splitting', () => {
+    const edges = createDeviceGeometry();
+    const petals = createStaffShells();
+    const near = (a: readonly number[], b: readonly number[]) =>
+      a.every((n, i) => Math.abs(n - b[i]) < 1e-7);
+    for (const p of petals) {
+      const inked = edges.filter((e) => e.petal?.id === p.id);
+      expect(inked.length).toBeGreaterThan(0);
+      expect(new Set(inked.map((e) => e.petal!.role))).toEqual(
+        new Set(
+          p.layer === 'inner' ? ['front', 'back'] : ['front', 'back', 'rib']
+        )
+      );
+      const belly = p.anchors.find((a) => a.t === 0.5)!;
+      for (const e of inked) {
+        expect(e.part).toBe('head');
+        expect(e.petal!.primary).toBe(p.profile.role === 'primary');
+        expect(e.petal!.radial).toEqual([
+          (belly.left[0] + belly.right[0]) / 2,
+          0,
+          (belly.left[2] + belly.right[2]) / 2,
+        ]);
+      }
+      for (const path of [p.left, p.right])
+        expect(
+          inked.some(
+            (e) => e.petal!.role === 'front' && near(e.b, path.at(-1)!)
+          )
+        ).toBe(true);
+    }
+    expect(edges.filter((e) => e.part !== 'head').every((e) => !e.petal)).toBe(
+      true
+    );
+  });
+
   it('exposes protected landmarks from actual shared geometry, not edge indices', () => {
     const { edges, landmarks } = createDeviceModel();
     expect(edges).toEqual(createDeviceGeometry());
@@ -16,6 +51,8 @@ describe('industrial control staff geometry', () => {
       'neck',
       'petalBellies',
       'petalMounts',
+      'primaryContours',
+      'shaft',
       'shaftConnection',
       'supports',
     ]);
@@ -25,6 +62,20 @@ describe('industrial control staff geometry', () => {
     }
     expect(landmarks.petalMounts).toHaveLength(19);
     expect(landmarks.petalBellies).toHaveLength(38);
+    for (const petal of createStaffShells().filter(
+      (p) => p.profile.role === 'primary'
+    ))
+      for (const path of [petal.left, petal.right])
+        for (const [i, point] of path.entries())
+          if (petal.parameters[i] <= 0.8)
+            expect(
+              landmarks.primaryContours.some((p) =>
+                p.every((n, k) => Math.abs(n - point[k]) < 1e-7)
+              )
+            ).toBe(true);
+    expect(Math.min(...landmarks.shaft.map((p) => p[1]))).toBeLessThanOrEqual(
+      -4.3
+    );
     expect(Math.max(...landmarks.core.map((p) => p[1]))).toBeGreaterThan(4);
     expect(
       Math.min(...landmarks.shaftConnection.map((p) => p[1]))

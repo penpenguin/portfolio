@@ -14,6 +14,61 @@ import {
 } from '../../../src/utils/wireframeDevice';
 
 describe('wireframe device projection', () => {
+  it('keeps each petal contour continuous and makes the nearer petal side stronger', () => {
+    const edges = createDeviceGeometry();
+    const indices = edges.flatMap((e, i) =>
+      e.petal?.id === 'outer-4' && e.petal.role === 'front' ? [i] : []
+    );
+    expect(indices.length).toBeGreaterThan(0);
+    const front = projectDevice(Math.PI * 1.5, 267, 258);
+    const back = projectDevice(Math.PI / 2, 267, 258);
+    const opacity = (lines: typeof front) =>
+      indices.map((i) => lines[i].opacity);
+    expect(
+      Math.max(...opacity(front)) - Math.min(...opacity(front))
+    ).toBeLessThan(1e-12);
+    expect(
+      Math.min(...opacity(front)) - Math.max(...opacity(back))
+    ).toBeGreaterThan(0.15);
+    const after = projectDevice(Math.PI * 1.5 + 0.001, 267, 258);
+    for (const i of indices)
+      expect(Math.abs(after[i].opacity - front[i].opacity)).toBeLessThan(0.001);
+  });
+
+  it('separates petal fronts, backs and ribs without fading the other mechanisms', () => {
+    const edges = createDeviceGeometry();
+    for (const phase of [0, Math.PI / 4, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
+      const lines = projectDevice(phase, 267, 258);
+      for (const id of new Set(
+        edges.flatMap((e) => (e.petal ? [e.petal.id] : []))
+      )) {
+        const alphas = (role: string) =>
+          edges.flatMap((e, i) =>
+            e.petal?.id === id && e.petal.role === role
+              ? [lines[i].opacity]
+              : []
+          );
+        expect(Math.min(...alphas('front'))).toBeGreaterThan(
+          Math.max(...alphas('back'))
+        );
+        if (alphas('rib').length)
+          expect(Math.min(...alphas('back'))).toBeGreaterThan(
+            Math.max(...alphas('rib'))
+          );
+      }
+      edges.forEach((edge, i) => {
+        if (edge.petal) return;
+        const limits = {
+          outline: [0.58, 0.88],
+          component: [0.3, 0.56],
+          detail: [0.14, 0.28],
+        }[edge.kind];
+        expect(lines[i].opacity).toBeGreaterThanOrEqual(limits[0]);
+        expect(lines[i].opacity).toBeLessThanOrEqual(limits[1]);
+      });
+    }
+  });
+
   it('magnifies about the base-fit origin without scaling strokes or depth shading', () => {
     const base = createDeviceProjector(35, { magnification: 1 });
     const display = createDeviceProjector(35);
@@ -120,7 +175,8 @@ describe('wireframe device projection', () => {
     expect(vector(Math.PI / 2).y).not.toBeCloseTo(vector(0).y);
     expect(vector(Math.PI / 2).y).not.toBeCloseTo(vector((Math.PI * 3) / 2).y);
   });
-  it('shares three line weights and keeps depth-dependent shading within each hierarchy', () => {
+  it('shares three line weights and bounds both mechanical and petal shading', () => {
+    const edges = createDeviceGeometry();
     const lines = projectDevice(initialSpinPhase, 240, 192);
     expect(new Set(lines.map((line) => line.width))).toEqual(
       new Set([1.1, 0.8, 0.5])
@@ -131,12 +187,26 @@ describe('wireframe device projection', () => {
       [0.5, 0.14, 0.28],
     ]) {
       const opacities = lines
-        .filter((line) => line.width === width)
+        .filter((line, i) => line.width === width && !edges[i].petal)
         .map((line) => line.opacity);
       expect(Math.max(...opacities)).toBeGreaterThan(Math.min(...opacities));
       expect(Math.min(...opacities)).toBeGreaterThanOrEqual(back);
       expect(Math.max(...opacities)).toBeLessThanOrEqual(front);
     }
+    lines.forEach((line, i) => {
+      const petal = edges[i].petal;
+      if (!petal) return;
+      const [back, front] =
+        petal.role === 'back'
+          ? [0.22, 0.38]
+          : petal.role === 'rib'
+            ? [0.14, 0.28]
+            : petal.primary
+              ? [0.58, 0.88]
+              : [0.3, petal.layer === 'inner' ? 0.56 : 0.66];
+      expect(line.opacity).toBeGreaterThanOrEqual(back);
+      expect(line.opacity).toBeLessThanOrEqual(front);
+    });
   });
   it('uses a fixed exhibition scale extending past the stage without angle-dependent zoom', () => {
     const ys: number[] = [];

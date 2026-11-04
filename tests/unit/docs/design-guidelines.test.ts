@@ -74,6 +74,10 @@ describe('DESIGN.md portfolio design guidance', () => {
     expect(design).toContain('fixed magnification of 1.30');
     expect(design).toContain('intentional clipping');
     expect(design).toContain('protected landmarks');
+    expect(design).toContain('continuous petal-relative depth');
+    expect(design).toContain('round off progressively from the belly');
+    expect(design).toContain('primary contours through their shoulders');
+    expect(design).not.toContain('taper over the final 20–24%');
     expect(design).not.toContain('at least 15px clearance');
     expect(design).not.toContain('segmented cylindrical shell');
     expect(design).toContain('initial 35-degree screen-space left tilt');
